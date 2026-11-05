@@ -2,15 +2,17 @@
 
 **Arbeitstitel:** noch offen
 **Rahmen:** 48-Stunden-AI-Hackathon an der Leuphana Universität Lüneburg, im Rahmen von ROKI – Robotik und KI für die Fachkräftesicherung nutzen (Süderelbe AG)
-**Stand:** 05.11.2026 · Version 2
+**Stand:** 05.11.2026 · Version 3
 **Diese Datei ist maßgeblich.** Wenn eine andere Datei widerspricht, gilt `PROJEKT.md`.
 
 | Datei | Wofür |
 |---|---|
 | `PROJEKT.md` | Was wir bauen und warum, Ablauf, Regeln, Plan, Pitch |
-| [`TECHNIK.md`](TECHNIK.md) | Wie wir es bauen: Architektur, KI-Schritte, Datenformate, Demo-Absicherung |
+| [`TECHNIK.md`](TECHNIK.md) | Wie wir es bauen: Architektur, KI-Schritte, Datenformate, Speicherung, Demo-Absicherung |
 | [`DEMO_BETRIEBE.md`](DEMO_BETRIEBE.md) | Fünf fiktive Testbetriebe, Testdaten für die Live-Demo |
+| [`ROKI_Branchen_Problemanalyse_Robotik_und_Automatisierung.md`](ROKI_Branchen_Problemanalyse_Robotik_und_Automatisierung.md) | Branchensicht: typische Belastungen und passende Lösungsansätze, gekennzeichnet nach geprüft / nicht geprüft |
 | [`MASTERPROMPT.md`](MASTERPROMPT.md) | Einstieg für neue Teammitglieder und andere KIs |
+| [`AGENTS.md`](AGENTS.md) | Regeln für Coding-Agenten (Stack, Stil, Arbeitsweise) |
 
 ---
 
@@ -63,6 +65,8 @@ Diese Punkte gelten für jede Entscheidung – Design, Prompts, Texte, Pitch.
 9. **ROKI als Lotse.** Das Ergebnis ersetzt keine Beratung, sondern ist Grundlage für das Gespräch mit ROKI. Die App nennt keine Firmen oder Anbieter, die nicht aus geprüften ROKI-Quellen stammen.
 
 Sprache und Ton folgen [`ROKI_SPRACHE_UND_TONALITAET.md`](ROKI_SPRACHE_UND_TONALITAET.md): praxisnah, verständlich, realistisch, bodenständiges Deutsch, keine Werbesprache. Ansprache standardmäßig „Sie“; der Betrieb kann beim Anlegen „Du“ wählen.
+
+**Sprache der App:** Deutsch ist Standard. Englisch folgt später über den vorhandenen Sprachumschalter. **Gestaltung:** vorerst nach dem ROKI-Design ([`DESIGN.md`](DESIGN.md)).
 
 ---
 
@@ -171,6 +175,7 @@ Zeigt pro Dimension, wie gut etwas heute klappt (**Ist**) und wohin der Betrieb 
 ## 9. Wissensbasis und Umgang mit Zahlen
 
 - **Robotik:** Grundlage sind die geprüften Recherchen im Repo. Daraus erstellen wir einen kompakten **ROKI-Wissensauszug** (Format in [`TECHNIK.md`](TECHNIK.md)), den die KI bei der Einordnung nutzt. Nur Einträge daraus dürfen „von ROKI geprüft“ heißen.
+- **Branchen-Problemanalyse:** liefert Problem-Hypothesen und Lösungsansätze pro Branche. Nur Ansätze mit **[ROKI geprüft]** dürfen in den Wissensauszug; ihre Quelle ist die jeweilige Recherche-Datei. Die Entscheidungsmatrix am Ende ist eine Teamregel für die Einordnung, kein Beleg.
 - **Software und KI im Büro:** Dazu gibt es im Repo keine geprüfte ROKI-Grundlage. Für den Hackathon: Kennzeichnung als „nicht von ROKI geprüft“. Ein eigener geprüfter Katalog ist ein Ausblick.
 - **„Was rechnet sich?“** Laut den Recherchen fehlen für die meisten Systeme unabhängige Kosten- und Wirtschaftlichkeitsdaten; Herstellerpreise sind nur Beispiele. Deshalb:
   - **Ja:** die Kosten des *Problems* in Stunden pro Woche, aus den Angaben der Beschäftigten. Auf Wunsch rechnet die Leitung mit einem eigenen Stundensatz in Euro um.
@@ -186,7 +191,7 @@ Zeigt pro Dimension, wie gut etwas heute klappt (**Ist**) und wohin der Betrieb 
 | **Muss (Live-Demo)** | Einzelabfrage mit KI-Nachfragen und Korrektur · Einordnung · Gesamtbild mit Kosten in Stunden · Profildiagramm (Ist) · Fahrplan · Besprechungsvorlage – für Metallbau Heidekamp |
 | **Simuliert** | Login und Einladungen (Links ohne Konto) · Antworten der übrigen Personen als Testdaten aus [`DEMO_BETRIEBE.md`](DEMO_BETRIEBE.md) |
 | **Kann (wenn Zeit bleibt)** | Spracheingabe · zweiter Demo-Betrieb · Zielwerte im Diagramm eintragen · Export der Besprechungsvorlage |
-| **Nicht im Hackathon** | lokale KI · echte Nutzerverwaltung · Anbindung an die ROKI-Plattform · Mehrsprachigkeit · Teilen mit ROKI |
+| **Nicht im Hackathon** | lokale KI · echte Nutzerverwaltung · Anbindung an die ROKI-Plattform · englische Texte (der Umschalter ist schon da, die Übersetzung folgt später) · Teilen mit ROKI |
 
 **Fertig ist das Projekt, wenn:**
 - die Live-Demo von der Abfrage bis zur Besprechungsvorlage ohne Eingriff durchläuft,
@@ -202,7 +207,7 @@ Zeiten relativ zum Start (S). Personen tragen sich in die Arbeitspakete ein.
 
 | Zeit | Ziel | Prüfpunkt |
 |---|---|---|
-| S+0 bis S+4 | Arbeitspakete verteilen, Next.js-Gerüst, API-Zugang, Datenformate aus `TECHNIK.md` festziehen | alle können lokal starten |
+| S+0 bis S+4 | Arbeitspakete verteilen, Next.js-Gerüst (steht schon), API-Zugang, Supabase-Projekt anlegen, Datenformate aus `TECHNIK.md` festziehen | alle können lokal starten |
 | S+4 bis S+16 | Einzelabfrage mit Nachfragen und Aufgabenkarte; Wissensauszug; Testdaten Metallbau | eine Person kann die Abfrage komplett durchlaufen |
 | S+16 bis S+28 | Einordnung, Gesamtbild, Profildiagramm | Gesamtbild aus Testdaten erscheint |
 | S+28 bis S+36 | Fahrplan, Besprechungsvorlage, Gestaltung nach ROKI-Design | kompletter Durchlauf möglich |
@@ -213,7 +218,7 @@ Zeiten relativ zum Start (S). Personen tragen sich in die Arbeitspakete ein.
 |---|---|---|
 | A – Oberfläche | Seiten, Handy-Ansicht, Profildiagramm, ROKI-Design | offen |
 | B – KI-Schritte | Prompts, Datenformate, Schnittstelle zum Modell, Demo-Modus | offen |
-| C – Wissen und Inhalte | Wissensauszug aus den Recherchen, Leitfragen, Testdaten | offen |
+| C – Wissen und Inhalte | Wissensauszug aus den Recherchen und der Branchen-Problemanalyse, Leitfragen, Testdaten | offen |
 | D – Pitch | Geschichte, Folien, Demo-Drehbuch, Proben | offen |
 
 ---
@@ -233,10 +238,10 @@ Zeiten relativ zum Start (S). Personen tragen sich in die Arbeitspakete ein.
 2. **Live am Handy:** Ein Monteur füllt die Abfrage aus. Die KI fragt nach („Wie oft passiert das?“). Er korrigiert einen Punkt auf seiner Aufgabenkarte → *Der Mensch entscheidet.*
 3. Seine Aufgaben werden eingeordnet – mit Reifegrad und Herkunft.
 4. **Gesamtbild:** Erst jetzt wird sichtbar, dass Werkstatt, Montage, Büro und Leitung über dasselbe Problem sprechen: Das Aufmaß ist der Anfang einer Kette (Werkstatt → Montage → Stundenzettel → Rechnung). Kosten in Stunden pro Woche.
-5. **Fahrplan:** kurz – Aufmaß-Vorlage mit Pflichtfeldern; mittel – digitales Aufmaß und Zeiterfassung per Handy; lang – Schweiß-Cobot für Serienteile prüfen.
+5. **Fahrplan:** kurz – Aufmaß-Vorlage mit Pflichtfeldern; mittel – digitales Aufmaß und Zeiterfassung per Handy, Exoskelette fürs Tragen mit den Beschäftigten testen; lang – Schweiß-Cobot für Serienteile prüfen.
 6. **Besprechungsvorlage** und Übergabe an ROKI.
 
-Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe – und das hat der Betrieb von seinen eigenen Leuten erfahren.
+Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe – und das hat der Betrieb von seinen eigenen Leuten erfahren. Assistenztechnik und Robotik kommen dort ins Spiel, wo die Belastung körperlich ist oder sich Handgriffe ständig wiederholen.
 
 ---
 
@@ -250,7 +255,7 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 | KI-Ausgabe hat das falsche Format | feste Datenformate, Prüfung jeder Antwort, Wiederholung bei Fehler (siehe `TECHNIK.md`) |
 | API fällt in der Demo aus | Demo-Modus mit gespeicherten Ergebnissen |
 | Zu viel für 48 Stunden | Muss/Kann-Liste, Funktionsstopp bei S+40 |
-| Daten in einer Cloud-KI | in der Demo nur fiktive Daten; Ziel ist lokale KI |
+| Daten bei Cloud-Anbietern (KI-API, Supabase, Vercel) | in der Demo nur fiktive Daten; Supabase in einer EU-Region; Ziel ist lokale KI – dafür wäre später eine andere Infrastruktur als Vercel nötig |
 | Rechtliche Fragen bei echtem Einsatz (Datenschutz, Mitbestimmung) | im Hackathon nicht geprüft; vor echtem Einsatz klären – im Pitch offen benennen |
 
 ---
@@ -281,6 +286,8 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 
 | Datei | Inhalt |
 |---|---|
+| `AGENTS.md` | Regeln für Coding-Agenten; `CLAUDE.md`, `.cursor/rules/` und `.github/copilot-instructions.md` verweisen darauf |
+| `ROKI_Branchen_Problemanalyse_Robotik_und_Automatisierung.md` | Problem-Hypothesen und Lösungsansätze pro Branche |
 | `roki-projektübersicht.md` | ROKI-Wissensplattform: Story, Zielgruppen, Content, Metadaten |
 | `ROKI_SPRACHE_UND_TONALITAET.md` | Verbindliche Sprachregeln |
 | `DESIGN.md` | Design-System der ROKI-Plattform (verweist auf Code-Dateien, die nicht im Repo liegen) |

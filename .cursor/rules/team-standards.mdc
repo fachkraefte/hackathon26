@@ -7,11 +7,12 @@ alwaysApply: true
 
 The full rules are in `AGENTS.md`. Follow that file. Do not invent a second set of conventions.
 
+- The product specification is `PROJEKT.md` (German). Technical details are in `TECHNIK.md`, demo data in `DEMO_BETRIEBE.md`. Do not invent features beyond these files and the task.
 - npm, Next.js App Router, TypeScript strict, deploy on Vercel. Do not set a Vercel output directory.
-- Plain CSS until the team picks a styling system. No Tailwind and no UI kit.
-- User-facing strings live in `messages/*.json` via `next-intl`. Locales: `en` (default) and `de`.
-- The database is Supabase. Use `lib/supabase/server.ts`. Confirm the schema before creating tables.
-- Do not invent product features. The product brief is not written yet.
+- Plain CSS, no Tailwind and no UI kit. The look follows the ROKI design in `DESIGN.md` (Rubik, navy `#15263E`, turquoise `#2FB9CB`, orange `#F08119` sparingly, background `#F6F8FA`).
+- User-facing strings live in `messages/*.json` via `next-intl`. Locales: `de` (default) and `en` (follows later). Write German first.
+- The database is Supabase. Use `lib/supabase/server.ts`. Name new tables or schema changes in the pull request.
+- AI calls only on the server. API keys never with `NEXT_PUBLIC_`. In the demo, only fictional data goes to the model.
 - Branch and open a pull request into `main`. `npm run lint` and `npm run typecheck` pass first.
 - Do not import `next-intl/plugin`. If the native SWC binary is blocked, use `npm run dev:wasm` and `npm run build:wasm`.
 

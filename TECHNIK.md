@@ -1,38 +1,43 @@
 # Technik
 
-**Stand:** 05.11.2026 · Version 1
-Gehört zu [`PROJEKT.md`](PROJEKT.md). Bei Widersprüchen gilt `PROJEKT.md`. Alles hier ist ein **Vorschlag für den Hackathon** und darf vom Team angepasst werden – Änderungen bitte hier eintragen.
+**Stand:** 05.11.2026 · Version 2
+Gehört zu [`PROJEKT.md`](PROJEKT.md). Bei Widersprüchen gilt `PROJEKT.md`. Für Stack, Stil und Arbeitsweise im Code gilt zusätzlich [`AGENTS.md`](AGENTS.md). Alles hier ist ein **Vorschlag für den Hackathon** und darf vom Team angepasst werden – Änderungen bitte hier eintragen.
 
 ---
 
 ## 1. Überblick
 
 ```
-Handy/Browser ──► Next.js (Seiten + API-Routen) ──► Modell-Schnittstelle ──► Cloud-Modell (Demo)
-                          │                                   └─────────► lokales Modell (später)
+Handy/Browser ──► Next.js auf Vercel (Seiten + API-Routen) ──► Modell-Schnittstelle ──► Cloud-Modell (Demo)
+                          │                                            └─────────► lokales Modell (später)
                           ├──► Wissensauszug (wissen/roki-wissensauszug.json)
-                          └──► Daten (Demo: JSON-Dateien)
+                          ├──► Supabase (EU-Region): Bestandsaufnahmen, Antworten, Ergebnisse
+                          └──► Testdaten und Demo-Ergebnisse (daten/demo/*.json im Repo)
 ```
 
-- **Next.js** mit App Router und TypeScript
+- **Next.js** mit App Router und TypeScript (Grundgerüst steht im Repo, Regeln in `AGENTS.md`)
 - **Alle KI-Aufrufe laufen auf dem Server** (API-Routen bzw. Server Actions). Der API-Schlüssel kommt nie in den Browser.
 - **Eine Modell-Schnittstelle** im Code. Heute steckt dahinter ein Cloud-Modell, später ein lokales. Der Rest der App merkt den Wechsel nicht.
 - **Jede KI-Ausgabe ist JSON nach festem Format** (Abschnitt 4) und wird geprüft, bevor sie gespeichert wird (Vorschlag: `zod`).
 
 ---
 
-## 2. Seiten
+## 2. Seiten, Sprache, Gestaltung
 
-| Pfad | Wer | Inhalt |
+Alle Seiten liegen unter `app/[locale]/` und haben ein Sprachpräfix. Deutsch ist Standard (`/de/…`), Englisch folgt später (`/en/…`). Links und Weiterleitungen immer über `@/i18n/navigation`.
+
+| Pfad (Beispiel Deutsch) | Wer | Inhalt |
 |---|---|---|
-| `/` | alle | kurze Erklärung, Start |
-| `/anlegen` | Leitung | Branche, Größe, Bereiche, Anrede, Einladungslinks |
-| `/abfrage/[linkId]` | Beschäftigte | Einzelabfrage als Gespräch, danach Selbsteinschätzung |
-| `/karte/[antwortId]` | die Person selbst | Aufgabenkarte prüfen, korrigieren, bestätigen; danach Einordnung |
-| `/ergebnis/[bestandsaufnahmeId]` | alle Beteiligten | Gesamtbild, Profildiagramm, Fahrplan |
-| `/besprechung/[bestandsaufnahmeId]` | alle Beteiligten | Besprechungsvorlage, Eingabe von Zielwerten und Beschlüssen |
+| `/de` | alle | kurze Erklärung, Start |
+| `/de/anlegen` | Leitung | Branche, Größe, Bereiche, Anrede, Einladungslinks |
+| `/de/abfrage/[linkId]` | Beschäftigte | Einzelabfrage als Gespräch, danach Selbsteinschätzung |
+| `/de/karte/[antwortId]` | die Person selbst | Aufgabenkarte prüfen, korrigieren, bestätigen; danach Einordnung |
+| `/de/ergebnis/[bestandsaufnahmeId]` | alle Beteiligten | Gesamtbild, Profildiagramm, Fahrplan |
+| `/de/besprechung/[bestandsaufnahmeId]` | alle Beteiligten | Besprechungsvorlage, Eingabe von Zielwerten und Beschlüssen |
 
-Alles für Handy-Bildschirme zuerst gestalten. Design nach `DESIGN.md` (Rubik; Navy `#15263E`, Türkis `#2FB9CB`, Orange `#F08119` sparsam, Hintergrund `#F6F8FA`; Text auf farbigen Buttons in Navy, nicht Weiß).
+**Texte:** Alle festen Texte der Oberfläche stehen in `messages/de.json` (zuerst) und mit gleichen Schlüsseln in `messages/en.json`. Die KI antwortet im Hackathon auf Deutsch; später richtet sich die Sprache der Prompts nach der gewählten Sprache.
+
+**Gestaltung:** Handy zuerst. Vorerst nach `DESIGN.md`: Schrift Rubik (über `next/font`); Navy `#15263E`, Türkis `#2FB9CB`, Orange `#F08119` sparsam, Hintergrund `#F6F8FA`; Text auf farbigen Buttons in Navy, nicht Weiß. Werte als CSS-Variablen in `app/globals.css`, einfaches CSS bzw. CSS-Module, kein Tailwind und keine Komponentenbibliothek (siehe `AGENTS.md`).
 
 ---
 
@@ -42,7 +47,7 @@ Alles für Handy-Bildschirme zuerst gestalten. Design nach `DESIGN.md` (Rubik; N
 |---|---|---|---|
 | **1a Gespräch** | Branche, Bereich, Anrede, Leitfragen, bisheriger Verlauf | nächste Frage (Text) | höchstens 2 Nachfragen je Leitfrage; keine Technik vorschlagen; Gesprächsende nach Leitfrage 7 |
 | **1b Aufgabenkarte** | kompletter Gesprächsverlauf + Selbsteinschätzung | `Aufgabenkarte` | Namen und Schuldzuweisungen neutralisieren; Gesundheitsdaten Dritter weglassen; nur übernehmen, was gesagt wurde |
-| **2 Einordnung** | bestätigte `Aufgabenkarte` + Wissensauszug | `Einordnung` | „von ROKI geprüft“ nur mit `wissenId` aus dem Auszug; „keine Technik nötig“ ist erlaubt |
+| **2 Einordnung** | bestätigte `Aufgabenkarte` + Wissensauszug + Entscheidungsmatrix | `Einordnung` | „von ROKI geprüft“ nur mit `wissenId` aus dem Auszug; „keine Technik nötig“ ist erlaubt; die Entscheidungsmatrix aus der Branchen-Problemanalyse dient als Begründung, nicht als Beleg |
 | **3 Gesamtbild** | alle bestätigten Aufgabenkarten + Einordnungen | `Gesamtbild` | erst ab Mindestanzahl je Gruppe; Profilwerte werden **im Code** berechnet, nicht von der KI |
 | **4 Fahrplan** | `Gesamtbild` + Einordnungen | `Fahrplan` | jede Maßnahme verweist auf ein Thema; erster Schritt muss konkret sein |
 | **5 Besprechung** | alle Daten | Seite | **keine KI nötig** – Vorlage wird im Code aus den Daten gebaut |
@@ -249,6 +254,7 @@ interface WissensEintrag {
 
 **Regeln:**
 - Nur Inhalte aus den drei geprüften Recherchen im Repo. Nichts ergänzen.
+- Aus `ROKI_Branchen_Problemanalyse_Robotik_und_Automatisierung.md` nur Ansätze mit **[ROKI geprüft]** übernehmen. Als Quelle die dort genannte Recherche-Datei angeben, nicht die Problemanalyse.
 - Jeder Eintrag nennt Datei und Abschnitt als Quelle.
 - Reifegrad und Grenzen so übernehmen, wie die Recherche sie beschreibt. Herstellerangaben nicht als Beleg für Wirkung behandeln.
 - Lieber wenige richtige Einträge als viele ungenaue. Für die Demo reichen etwa 10–15 Einträge.
@@ -301,8 +307,8 @@ Ziel: Die Demo läuft auch, wenn das Internet oder die API ausfällt.
 
 ## 8. Datenschutz in der Demo
 
-- An die Cloud-API gehen **nur fiktive Testdaten**. Keine echten Antworten von echten Beschäftigten.
-- API-Schlüssel nur in `.env.local`, nie im Repo.
+- An die Cloud-API und an Supabase gehen **nur fiktive Testdaten**. Keine echten Antworten von echten Beschäftigten.
+- API-Schlüssel nur in `.env.local` und in den Vercel-Einstellungen, nie im Repo und nie mit `NEXT_PUBLIC_`. Die Namen stehen in `.env.example`.
 - Ziel für echten Einsatz: lokales Modell. Rechtliche Fragen (Datenschutz, Mitbestimmung) sind im Hackathon nicht geprüft.
 
 ---
@@ -310,10 +316,31 @@ Ziel: Die Demo läuft auch, wenn das Internet oder die API ausfällt.
 ## 9. Ordnerstruktur (Vorschlag)
 
 ```
-app/                    Seiten und API-Routen
+app/[locale]/           Seiten (mit Sprachpräfix)
+app/api/                API-Routen für die KI-Schritte (ohne Sprachpräfix)
+messages/               Texte der Oberfläche (de.json zuerst, en.json mit gleichen Schlüsseln)
 lib/ki/                 Modell-Schnittstelle, Prompts, Prüfung der Ausgaben
+lib/supabase/           Zugriff auf die Datenbank (nur Server)
 lib/profil.ts           Berechnung der Profilwerte
 lib/typen.ts            Datenformate aus Abschnitt 4
 wissen/                 roki-wissensauszug.json
 daten/demo/             Testdaten und gespeicherte Ergebnisse
 ```
+
+---
+
+## 10. Neue Abhängigkeiten
+
+Laut `AGENTS.md` nur, wenn der vorhandene Stack es nicht kann – mit Begründung im Pull Request. Absehbar nötig:
+
+| Paket | Wofür |
+|---|---|
+| Supabase-Client (`@supabase/supabase-js`) | Speicherung (entschieden) |
+| SDK des gewählten Modellanbieters | KI-Aufrufe (Anbieter noch offen; alternativ direkt per `fetch`) |
+| `zod` (Vorschlag) | Prüfung der KI-Ausgaben gegen die Datenformate |
+
+---
+
+## 11. Hinweis zum Typcheck
+
+`npm run typecheck` meldet auf einem frischen Checkout „Cannot find name 'LayoutProps'“, solange Next.js seine Routentypen noch nicht erzeugt hat. Einmal `npm run dev` starten oder `npx next typegen` ausführen, dann läuft der Typcheck durch.

@@ -1,6 +1,10 @@
 # Hackathon
 
-Next.js app. English and German are available at `/en` and `/de`.
+KI-gestützte Bestandsaufnahme für KMU – Hackathon-Projekt im Rahmen von ROKI.
+
+**Worum es geht:** [`PROJEKT.md`](PROJEKT.md) (maßgeblich) · Technik: [`TECHNIK.md`](TECHNIK.md) · Testdaten: [`DEMO_BETRIEBE.md`](DEMO_BETRIEBE.md) · Einstieg für andere KIs: [`MASTERPROMPT.md`](MASTERPROMPT.md)
+
+Next.js app. German is the default at `/de`; English follows at `/en`.
 
 ```bash
 npm install

@@ -1,6 +1,6 @@
 # Masterprompt
 
-**Stand:** 05.11.2026 · Version 2
+**Stand:** 05.11.2026 · Version 3
 
 **So nutzen:**
 1. Den gesamten Text unter der Linie in eine andere KI kopieren oder neuen Teammitgliedern zum Lesen geben.
@@ -62,20 +62,22 @@ Sprache in der App: Deutsch, ruhig, praxisnah, keine Werbesprache, Anrede „Sie
 - **Simuliert:** Login und Einladungen (Links ohne Konto).
 - **Demo-Modus:** gespeicherte, von Menschen geprüfte Ergebnisse, falls API oder Internet ausfallen.
 - **Kann:** Spracheingabe, zweiter Demo-Betrieb, Zielwerte im Diagramm, Export.
-- **Nicht:** lokale KI, Nutzerverwaltung, Anbindung an die ROKI-Plattform, Mehrsprachigkeit.
+- **Nicht:** lokale KI, Nutzerverwaltung, Anbindung an die ROKI-Plattform, englische Texte (Umschalter ist da, Übersetzung folgt später).
 - **Funktionsstopp** 8 Stunden vor Ende; danach nur noch Fehler beheben und Pitch proben.
 
-**Pointe der Demo:** Werkstatt, Montage, Büro und Leitung beschreiben jeweils eigene Probleme. Erst die Zusammenführung zeigt die gemeinsame Ursache: Ein unvollständiges Aufmaß löst eine Kette aus. Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe.
+**Pointe der Demo:** Werkstatt, Montage, Büro und Leitung beschreiben jeweils eigene Probleme. Erst die Zusammenführung zeigt die gemeinsame Ursache: Ein unvollständiges Aufmaß löst eine Kette aus. Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe. Assistenztechnik und Robotik kommen dort ins Spiel, wo die Belastung körperlich ist oder sich Handgriffe ständig wiederholen (z. B. Exoskelette fürs Tragen, Schweiß-Cobot für Serienteile).
 
 ## 6. Technik
 
-- Next.js mit App Router und TypeScript
-- Alle KI-Aufrufe auf dem Server; API-Schlüssel nur in `.env.local`
+- Next.js mit App Router und TypeScript, gehostet auf Vercel; das Grundgerüst steht im Repo. Für Code gelten zusätzlich die Regeln in `AGENTS.md` (u. a. npm, einfaches CSS ohne Tailwind, Arbeit über Branch und Pull Request).
+- Seiten unter `app/[locale]/` mit Sprachpräfix; **Deutsch ist Standard** (`/de`), Englisch folgt später über den vorhandenen Umschalter. Feste Texte in `messages/de.json` (zuerst) und `messages/en.json` über `next-intl`.
+- Speicherung: **Supabase** (EU-Region). Einzelantworten nur über den Server lesbar, Row Level Security an. Testdaten als JSON unter `daten/demo/`.
+- Alle KI-Aufrufe auf dem Server; API-Schlüssel nur in `.env.local` bzw. den Vercel-Einstellungen, nie mit `NEXT_PUBLIC_`
 - Eine austauschbare Modell-Schnittstelle: Demo mit Cloud-Modell, Ziel lokales Modell
 - In der Demo gehen **nur fiktive Daten** an die Cloud
 - Jede KI-Ausgabe ist JSON nach festem Format (Typen in `TECHNIK.md`) und wird geprüft; bei Fehler einmal wiederholen, dann Demo-Fallback
 - Fachliche Feldnamen deutsch in camelCase ohne Umlaute (z. B. `aufgabenkarte`, `stundenProWoche`), UI-Texte deutsch
-- Design nach ROKI: Schrift Rubik; Navy `#15263E`, Türkis `#2FB9CB`, Orange `#F08119` sparsam, Hintergrund `#F6F8FA`; Text auf farbigen Buttons Navy; ruhig, nahbar, nicht High-Tech
+- Design vorerst nach ROKI: Schrift Rubik; Navy `#15263E`, Türkis `#2FB9CB`, Orange `#F08119` sparsam, Hintergrund `#F6F8FA`; Text auf farbigen Buttons Navy; ruhig, nahbar, nicht High-Tech
 
 ## 7. Dateien im Repo
 
@@ -83,11 +85,13 @@ Sprache in der App: Deutsch, ruhig, praxisnah, keine Werbesprache, Anrede „Sie
 |---|---|
 | `PROJEKT.md` | **maßgeblich** – Ziel, Ablauf, Regeln, Plan, Pitch, Risiken, Entscheidungen |
 | `TECHNIK.md` | Architektur, KI-Schritte, Datenformate, Wissensauszug, Demo-Modus |
-| `DEMO_BETRIEBE.md` | fünf fiktive Testbetriebe; Testdaten und erwartetes Ergebnis für Metallbau Heidekamp |
+| `DEMO_BETRIEBE.md` | fünf fiktive Testbetriebe; Testdaten und erwartetes Ergebnis für Metallbau Heidekamp – einzige Quelle für Testdaten |
+| `ROKI_Branchen_Problemanalyse_Robotik_und_Automatisierung.md` | Branchensicht auf dieselben fünf Betriebe: Problem-Hypothesen, Lösungsansätze mit Kennzeichnung [ROKI geprüft] / [nicht geprüft], Entscheidungsmatrix als Teamregel |
+| `AGENTS.md` | Regeln für Coding-Agenten: Stack, Stil, Arbeitsweise |
 | `ROKI_SPRACHE_UND_TONALITAET.md` | verbindliche Sprachregeln |
 | `DESIGN.md` | Design-System der ROKI-Plattform (verweist auf Code-Dateien, die nicht im Repo liegen) |
 | `roki-projektübersicht.md` | ROKI-Wissensplattform, Zielgruppen, Metadaten |
-| `ROKI_Recherche_*.md` (3 Dateien) | geprüfte Recherchen zu Robotertypen, Pflege, Roboterhunden – einzige Grundlage für „von ROKI geprüft“ |
+| `ROKI_Recherche_*.md` (3 Dateien) | geprüfte Recherchen zu Robotertypen, Pflege, Roboterhunden – einzige Grundlage für „von ROKI geprüft“ (auch die [ROKI geprüft]-Stellen der Branchen-Problemanalyse verweisen dorthin) |
 
 Bei Widersprüchen gilt `PROJEKT.md`.
 
@@ -102,9 +106,9 @@ Bei Widersprüchen gilt `PROJEKT.md`.
 
 ## 9. Was entschieden ist – und was nicht
 
-**Entschieden:** Next.js · Leitung legt an, Inhalt von unten · vier gleichwertige Lösungsarten plus „keine Technik“ · Demo mit Cloud-KI und fiktiven Daten, Ziel lokale KI · Profil mit Ist (Beschäftigte) und Ziel (Team) · Ergebnis ist eine Besprechungsvorlage · fünf fiktive Demo-Betriebe, keine echten Firmennamen · Live-Demo mit Metallbau Heidekamp.
+**Entschieden:** Next.js auf Vercel · Supabase · Deutsch als Standard, Englisch später · ROKI-Design vorerst · Leitung legt an, Inhalt von unten · vier gleichwertige Lösungsarten plus „keine Technik“ · Demo mit Cloud-KI und fiktiven Daten, Ziel lokale KI · Profil mit Ist (Beschäftigte) und Ziel (Team) · Ergebnis ist eine Besprechungsvorlage · fünf fiktive Demo-Betriebe, keine echten Firmennamen · Live-Demo mit Metallbau Heidekamp.
 
-**Offen:** Projektname · Kriterien der Jury, Pitch-Länge, Abgabeformat · Teamgröße und Aufgabenverteilung · welche Cloud-API · Netz- oder Balkendiagramm · Mindestanzahl · Speicherung über die Demo hinaus.
+**Offen:** Projektname · Kriterien der Jury, Pitch-Länge, Abgabeformat · Teamgröße und Aufgabenverteilung · welche Cloud-API · Netz- oder Balkendiagramm · Mindestanzahl · wer das Supabase-Projekt anlegt · Belege für offene Angaben in der Branchen-Problemanalyse.
 
 Triff zu offenen Punkten keine Entscheidung für uns. Mach einen Vorschlag mit kurzer Begründung und frag nach.
 
@@ -116,7 +120,7 @@ Triff zu offenen Punkten keine Entscheidung für uns. Mach einen Vorschlag mit k
 - Frag nach, wenn etwas unklar ist, statt zu raten.
 - Prüfe jeden Vorschlag gegen die Grundsätze in Abschnitt 4. Widerspricht er einem Grundsatz, sag es offen.
 - Denk an 48 Stunden: lieber ein kleiner Teil, der zuverlässig funktioniert, als viel Halbfertiges. Wenn eine Idee den Umfang sprengt, sag es und schlag eine kleinere Variante vor.
-- Code: vollständige Dateien mit Pfad angeben, Datenformate aus `TECHNIK.md` verwenden, keine neuen Abhängigkeiten ohne Begründung.
+- Code: vollständige Dateien mit Pfad angeben, Datenformate aus `TECHNIK.md` verwenden, Regeln aus `AGENTS.md` einhalten, keine neuen Abhängigkeiten ohne Begründung.
 - Alle Demo-Betriebe sind fiktiv. Echte Firmennamen nur mit deren Einverständnis.
 - Wenn du die Dateien aus Abschnitt 7 nicht lesen kannst und sie für die Aufgabe brauchst, bitte darum.
 
