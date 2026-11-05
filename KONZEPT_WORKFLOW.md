@@ -1,5 +1,7 @@
 # Konzept: Workflow v2 – kurz, adaptiv, mit Aha-Moment
 
+> **Abgelöst durch Workflow v3** (Stand 05.11.2026): siehe `PROJEKT.md` §10–12 und `fallstudien/`. Dieses Dokument beschreibt den Prototyp v2 und bleibt zur Nachvollziehbarkeit.
+
 **Stand:** 05.11.2026 · umgesetzt; maßgeblich ist jetzt PROJEKT.md §5. Abweichung vom Entwurf: Formular und KI gemischt (Chips, Regler, Spiegelung), Euro-Umrechnung, Stimmungswert statt Profildiagramm.
 Bezieht sich auf [`PROJEKT.md`](PROJEKT.md) und [`ROwAI_Personas_Metallbau.md`](ROwAI_Personas_Metallbau.md). Weicht bewusst vom Ablauf in PROJEKT.md §5–7 ab; die Abweichungen stehen unten unter „Was wegfällt“ und „Zu entscheiden“.
 

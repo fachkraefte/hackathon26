@@ -31,6 +31,8 @@ Gehört zu [`PROJEKT.md`](PROJEKT.md). Datenformate: [`TECHNIK.md`](TECHNIK.md),
 
 ## 1. Produktion und Handwerk – Metallbau Heidekamp (Live-Demo)
 
+> **Maßgeblich ist jetzt die Fallstudie [`fallstudien/01_metallbau_heidekamp.md`](fallstudien/01_metallbau_heidekamp.md)** (22 Beschäftigte, 16 Stimmen, Übergabe-Karte, Lösungen). Die Angaben unten bleiben als älteres Szenario.
+
 > **Hinweis (05.11.2026, Workflow v2):** Für die Live-Demo gilt jetzt die Variante nach [`ROwAI_Personas_Metallbau.md`](ROwAI_Personas_Metallbau.md): 22 Beschäftigte, Treppen, Geländer und Stahlkonstruktionen, Sandra (Geschäftsführerin) und Marco (Werkstattleiter), Thema Zeichnungsstand. Die Testdaten dazu liegen in `daten/demo/heidekamp/`. Die Angaben unten (15 Beschäftigte, Aufmaß) bleiben als zweites Szenario.
 
 **Steckbrief:** Metallbaubetrieb, 15 Mitarbeitende, Winsen (Luhe). Zäune, Tore, Geländer für Privatkunden und Hausverwaltungen. Viele Baustellen gleichzeitig, Teams getrennt unterwegs. Anrede: „Sie“.

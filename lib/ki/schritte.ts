@@ -3,9 +3,16 @@
 import { z } from "zod";
 import { bereichsLabel } from "../anonym";
 import { demoGesamtbild, wissensauszug } from "../daten";
-import { Gesamtbild, Verstaendnis, type Beitrag, type Bestandsaufnahme, type Faden } from "../typen";
+import { Faden, Gesamtbild, Verstaendnis, type Beitrag, type Bestandsaufnahme } from "../typen";
 import { fragJson, kiVerfuegbar } from "./json";
-import { verstehePrompt, zeitfresserPrompt, zuordnenPrompt, zusammenfuehrenPrompt, type PunktFuerKi } from "./prompts";
+import {
+  neuerFadenPrompt,
+  verstehePrompt,
+  zeitfresserPrompt,
+  zuordnenPrompt,
+  zusammenfuehrenPrompt,
+  type PunktFuerKi,
+} from "./prompts";
 
 export type MitQuelle<T> = { daten: T; ausDemo: boolean; fehler?: string };
 
@@ -99,24 +106,31 @@ function demoBild(beitraege: Beitrag[]): Gesamtbild {
   return { ...basis, faeden };
 }
 
+/** Punkte so, wie die KI sie sieht: kleine Bereiche schon anonymisiert. */
+function punkteFuerKi(b: Bestandsaufnahme, beitraege: Beitrag[], nur?: Set<string>): PunktFuerKi[] {
+  return beitraege.flatMap((beitrag) =>
+    beitrag.punkte
+      .filter((p) => !nur || nur.has(p.id))
+      .map((p) => ({
+        id: p.id,
+        bereich: bereichsLabel(beitrag, beitraege, b),
+        istLeitung: beitrag.istLeitung,
+        zeitfresser: p.zeitfresser,
+        titel: p.titel,
+        aussage: p.aussage,
+        beteiligt: p.beteiligt,
+        folge: p.folge ?? null,
+      })),
+  );
+}
+
 export async function fuehreZusammen(
   b: Bestandsaufnahme,
   beitraege: Beitrag[],
 ): Promise<MitQuelle<Gesamtbild>> {
   if (!kiVerfuegbar()) return { daten: bereinige(demoBild(beitraege), beitraege), ausDemo: true };
 
-  const punkte: PunktFuerKi[] = beitraege.flatMap((beitrag) =>
-    beitrag.punkte.map((p) => ({
-      id: p.id,
-      bereich: bereichsLabel(beitrag, beitraege, b),
-      istLeitung: beitrag.istLeitung,
-      zeitfresser: p.zeitfresser,
-      titel: p.titel,
-      aussage: p.aussage,
-      beteiligt: p.beteiligt,
-      folge: p.folge ?? null,
-    })),
-  );
+  const punkte = punkteFuerKi(b, beitraege);
   const gutLaeuft = beitraege.flatMap((x) => (x.gutLaeuft ? [x.gutLaeuft] : []));
 
   try {
@@ -133,49 +147,98 @@ export async function fuehreZusammen(
 
 // ---------- ③b ----------
 const Zuordnung = z.object({
-  zuordnung: z.array(z.object({ punktId: z.string(), fadenId: z.string().nullable(), stimme: z.string() })),
+  zuordnung: z.array(
+    z.object({ punktId: z.string(), ursache: z.string().optional(), fadenId: z.string().nullable(), stimme: z.string() }),
+  ),
 });
+const NeueFaeden = z.object({ faeden: z.array(Faden.omit({ id: true })).min(1) });
+
+/** Nächste freie Faden-ID (f1, f2, …) – bestehende IDs ändern sich nie. */
+function naechsteId(faeden: Faden[]) {
+  const nummern = faeden.map((f) => Number(f.id.replace(/\D/g, "")) || 0);
+  return `f${Math.max(0, ...nummern) + 1}`;
+}
 
 /**
- * Hängt die Punkte eines neuen Beitrags an bestehende Fäden (schnell, ein kurzer KI-Aufruf).
- * Gibt null zurück, wenn ein Punkt nirgends passt – dann muss neu zusammengeführt werden.
+ * Ergänzt ein bestehendes Bild um neue Punkte, ohne vorhandene Fäden umzubauen:
+ * 1. Zuordnen zu bestehenden Fäden (schneller KI-Aufruf).
+ * 2. Was nirgends passt, wird EIN neuer Faden (zweiter kurzer Aufruf).
+ * So bleiben IDs, Aufgaben und Zahlen stabil, während die Analyse wächst.
+ * Gibt null zurück, wenn die KI nicht erreichbar ist.
  */
-export async function ordneZu(
+export async function ergaenzeBild(
+  b: Bestandsaufnahme,
   bild: Gesamtbild,
-  beitrag: Beitrag,
-  bereich: string,
+  beitraege: Beitrag[],
+  neueIds: Set<string>,
 ): Promise<Gesamtbild | null> {
-  if (!kiVerfuegbar()) return null;
+  if (!kiVerfuegbar() || neueIds.size === 0) return neueIds.size === 0 ? bereinige(bild, beitraege) : null;
+  const punkte = punkteFuerKi(b, beitraege, neueIds);
+  const bereichVon = new Map(punkte.map((p) => [p.id, p.bereich]));
+  const titelVon = new Map(beitraege.flatMap((x) => x.punkte.map((p) => [p.id, p.titel] as const)));
+
   try {
     const { zuordnung } = await fragJson(
       Zuordnung,
       zuordnenPrompt(
-        bild.faeden.map((f) => ({ id: f.id, aufgabe: f.aufgabe, problem: f.problem })),
-        beitrag.punkte.map((p) => ({ id: p.id, titel: p.titel, aussage: p.aussage, beteiligt: p.beteiligt })),
+        bild.faeden.map((f) => ({
+          id: f.id,
+          aufgabe: f.aufgabe,
+          problem: f.problem,
+          beispiele: f.punktIds.flatMap((pid) => titelVon.get(pid) ?? []).slice(0, 4),
+        })),
+        punkte.map((p) => ({ id: p.id, titel: p.titel, aussage: p.aussage, beteiligt: p.beteiligt })),
       ),
       { reasoningEffort: "low" },
     );
     const fadenIds = new Set(bild.faeden.map((f) => f.id));
-    const passend = zuordnung.filter((z) => z.fadenId && fadenIds.has(z.fadenId));
-    if (passend.length < beitrag.punkte.length) return null;
+    const passend = zuordnung.filter((z) => neueIds.has(z.punktId) && z.fadenId && fadenIds.has(z.fadenId));
+    const zugeordnet = new Set(passend.map((z) => z.punktId));
 
     const faeden = bild.faeden.map((f) => {
       const meine = passend.filter((z) => z.fadenId === f.id);
       if (meine.length === 0) return f;
-      const hatBereich = f.sichtweisen.some((s) => s.bereich === bereich);
+      // Neue Stimmen vorne, damit der eigene Beitrag sichtbar ist; je Bereich eine Stimme.
+      const neueStimmen = new Map<string, string>();
+      for (const z of meine) {
+        const bereich = bereichVon.get(z.punktId) ?? "ein anderer Bereich";
+        if (!neueStimmen.has(bereich)) neueStimmen.set(bereich, z.stimme);
+      }
       return {
         ...f,
         punktIds: [...f.punktIds, ...meine.map((z) => z.punktId)],
-        // Neue Stimme vorne, damit der eigene Beitrag sichtbar ist; bestehende Stimme des Bereichs ersetzen.
         sichtweisen: [
-          { bereich, aussage: meine[0].stimme },
-          ...f.sichtweisen.filter((s) => (hatBereich ? s.bereich !== bereich : true)),
+          ...[...neueStimmen].map(([bereich, aussage]) => ({ bereich, aussage })),
+          ...f.sichtweisen.filter((s) => !neueStimmen.has(s.bereich)),
         ],
       };
     });
-    return { ...bild, faeden };
+
+    const rest = punkte.filter((p) => !zugeordnet.has(p.id));
+    if (rest.length > 0) {
+      // Klappt das nicht, bleiben die Punkte vorerst offen und werden beim nächsten Abruf erneut versucht.
+      const offen = new Set(rest.map((p) => p.id));
+      for (const neu of (await neueFaeden(b, rest, faeden)) ?? []) {
+        const punktIds = neu.punktIds.filter((pid) => offen.delete(pid));
+        if (punktIds.length > 0) faeden.push({ ...neu, id: naechsteId(faeden), punktIds });
+      }
+    }
+    return bereinige({ ...bild, faeden: faeden.slice(0, 6) }, beitraege);
   } catch (fehler) {
-    console.error("Zuordnen fehlgeschlagen:", fehler);
+    console.error("Ergänzen fehlgeschlagen:", fehler);
+    return null;
+  }
+}
+
+async function neueFaeden(b: Bestandsaufnahme, punkte: PunktFuerKi[], bestehende: Faden[]) {
+  try {
+    const { faeden } = await fragJson(NeueFaeden, neuerFadenPrompt(b, punkte, bestehende, wissensauszug), {
+      reasoningEffort: "low",
+      timeoutMs: 30_000,
+    });
+    return faeden;
+  } catch (fehler) {
+    console.error("Neuer Faden fehlgeschlagen:", fehler);
     return null;
   }
 }

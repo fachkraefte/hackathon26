@@ -93,6 +93,40 @@
           "wissenId": null
         }
       ]
+    },
+    {
+      "id": "f3",
+      "aufgabe": "Der Kunde weiß vor jeder Montage, wann das Team kommt.",
+      "problem": "Manchmal weiß der Kunde nicht, dass die Montage kommt. Dann wartet das Team vor Ort oder fährt umsonst.",
+      "punktIds": [
+        "montage-3-1"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Montage",
+          "aussage": "Manchmal weiß der Kunde nicht, dass wir kommen, und wir warten vor Ort."
+        }
+      ],
+      "unterschied": null,
+      "ansaetze": [
+        {
+          "art": "prozess",
+          "text": "Festlegen, wer im Büro den Montagetermin mit dem Kunden bestätigt.",
+          "warum": "Eine klare Zuständigkeit verhindert unangekündigte Anfahrten.",
+          "wasFehlt": "Wer bisher Termine ankündigt und Rückmeldungen annimmt.",
+          "herkunft": "nichtGeprueft",
+          "wissenId": null
+        },
+        {
+          "art": "software",
+          "text": "Automatische Terminnachricht an den Kunden am Vortag der Montage.",
+          "warum": "Der Kunde wird erinnert, ohne dass jemand anruft.",
+          "wasFehlt": "Ob Kundennummern und Termine digital vorliegen.",
+          "herkunft": "nichtGeprueft",
+          "wissenId": null
+        }
+      ],
+      "ersterSchritt": "Drei Wochen lang prüfen Büro und Montage vor jeder Abfahrt, ob der Kunde den Termin bestätigt hat."
     }
   ],
   "staerken": [

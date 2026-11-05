@@ -51,7 +51,7 @@ export function verstehePrompt(
   return [
     {
       role: "system" as const,
-      content: `Du bist ROwAI und hörst einer beschäftigten Person zu. ${anrede}
+      content: `Du bist ROKIO und hörst einer beschäftigten Person zu. ${anrede}
 ${GRUNDREGELN}
 
 ${betriebKontext(b)}
@@ -142,19 +142,65 @@ Format: {"faeden": [{"id": "f1", "aufgabe": "…", "problem": "…", "punktIds":
   ];
 }
 
+// ---------- ③c Neuer Faden für Punkte, die nirgends passen ----------
+export function neuerFadenPrompt(
+  b: Bestandsaufnahme,
+  punkte: PunktFuerKi[],
+  bestehende: { aufgabe: string }[],
+  wissen: WissensEintrag[],
+) {
+  const wissenKurz = wissen.map((w) => ({ wissenId: w.id, loesung: w.loesung, art: w.art, typischeAufgaben: w.typischeAufgaben }));
+  return [
+    {
+      role: "system" as const,
+      content: `Im Betrieb sind neue Punkte aufgetaucht, die zu keinem bestehenden Faden passen. Bilde daraus neue Fäden: Punkte mit derselben Ursache kommen in einen Faden, Punkte mit verschiedenen Ursachen in getrennte Fäden. Alle Beteiligten lesen sie. Sprich niemanden direkt an.
+${GRUNDREGELN}
+
+${betriebKontext(b)}
+
+Bestehende Fäden (nicht wiederholen): ${JSON.stringify(bestehende.map((f) => f.aufgabe))}
+
+Felder je Faden (strikte Längen):
+- "punktIds": die ids der Punkte, die zu diesem Faden gehören. Jeder Punkt genau einmal.
+- "aufgabe": gemeinsame Aufgabe als positives Ziel, höchstens 12 Wörter.
+- "problem": was passiert und was es auslöst, höchstens 25 Wörter.
+- "sichtweisen": je Bereich EIN Eintrag {"bereich": exakt die Bereichsangabe aus den Punkten, "aussage": Ich- oder Wir-Form, höchstens 15 Wörter, nah am Wortlaut}.
+- "unterschied": null, außer die Punkte widersprechen sich (höchstens 20 Wörter).
+- "ansaetze": 2–3 Ansätze, zuerst organisatorisch ("prozess" oder "keineTechnik"), dann höchstens zwei technische ("software", "kiAssistenz", "robotikHardware"). Je Ansatz "text" (≤18 Wörter), "warum" (≤14 Wörter), "wasFehlt" (≤12 Wörter), "herkunft" ("rokiGeprueft" NUR mit passender "wissenId" aus dem Auszug, sonst "nichtGeprueft" und null). Keine Firmen oder Produkte.
+- "ersterSchritt": kleiner Prüfauftrag für 2–6 Wochen mit Rollen, höchstens 22 Wörter.
+
+ROKI-Wissensauszug: ${JSON.stringify(wissenKurz)}
+
+Antworte als JSON-Objekt: {"faeden": [{"punktIds": ["…"], "aufgabe": "…", "problem": "…", "sichtweisen": [{"bereich": "…", "aussage": "…"}], "unterschied": null, "ansaetze": [{"art": "prozess", "text": "…", "warum": "…", "wasFehlt": "…", "herkunft": "nichtGeprueft", "wissenId": null}], "ersterSchritt": "…"}]}`,
+    },
+    { role: "user" as const, content: JSON.stringify({ punkte }) },
+  ];
+}
+
 // ---------- ③b Neue Punkte bestehenden Fäden zuordnen (schnell) ----------
 export function zuordnenPrompt(
-  faeden: { id: string; aufgabe: string; problem: string }[],
+  faeden: { id: string; aufgabe: string; problem: string; beispiele: string[] }[],
   punkte: Pick<PunktFuerKi, "id" | "titel" | "aussage" | "beteiligt">[],
 ) {
   return [
     {
       role: "system" as const,
-      content: `Ordne jeden neuen Punkt dem Faden zu, dessen Problem dieselbe Ursache hat. Passt keiner wirklich, gib null an – nicht raten.
-Gib zusätzlich je Punkt "stimme": die Aussage als einen Satz in der Ich- oder Wir-Form, höchstens 15 Wörter, nah am Wortlaut, ohne Namen.
-Antworte als JSON-Objekt: {"zuordnung": [{"punktId": "…", "fadenId": "f1" oder null, "stimme": "…"}]}
+      content: `Du prüfst, ob neue Punkte zu bestehenden Fäden gehören. Ein Punkt gehört nur dann zu einem Faden, wenn er DIESELBE URSACHE hat – nicht, weil er im selben Bereich spielt oder ähnlich ärgerlich ist.
 
-Fäden:
+Beispiele:
+- Faden „Alle arbeiten nach derselben gültigen Zeichnung“ + Punkt „Teil passt auf der Baustelle nicht, weil nach altem Stand gebaut“ → gehört dazu (Ursache: Zeichnungsstand).
+- Derselbe Faden + Punkt „Kompressor fällt aus“ → gehört NICHT dazu (Ursache: Maschine), also null.
+- Faden „Kunden wissen, wann das Team kommt“ + Punkt „Es ist zu laut zum Telefonieren“ → null.
+Im Zweifel null. Ein neuer Faden ist besser als ein falscher.
+
+Je Punkt:
+- "ursache": die Ursache des Punkts in höchstens 6 Wörtern.
+- "fadenId": id des Fadens mit derselben Ursache oder null.
+- "stimme": die Aussage als ein Satz in der Ich- oder Wir-Form, höchstens 15 Wörter, nah am Wortlaut, ohne Namen.
+
+Antworte als JSON-Objekt: {"zuordnung": [{"punktId": "…", "ursache": "…", "fadenId": "f1" oder null, "stimme": "…"}]}
+
+Fäden (mit Beispielen der Punkte, die schon dazugehören):
 ${JSON.stringify(faeden)}`,
     },
     { role: "user" as const, content: JSON.stringify({ punkte }) },

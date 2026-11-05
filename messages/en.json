@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "ROwAI – Bestandsaufnahme für KMU",
+    "title": "ROKIO – Prozessanalyse für KMU",
     "description": "Beschäftigte erzählen, die KI führt zusammen, das Team entscheidet den ersten Schritt."
   },
   "LocaleSwitcher": {
@@ -15,7 +15,7 @@
   "Home": {
     "ueberzeile": "ROKI · Robotik und KI für die Fachkräftesicherung",
     "titel": "Wo macht ihr euch das Leben unnötig schwer?",
-    "einleitung": "Jede Person erzählt in wenigen Minuten, was Zeit und Nerven kostet. ROwAI führt die Stimmen zusammen, zeigt, was es den Betrieb kostet – und welcher erste Schritt sich lohnt.",
+    "einleitung": "Jede Person erzählt in wenigen Minuten, was Zeit und Nerven kostet. ROKIO führt die Stimmen zusammen, zeigt, was es den Betrieb kostet – und welcher erste Schritt sich lohnt.",
     "m1": {
       "dauer": "2 Minuten",
       "titel": "Starten",
@@ -46,7 +46,7 @@
   "Start": {
     "ueberzeile": "{betrieb} · Leitung",
     "titel": "Was soll besser werden?",
-    "einleitung": "Ein Satz reicht. Daraus macht ROwAI eine kurze Befragung für dein Team.",
+    "einleitung": "Ein Satz reicht. Daraus macht ROKIO eine kurze Befragung für dein Team.",
     "frageLabel": "Wo macht ihr euch das Leben schwer?",
     "fragePlatzhalter": "Zum Beispiel: Unsere Aufträge brauchen zu viel Abstimmung …",
     "zielLabel": "Was wäre in drei Monaten ein Erfolg?",
@@ -56,10 +56,10 @@
     "stundensatzLabel": "Interner Stundensatz",
     "stundensatzHinweis": "Nur für die Umrechnung von Stunden in Euro",
     "absenden": "Befragung erstellen",
-    "bereitet": "ROwAI bereitet vor …",
+    "bereitet": "ROKIO bereitet vor …",
     "fertigUeberzeile": "Fertig",
     "fertigTitel": "Dein Team kann loslegen",
-    "themenVorschau": "Diese Themen schlägt ROwAI deinem Team zum Antippen vor",
+    "themenVorschau": "Diese Themen schlägt ROKIO deinem Team zum Antippen vor",
     "themenHinweis": "Passend zu deiner Frage. Jede Person kann auch etwas Eigenes nennen.",
     "einladung": "Einladung",
     "einladungText": "{leitung} möchte wissen, wo wir uns im Alltag das Leben schwer machen. Dauert 3–5 Minuten, anonym: {link}",
@@ -72,7 +72,7 @@
   },
   "Mitmachen": {
     "startTitel": "{leitung} möchte wissen, was dich aufhält",
-    "startText": "3–5 Minuten. Du erzählst, ROwAI hört zu – und am Ende siehst du, wer dasselbe erlebt.",
+    "startText": "3–5 Minuten. Du erzählst, ROKIO hört zu – und am Ende siehst du, wer dasselbe erlebt.",
     "bereichFrage": "Wo arbeitest du?",
     "zustimmung": "Mein Bereich darf genannt werden, auch wenn wir nur wenige sind.",
     "schutz": "Anonym. Keine Namen. Die Leitung sieht keine Einzelantworten, nur das gemeinsame Bild.",
@@ -84,7 +84,7 @@
     "themaVon": "Thema {nr} von {gesamt}",
     "erzaehlFrage": "Erzähl kurz vom letzten Mal, als das passiert ist.",
     "erzaehlPlatzhalter": "Ein, zwei Sätze reichen …",
-    "hoertZu": "ROwAI hört zu …",
+    "hoertZu": "ROKIO hört zu …",
     "spiegelungErsatz": "Danke, das habe ich notiert.",
     "ueberspringen": "Überspringen",
     "reglerTitel": "Passt das so?",
@@ -106,10 +106,12 @@
     "stimmtNicht": "Stimmt nicht ganz",
     "uebernehmen": "Übernehmen",
     "stimmtSo": "Stimmt so",
-    "legtZusammen": "ROwAI legt deinen Beitrag zu den anderen …",
+    "legtZusammen": "ROKIO legt deinen Beitrag zu den anderen …",
     "fertigUeberzeile": "Danke!",
     "fertigTitel": "Dein Beitrag ist im gemeinsamen Bild",
     "nichtAllein": "Du bist nicht allein",
+    "neuNotiert": "Dein Thema ist notiert",
+    "bisherAllein": "Das hat bisher niemand sonst genannt. Es geht als eigenes Thema in die Analyse ein – gerade einzelne Stimmen zeigen oft, was sonst übersehen wird.",
     "andere": "{anzahl, plural, one {# weitere Person beschreibt} other {# weitere Personen beschreiben}} dasselbe",
     "ausBereichen": "– aus {bereiche}.",
     "kostetBetrieb": "Dieses Thema kostet den Betrieb ≈ {euro} im Jahr.",
@@ -123,7 +125,7 @@
     "weiter": "Weiter"
   },
   "Ergebnis": {
-    "laden": "ROwAI führt die Stimmen zusammen …",
+    "laden": "ROKIO führt die Stimmen zusammen …",
     "titel": "Das gemeinsame Bild",
     "proJahr": "pro Jahr, was diese Themen kosten",
     "proWoche": "pro Woche",

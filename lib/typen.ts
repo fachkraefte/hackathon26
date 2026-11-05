@@ -128,7 +128,8 @@ export const Faden = z.object({
 export type Faden = z.infer<typeof Faden>;
 
 export const Gesamtbild = z.object({
-  faeden: z.array(Faden).min(1).max(4),
+  // Erste Zusammenführung bildet 2–4 Fäden; neue Themen kommen später als eigene Fäden dazu.
+  faeden: z.array(Faden).min(1).max(6),
   staerken: z.array(z.string()),
   offeneFragen: z.array(z.string()),
 });

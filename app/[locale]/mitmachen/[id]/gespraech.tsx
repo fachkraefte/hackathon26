@@ -422,15 +422,22 @@ export function Gespraech(props: Props) {
               <h1>{t("fertigTitel")}</h1>
               {ergebnis.faeden.length > 0 && (
                 <div className={styles.nichtAllein}>
-                  <p className={styles.nichtAlleinTitel}>{t("nichtAllein")}</p>
+                  {/* Überschrift nach Datenlage: geteilt, oder neu notiert */}
+                  <p className={styles.nichtAlleinTitel}>
+                    {ergebnis.faeden.some((f) => f.andere > 0) ? t("nichtAllein") : t("neuNotiert")}
+                  </p>
                   {ergebnis.faeden.map((f) => (
                     <div key={f.aufgabe} className={styles.fadenTreffer}>
-                      {f.andere > 0 && (
-                        <p className={styles.andere}>
-                          {t("andere", { anzahl: f.andere })}
-                          {f.bereiche.length > 0 && ` ${t("ausBereichen", { bereiche: f.bereiche.join(", ") })}`}
-                        </p>
-                      )}
+                      <p className={styles.andere}>
+                        {f.andere > 0 ? (
+                          <>
+                            {t("andere", { anzahl: f.andere })}
+                            {f.bereiche.length > 0 && ` ${t("ausBereichen", { bereiche: f.bereiche.join(", ") })}`}
+                          </>
+                        ) : (
+                          t("bisherAllein")
+                        )}
+                      </p>
                       <p className={styles.aufgabe}>{f.aufgabe}</p>
                       <p className={styles.euro}>{t("kostetBetrieb", { euro: formatEuro(f.euroJahr) })}</p>
                     </div>

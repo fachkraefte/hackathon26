@@ -71,7 +71,7 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
   };
   await speichereBeitrag(beitrag);
 
-  const ergebnis = await nimmBeitragAuf(b.id, beitrag);
+  const ergebnis = await nimmBeitragAuf(b.id);
   if (!ergebnis) throw new Error("Gesamtbild nicht verfügbar.");
   const meineIds = new Set(beitrag.punkte.map((p) => p.id));
   const meinLabel = bereichsLabel(beitrag, ergebnis.beitraege, b);
