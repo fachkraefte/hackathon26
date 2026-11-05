@@ -17,7 +17,7 @@ Handy/Browser ──► Next.js auf Vercel (Seiten + API-Routen) ──► Model
 
 - **Next.js** mit App Router und TypeScript (Grundgerüst steht im Repo, Regeln in `AGENTS.md`)
 - **Alle KI-Aufrufe laufen auf dem Server** (API-Routen bzw. Server Actions). Der API-Schlüssel kommt nie in den Browser.
-- **Eine Modell-Schnittstelle** im Code. Heute steckt dahinter ein Cloud-Modell, später ein lokales. Der Rest der App merkt den Wechsel nicht.
+- **Eine Modell-Schnittstelle** im Code: `lib/ki/model.ts`. Heute steckt dahinter OpenAI (per `fetch`, ohne Anbieter-SDK), später ein lokales Modell. Der Rest der App merkt den Wechsel nicht. Der Schlüssel heißt `OPENAI_API_KEY`, der Modellname `OPENAI_MODEL` (Standard `gpt-6.1-sol`). Beides nur auf dem Server. Ein Aufruf wartet höchstens 20 Sekunden.
 - **Jede KI-Ausgabe ist JSON nach festem Format** (Abschnitt 4) und wird geprüft, bevor sie gespeichert wird (Vorschlag: `zod`).
 
 ---
@@ -308,7 +308,7 @@ Ziel: Die Demo läuft auch, wenn das Internet oder die API ausfällt.
 ## 8. Datenschutz in der Demo
 
 - An die Cloud-API und an Supabase gehen **nur fiktive Testdaten**. Keine echten Antworten von echten Beschäftigten.
-- API-Schlüssel nur in `.env.local` und in den Vercel-Einstellungen, nie im Repo und nie mit `NEXT_PUBLIC_`. Die Namen stehen in `.env.example`.
+- API-Schlüssel nur in `.env.local` und in den Vercel-Einstellungen, nie im Repo und nie mit `NEXT_PUBLIC_`. Die Namen stehen in `.env.example`: `OPENAI_API_KEY` und `OPENAI_MODEL`.
 - Ziel für echten Einsatz: lokales Modell. Rechtliche Fragen (Datenschutz, Mitbestimmung) sind im Hackathon nicht geprüft.
 
 ---
@@ -336,7 +336,7 @@ Laut `AGENTS.md` nur, wenn der vorhandene Stack es nicht kann – mit Begründun
 | Paket | Wofür |
 |---|---|
 | Supabase-Client (`@supabase/supabase-js`) | Speicherung (entschieden) |
-| SDK des gewählten Modellanbieters | KI-Aufrufe (Anbieter noch offen; alternativ direkt per `fetch`) |
+| — | KI-Aufrufe laufen per `fetch` an OpenAI (`lib/ki/model.ts`). Kein Anbieter-SDK, damit später ein lokales Modell dieselbe Schnittstelle nutzen kann. |
 | `zod` (Vorschlag) | Prüfung der KI-Ausgaben gegen die Datenformate |
 
 ---
