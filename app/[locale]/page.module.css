@@ -1,11 +1,11 @@
 .held {
-  padding: 3rem 0 1rem;
+  padding: 3rem 0 2rem;
 }
 
 .held h1 {
-  max-width: 42rem;
+  max-width: 44rem;
   margin: 0.5rem 0 1rem;
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
   font-weight: 600;
 }
 
@@ -16,49 +16,66 @@
   color: var(--text-leise);
 }
 
-.aktionen {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 2rem;
-}
-
-.ablauf {
+.momente {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
-  margin: 1.5rem 0 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.ablauf h3 {
-  margin: 0.75rem 0 0.25rem;
-  font-size: 1.125rem;
+.moment {
+  display: grid;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: calc(var(--radius-card) + 4px);
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.ablauf p {
-  margin: 0;
-  font-size: 0.9375rem;
+.moment:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.moment strong {
+  font-size: 1.375rem;
+  font-weight: 600;
 }
 
 .nummer {
   display: grid;
   place-items: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 50%;
-  background: var(--tuerkis-hell);
+  background: var(--brand-highlight);
+  font-weight: 700;
+}
+
+.dauer {
+  justify-self: start;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  background: var(--orange-hell);
+  font-size: 0.8125rem;
   font-weight: 600;
 }
 
-.grundsatz {
-  background: var(--brand-text);
-  color: white;
+.los {
+  align-self: end;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: var(--brand-link);
 }
 
-.grundsatz p {
-  margin: 0.5rem 0 0;
+.grundsatz {
   max-width: 44rem;
+  margin: 2.5rem 0 1rem;
   font-size: 1.125rem;
 }

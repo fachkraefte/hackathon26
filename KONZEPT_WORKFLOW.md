@@ -1,6 +1,6 @@
 # Konzept: Workflow v2 – kurz, adaptiv, mit Aha-Moment
 
-**Stand:** 05.11.2026 · Entwurf zur Abstimmung
+**Stand:** 05.11.2026 · umgesetzt; maßgeblich ist jetzt PROJEKT.md §5. Abweichung vom Entwurf: Formular und KI gemischt (Chips, Regler, Spiegelung), Euro-Umrechnung, Stimmungswert statt Profildiagramm.
 Bezieht sich auf [`PROJEKT.md`](PROJEKT.md) und [`ROwAI_Personas_Metallbau.md`](ROwAI_Personas_Metallbau.md). Weicht bewusst vom Ablauf in PROJEKT.md §5–7 ab; die Abweichungen stehen unten unter „Was wegfällt“ und „Zu entscheiden“.
 
 ---

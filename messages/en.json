@@ -1,8 +1,7 @@
 {
   "HomePage": {
-    "title": "Bestandsaufnahme für KMU",
-    "description": "Beschäftigte befragen, Antworten zusammenführen, einen ehrlichen ersten Schritt finden.",
-    "intro": "Die App läuft. Die Produktbeschreibung steht in PROJEKT.md im Repository."
+    "title": "ROwAI – Bestandsaufnahme für KMU",
+    "description": "Beschäftigte erzählen, die KI führt zusammen, das Team entscheidet den ersten Schritt."
   },
   "LocaleSwitcher": {
     "label": "Sprache",
@@ -10,357 +9,185 @@
     "de": "Deutsch"
   },
   "Kopf": {
-    "marke": "Bestandsaufnahme",
-    "demo": "Dummy · fiktive Daten"
+    "marke": "ROwAI",
+    "demo": "Demo · fiktive Daten"
   },
-  "Schritte": {
-    "label": "Ablauf",
-    "s0": "Anlegen",
-    "s1": "Abfrage",
-    "s2": "Persönliche Analyse",
-    "s3": "Gesamtbild",
-    "s4": "Fahrplan",
-    "s5": "Besprechung",
-    "s6": "Präsentation"
+  "Home": {
+    "ueberzeile": "ROKI · Robotik und KI für die Fachkräftesicherung",
+    "titel": "Wo macht ihr euch das Leben unnötig schwer?",
+    "einleitung": "Jede Person erzählt in wenigen Minuten, was Zeit und Nerven kostet. ROwAI führt die Stimmen zusammen, zeigt, was es den Betrieb kostet – und welcher erste Schritt sich lohnt.",
+    "m1": {
+      "dauer": "2 Minuten",
+      "titel": "Starten",
+      "text": "Die Leitung beschreibt in einem Satz, was besser werden soll, und teilt einen Link.",
+      "los": "Als Leitung starten"
+    },
+    "m2": {
+      "dauer": "3–5 Minuten",
+      "titel": "Erzählen",
+      "text": "Jede Person tippt an, was sie aufhält, und erzählt kurz davon – schreiben oder einsprechen.",
+      "los": "Als Marco mitmachen"
+    },
+    "m3": {
+      "dauer": "live",
+      "titel": "Verstehen",
+      "text": "Alle sehen dasselbe Bild: welche Probleme zusammenhängen, was sie kosten, womit man anfängt.",
+      "los": "Gemeinsames Bild ansehen"
+    },
+    "grundsatz": "Aufgabe vor Technik: Der erste Schritt ist oft eine bessere Absprache. Technik kommt dort ins Spiel, wo sie wirklich hilft – mit Begründung und offenen Fragen.",
+    "zuruecksetzen": "Demo zurücksetzen",
+    "zurueckgesetzt": "Demo ist zurückgesetzt"
+  },
+  "Eingabe": {
+    "sprechen": "Einsprechen",
+    "stopp": "Fertig",
+    "fehler": "Einsprechen hat nicht geklappt ({grund}). Du kannst auch schreiben."
   },
   "Start": {
-    "ueberzeile": "ROKI · Robotik und KI für die Fachkräftesicherung",
-    "titel": "Aus vielen Stimmen im Betrieb ein gemeinsames Bild – und ein realistischer erster Schritt.",
-    "einleitung": "Beschäftigte erzählen in zehn Minuten am Handy, wie ihr Arbeitsalltag läuft. Die Antworten werden zusammengeführt. Daraus entsteht ein Fahrplan: Wo hilft eine bessere Absprache, wo Software oder KI, wo Robotik – und wo gar keine Technik.",
-    "ctaLeitung": "Als Leitung anlegen",
-    "ctaBeschaeftigte": "Als Beschäftigte:r antworten",
-    "ctaErgebnis": "Ergebnis ansehen",
-    "ablaufTitel": "So läuft es ab",
-    "ablauf": {
-      "s0": "Die Leitung legt den Betrieb an: Branche, Größe, Leistungen, Bereiche und Unterlagen. Jeder Bereich bekommt einen Einladungslink.",
-      "s1": "Jede Person wählt ihre Rollen und Aufgaben und beantwortet passende Fragen. Danach prüft sie ihre Aufgabenkarte.",
-      "s2": "Die Person bekommt eine erste Einschätzung zu ihren eigenen Aufgaben – mit Ideen, wie es besser gehen könnte.",
-      "s3": "Alle Antworten zusammen zeigen, wo es im Betrieb hakt, wo Übergaben brechen und was gut läuft.",
-      "s4": "Maßnahmen kurz-, mittel- und langfristig, jeweils mit erstem Schritt, Reifegrad und Herkunft.",
-      "s5": "Das Team bespricht das Ergebnis und entscheidet gemeinsam: Ziele, erster Testlauf, Verantwortliche.",
-      "s6": "Das Ergebnis als Präsentation – für das Team und für das Gespräch mit ROKI."
-    },
-    "grundsatzTitel": "Aufgabe vor Technik",
-    "grundsatz": "Wir fragen nach Tätigkeiten, Belastungen und Übergaben – nicht nach Wunschtechnik. „Hier hilft eine klare Absprache“ ist ein gültiges Ergebnis."
+    "ueberzeile": "{betrieb} · Leitung",
+    "titel": "Was soll besser werden?",
+    "einleitung": "Ein Satz reicht. Daraus macht ROwAI eine kurze Befragung für dein Team.",
+    "frageLabel": "Wo macht ihr euch das Leben schwer?",
+    "fragePlatzhalter": "Zum Beispiel: Unsere Aufträge brauchen zu viel Abstimmung …",
+    "zielLabel": "Was wäre in drei Monaten ein Erfolg?",
+    "zielPlatzhalter": "Zum Beispiel: weniger Rückfragen und Nacharbeit",
+    "bereicheLabel": "Bereiche im Betrieb",
+    "bereichNeu": "+ Bereich",
+    "stundensatzLabel": "Interner Stundensatz",
+    "stundensatzHinweis": "Nur für die Umrechnung von Stunden in Euro",
+    "absenden": "Befragung erstellen",
+    "bereitet": "ROwAI bereitet vor …",
+    "fertigUeberzeile": "Fertig",
+    "fertigTitel": "Dein Team kann loslegen",
+    "themenVorschau": "Diese Themen schlägt ROwAI deinem Team zum Antippen vor",
+    "themenHinweis": "Passend zu deiner Frage. Jede Person kann auch etwas Eigenes nennen.",
+    "einladung": "Einladung",
+    "einladungText": "{leitung} möchte wissen, wo wir uns im Alltag das Leben schwer machen. Dauert 3–5 Minuten, anonym: {link}",
+    "whatsapp": "Per WhatsApp teilen",
+    "kopieren": "Text kopieren",
+    "kopiert": "Kopiert ✓",
+    "kopierFehler": "Kopieren hat nicht geklappt: {grund}",
+    "selbstAntworten": "Selbst antworten",
+    "zumErgebnis": "Zum gemeinsamen Bild"
+  },
+  "Mitmachen": {
+    "startTitel": "{leitung} möchte wissen, was dich aufhält",
+    "startText": "3–5 Minuten. Du erzählst, ROwAI hört zu – und am Ende siehst du, wer dasselbe erlebt.",
+    "bereichFrage": "Wo arbeitest du?",
+    "zustimmung": "Mein Bereich darf genannt werden, auch wenn wir nur wenige sind.",
+    "schutz": "Anonym. Keine Namen. Die Leitung sieht keine Einzelantworten, nur das gemeinsame Bild.",
+    "schutzLeitung": "Als Leitung antwortest du nicht anonym – so wissen alle, woher deine Sicht kommt.",
+    "los": "Los geht's",
+    "themenTitel": "Was kostet dich Zeit oder Nerven?",
+    "themenText": "Tipp bis zu {max} an.",
+    "eigenesPlatzhalter": "Etwas anderes …",
+    "themaVon": "Thema {nr} von {gesamt}",
+    "erzaehlFrage": "Erzähl kurz vom letzten Mal, als das passiert ist.",
+    "erzaehlPlatzhalter": "Ein, zwei Sätze reichen …",
+    "hoertZu": "ROwAI hört zu …",
+    "spiegelungErsatz": "Danke, das habe ich notiert.",
+    "ueberspringen": "Überspringen",
+    "reglerTitel": "Passt das so?",
+    "wieOft": "Wie oft passiert das?",
+    "wieLange": "Wie viel Zeit kostet es dich pro Mal?",
+    "herausgehoert": "✨ aus deiner Erzählung",
+    "minuten": "{m} Min",
+    "stunden": "{h} Std",
+    "liveZeit": "≈ {h} Std. im Monat für dich",
+    "nochmalErzaehlen": "Ergänzen",
+    "abschlussTitel": "Fast geschafft",
+    "bremstFrage": "Wie sehr bremst dich das alles im Alltag?",
+    "gutFrage": "Was läuft gut und soll bleiben? (optional)",
+    "gutPlatzhalter": "Zum Beispiel: Wir helfen uns gegenseitig",
+    "karteUeberzeile": "Der Mensch entscheidet",
+    "karteTitel": "So habe ich dich verstanden",
+    "proMal": "{dauer} pro Mal",
+    "proMonat": "≈ {h} Std./Monat",
+    "stimmtNicht": "Stimmt nicht ganz",
+    "uebernehmen": "Übernehmen",
+    "stimmtSo": "Stimmt so",
+    "legtZusammen": "ROwAI legt deinen Beitrag zu den anderen …",
+    "fertigUeberzeile": "Danke!",
+    "fertigTitel": "Dein Beitrag ist im gemeinsamen Bild",
+    "nichtAllein": "Du bist nicht allein",
+    "andere": "{anzahl, plural, one {# weitere Person beschreibt} other {# weitere Personen beschreiben}} dasselbe",
+    "ausBereichen": "– aus {bereiche}.",
+    "kostetBetrieb": "Dieses Thema kostet den Betrieb ≈ {euro} im Jahr.",
+    "meineZeit": "Dich selbst kostet es nach deinen Angaben ≈ {h} Stunden im Monat.",
+    "wasPassiert": "Was jetzt passiert",
+    "besprechung": "Am {datum} bespricht das Team das gemeinsame Bild und entscheidet den ersten Schritt. Alle sehen dasselbe.",
+    "besprechungOhneDatum": "Das Team bespricht das gemeinsame Bild und entscheidet den ersten Schritt. Alle sehen dasselbe.",
+    "zumBild": "Gemeinsames Bild ansehen",
+    "demoHinweis": "Demo-Modus: Die KI war nicht erreichbar, es wird ein gespeichertes Ergebnis genutzt.",
+    "zurueck": "Zurück",
+    "weiter": "Weiter"
+  },
+  "Ergebnis": {
+    "laden": "ROwAI führt die Stimmen zusammen …",
+    "titel": "Das gemeinsame Bild",
+    "proJahr": "pro Jahr, was diese Themen kosten",
+    "proWoche": "pro Woche",
+    "stimmen": "Stimmen",
+    "verteilungAria": "Verteilung der Kosten auf die Themen",
+    "stundensatz": "Gerechnet mit",
+    "rechenweg": "Nur Zeit nach Angaben der Beschäftigten × Stundensatz × {wochen} Arbeitswochen. Jede Person zählt nur ihre eigene Zeit. Keine Einsparungsrechnung.",
+    "praesentieren": "Präsentieren",
+    "mitmachen": "Selbst mitmachen",
+    "beenden": "Beenden",
+    "demoHinweis": "Demo-Modus: Die KI war nicht erreichbar, es wird ein gespeichertes Ergebnis genutzt.",
+    "faden": "Thema {nr}",
+    "gemeinsameAufgabe": "Gemeinsame Aufgabe",
+    "kostenZeile": "pro Jahr · {h} Std./Woche · {personen, plural, one {# Person} other {# Personen}}",
+    "unterschied": "Unterschiedlich gesehen:",
+    "ansaetze": "Was helfen könnte",
+    "zuerst": "Zuerst",
+    "warum": "Warum:",
+    "wasFehlt": "Noch zu klären:",
+    "ersterSchritt": "Vorschlag für den ersten Schritt",
+    "beschlossen": "Beschlossen",
+    "werPlatzhalter": "Wer kümmert sich? (Rolle)",
+    "machenWir": "Machen wir",
+    "werBis": "{wer} · bis {bis}",
+    "aendern": "ändern",
+    "stimmungTitel": "Wie sehr bremst das im Alltag?",
+    "stimmungSkala": "Durchschnitt je Bereich, 1 = kaum · 5 = sehr stark. Kleine Bereiche nur zusammengefasst.",
+    "staerkenTitel": "Was gut läuft",
+    "offenTitel": "Noch offen",
+    "zielTitel": "Ziel der Leitung"
   },
   "Begriffe": {
-    "branche": {
-      "produktionHandwerk": "Produktion und Handwerk",
-      "gastronomie": "Gastronomie",
-      "gesundheitPflege": "Gesundheit und Pflege",
-      "logistik": "Logistik",
-      "facilityManagement": "Facility Management"
-    },
-    "dimension": {
-      "informationUebergaben": "Information und Übergaben",
-      "dokumentationVerwaltung": "Dokumentation und Verwaltung",
-      "planungKoordination": "Planung und Koordination",
-      "koerperlicheBelastung": "Körperliche Belastung",
-      "wissenEinarbeitung": "Wissen und Einarbeitung",
-      "digitaleWerkzeuge": "Digitale Werkzeuge"
-    },
-    "dimensionKurz": {
-      "informationUebergaben": "Information",
-      "dokumentationVerwaltung": "Dokumentation",
-      "planungKoordination": "Planung",
-      "koerperlicheBelastung": "Körper",
-      "wissenEinarbeitung": "Wissen",
-      "digitaleWerkzeuge": "Digitales"
-    },
-    "dimensionFrage": {
-      "informationUebergaben": "Kommen Informationen vollständig und rechtzeitig an?",
-      "dokumentationVerwaltung": "Wie viel Zeit kostet Papierkram, und ist er nötig?",
-      "planungKoordination": "Klappen Einsatz-, Dienst- und Tourenplanung?",
-      "koerperlicheBelastung": "Wie gut ist die körperliche Belastung zu bewältigen?",
-      "wissenEinarbeitung": "Ist Wissen verteilt, oder hängt es an Einzelnen?",
-      "digitaleWerkzeuge": "Helfen die vorhandenen Werkzeuge, oder stören sie?"
-    },
     "loesungsart": {
-      "prozess": "Prozess / Absprache",
-      "software": "Software / Automatisierung",
+      "prozess": "Absprache / Ablauf",
+      "software": "Software",
       "kiAssistenz": "KI-Assistenz",
       "robotikHardware": "Robotik / Hardware",
       "keineTechnik": "Keine Technik nötig"
     },
     "reifegrad": {
       "imEinsatz": "heute praktisch eingesetzt",
-      "pilot": "in Pilotprojekten oder Erprobung",
-      "forschung": "noch in Forschung und Entwicklung"
+      "pilot": "in Pilotprojekten",
+      "forschung": "noch in Forschung"
     },
     "herkunft": {
       "rokiGeprueft": "von ROKI geprüft",
       "nichtGeprueft": "nicht von ROKI geprüft"
     },
     "herkunftHinweisUngeprueft": "Allgemeine Einschätzung – vor einer Entscheidung prüfen.",
-    "quelle": "Quelle: {datei}, Abschnitt {abschnitt}",
-    "zeitraum": {
-      "kurz": "Kurzfristig",
-      "mittel": "Mittelfristig",
-      "lang": "Langfristig"
-    },
-    "zeitraumDauer": {
-      "kurz": "bis 3 Monate",
-      "mittel": "3 bis 12 Monate",
-      "lang": "über 12 Monate"
-    },
+    "quelle": "Quelle: {quelle}",
     "haeufigkeit": {
-      "mehrmalsTaeglich": "mehrmals täglich",
-      "taeglich": "täglich",
+      "monatlich": "etwa monatlich",
+      "mehrmalsImMonat": "mehrmals im Monat",
       "woechentlich": "wöchentlich",
-      "monatlich": "monatlich",
-      "selten": "selten"
+      "mehrmalsProWoche": "mehrmals pro Woche",
+      "taeglich": "täglich",
+      "mehrmalsTaeglich": "mehrmals täglich"
     },
-    "belastung": {
-      "zeit": "kostet Zeit",
-      "koerperlich": "körperlich anstrengend",
-      "nerven": "kostet Nerven",
-      "fehleranfaellig": "fehleranfällig",
-      "wartezeit": "Wartezeit"
-    },
-    "werHilft": {
-      "intern": "im Betrieb",
-      "rokiWissen": "ROKI-Wissen",
-      "rokiBeratung": "ROKI-Beratung",
-      "rokiNetzwerk": "ROKI-Netzwerk"
-    },
-    "skala": {
-      "schlecht": "1 = klappt schlecht",
-      "gut": "5 = klappt gut"
-    },
-    "profilAria": "Profildiagramm mit sechs Dimensionen, Skala 1 bis 5"
-  },
-  "Profil": {
-    "ist": "Ist (Durchschnitt)",
-    "ziel": "Ziel (vom Team)",
-    "skala": "1 = klappt schlecht · 5 = klappt gut",
-    "gesamt": "Gesamt",
-    "bereichWaehlen": "Bereich wählen",
-    "darstellung": "Darstellung",
-    "netz": "Netz",
-    "balken": "Balken",
-    "anzahl": "{anzahl} Antworten",
-    "zuKlein": "{bereiche}: zu wenige Antworten für einen eigenen Wert, nur im Gesamtwert enthalten"
-  },
-  "Anlegen": {
-    "ueberzeile": "Schritt 0 · Leitung",
-    "titel": "Bestandsaufnahme anlegen",
-    "einleitung": "Ein paar Angaben zum Betrieb und zu den Bereichen. Unterlagen wie Organigramm oder Ablaufbeschreibungen helfen später bei der Einordnung.",
-    "betriebTitel": "Der Betrieb",
-    "name": "Name des Betriebs",
-    "branche": "Branche",
-    "mitarbeitende": "Mitarbeitende",
-    "ort": "Ort",
-    "leistungen": "Produkte und Dienstleistungen",
-    "dokumente": "Unterlagen zum Betrieb (optional)",
-    "dokumenteHinweis": "Zum Beispiel Organigramm, Ablaufbeschreibungen, Leistungsübersicht. Im Dummy wird nichts hochgeladen.",
-    "bereicheTitel": "Bereiche",
-    "bereicheHinweis": "Jeder Bereich bekommt einen eigenen Einladungslink. Ergebnisse eines Bereichs erscheinen erst ab {mindestanzahl} Antworten.",
-    "bereichName": "Name des Bereichs",
-    "bereichPersonen": "Anzahl Personen",
-    "kleineGruppe": "kleine Gruppe",
-    "bereichEntfernen": "Bereich entfernen",
-    "bereichHinzu": "+ Bereich hinzufügen",
-    "anredeTitel": "Anrede in der Abfrage",
-    "anrede": {
-      "sie": "Sie",
-      "du": "Du"
-    },
-    "absenden": "Bestandsaufnahme anlegen",
-    "fertigTitel": "{name} ist angelegt",
-    "fertigText": "Diese Links gehen an die Bereiche. Antworten ohne Konto, anonym – außer bei der Leitung.",
-    "erwartet": "{anzahl} Personen",
-    "dummyHinweis": "Dummy: Es wird nichts gespeichert. Die Links führen zu den Abfragen von Metallbau Heidekamp.",
-    "zurueck": "Angaben ändern"
-  },
-  "Abfrage": {
-    "ueberzeile": "{betrieb} · {bereich}",
-    "startTitel": "Wie läuft Ihr Arbeitsalltag?",
-    "startText": "Sie erzählen, was Sie täglich tun, was gut läuft und was Zeit oder Kraft kostet. Das dauert etwa zehn Minuten.",
-    "versprechen1": "Ihre Antworten sind anonym. Die Leitung sieht keine Einzelantworten.",
-    "versprechen2": "Namen und Schuldzuweisungen werden entfernt.",
-    "versprechen3": "Sie prüfen am Ende Ihre Aufgabenkarte und können alles korrigieren.",
-    "kleineGruppeTitel": "Ihr Bereich ist klein",
-    "kleineGruppeText": "Damit niemand erkennbar wird: Sollen Ihre Antworten mit einem anderen Bereich zusammengelegt werden, oder dürfen sie mit Ihrer Rolle gezeigt werden?",
-    "sichtbarkeit": {
-      "zusammenlegen": "Mit anderem Bereich zusammenlegen",
-      "mitRolleZeigen": "Mit meiner Rolle zeigen"
-    },
-    "los": "Los geht's",
-    "demoEinsetzen": "Demo: Antworten des Monteurs einsetzen",
-    "rollenTitel": "Welche Rollen haben Sie?",
-    "rollenText": "Mehrere sind möglich – in vielen Betrieben macht man mehr als eine Sache.",
-    "aufgabenTitel": "Welche Aufgaben gehören zu Ihrem Alltag?",
-    "aufgabenText": "Passend zu Ihren Rollen ist schon etwas ausgewählt. Wählen Sie ab, was nicht passt, und ergänzen Sie, was fehlt.",
-    "aufgabenAnzahl": "{anzahl, plural, one {# Aufgabe} other {# Aufgaben}} gewählt",
-    "aufgabeVon": "Aufgabe {nr} von {gesamt}",
-    "antwortPlatzhalter": "Erzählen Sie in Ihren Worten …",
-    "nachfrage": "Wie oft kommt das vor – und wie viel Zeit kostet es ungefähr pro Woche?",
-    "nachfrageHinweis": "Später formuliert die KI diese Nachfrage passend zu Ihrer Antwort.",
-    "wieOft": "Wie oft?",
-    "stunden": "Stunden pro Woche, ungefähr (optional)",
-    "stundenPlatzhalter": "z. B. 2",
-    "stundenKurz": "Std./Woche",
-    "belastung": "Was ist daran belastend?",
-    "allgemeinTitel": "Zusammenarbeit und Alltag",
-    "allgemeinText": "Diese Fragen gehen an alle. Lassen Sie leer, wozu Ihnen nichts einfällt.",
-    "ausBereich": "Aus welchem Bereich? (optional)",
-    "unbekannterBereich": "anderer Bereich",
-    "einschaetzungTitel": "Ihre Einschätzung",
-    "einschaetzungText": "Wie gut klappt das heute in Ihrem Alltag?",
-    "karteErstellen": "Aufgabenkarte erstellen",
-    "karteUeberzeile": "Der Mensch entscheidet",
-    "karteTitel": "Ihre Aufgabenkarte",
-    "karteText": "So haben wir Sie verstanden. Stimmt das? Korrigieren Sie, was nicht passt.",
-    "beschreibung": "Beschreibung",
-    "kommunikationTitel": "Kommunikation",
-    "gutTitel": "Was gut läuft",
-    "neutralHinweis": "Später formuliert die KI die Karte neutral um und entfernt Namen. Im Dummy steht hier Ihr Text.",
-    "korrigiert": "Sie haben die Karte korrigiert. Das zählt – Ihre Fassung gilt.",
-    "bestaetigen": "Stimmt so – bestätigen",
-    "zurueck": "Zurück",
-    "weiter": "Weiter"
-  },
-  "Analyse": {
-    "ueberzeile": "Schritt 2 · Ihre persönliche Analyse",
-    "titel": "Ihr Alltag – und wie er leichter werden könnte",
-    "einleitung": "Eine erste Einschätzung nur aus Ihren Angaben. Was der Betrieb davon angeht, entscheidet später das ganze Team.",
-    "wunsch": "Ihr Wunsch",
-    "profilTitel": "Ihre Einschätzung",
-    "staerke": "Läuft bei Ihnen gut: {liste}",
-    "schwaeche": "Hier hakt es am meisten: {liste}",
-    "zeitTitel": "Zeit, die Probleme kosten",
-    "stunden": "{stunden} Std. pro Woche",
-    "zeitHinweis": "Nach Ihren eigenen Angaben. Wir rechnen keine Einsparungen aus.",
-    "keineStunden": "Sie haben keine Stunden angegeben – das ist in Ordnung.",
-    "ideenTitel": "Ideen für Ihre Aufgaben",
-    "ideenText": "Für jede Aufgabe: wie es heute ist und was helfen könnte. Jede Idee zeigt, ob ROKI sie geprüft hat.",
-    "heute": "Heute",
-    "keineBeschreibung": "Keine Beschreibung",
-    "morgen": "Was helfen könnte",
-    "nichtsAendern": "Hier läuft es. Nichts ändern ist auch ein Ergebnis.",
-    "bleibtTitel": "Das soll bleiben",
-    "teamTitel": "Wie geht es weiter?",
-    "teamText": "Ihre bestätigte Karte fließt anonym ins Gesamtbild ein. Erst dort zeigt sich, wo mehrere Bereiche über dasselbe Problem sprechen.",
-    "zumGesamtbild": "Zum Gesamtbild"
-  },
-  "Ergebnis": {
-    "ueberzeile": "Schritt 3 · {betrieb}",
-    "titel": "Das Gesamtbild",
-    "einleitung": "{antworten} von {erwartet} Personen haben geantwortet. Hier sehen alle dasselbe – Beschäftigte und Leitung.",
-    "kennzahlAntworten": "Antworten",
-    "kennzahlThemen": "Themen",
-    "kennzahlSchnittstellen": "Probleme an Übergaben",
-    "kennzahlStunden": "pro Woche, nach Angaben der Beschäftigten",
-    "stundenKurz": "{stunden} Std./Woche",
-    "stundenZahl": "{stunden} Std.",
-    "karteTitel": "Wo es im Betrieb hakt",
-    "karteText": "Jeder Kreis ist ein Bereich, der Ring zeigt, wie viele geantwortet haben. Die Linien verbinden Bereiche, die über dasselbe Thema sprechen.",
-    "karteAria": "Betriebskarte: Bereiche und die Themen, die sie verbinden",
-    "legendeSchnittstelle": "Problem an einer Übergabe",
-    "legendeGemeinsam": "gemeinsames Thema",
-    "legendeBreite": "Linienstärke = Stunden pro Woche",
-    "ketteTitel": "Die Kette der Übergaben",
-    "ketteText": "Erst die Zusammenführung zeigt: Mehrere Bereiche beschreiben verschiedene Enden derselben Kette.",
-    "ketteAria": "Kette der Übergaben zwischen den Bereichen",
-    "kostenTitel": "Was die Themen kosten",
-    "kostenText": "Stunden pro Woche, zusammengezählt aus den Angaben der Beschäftigten.",
-    "kostenHinweis": "Wir rechnen keine Einsparungen aus. Wer möchte, rechnet mit einem eigenen Stundensatz in Euro um.",
-    "profilTitel": "Profil heute",
-    "profilText": "Durchschnitt der Selbsteinschätzungen. Die Werte rechnet die App, nicht die KI.",
-    "staerkenTitel": "Was gut läuft",
-    "themenTitel": "Die Themen im Einzelnen",
-    "themenText": "Mit gekürzten Aussagen ohne Namen – nur aus Gruppen mit mindestens {mindestanzahl} Antworten oder mit Zustimmung.",
-    "schnittstelle": "an einer Übergabe",
-    "nennungen": "{anzahl, plural, one {# Nennung} other {# Nennungen}}",
-    "zumFahrplan": "Zum Fahrplan"
-  },
-  "Fahrplan": {
-    "ueberzeile": "Schritt 4 · {betrieb}",
-    "titel": "Der Fahrplan",
-    "einleitung": "Maßnahmen aus dem Gesamtbild, sortiert nach Zeitraum. Jede hat einen konkreten ersten Schritt und zeigt, ob ROKI sie geprüft hat.",
-    "zuThema": "Thema {nr}: {titel}",
-    "ersterSchritt": "Erster Schritt",
-    "wasPruefen": "Was prüfen?",
-    "werHilft": "Wer hilft?",
-    "pointe": "Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe – und das hat der Betrieb von seinen eigenen Leuten erfahren. Technik kommt dort ins Spiel, wo die Belastung körperlich ist oder sich Handgriffe ständig wiederholen.",
-    "zurueck": "Zum Gesamtbild",
-    "zurBesprechung": "Zur Besprechung"
-  },
-  "Besprechung": {
-    "ueberzeile": "Schritt 5 · {betrieb}",
-    "titel": "Besprechungsvorlage",
-    "einleitung": "Für den gemeinsamen Termin. Die Vorlage entsteht aus den Daten; Ziele und Beschlüsse trägt das Team im Termin ein.",
-    "agenda": "Tagesordnung",
-    "drucken": "Drucken / als PDF",
-    "g1": {
-      "titel": "Wer hat mitgemacht?",
-      "aria": "{anzahl} von {erwartet} haben geantwortet",
-      "hinweis": "Anzahl je Bereich, keine Namen."
-    },
-    "g2": {
-      "titel": "Was gut läuft"
-    },
-    "g3": {
-      "titel": "Profil heute",
-      "text": "Sobald Sie unten Zielwerte eintragen, erscheinen sie hier im Diagramm."
-    },
-    "g4": {
-      "titel": "Die drei wichtigsten Themen",
-      "nennungen": "{anzahl, plural, one {# Nennung} other {# Nennungen}}"
-    },
-    "g5": {
-      "titel": "Was diese Themen kosten",
-      "summe": "{stunden} Stunden pro Woche",
-      "aria": "Stunden pro Woche je Thema",
-      "hinweis": "Nach Angaben der Beschäftigten. Keine berechneten Einsparungen."
-    },
-    "g6": {
-      "titel": "Mögliche Lösungen",
-      "hinweis": "Mit Lösungsart, Reifegrad und Herkunft. Den Aufwand schätzen wir noch nicht ein."
-    },
-    "g7": {
-      "titel": "Fahrplan",
-      "details": "Fahrplan mit ersten Schritten ansehen"
-    },
-    "g8": {
-      "titel": "Gemeinsam entscheiden",
-      "text": "Hier trägt das Team ein, wohin es will und womit es anfängt."
-    },
-    "g9": {
-      "titel": "Nächster Schritt mit ROKI",
-      "text": "Mit dieser Vorlage geht der Betrieb vorbereitet ins Erstgespräch mit ROKI. Die Beratung beginnt bei konkreten Aufgaben statt bei Technik. Geteilt wird nur, wenn der Betrieb das möchte.",
-      "praesentation": "Als Präsentation zeigen"
-    },
-    "zielwerteTitel": "Zielwerte",
-    "zielwerteText": "Wohin wollen wir je Dimension? Grau = unter dem heutigen Wert.",
-    "istWert": "heute {ist}",
-    "testlauf": "Erster Testlauf",
-    "testlaufWaehlen": "Maßnahme wählen …",
-    "verantwortlich": "Verantwortlich (Rolle)",
-    "verantwortlichPlatzhalter": "z. B. Werkstatt-Meister",
-    "nachschauen": "Termin zum Nachschauen",
-    "dummySpeicher": "Dummy: Der Beschluss wird nur in diesem Browser gespeichert.",
-    "speicherFehler": "Der gespeicherte Beschluss ist unlesbar:",
-    "zuruecksetzen": "Zurücksetzen",
-    "nochOffen": "Noch nichts beschlossen – das passiert in der Besprechung."
-  },
-  "Praesentation": {
-    "folien": "Folien",
-    "folieNr": "Folie {nr}",
-    "tasten": "Folie {nr} von {gesamt} · Pfeiltasten zum Blättern",
-    "titelUeberzeile": "Bestandsaufnahme · Ergebnis",
-    "titelUntertitel": "Was unsere Beschäftigten über ihren Arbeitsalltag sagen – und was wir daraus machen.",
-    "teilnahme": "{antworten} von {erwartet} haben mitgemacht",
-    "gutTitel": "Was gut läuft",
-    "karteTitel": "Wo es hakt",
-    "ketteTitel": "Eine Kette, viele Enden",
-    "kostenTitel": "Was das kostet",
-    "kostenHinweis": "Stunden pro Woche nach Angaben der Beschäftigten. Keine berechneten Einsparungen.",
-    "profilTitel": "Profil heute – und wohin wir wollen",
-    "fahrplanTitel": "Der Fahrplan",
-    "beschlussTitel": "Was wir beschlossen haben",
-    "pointe": "Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe.",
-    "rokiTitel": "Nächster Schritt: Gespräch mit ROKI",
-    "rokiText": "Wir gehen mit konkreten Aufgaben ins Erstgespräch – und klären dort, wer bei der Einführung hilft."
+    "bremst": {
+      "1": "kaum",
+      "2": "etwas",
+      "3": "spürbar",
+      "4": "stark",
+      "5": "sehr stark"
+    }
   }
 }

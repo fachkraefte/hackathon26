@@ -1,0 +1,78 @@
+.regler {
+  display: grid;
+  gap: 0.375rem;
+  padding: 1rem 1.125rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.kopf {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.wert {
+  white-space: nowrap;
+  font-size: 1.125rem;
+  color: var(--brand-highlight-dark);
+  text-align: right;
+}
+
+.regler input[type="range"] {
+  width: 100%;
+  height: 2rem;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.regler input[type="range"]::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand-highlight) var(--anteil), var(--brand-section-tint) var(--anteil));
+}
+
+.regler input[type="range"]::-moz-range-track {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand-highlight) var(--anteil), var(--brand-section-tint) var(--anteil));
+}
+
+.regler input[type="range"]::-webkit-slider-thumb {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-top: -0.625rem;
+  border: 3px solid white;
+  border-radius: 50%;
+  background: var(--brand-highlight-dark);
+  box-shadow: 0 2px 8px rgba(21, 38, 62, 0.25);
+  appearance: none;
+}
+
+.regler input[type="range"]::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid white;
+  border-radius: 50%;
+  background: var(--brand-highlight-dark);
+}
+
+.enden {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-leise);
+}
+
+.hinweis {
+  justify-self: start;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  background: var(--tuerkis-hell);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}

@@ -1,46 +1,42 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { DEMO_ID } from "@/lib/daten";
-import { Schrittleiste } from "./_komponenten/schrittleiste";
+import { DemoZuruecksetzen } from "./demo-zuruecksetzen";
 import styles from "./page.module.css";
 
-const schritte = ["s0", "s1", "s2", "s3", "s4", "s5", "s6"] as const;
+const momente = [
+  { schluessel: "m1", href: "/start" },
+  { schluessel: "m2", href: `/mitmachen/${DEMO_ID}` },
+  { schluessel: "m3", href: `/ergebnis/${DEMO_ID}` },
+] as const;
 
 export default async function HomePage() {
-  const t = await getTranslations("Start");
-  const ts = await getTranslations("Schritte");
+  const t = await getTranslations("Home");
 
   return (
     <main className="seite">
-      <Schrittleiste aktiv={-1} />
       <section className={styles.held}>
         <p className="ueberzeile">{t("ueberzeile")}</p>
         <h1>{t("titel")}</h1>
         <p className={styles.einleitung}>{t("einleitung")}</p>
-        <div className={styles.aktionen}>
-          <Link className="button" href="/anlegen">{t("ctaLeitung")}</Link>
-          <Link className="button button--tuerkis" href="/abfrage/heidekamp-montage">{t("ctaBeschaeftigte")}</Link>
-          <Link className="button button--ghost" href={`/ergebnis/${DEMO_ID}`}>{t("ctaErgebnis")}</Link>
-        </div>
       </section>
 
-      <section className="abschnitt">
-        <h2>{t("ablaufTitel")}</h2>
-        <ol className={styles.ablauf}>
-          {schritte.map((s, i) => (
-            <li key={s} className="karte">
-              <span className={styles.nummer}>{i}</span>
-              <h3>{ts(s)}</h3>
-              <p className="leise">{t(`ablauf.${s}`)}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <ol className={styles.momente}>
+        {momente.map((m, i) => (
+          <li key={m.schluessel}>
+            <Link href={m.href} className={styles.moment}>
+              <span className={styles.nummer}>{i + 1}</span>
+              <span className={styles.dauer}>{t(`${m.schluessel}.dauer`)}</span>
+              <strong>{t(`${m.schluessel}.titel`)}</strong>
+              <span className="leise">{t(`${m.schluessel}.text`)}</span>
+              <span className={styles.los}>{t(`${m.schluessel}.los`)} →</span>
+            </Link>
+          </li>
+        ))}
+      </ol>
 
-      <section className={`abschnitt karte ${styles.grundsatz}`}>
-        <h2>{t("grundsatzTitel")}</h2>
-        <p>{t("grundsatz")}</p>
-      </section>
+      <p className={styles.grundsatz}>{t("grundsatz")}</p>
+      <DemoZuruecksetzen />
     </main>
   );
 }

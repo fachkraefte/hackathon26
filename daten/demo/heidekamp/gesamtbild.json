@@ -1,0 +1,64 @@
+{
+  "faeden": [
+    {
+      "id": "f1",
+      "aufgabe": "Alle erkennen den freigegebenen Zeichnungsstand eines Auftrags eindeutig.",
+      "problem": "Änderungen kommen über verschiedene Wege in die Werkstatt. Vor dem Start wird geklärt, welche Zeichnung gilt; manchmal wird nach einem alten Stand gefertigt und auf der Baustelle nachgearbeitet.",
+      "punktIds": ["sandra-1", "buero-1", "werkstatt-1-1", "werkstatt-3-1", "montage-1-1"],
+      "sichtweisen": [
+        { "bereich": "Leitung", "aussage": "Aufträge brauchen mehr Abstimmung als geplant." },
+        { "bereich": "Büro", "aussage": "Ich gebe Änderungen telefonisch oder über Einzelne weiter und weiß nicht, ob sie ankommen." },
+        { "bereich": "Werkstatt", "aussage": "Bevor wir anfangen, telefonieren wir herum, welche Zeichnung die aktuelle ist." },
+        { "bereich": "Montage", "aussage": "Ein Teil passt nicht, weil es nach einem älteren Stand gefertigt wurde." }
+      ],
+      "unterschied": "Das Büro sieht viele Weitergabewege, die Werkstatt sieht unklare Stände – beide beschreiben dieselbe Übergabe aus zwei Richtungen.",
+      "ansaetze": [
+        { "art": "prozess", "text": "Eindeutige Freigabe: Jede Änderung bekommt einen Stand mit Datum, nur der freigegebene Stand liegt in der Werkstatt.", "warum": "Die Zeichnungen fehlen nicht – unklar ist, welche gilt.", "wasFehlt": "Wer gibt frei, und wie schnell muss das gehen?", "herkunft": "nichtGeprueft", "wissenId": null },
+        { "art": "software", "text": "Eine zentrale Ablage je Auftrag, die Werkstatt und Montage am Handy sehen.", "warum": "Ersetzt die vielen Weitergabewege durch einen Ort.", "wasFehlt": "Wie liegen Zeichnungen heute vor, und welche Geräte gibt es in Werkstatt und Montage?", "herkunft": "nichtGeprueft", "wissenId": null },
+        { "art": "kiAssistenz", "text": "Prüfen, ob KI Änderungen zwischen zwei Zeichnungsständen erkennen und kurz zusammenfassen kann.", "warum": "Würde zeigen, was sich geändert hat, ohne alles neu zu lesen.", "wasFehlt": "Dateiformate der Zeichnungen und ein Test an alten Aufträgen.", "herkunft": "nichtGeprueft", "wissenId": null }
+      ],
+      "ersterSchritt": "Bei drei laufenden Aufträgen vier Wochen lang festhalten, wie Zeichnungsänderungen die Werkstatt erreichen – Büro und Werkstattleitung gemeinsam."
+    },
+    {
+      "id": "f2",
+      "aufgabe": "Das Material für einen Auftrag ist vollständig da, bevor die Arbeit beginnt.",
+      "problem": "Materialbedarf wird oft erst gemeldet, wenn etwas fehlt. In der Werkstatt wird umgeplant, auf der Baustelle fährt jemand zurück.",
+      "punktIds": ["buero-2", "werkstatt-2-1", "montage-2-1"],
+      "sichtweisen": [
+        { "bereich": "Büro", "aussage": "Materialbedarf kommt erst, wenn etwas fehlt – dann bestelle ich eilig." },
+        { "bereich": "Werkstatt", "aussage": "Beim Start fehlen oft Kleinteile oder Profile." },
+        { "bereich": "Montage", "aussage": "Fehlen Schrauben oder Anker, fährt einer zurück." }
+      ],
+      "unterschied": null,
+      "ansaetze": [
+        { "art": "prozess", "text": "Materialliste je Auftrag, beim Freigeben der Zeichnung erstellt und vor der Abfahrt abgehakt.", "warum": "Bedarf wird früh sichtbar statt erst beim Fehlen.", "wasFehlt": "Wer erstellt die Liste, und wann?", "herkunft": "nichtGeprueft", "wissenId": null },
+        { "art": "software", "text": "Mindestbestand für Kleinteile mit Nachbestell-Hinweis.", "warum": "Kleinteile fehlen am häufigsten.", "wasFehlt": "Welche Teile fehlen wirklich oft?", "herkunft": "nichtGeprueft", "wissenId": null }
+      ],
+      "ersterSchritt": "Zwei Wochen lang notieren, welches Material bei welchem Auftrag gefehlt hat – Werkstatt und Montage, Auswertung mit dem Büro."
+    },
+    {
+      "id": "f3",
+      "aufgabe": "Kundinnen und Kunden wissen verlässlich, wann die Montage kommt.",
+      "problem": "Die Montage steht manchmal vor Ort, ohne dass der Kunde Bescheid weiß.",
+      "punktIds": ["montage-3-1"],
+      "sichtweisen": [
+        { "bereich": "Montage", "aussage": "Manchmal weiß der Kunde nicht, dass wir kommen." }
+      ],
+      "unterschied": null,
+      "ansaetze": [
+        { "art": "prozess", "text": "Am Vortag kurze Bestätigung an den Kunden.", "warum": "Einfach und sofort machbar.", "wasFehlt": "Wer schickt sie, und auf welchem Weg?", "herkunft": "nichtGeprueft", "wissenId": null }
+      ],
+      "ersterSchritt": "Einen Monat lang am Vortag jeden Montagetermin bestätigen und zählen, wie oft noch gewartet wird."
+    }
+  ],
+  "staerken": [
+    "In der Werkstatt hilft jeder jedem.",
+    "Die Montagetrupps sind eingespielt.",
+    "Es gibt genug Arbeit und ein erfahrenes Team."
+  ],
+  "offeneFragen": [
+    "Wie liegen Zeichnungen heute vor – Papier, PDF, CAD?",
+    "Wer darf eine Zeichnung freigeben?",
+    "Wie sieht die Montage die Sache mit dem Zeichnungsstand?"
+  ]
+}
