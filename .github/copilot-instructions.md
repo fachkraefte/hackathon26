@@ -15,7 +15,7 @@ The product description is not written yet. Another teammate will provide it. Do
 - Next.js App Router and TypeScript with `strict` on. Do not add the Pages Router.
 - React Server Components by default. Add `"use client"` only for state, event handlers, or a browser-only API.
 - npm only. Commit `package-lock.json`. Do not use pnpm, Yarn, or Bun, and do not commit another lockfile.
-- Deploy on Vercel. Do not add a second host, a custom server, or Docker.
+- Deploy on Vercel. Do not add a second host, a custom server, or Docker. `vercel.json` sets the framework to Next.js. Do not set `outputDirectory`; Vercel serves the Next.js build, not a `public` folder.
 - This Next.js version differs from older training data. Read the matching guide in `node_modules/next/dist/docs/` before using a Next.js API. Locale routing goes through `proxy.ts`, not `middleware.ts`.
 - Do not import `next-intl/plugin`. It loads a native SWC binary on startup. `next.config.mjs` already aliases `next-intl/config` to `i18n/request.ts`.
 - Some company PCs block `swc.win32-x64-msvc.node` and `next-swc.win32-x64-msvc.node`. Do not try to unblock those files. On those PCs run `npm run dev:wasm` and `npm run build:wasm` (WebAssembly compiler and webpack). Other machines keep `npm run dev` and `npm run build`.

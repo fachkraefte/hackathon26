@@ -7,7 +7,7 @@ alwaysApply: true
 
 The full rules are in `AGENTS.md`. Follow that file. Do not invent a second set of conventions.
 
-- npm, Next.js App Router, TypeScript strict, deploy on Vercel.
+- npm, Next.js App Router, TypeScript strict, deploy on Vercel. Do not set a Vercel output directory.
 - Plain CSS until the team picks a styling system. No Tailwind and no UI kit.
 - User-facing strings live in `messages/*.json` via `next-intl`. Locales: `en` (default) and `de`.
 - No database yet. If data must be saved, use Supabase and confirm before adding the client or tables.
