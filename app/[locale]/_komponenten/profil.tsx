@@ -9,7 +9,8 @@ export function Profil({ achsen, legende }: { achsen: { name: string; wert: numb
   const r = 130;
   const punkt = (i: number, wert: number) => {
     const w = -Math.PI / 2 + (i / achsen.length) * 2 * Math.PI;
-    return [cx + Math.cos(w) * r * (wert / 5), cy + Math.sin(w) * r * (wert / 5)] as const;
+    // gerundet, damit Server und Browser dieselben Werte rendern
+    return [Math.round((cx + Math.cos(w) * r * (wert / 5)) * 10) / 10, Math.round((cy + Math.sin(w) * r * (wert / 5)) * 10) / 10] as const;
   };
   const vieleck = (werte: number[]) => werte.map((w, i) => punkt(i, w).join(",")).join(" ");
 
