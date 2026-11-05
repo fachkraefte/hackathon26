@@ -75,8 +75,8 @@ Gib zurück:
 - "minuten": Zeit, die die Person selbst pro Vorfall verliert, als ganze Zahl – nur wenn genannt oder eindeutig ableitbar („halber Tag“ = 240), sonst null. Nur ihre eigene Zeit.
 - "beteiligt": beteiligte Bereiche oder Rollen, nie Namen. Leere Liste, wenn keine.
 - "folge": was daraus folgt (Nacharbeit, Warten, Fahrt …), wenn genannt, sonst null.
-- "von": von wem kommt das Problem bzw. die fehlende Information? Genau einer aus ${JSON.stringify(uebergabeZiele)} oder null, wenn es im eigenen Bereich entsteht.
-- "an": an wen geht es weiter bzw. wer bekommt die Folgen? Genau einer aus derselben Liste oder null.
+- "von": Woher kommt das, was fehlt, falsch oder zu spät ist? Genau einer aus ${JSON.stringify(uebergabeZiele)}. Nutze dein Wissen über den Betrieb und die Bereiche, auch wenn die Person es nicht ausdrücklich sagt (wer erstellt die Unterlage, wer bestellt das Material, wer gibt die Information weiter?). Nur null, wenn das Problem wirklich im eigenen Bereich entsteht.
+- "an": Wer bekommt die Folgen zu spüren, außer der Person selbst? Genau einer aus derselben Liste oder null, wenn es im eigenen Bereich bleibt.
 - "rueckfrage": ${
         eingabe.rueckfrageErlaubt
           ? `Nur wenn nach der Schilderung noch unklar ist, WAS genau passiert oder WER beteiligt ist. Nimm dafür eine Frage aus diesem Vorrat und passe sie an die Geschichte an: ${JSON.stringify(vorrat)}. Passt keine, formuliere eine eigene. Nie nach Häufigkeit oder Zeit fragen, nie nach schon Gesagtem. Höchstens 14 Wörter, eine Frage, 2–4 kurze Antwort-Chips. Im Zweifel null.`
