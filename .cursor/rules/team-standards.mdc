@@ -11,7 +11,7 @@ The full rules are in `AGENTS.md`. Follow that file. Do not invent a second set 
 - npm, Next.js App Router, TypeScript strict, deploy on Vercel. Do not set a Vercel output directory.
 - Plain CSS, no Tailwind and no UI kit. The look follows the ROKI design in `DESIGN.md` (Rubik, navy `#15263E`, turquoise `#2FB9CB`, orange `#F08119` sparingly, background `#F6F8FA`).
 - User-facing strings live in `messages/*.json` via `next-intl`. Locales: `de` (default) and `en` (follows later). Write German first.
-- Database: Supabase. Name new tables or schema changes in the pull request.
+- The database is Supabase. Use `lib/supabase/server.ts`. Name new tables or schema changes in the pull request.
 - AI calls only on the server. API keys never with `NEXT_PUBLIC_`. In the demo, only fictional data goes to the model.
 - Branch and open a pull request into `main`. `npm run lint` and `npm run typecheck` pass first.
 - Do not import `next-intl/plugin`. If the native SWC binary is blocked, use `npm run dev:wasm` and `npm run build:wasm`.

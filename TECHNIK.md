@@ -287,14 +287,9 @@ interface WissensEintrag {
 
 ## 6. Speicherung
 
-**Entschieden: Supabase.** Projekt in einer EU-Region anlegen.
-
-- **Warum nicht einfach Dateien:** Die App läuft auf Vercel. Dort kann sie zur Laufzeit keine Dateien dauerhaft schreiben. Antworten aus der Live-Abfrage müssen deshalb in eine Datenbank.
-- **Tabellen (Vorschlag):** `betriebe`, `bestandsaufnahmen`, `bereiche`, `antworten`, `aufgabenkarten`, `einordnungen`, `gesamtbilder`, `fahrplaene`, `beschluesse` – Felder wie in Abschnitt 4. Verschachtelte Teile (z. B. `aufgaben`, `verlauf`, `profil`) als JSON-Spalten, das spart Zeit im Hackathon.
-- **Schutz der Einzelantworten:** Zugriff auf `antworten`, `aufgabenkarten` und `einordnungen` nur über den Server (Service-Role-Schlüssel, nie im Browser). Row Level Security für alle Tabellen einschalten. Die Seiten für Leitung und Team lesen nur `gesamtbilder`, `fahrplaene` und `beschluesse`.
-- **Testdaten:** bleiben als JSON im Repo unter `daten/demo/` und werden per Skript in Supabase geladen.
-- **Neue Tabellen oder Änderungen** im Pull Request nennen (`AGENTS.md`).
-- **Später:** Löschen auf Wunsch, Aufbewahrungsfristen, Hosting beim Betrieb oder in der EU für die lokale KI.
+- **Demo:** JSON-Dateien im Repo unter `daten/demo/` (Betrieb, Bestandsaufnahme, Antworten, Aufgabenkarten) und Laufzeitdaten im Speicher bzw. in einer lokalen Datei.
+- **Datenbank:** Supabase. Der Server-Client liegt in `lib/supabase/server.ts` und nutzt den Service-Role-Key. Der Schlüssel bleibt auf dem Server und bekommt nie das Präfix `NEXT_PUBLIC_`. Tabellen werden erst angelegt, wenn das Schema bestätigt ist.
+- **Anforderungen für den echten Einsatz:** Hosting in der EU bzw. beim Betrieb selbst, Einzelantworten getrennt vom Gesamtbild, Löschen auf Wunsch.
 
 ---
 

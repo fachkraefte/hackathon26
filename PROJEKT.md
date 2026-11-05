@@ -270,11 +270,7 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 - Profildiagramm mit Ist (von Beschäftigten) und Ziel (vom Team)
 - Ergebnis ist eine Vorlage für eine Unternehmensbesprechung
 - Fünf fiktive Demo-Betriebe, keine echten Firmennamen; Live-Demo mit Metallbau Heidekamp
-- Datenbank: Supabase
-- Sprache: Deutsch als Standard, Englisch später über den Umschalter
-- Gestaltung: vorerst ROKI-Design (`DESIGN.md`)
-- Pitch-Kernaussage: erst die Übergabe verbessern, Technik dort, wo die Belastung körperlich oder gleichförmig ist
-- Branchen-Problemanalyse ergänzt `DEMO_BETRIEBE.md`; nur [ROKI geprüft] geht in den Wissensauszug
+- Speicherung über die Demo hinaus: Supabase. Der Server-Client ist angebunden. Tabellen folgen, sobald das Schema festliegt.
 
 **Offen:**
 - [ ] Name des Projekts
@@ -283,8 +279,6 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 - [ ] Welche Cloud-API
 - [ ] Darstellung des Profildiagramms (Netz oder Balken)
 - [ ] Mindestanzahl Antworten pro Gruppe (Vorschlag: 3)
-- [ ] Wer legt das Supabase-Projekt an (EU-Region)?
-- [ ] Belege für die offenen Angaben in der Branchen-Problemanalyse
 
 ---
 
