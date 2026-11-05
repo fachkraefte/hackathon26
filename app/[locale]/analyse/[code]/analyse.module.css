@@ -1,0 +1,209 @@
+.analyse {
+  display: grid;
+  gap: 2rem;
+  padding: 1rem 0 3rem;
+}
+
+.kopf h1 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 600;
+}
+
+.kopf p {
+  margin: 0;
+}
+
+.kernzahl {
+  padding: 1.5rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-text);
+  color: #fff;
+}
+
+.kernzahl p {
+  margin: 0.25rem 0;
+}
+
+.kernzahl :global(.leise) {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.gross {
+  font-size: clamp(1.25rem, 4vw, 1.625rem);
+}
+
+.gross strong {
+  color: var(--brand-highlight);
+  font-size: clamp(2.5rem, 9vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.abschnitt h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.375rem;
+}
+
+.abschnitt > p {
+  margin: 0 0 0.75rem;
+}
+
+.kantenDetail {
+  margin-top: 0.75rem;
+}
+
+.kantenKopf {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.kantenDetail ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.kacheln {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+
+.kachel {
+  position: relative;
+  padding: 1.25rem;
+  border-top: 4px solid var(--brand-primary);
+  border-radius: var(--radius-card);
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.kachel h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.kachel p {
+  margin: 0 0 0.5rem;
+}
+
+.rang {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  color: var(--text-leise);
+  font-size: 1.5rem;
+  font-weight: 700;
+  opacity: 0.35;
+}
+
+.zahlen strong {
+  color: var(--brand-primary-dark);
+}
+
+.mitsprache {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-card);
+  background: var(--orange-hell);
+}
+
+.mitspracheZahl {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mitspracheZahl span {
+  color: var(--text-leise);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.mitsprache p {
+  margin: 0;
+}
+
+.tiefe {
+  padding: 1rem 1.25rem;
+  border: 1.5px solid var(--linie);
+  border-radius: var(--radius-card);
+  background: var(--brand-surface);
+}
+
+.tiefe summary {
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.feld {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--linie);
+}
+
+.feld h3 {
+  margin: 0 0 0.25rem;
+}
+
+.aufgabe {
+  font-weight: 500;
+}
+
+.stimmen {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0.75rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stimmen li {
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--brand-highlight);
+  background: var(--brand-bg);
+}
+
+.bereich {
+  display: inline-block;
+  margin-right: 0.375rem;
+  color: var(--brand-highlight-dark);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.unterschied {
+  padding: 0.625rem 0.875rem;
+  border-radius: var(--radius-button);
+  background: var(--orange-hell);
+}
+
+.staerken h3 {
+  margin-bottom: 0.25rem;
+}
+
+.weiter {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-card);
+  background: var(--tuerkis-hell);
+}
+
+.weiter p {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.leer {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding-top: 2rem;
+}

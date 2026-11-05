@@ -1,0 +1,36 @@
+.profil {
+  margin: 0;
+}
+
+.profil svg {
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--brand-text);
+  stroke-opacity: 0.12;
+}
+
+.flaeche {
+  fill: var(--brand-primary);
+  fill-opacity: 0.22;
+  stroke: var(--brand-primary);
+  stroke-width: 2.5;
+}
+
+.text {
+  fill: var(--brand-text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.wert {
+  fill-opacity: 0.6;
+  font-weight: 400;
+}

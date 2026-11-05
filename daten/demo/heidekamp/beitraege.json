@@ -19,7 +19,7 @@
           "Technik"
         ],
         "bremst": 3,
-        "von": "Kunde",
+        "von": "Leitung",
         "an": "Technik"
       }
     ]
@@ -45,7 +45,7 @@
           "Werkstatt"
         ],
         "bremst": 4,
-        "von": "Leitung",
+        "von": "Technik",
         "an": "Werkstatt"
       }
     ]
