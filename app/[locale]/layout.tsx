@@ -48,7 +48,13 @@ export default async function LocaleLayout(props: LayoutProps<"/[locale]">) {
         <NextIntlClientProvider>
           <header className={styles.kopf}>
             <Link href="/" className={styles.marke}>
-              {t("marke")}
+              <img
+                src="/logo.png"
+                alt={t("logoAlt")}
+                width={3200}
+                height={801}
+                className={styles.logo}
+              />
             </Link>
             <span className={`chip ${styles.demo}`}>{t("demo")}</span>
             <LocaleSwitcher />
