@@ -102,9 +102,20 @@ Maßgeblich ist `lib/typen.ts` (zod-Schemas, daraus die TypeScript-Typen). Kurzf
 
 ## 6. Speicherung
 
-- **Demo:** JSON-Dateien im Repo unter `daten/demo/` (Betrieb, Bestandsaufnahme, Antworten, Aufgabenkarten) und Laufzeitdaten im Speicher bzw. in einer lokalen Datei.
-- **Datenbank:** Supabase. Der Server-Client liegt in `lib/supabase/server.ts` und nutzt den Service-Role-Key. Der Schlüssel bleibt auf dem Server und bekommt nie das Präfix `NEXT_PUBLIC_`. Tabellen werden erst angelegt, wenn das Schema bestätigt ist.
-- **Anforderungen für den echten Einsatz:** Hosting in der EU bzw. beim Betrieb selbst, Einzelantworten getrennt vom Gesamtbild, Löschen auf Wunsch.
+**Supabase (EU, eu-west-1), Schema seit 05.11.2026 angelegt:** `supabase/migrations/20261105120000_workflow_v2.sql`.
+
+| Tabelle | Inhalt |
+|---|---|
+| `bestandsaufnahmen` | Start der Leitung: Betrieb, Frage, Ziel, Stundensatz, Bereiche, Themen-Chips |
+| `beitraege` | eine Antwort je Person; Punkte als JSON (Format `Punkt` in `lib/typen.ts`) |
+| `gesamtbilder` | aktuelles gemeinsames Bild je Bestandsaufnahme als JSON, mit Fingerabdruck der Beiträge |
+| `beschluesse` | erster Schritt je Faden: Rolle, Datum, Kopie der Aufgabe |
+
+- **Zugriff nur über den Server** (`lib/supabase/server.ts`, Service-Role-Key). Row Level Security ist auf allen Tabellen an, es gibt keine Policies; `anon` und `authenticated` haben keine Rechte. Einzelbeiträge erreichen nie den Browser.
+- **`lib/speicher.ts`** liest und schreibt; gelesene Zeilen werden mit zod geprüft. Ohne `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` nutzt die App den Speicher im Server (nur lokal sinnvoll).
+- **Demo-Daten** legt die App beim ersten Aufruf von `heidekamp` selbst an; „Demo zurücksetzen“ stellt den Ausgangszustand in der Datenbank her.
+- **Migrationen** brauchen die Datenbank-Verbindung `SUPABASE_DB_URL` (nur lokal, nicht auf Vercel nötig). Die Datenbank-Typen in `lib/supabase/server.ts` sind von Hand gepflegt und bei Schemaänderungen anzupassen.
+- **Später:** Löschen auf Wunsch (Löschen einer Bestandsaufnahme entfernt alles Zugehörige), Aufbewahrungsfristen, Hosting beim Betrieb für die lokale KI.
 
 ---
 
@@ -112,7 +123,7 @@ Maßgeblich ist `lib/typen.ts` (zod-Schemas, daraus die TypeScript-Typen). Kurzf
 
 - Ohne `OPENAI_API_KEY`, bei Fehler oder Zeitüberschreitung (20 Sekunden) greift er automatisch und wird in der Oberfläche angezeigt.
 - ① nutzt die gespeicherten Zeitfresser-Chips, ② übernimmt die Erzählung ohne Spiegelung, ③ zeigt `daten/demo/heidekamp/gesamtbild.json` und hängt neue Punkte an den Faden mit demselben Zeitfresser.
-- Startdaten: `daten/demo/heidekamp/bestandsaufnahme.json` und `beitraege.json` (acht fiktive Beiträge). Laufzeitdaten liegen bis zur Supabase-Anbindung im Speicher des Servers (`lib/speicher.ts`); „Demo zurücksetzen“ auf der Startseite stellt den Ausgangszustand her.
+- Startdaten: `daten/demo/heidekamp/bestandsaufnahme.json` und `beitraege.json` (acht fiktive Beiträge), dazu das geprüfte Gesamtbild. Sie werden beim ersten Aufruf in Supabase angelegt; „Demo zurücksetzen“ auf der Startseite stellt den Ausgangszustand her.
 - Das gespeicherte Gesamtbild vor dem Pitch von einem Menschen lesen lassen.
 
 ---
@@ -136,7 +147,8 @@ lib/aktionen.ts         Server Actions (Eingaben mit zod geprüft)
 lib/gesamtbild.ts       Zusammenführen mit Zwischenspeicher
 lib/rechnen.ts          Stunden und €
 lib/anonym.ts           Bereichsnamen schützen
-lib/speicher.ts         Laufzeitdaten (Demo), später Supabase
+lib/speicher.ts         Speicherung in Supabase (Rückfall: Speicher im Server)
+supabase/migrations/    Datenbankschema
 lib/supabase/           Zugriff auf die Datenbank (nur Server)
 lib/typen.ts            Datenformate (zod)
 wissen/                 roki-wissensauszug.json

@@ -136,6 +136,7 @@ export type Gesamtbild = z.infer<typeof Gesamtbild>;
 
 export const Beschluss = z.object({
   fadenId: z.string(),
+  aufgabe: z.string(), // Kopie: Faden-IDs können sich beim Neu-Zusammenführen ändern
   verantwortlich: z.string(),
   bis: z.string(),
 });

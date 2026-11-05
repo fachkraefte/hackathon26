@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function MitmachenPage(props: PageProps<"/[locale]/mitmachen/[id]">) {
   const { id } = await props.params;
-  const b = holeBestandsaufnahme(id);
+  const b = await holeBestandsaufnahme(id);
   if (!b) notFound();
 
   return (

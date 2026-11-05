@@ -15,8 +15,8 @@ import {
 } from "./speicher";
 import { Beitrag, Beschluss, Punkt } from "./typen";
 
-function bestandsaufnahmeOderFehler(id: string) {
-  const b = holeBestandsaufnahme(id);
+async function bestandsaufnahmeOderFehler(id: string) {
+  const b = await holeBestandsaufnahme(id);
   if (!b) throw new Error(`Bestandsaufnahme ${id} gibt es nicht.`);
   return b;
 }
@@ -33,10 +33,10 @@ const StartEingabe = z.object({
 
 export async function starteBestandsaufnahme(eingabe: z.input<typeof StartEingabe>) {
   const daten = StartEingabe.parse(eingabe);
-  const alt = bestandsaufnahmeOderFehler(daten.id);
+  const alt = await bestandsaufnahmeOderFehler(daten.id);
   const neu = { ...alt, ...daten };
   const vorschlag = await schlageZeitfresserVor(neu);
-  aktualisiereBestandsaufnahme({ ...neu, zeitfresser: vorschlag.daten });
+  await aktualisiereBestandsaufnahme({ ...neu, zeitfresser: vorschlag.daten });
   return { zeitfresser: vorschlag.daten, ausDemo: vorschlag.ausDemo };
 }
 
@@ -51,7 +51,7 @@ const VerstehenEingabe = z.object({
 
 export async function verstehe(eingabe: z.input<typeof VerstehenEingabe>) {
   const daten = VerstehenEingabe.parse(eingabe);
-  const b = bestandsaufnahmeOderFehler(daten.id);
+  const b = await bestandsaufnahmeOderFehler(daten.id);
   return versteheGeschichte(b, daten);
 }
 
@@ -61,7 +61,7 @@ const BeitragEingabe = Beitrag.omit({ id: true, fiktiv: true }).extend({
 
 export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
   const daten = BeitragEingabe.parse(eingabe);
-  const b = bestandsaufnahmeOderFehler(daten.bestandsaufnahmeId);
+  const b = await bestandsaufnahmeOderFehler(daten.bestandsaufnahmeId);
   const id = `live-${crypto.randomUUID().slice(0, 8)}`;
   const beitrag: Beitrag = {
     ...daten,
@@ -69,7 +69,7 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
     fiktiv: false,
     punkte: daten.punkte.map((p, i) => ({ ...p, id: `${id}-${i + 1}` })),
   };
-  speichereBeitrag(beitrag);
+  await speichereBeitrag(beitrag);
 
   const ergebnis = await nimmBeitragAuf(b.id, beitrag);
   if (!ergebnis) throw new Error("Gesamtbild nicht verfügbar.");
@@ -99,10 +99,10 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
 
 // ---------- ③ Verstehen ----------
 export async function beschliesse(id: string, eingabe: z.input<typeof Beschluss>) {
-  bestandsaufnahmeOderFehler(id);
-  speichereBeschluss(id, Beschluss.parse(eingabe));
+  await bestandsaufnahmeOderFehler(id);
+  await speichereBeschluss(id, Beschluss.parse(eingabe));
 }
 
 export async function setzeDemoZurueck() {
-  demoZuruecksetzen();
+  await demoZuruecksetzen();
 }

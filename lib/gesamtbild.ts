@@ -3,33 +3,41 @@
 import { kiVerfuegbar } from "./ki/json";
 import { fuehreZusammen, ordneZu } from "./ki/schritte";
 import { bereichsLabel } from "./anonym";
-import { holeBeitraege, holeBestandsaufnahme, schluesselFuer, speicher } from "./speicher";
+import {
+  holeBeitraege,
+  holeBestandsaufnahme,
+  holeGesamtbildEintrag,
+  laufend as laufendeAufrufe,
+  schluesselFuer,
+  speichereGesamtbildEintrag,
+  type GesamtbildEintrag,
+} from "./speicher";
 import type { Beitrag } from "./typen";
 
 export async function holeGesamtbild(id: string) {
-  const bestandsaufnahme = holeBestandsaufnahme(id);
+  const bestandsaufnahme = await holeBestandsaufnahme(id);
   if (!bestandsaufnahme) return null;
-  const beitraege = holeBeitraege(id);
+  const beitraege = await holeBeitraege(id);
   const schluessel = schluesselFuer(beitraege);
 
-  const vorhanden = speicher.gesamtbilder.get(id);
+  const vorhanden = await holeGesamtbildEintrag(id);
   // Ein Ersatzbild aus dem Demo-Modus gilt nur, solange die KI nicht verfügbar ist.
   const nochGueltig = vorhanden?.schluessel === schluessel && !(vorhanden.ausDemo && kiVerfuegbar());
   if (vorhanden && nochGueltig) return { ...vorhanden, bestandsaufnahme, beitraege };
 
   const laufendSchluessel = `${id}#${schluessel}`;
-  let laufend = speicher.laufend.get(laufendSchluessel);
+  let laufend = laufendeAufrufe.get(laufendSchluessel);
   if (!laufend) {
-    laufend = fuehreZusammen(bestandsaufnahme, beitraege).then((ergebnis) => {
-      const eintrag = { schluessel, bild: ergebnis.daten, ausDemo: ergebnis.ausDemo };
-      speicher.gesamtbilder.set(id, eintrag);
-      speicher.laufend.delete(laufendSchluessel);
+    laufend = fuehreZusammen(bestandsaufnahme, beitraege).then(async (ergebnis) => {
+      const eintrag: GesamtbildEintrag = { schluessel, bild: ergebnis.daten, ausDemo: ergebnis.ausDemo };
+      await speichereGesamtbildEintrag(id, eintrag);
+      laufendeAufrufe.delete(laufendSchluessel);
       return eintrag;
     }, (fehler: unknown) => {
-      speicher.laufend.delete(laufendSchluessel);
+      laufendeAufrufe.delete(laufendSchluessel);
       throw new Error("Gesamtbild konnte nicht erstellt werden", { cause: fehler });
     });
-    speicher.laufend.set(laufendSchluessel, laufend);
+    laufendeAufrufe.set(laufendSchluessel, laufend);
   }
   const eintrag = await laufend;
   return { ...eintrag, bestandsaufnahme, beitraege };
@@ -40,14 +48,14 @@ export async function holeGesamtbild(id: string) {
  * Nur wenn das nicht geht (neues Thema), wird alles neu zusammengeführt.
  */
 export async function nimmBeitragAuf(id: string, beitrag: Beitrag) {
-  const bestandsaufnahme = holeBestandsaufnahme(id);
-  const vorhanden = speicher.gesamtbilder.get(id);
+  const bestandsaufnahme = await holeBestandsaufnahme(id);
+  const vorhanden = await holeGesamtbildEintrag(id);
   if (bestandsaufnahme && vorhanden && !vorhanden.ausDemo) {
-    const beitraege = holeBeitraege(id);
+    const beitraege = await holeBeitraege(id);
     const label = bereichsLabel(beitrag, beitraege, bestandsaufnahme);
     const bild = await ordneZu(vorhanden.bild, beitrag, label);
     if (bild) {
-      speicher.gesamtbilder.set(id, { schluessel: schluesselFuer(beitraege), bild, ausDemo: false });
+      await speichereGesamtbildEintrag(id, { schluessel: schluesselFuer(beitraege), bild, ausDemo: false });
     }
   }
   return holeGesamtbild(id);

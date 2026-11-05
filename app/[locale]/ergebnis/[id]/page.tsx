@@ -54,7 +54,7 @@ export default async function ErgebnisPage(props: PageProps<"/[locale]/ergebnis/
       })),
     staerken: bild.staerken,
     offeneFragen: bild.offeneFragen,
-    beschluesse: holeBeschluesse(b.id),
+    beschluesse: await holeBeschluesse(b.id),
   };
 
   return (
