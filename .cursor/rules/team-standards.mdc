@@ -1,0 +1,24 @@
+---
+description: Shared standards for Cursor, Claude Code, and VS Code agents
+alwaysApply: true
+---
+
+# Team standards
+
+The full rules are in `AGENTS.md`. Follow that file. Do not invent a second set of conventions.
+
+- npm, Next.js App Router, TypeScript strict, deploy on Vercel. Do not set a Vercel output directory.
+- Plain CSS until the team picks a styling system. No Tailwind and no UI kit.
+- User-facing strings live in `messages/*.json` via `next-intl`. Locales: `en` (default) and `de`.
+- No database yet. If data must be saved, use Supabase and confirm before adding the client or tables.
+- Do not invent product features. The product brief is not written yet.
+- Branch and open a pull request into `main`. `npm run lint` and `npm run typecheck` pass first.
+- Do not import `next-intl/plugin`. If the native SWC binary is blocked, use `npm run dev:wasm` and `npm run build:wasm`.
+
+```ts
+// ❌ BAD — skips the locale-aware navigation
+import Link from "next/link";
+
+// ✅ GOOD
+import { Link } from "@/i18n/navigation";
+```

@@ -1,0 +1,12 @@
+{
+  "HomePage": {
+    "title": "Hello World",
+    "description": "First page of the app.",
+    "intro": "The app is running. The product description is still to come."
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "en": "English",
+    "de": "Deutsch"
+  }
+}
