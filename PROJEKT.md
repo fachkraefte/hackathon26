@@ -74,7 +74,7 @@ Sprache und Ton folgen [`ROKI_SPRACHE_UND_TONALITAET.md`](ROKI_SPRACHE_UND_TONAL
 
 ## 5. Ablauf in der App (Workflow v2)
 
-> **In Überarbeitung (Workflow v3).** Neuer Ablauf: Startseite mit zwei Einstiegen (Projekt anlegen / zur Befragung mit Code) plus Live-Analyse, Lösungen auf eigener Seite. Grundlage sind die Fallstudien in `fallstudien/`. Bis `KONZEPT_V3.md` freigegeben ist, beschreibt dieser Abschnitt den gebauten Stand.
+> **Abgelöst durch Workflow v3** (gebaut, siehe [`KONZEPT_V3.md`](KONZEPT_V3.md) und `TECHNIK.md` §2): Startseite mit zwei Einstiegen, Anlegen mit KI-Vorbereitung, Befragung mit Code, Analyse mit Übergabe-Karte, Lösungen mit Bauplan-Prompt. Die Tabelle unten beschreibt Workflow v2 und bleibt zur Nachvollziehbarkeit.
 
 Drei Momente statt vieler Schritte. Begründung und Durchlauf mit den Personas: [`KONZEPT_WORKFLOW.md`](KONZEPT_WORKFLOW.md).
 
