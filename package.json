@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "db:check": "node scripts/check-supabase.mjs"
+    "db:check": "node scripts/check-supabase.mjs",
+    "ki:check": "node scripts/check-openai.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",
