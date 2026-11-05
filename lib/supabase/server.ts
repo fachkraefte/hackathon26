@@ -27,6 +27,10 @@ type BestandsaufnahmeRow = {
   mindestanzahl: number;
   zeitfresser: string[];
   besprechung_am: string | null;
+  website: string | null;
+  profil: Json | null;
+  bereich_saetze: Json | null;
+  deadline: string | null;
   erstellt_am: string;
   geaendert_am: string;
 };
@@ -39,6 +43,7 @@ type BeitragRow = {
   rolle_zeigen: boolean;
   punkte: Json;
   bremst: number;
+  mitsprache: number | null;
   gut_laeuft: string | null;
   fiktiv: boolean;
   erstellt_am: string;
@@ -49,6 +54,7 @@ type GesamtbildRow = {
   schluessel: string;
   bild: Json;
   aus_demo: boolean;
+  loesungen: Json;
   erstellt_am: string;
 };
 
@@ -61,7 +67,7 @@ type BeschlussRow = {
   erstellt_am: string;
 };
 
-/** Tabellen aus supabase/migrations/20261105120000_workflow_v2.sql (von Hand gepflegt). */
+/** Tabellen aus supabase/migrations/ (v2 + v3, von Hand gepflegt). */
 export type Database = {
   public: {
     Tables: {

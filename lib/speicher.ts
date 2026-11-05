@@ -3,11 +3,17 @@
 // Ohne: Speicher im Server (nur lokal/Demo; auf Vercel nicht zwischen Instanzen geteilt).
 // Gelesene Zeilen werden mit zod geprüft, bevor die App sie nutzt.
 import { z } from "zod";
-import { demoBeitraege, demoBestandsaufnahme, demoGesamtbild, DEMO_ID } from "./daten";
+import { demoBeitraege, demoBestandsaufnahme, demoGesamtbild, demoLoesungen, DEMO_ID } from "./daten";
 import { createSupabaseServerClient, supabaseKonfiguriert, type Json } from "./supabase/server";
-import { Beitrag, Beschluss, Bestandsaufnahme, Gesamtbild, Punkt } from "./typen";
+import { Beitrag, Bereich, Bestandsaufnahme, Gesamtbild, LoesungEintrag, Profil, Punkt } from "./typen";
 
-export type GesamtbildEintrag = { schluessel: string; bild: Gesamtbild; ausDemo: boolean };
+export type GesamtbildEintrag = {
+  schluessel: string;
+  bild: Gesamtbild;
+  ausDemo: boolean;
+  /** Lösung je Faden-ID (KONZEPT_V3 §6), im Hintergrund berechnet. */
+  loesungen: Record<string, LoesungEintrag>;
+};
 
 /** Fingerabdruck der Beiträge: ändert er sich, muss das Gesamtbild neu entstehen. */
 export function schluesselFuer(beitraege: Beitrag[]) {
@@ -36,7 +42,6 @@ type SpeicherImServer = {
   bestandsaufnahmen: Map<string, Bestandsaufnahme>;
   beitraege: Map<string, Beitrag[]>;
   gesamtbilder: Map<string, GesamtbildEintrag>;
-  beschluesse: Map<string, Beschluss[]>;
 };
 
 function startdaten(): SpeicherImServer {
@@ -44,12 +49,16 @@ function startdaten(): SpeicherImServer {
     bestandsaufnahmen: new Map([[DEMO_ID, structuredClone(demoBestandsaufnahme)]]),
     beitraege: new Map([[DEMO_ID, structuredClone(demoBeitraege)]]),
     gesamtbilder: new Map([[DEMO_ID, demoEintrag()]]),
-    beschluesse: new Map(),
   };
 }
 
 function demoEintrag(): GesamtbildEintrag {
-  return { schluessel: schluesselFuer(demoBeitraege), bild: structuredClone(demoGesamtbild), ausDemo: false };
+  return {
+    schluessel: schluesselFuer(demoBeitraege),
+    bild: structuredClone(demoGesamtbild),
+    ausDemo: false,
+    loesungen: structuredClone(demoLoesungen),
+  };
 }
 
 const imServer = () => (g.__rowaiSpeicher ??= startdaten());
@@ -59,24 +68,25 @@ const imServer = () => (g.__rowaiSpeicher ??= startdaten());
 // ---------------------------------------------------------------------------
 const db = () => createSupabaseServerClient();
 
+// Spalten aus v2 (stundensatz, zeitfresser, frage …) füllt v3 weiter, damit die alte Version lesbar bleibt.
 const BestandsaufnahmeZeile = z.object({
   id: z.string(),
   betrieb_name: z.string(),
   branche: z.string(),
   mitarbeitende: z.number(),
   leistungen: z.string(),
+  website: z.string().nullable(),
   fiktiv: z.boolean(),
-  leitung_vorname: z.string(),
-  leitung_rolle: z.string(),
   anrede: z.string(),
   frage: z.string(),
-  ziel: z.string(),
   stundensatz: z.coerce.number(),
   arbeitswochen: z.number(),
   bereiche: z.array(z.string()),
+  bereich_saetze: z.array(Bereich).nullable(),
   mindestanzahl: z.number(),
-  zeitfresser: z.array(z.string()),
   besprechung_am: z.string().nullable(),
+  deadline: z.string().nullable(),
+  profil: Profil.nullable(),
 });
 
 function ausZeile(zeile: unknown): Bestandsaufnahme {
@@ -88,40 +98,43 @@ function ausZeile(zeile: unknown): Bestandsaufnahme {
       branche: r.branche,
       mitarbeitende: r.mitarbeitende,
       leistungen: r.leistungen,
+      website: r.website,
       fiktiv: r.fiktiv,
     },
-    leitung: { vorname: r.leitung_vorname, rolle: r.leitung_rolle },
     anrede: r.anrede,
-    frage: r.frage,
-    ziel: r.ziel,
-    stundensatz: r.stundensatz,
+    ziel: r.frage,
+    deadline: r.deadline ?? r.besprechung_am ?? "",
+    // Zeilen aus v2 haben nur einen Stundensatz für alle Bereiche.
+    bereiche: r.bereich_saetze ?? r.bereiche.map((name) => ({ name, satzVon: r.stundensatz, satzBis: r.stundensatz })),
     arbeitswochen: r.arbeitswochen,
-    bereiche: r.bereiche,
     mindestanzahl: r.mindestanzahl,
-    zeitfresser: r.zeitfresser,
-    besprechungAm: r.besprechung_am ?? undefined,
+    profil: r.profil,
   });
 }
 
 function inZeile(b: Bestandsaufnahme) {
+  const mitten = b.bereiche.map((x) => (x.satzVon + x.satzBis) / 2);
   return {
     id: b.id,
     betrieb_name: b.betrieb.name,
     branche: b.betrieb.branche,
     mitarbeitende: b.betrieb.mitarbeitende,
     leistungen: b.betrieb.leistungen,
+    website: b.betrieb.website,
     fiktiv: b.betrieb.fiktiv,
-    leitung_vorname: b.leitung.vorname,
-    leitung_rolle: b.leitung.rolle,
+    leitung_vorname: "",
+    leitung_rolle: "Leitung",
     anrede: b.anrede,
-    frage: b.frage,
+    frage: b.ziel,
     ziel: b.ziel,
-    stundensatz: b.stundensatz,
+    stundensatz: Math.round((mitten.reduce((a, x) => a + x, 0) / mitten.length) * 100) / 100,
     arbeitswochen: b.arbeitswochen,
-    bereiche: b.bereiche,
+    bereiche: b.bereiche.map((x) => x.name),
+    bereich_saetze: b.bereiche as Json,
     mindestanzahl: b.mindestanzahl,
-    zeitfresser: b.zeitfresser,
-    besprechung_am: b.besprechungAm ?? null,
+    zeitfresser: Object.values(b.profil?.chips ?? {}).flat(),
+    deadline: b.deadline,
+    profil: (b.profil ?? null) as Json,
   };
 }
 
@@ -132,7 +145,7 @@ const BeitragZeile = z.object({
   ist_leitung: z.boolean(),
   rolle_zeigen: z.boolean(),
   punkte: z.array(Punkt),
-  bremst: z.number(),
+  mitsprache: z.number().nullable(),
   gut_laeuft: z.string().nullable(),
   fiktiv: z.boolean(),
 });
@@ -146,13 +159,15 @@ function beitragAusZeile(zeile: unknown): Beitrag {
     istLeitung: r.ist_leitung,
     rolleZeigen: r.rolle_zeigen,
     punkte: r.punkte,
-    bremst: r.bremst,
+    mitsprache: r.mitsprache,
     gutLaeuft: r.gut_laeuft ?? undefined,
     fiktiv: r.fiktiv,
   });
 }
 
 function beitragInZeile(b: Beitrag) {
+  // Spalte „bremst“ aus v2: Mittel der Punkte, damit die Pflichtspalte gefüllt bleibt.
+  const bremst = Math.round(b.punkte.reduce((a, p) => a + p.bremst, 0) / b.punkte.length);
   return {
     id: b.id,
     bestandsaufnahme_id: b.bestandsaufnahmeId,
@@ -160,7 +175,8 @@ function beitragInZeile(b: Beitrag) {
     ist_leitung: b.istLeitung,
     rolle_zeigen: b.rolleZeigen,
     punkte: b.punkte as Json,
-    bremst: b.bremst,
+    bremst,
+    mitsprache: b.mitsprache,
     gut_laeuft: b.gutLaeuft ?? null,
     fiktiv: b.fiktiv,
   };
@@ -180,6 +196,7 @@ async function ladeDemoInSupabase() {
       schluessel: e.schluessel,
       bild: e.bild as Json,
       aus_demo: false,
+      loesungen: e.loesungen as Json,
     })).error,
   );
 }
@@ -242,7 +259,13 @@ export async function holeGesamtbildEintrag(id: string): Promise<GesamtbildEintr
     console.error("Gespeichertes Gesamtbild hat ein altes Format, wird neu erzeugt:", z.prettifyError(bild.error));
     return null;
   }
-  return { schluessel: data.schluessel, bild: bild.data, ausDemo: data.aus_demo };
+  const loesungen = z.record(z.string(), LoesungEintrag).safeParse(data.loesungen ?? {});
+  return {
+    schluessel: data.schluessel,
+    bild: bild.data,
+    ausDemo: data.aus_demo,
+    loesungen: loesungen.success ? loesungen.data : {},
+  };
 }
 
 export async function speichereGesamtbildEintrag(id: string, e: GesamtbildEintrag) {
@@ -257,34 +280,8 @@ export async function speichereGesamtbildEintrag(id: string, e: GesamtbildEintra
       schluessel: e.schluessel,
       bild: e.bild as Json,
       aus_demo: e.ausDemo,
+      loesungen: e.loesungen as Json,
       erstellt_am: new Date().toISOString(),
-    })).error,
-  );
-}
-
-export async function holeBeschluesse(id: string): Promise<Beschluss[]> {
-  if (!supabaseKonfiguriert()) return imServer().beschluesse.get(id) ?? [];
-  const { data, error } = await db().from("beschluesse").select("*").eq("bestandsaufnahme_id", id);
-  fehler("Beschlüsse lesen", error);
-  return (data ?? []).map((r) =>
-    Beschluss.parse({ fadenId: r.faden_id, aufgabe: r.aufgabe, verantwortlich: r.verantwortlich, bis: r.bis }),
-  );
-}
-
-export async function speichereBeschluss(id: string, b: Beschluss) {
-  if (!supabaseKonfiguriert()) {
-    const s = imServer();
-    s.beschluesse.set(id, [...(s.beschluesse.get(id) ?? []).filter((x) => x.fadenId !== b.fadenId), b]);
-    return;
-  }
-  fehler(
-    "Beschluss speichern",
-    (await db().from("beschluesse").upsert({
-      bestandsaufnahme_id: id,
-      faden_id: b.fadenId,
-      aufgabe: b.aufgabe,
-      verantwortlich: b.verantwortlich,
-      bis: b.bis,
     })).error,
   );
 }

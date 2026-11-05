@@ -1,5 +1,5 @@
-// Prompts für die drei KI-Schritte. Keine Oberflächentexte, daher nicht in messages/.
-import type { Bestandsaufnahme, WissensEintrag } from "../typen";
+// Prompts für die KI-Schritte (KONZEPT_V3 §8). Keine Oberflächentexte, daher nicht in messages/.
+import type { Bestandsaufnahme } from "../typen";
 
 const branchenName: Record<Bestandsaufnahme["betrieb"]["branche"], string> = {
   produktionHandwerk: "Produktion und Handwerk",
@@ -10,44 +10,52 @@ const branchenName: Record<Bestandsaufnahme["betrieb"]["branche"], string> = {
 };
 
 const GRUNDREGELN = `Grundregeln:
-- Deutsch, wie man in einem Handwerksbetrieb spricht: kurze Sätze, Alltagswörter, aktiv statt passiv. Kein Amtsdeutsch (nicht „ist nicht erkennbar“, „erfolgt“, „hinsichtlich“), keine Werbesprache, keine Fachbegriffe, keine Anglizismen. Lieber ein Wort weniger.
+- Deutsch, wie man im Betrieb spricht: kurze Sätze, Alltagswörter, aktiv statt passiv. Kein Amtsdeutsch (nicht „ist nicht erkennbar“, „erfolgt“, „hinsichtlich“), keine Werbesprache, keine Anglizismen, keine Metaphern. Lieber ein Wort weniger.
 - Erfinde nichts: keine Fakten, Zahlen, Produkte, Firmen oder Studien.
 - Keine Namen von Personen. Schuldzuweisungen neutral umformulieren („Kollege X vergisst …“ → „Information fehlt bei der Übergabe“).
-- Keine Gesundheitsdaten Dritter übernehmen.
-- Keine Einsparungen, Amortisation oder ROI berechnen.
+- Keine Gesundheitsdaten Dritter übernehmen (z. B. von Bewohnern, Patienten, Gästen).
+- Schreibt jemand in einer anderen Sprache, verstehe es und antworte trotzdem auf Deutsch.
 - Gib ausschließlich ein JSON-Objekt im verlangten Format zurück.`;
 
+/** Was jede KI über den Betrieb wissen muss. */
 function betriebKontext(b: Bestandsaufnahme) {
-  return `Betrieb: ${b.betrieb.name}, ${branchenName[b.betrieb.branche]}, ${b.betrieb.mitarbeitende} Beschäftigte, ${b.betrieb.leistungen}.
-Bereiche: ${b.bereiche.join(", ")}.
-Die Leitung (${b.leitung.rolle}) fragt: „${b.frage}“
-Ziel der Leitung: „${b.ziel}“`;
+  return `Betrieb: ${b.betrieb.name}, ${branchenName[b.betrieb.branche]}, ${b.betrieb.mitarbeitende} Beschäftigte.
+Leistungen: ${b.betrieb.leistungen}
+${b.profil ? `Kurzbeschreibung: ${b.profil.kurz}\n` : ""}Bereiche: ${b.bereiche.map((x) => x.name).join(", ")}.
+${b.profil?.extern.length ? `Externe Beteiligte: ${b.profil.extern.join(", ")}.\n` : ""}Ziel der Leitung: „${b.ziel}“`;
 }
 
-// ---------- ① Zeitfresser-Chips für die Beschäftigten ----------
-export function zeitfresserPrompt(b: Bestandsaufnahme) {
+// ---------- ① Vorbereiten: Profil, Chips, Rückfragen (beim Anlegen) ----------
+export function vorbereitenPrompt(b: Bestandsaufnahme, websiteText: string | null) {
   return [
     {
       role: "system" as const,
-      content: `Du hilfst einem kleinen Betrieb, seine Beschäftigten kurz zu befragen.
+      content: `Ein Betrieb legt eine Befragung seiner Beschäftigten an. Bereite sie so vor, dass sich jede Frage nach DIESEM Betrieb anfühlt, nicht nach einem Fragebogen von der Stange.
 ${GRUNDREGELN}
 
-Erzeuge 8 kurze Antwort-Chips für die Frage an die Beschäftigten „Was kostet dich Zeit oder Nerven?“.
-- Je 2 bis 4 Wörter, Alltagssprache, beschreiben eine Situation, keine Technik und keine Lösung.
-- Passend zur Branche, zu den Leistungen und zur Frage der Leitung, aber nicht nur deren Vermutungen wiederholen.
-- Unterschiedliche Bereiche abdecken (Büro, Fertigung, unterwegs …).
-Format: {"zeitfresser": ["…", "…"]}`,
+Gib zurück:
+- "kurz": 1–2 Sätze, was der Betrieb macht und wie die Arbeit fließt (von der Anfrage bis zur Leistung beim Kunden). Höchstens 35 Wörter.
+- "extern": 1–3 externe Beteiligte, mit denen die Bereiche im Alltag zu tun haben (z. B. „Kunde“, „Gäste“, „Angehörige“, „Lieferant“). Ein Wort je Eintrag.
+- "chips": für JEDEN Bereich genau mit dessen Namen als Schlüssel 4–6 Aufgaben, die Menschen in diesem Bereich in DIESEM Betrieb täglich erledigen. Je 1–4 Wörter, Tätigkeiten statt Probleme (z. B. „Zeichnung ändern“, „Wäsche verteilen“, „Material suchen“). Konkret aus Leistungen und Website, keine allgemeinen Wörter wie „Kommunikation“ oder „Organisation“.
+- "rueckfragen": für JEDEN Bereich 3–4 kurze Fragen (je höchstens 14 Wörter), mit denen man im Gespräch nachhaken kann, wenn jemand ein Problem erzählt. Sie zielen auf Übergaben: von wem kommt etwas, woran merkt man es, was fehlt dann. Nie nach Häufigkeit oder Zeit fragen.
+
+Format: {"kurz": "…", "extern": ["…"], "chips": {"<Bereich>": ["…"]}, "rueckfragen": {"<Bereich>": ["…"]}}`,
     },
-    { role: "user" as const, content: betriebKontext(b) },
+    {
+      role: "user" as const,
+      content: `${betriebKontext(b)}${websiteText ? `\n\nText der Website (Auszug):\n${websiteText}` : ""}`,
+    },
   ];
 }
 
 // ---------- ② Eine Geschichte verstehen ----------
 export function verstehePrompt(
   b: Bestandsaufnahme,
-  eingabe: { bereich: string; zeitfresser: string; geschichte: string; rueckfrageErlaubt: boolean },
+  eingabe: { bereich: string; aufgabe: string; geschichte: string; rueckfrageErlaubt: boolean },
 ) {
   const anrede = b.anrede === "du" ? "Duze die Person." : "Sieze die Person.";
+  const vorrat = b.profil?.rueckfragen[eingabe.bereich] ?? [];
+  const uebergabeZiele = [...b.bereiche.map((x) => x.name), ...(b.profil?.extern ?? [])];
   return [
     {
       role: "system" as const,
@@ -56,31 +64,33 @@ ${GRUNDREGELN}
 
 ${betriebKontext(b)}
 
-Die Person arbeitet im Bereich „${eingabe.bereich}“. Sie hat als Zeitfresser „${eingabe.zeitfresser}“ gewählt und erzählt dazu.
+Die Person arbeitet im Bereich „${eingabe.bereich}“ und erzählt zur Aufgabe „${eingabe.aufgabe}“.
 Häufigkeit und Zeitaufwand fragt die App danach mit Schiebereglern ab. Deine Aufgabe ist, die Geschichte zu verstehen und die Regler sinnvoll vorzubelegen.
 
 Gib zurück:
-- "spiegelung": EIN kurzer Satz, höchstens 15 Wörter, der den KERN benennt – nicht nacherzählen, sondern auf den Punkt bringen, was eigentlich das Problem ist (Beispiel: Erzählung „Heute hatten wir wieder zwei Zeichnungsstände, wir mussten erst klären, welcher gilt“ → „Die Zeichnung ist da – nur ist nicht sicher, welche gilt.“). Nicht mit „Verstanden“, „Danke“ oder „Du sagst“ beginnen. Nicht bewerten, nicht trösten, keine Lösung.
-- "titel": Situation in höchstens 7 Wörtern, neutral, ohne Personen (z. B. „Unklar, welcher Zeichnungsstand gilt“).
+- "spiegelung": EIN kurzer Satz, höchstens 15 Wörter, der den KERN benennt – nicht nacherzählen, sondern auf den Punkt bringen, was eigentlich das Problem ist (Beispiel: „Heute hatten wir wieder zwei Zeichnungsstände, wir mussten erst klären, welcher gilt“ → „Die Zeichnung ist da – nur ist nicht sicher, welche gilt.“). Nicht mit „Verstanden“, „Danke“ oder „Du sagst“ beginnen. Nicht bewerten, nicht trösten, keine Lösung.
+- "titel": Situation in höchstens 7 Wörtern, neutral, ohne Personen.
 - "aussage": 1–2 Sätze, die Schilderung gekürzt und neutralisiert, in der Ich- bzw. Wir-Form der Person. Nur was gesagt wurde. Korrekturen der Person haben Vorrang.
-- "haeufigkeit": eine von "monatlich", "mehrmalsImMonat", "woechentlich", "mehrmalsProWoche", "taeglich", "mehrmalsTaeglich" – nur wenn die Person eine Häufigkeit nennt oder klar andeutet („ständig“, „jeden Tag“, „ab und zu“), sonst null.
-- "minuten": Zeit, die die Person selbst pro Vorfall verliert, als ganze Zahl – nur wenn genannt oder eindeutig ableitbar („halber Tag“ = 240), sonst null. Nur ihre eigene Zeit, nicht die von anderen.
-- "beteiligt": beteiligte Bereiche oder Rollen aus der Schilderung (z. B. "Büro", "Werkstatt", "Kunde", "Lieferant"), nie Namen. Leere Liste, wenn keine.
+- "haeufigkeit": eine von "monatlich", "mehrmalsImMonat", "woechentlich", "mehrmalsProWoche", "taeglich", "mehrmalsTaeglich" – nur wenn genannt oder klar angedeutet („ständig“, „jeden Tag“, „ab und zu“), sonst null.
+- "minuten": Zeit, die die Person selbst pro Vorfall verliert, als ganze Zahl – nur wenn genannt oder eindeutig ableitbar („halber Tag“ = 240), sonst null. Nur ihre eigene Zeit.
+- "beteiligt": beteiligte Bereiche oder Rollen, nie Namen. Leere Liste, wenn keine.
 - "folge": was daraus folgt (Nacharbeit, Warten, Fahrt …), wenn genannt, sonst null.
+- "von": von wem kommt das Problem bzw. die fehlende Information? Genau einer aus ${JSON.stringify(uebergabeZiele)} oder null, wenn es im eigenen Bereich entsteht.
+- "an": an wen geht es weiter bzw. wer bekommt die Folgen? Genau einer aus derselben Liste oder null.
 - "rueckfrage": ${
         eingabe.rueckfrageErlaubt
-          ? `Nur wenn nach der Schilderung noch unklar ist, WAS genau passiert oder WER beteiligt ist. Nie nach Häufigkeit oder Zeit fragen. Nie etwas fragen, das schon gesagt wurde. Höchstens 14 Wörter, eine einzige Frage, mit 2–4 kurzen Antwort-Chips. Wenn die Schilderung reicht: null. Im Zweifel null.`
+          ? `Nur wenn nach der Schilderung noch unklar ist, WAS genau passiert oder WER beteiligt ist. Nimm dafür eine Frage aus diesem Vorrat und passe sie an die Geschichte an: ${JSON.stringify(vorrat)}. Passt keine, formuliere eine eigene. Nie nach Häufigkeit oder Zeit fragen, nie nach schon Gesagtem. Höchstens 14 Wörter, eine Frage, 2–4 kurze Antwort-Chips. Im Zweifel null.`
           : `immer null.`
       }
 
-Format: {"spiegelung": "…", "titel": "…", "aussage": "…", "haeufigkeit": null, "minuten": null, "beteiligt": [], "folge": null, "rueckfrage": null}
+Format: {"spiegelung": "…", "titel": "…", "aussage": "…", "haeufigkeit": null, "minuten": null, "beteiligt": [], "folge": null, "von": null, "an": null, "rueckfrage": null}
 oder mit Rückfrage: "rueckfrage": {"frage": "…", "chips": ["…", "…"]}`,
     },
     { role: "user" as const, content: eingabe.geschichte },
   ];
 }
 
-// ---------- ③ Zusammenführen ----------
+// ---------- ③ Zusammenführen (erstes Bild) ----------
 export type PunktFuerKi = {
   id: string;
   bereich: string; // bereits anonymisiert
@@ -92,68 +102,42 @@ export type PunktFuerKi = {
   folge: string | null;
 };
 
-export function zusammenfuehrenPrompt(
-  b: Bestandsaufnahme,
-  punkte: PunktFuerKi[],
-  gutLaeuft: string[],
-  wissen: WissensEintrag[],
-) {
-  const wissenKurz = wissen.map((w) => ({
-    wissenId: w.id,
-    loesung: w.loesung,
-    art: w.art,
-    typischeAufgaben: w.typischeAufgaben,
-    grenzen: w.grenzen,
-  }));
+const FADEN_FELDER = `- "kurzname": 1–3 Wörter, sachlich, für Karte und Diagramm (z. B. „Zeichnungsstand“, „Materialverfügbarkeit“, „Schichtübergabe“). Keine Metaphern.
+- "aufgabe": die gemeinsame Aufgabe als positives Ziel, höchstens 12 Wörter (z. B. „Alle arbeiten nach derselben freigegebenen Zeichnung.“).
+- "problem": was passiert und was es auslöst, höchstens 25 Wörter, als Kette erzählt. Systemische Ursache statt Schuld.
+- "sichtweisen": je beteiligtem Bereich EIN Eintrag {"bereich": genau die Bereichsangabe aus den Punkten, "aussage": ein typischer Satz in der Ich- oder Wir-Form, nah am Wortlaut, höchstens 15 Wörter}. Bereichsangaben exakt übernehmen, auch „ein anderer Bereich“.
+- "unterschied": wo die Sichtweisen auseinandergehen, höchstens 20 Wörter – oder null.`;
 
+export function zusammenfuehrenPrompt(b: Bestandsaufnahme, punkte: PunktFuerKi[], gutLaeuft: string[]) {
   return [
     {
       role: "system" as const,
-      content: `Du führst die Beiträge aller Beschäftigten eines Betriebs zu einem gemeinsamen Bild zusammen. Alle Beteiligten – Beschäftigte und Leitung – lesen dasselbe Ergebnis. Sprich niemanden direkt an.
+      content: `Du führst die Beiträge aller Beschäftigten eines Betriebs zu einem gemeinsamen Bild zusammen. Alle lesen dasselbe Ergebnis. Sprich niemanden direkt an. Zeige nur Probleme, noch keine Lösungen.
 ${GRUNDREGELN}
 
 ${betriebKontext(b)}
 
-Bilde 2 bis 4 "faeden". Ein Faden ist EIN Problem mit gemeinsamer Ursache, das mehrere Personen oder Bereiche aus verschiedenen Richtungen beschreiben. Fasse nach Ursache zusammen, nicht nach Symptom: „Teil passt auf der Baustelle nicht“ und „unklar, welche Zeichnung gilt“ gehören zusammen, wenn beide am Zeichnungsstand hängen. Der wichtigste Faden zuerst.
+Bilde 1 bis 5 "faeden" (bei wenigen Punkten entsprechend weniger). Ein Faden ist EIN Problem mit gemeinsamer Ursache, das oft mehrere Bereiche aus verschiedenen Richtungen beschreiben. Fasse nach Ursache zusammen, nicht nach Symptom: „Teil passt auf der Baustelle nicht“ und „unklar, welche Zeichnung gilt“ gehören zusammen, wenn beide am Zeichnungsstand hängen. Körperliche Belastung ist ein eigener Faden. Der wichtigste Faden zuerst.
 
 Je Faden (strikte Längen – lieber kürzer):
 - "id": "f1", "f2", …
-- "aufgabe": die gemeinsame Aufgabe als positives Ziel, höchstens 12 Wörter (z. B. „Alle wissen sicher, welche Zeichnung gilt.“).
-- "problem": was passiert und was es auslöst, höchstens 25 Wörter, als Kette erzählt (z. B. „Änderungen laufen über Telefon und Zuruf. Die Werkstatt klärt erst, was gilt – manchmal wird nach altem Stand gebaut und auf der Baustelle nachgearbeitet.“).
-- "punktIds": ids der Punkte, die zu diesem Faden gehören. Jeder Punkt höchstens in einem Faden. Punkte, die nirgends passen, weglassen.
-- "sichtweisen": je beteiligtem Bereich EIN Eintrag {"bereich": genau die Bereichsangabe aus den Punkten, "aussage": ein typischer Satz aus diesem Bereich in der Ich- oder Wir-Form, so wie die Person es gesagt hat, höchstens 15 Wörter}. Die Stimmen sollen nach den Menschen klingen, nicht nach einem Bericht. Bereichsangaben exakt übernehmen, auch „ein anderer Bereich“.
-- "unterschied": wo die Sichtweisen auseinandergehen oder sich ergänzen, höchstens 20 Wörter – oder null.
-- "ansaetze": 2–3 Ansätze. ZUERST ein organisatorischer Ansatz (art "prozess") oder "keineTechnik". Danach höchstens zwei technische (art "software", "kiAssistenz" oder "robotikHardware"), nur wenn sie wirklich zur Aufgabe passen. Je Ansatz: "text" (was konkret, höchstens 18 Wörter), "warum" (höchstens 14 Wörter, Bezug auf das, was die Leute gesagt haben), "wasFehlt" (die wichtigste offene Frage, höchstens 12 Wörter), "herkunft" und "wissenId". "herkunft": "rokiGeprueft" NUR wenn der Ansatz einem Eintrag des ROKI-Wissensauszugs entspricht – dann dessen "wissenId". Sonst "nichtGeprueft" und "wissenId": null. Keine Firmen, Produkte oder Anbieter nennen. Das Ziel der Leitung beachten.
-- "ersterSchritt": ein kleiner, konkreter Prüfauftrag für 2–6 Wochen mit beteiligten Rollen (keine Namen), höchstens 22 Wörter.
+- "punktIds": ids der Punkte, die dazugehören. Jeder Punkt höchstens in einem Faden.
+${FADEN_FELDER}
 
-Außerdem:
-- "staerken": 1–3 kurze Sätze (je höchstens 10 Wörter), was gut läuft, aus den Angaben.
-- "offeneFragen": 2–3 Fragen, je höchstens 14 Wörter, die für eine Entscheidung noch offen sind.
+Außerdem "staerken": 1–3 kurze Sätze (je höchstens 10 Wörter), was gut läuft, aus den Angaben.
 
-ROKI-Wissensauszug (einzige Quelle für "rokiGeprueft"):
-${JSON.stringify(wissenKurz)}
-
-Format: {"faeden": [{"id": "f1", "aufgabe": "…", "problem": "…", "punktIds": ["…"], "sichtweisen": [{"bereich": "…", "aussage": "…"}], "unterschied": null, "ansaetze": [{"art": "prozess", "text": "…", "warum": "…", "wasFehlt": "…", "herkunft": "nichtGeprueft", "wissenId": null}], "ersterSchritt": "…"}], "staerken": ["…"], "offeneFragen": ["…"]}`,
+Format: {"faeden": [{"id": "f1", "punktIds": ["…"], "kurzname": "…", "aufgabe": "…", "problem": "…", "sichtweisen": [{"bereich": "…", "aussage": "…"}], "unterschied": null}], "staerken": ["…"]}`,
     },
-    {
-      role: "user" as const,
-      content: JSON.stringify({ punkte, wasGutLaeuft: gutLaeuft }),
-    },
+    { role: "user" as const, content: JSON.stringify({ punkte, wasGutLaeuft: gutLaeuft }) },
   ];
 }
 
-// ---------- ③c Neuer Faden für Punkte, die nirgends passen ----------
-export function neuerFadenPrompt(
-  b: Bestandsaufnahme,
-  punkte: PunktFuerKi[],
-  bestehende: { aufgabe: string }[],
-  wissen: WissensEintrag[],
-) {
-  const wissenKurz = wissen.map((w) => ({ wissenId: w.id, loesung: w.loesung, art: w.art, typischeAufgaben: w.typischeAufgaben }));
+// ---------- ③c Neue Fäden für Punkte, die nirgends passen ----------
+export function neuerFadenPrompt(b: Bestandsaufnahme, punkte: PunktFuerKi[], bestehende: { aufgabe: string }[]) {
   return [
     {
       role: "system" as const,
-      content: `Im Betrieb sind neue Punkte aufgetaucht, die zu keinem bestehenden Faden passen. Bilde daraus neue Fäden: Punkte mit derselben Ursache kommen in einen Faden, Punkte mit verschiedenen Ursachen in getrennte Fäden. Alle Beteiligten lesen sie. Sprich niemanden direkt an.
+      content: `Im Betrieb sind neue Punkte aufgetaucht, die zu keinem bestehenden Faden passen. Bilde daraus neue Fäden: Punkte mit derselben Ursache kommen in einen Faden, Punkte mit verschiedenen Ursachen in getrennte Fäden. Alle lesen sie. Sprich niemanden direkt an. Nur Probleme, keine Lösungen.
 ${GRUNDREGELN}
 
 ${betriebKontext(b)}
@@ -161,17 +145,10 @@ ${betriebKontext(b)}
 Bestehende Fäden (nicht wiederholen): ${JSON.stringify(bestehende.map((f) => f.aufgabe))}
 
 Felder je Faden (strikte Längen):
-- "punktIds": die ids der Punkte, die zu diesem Faden gehören. Jeder Punkt genau einmal.
-- "aufgabe": gemeinsame Aufgabe als positives Ziel, höchstens 12 Wörter.
-- "problem": was passiert und was es auslöst, höchstens 25 Wörter.
-- "sichtweisen": je Bereich EIN Eintrag {"bereich": exakt die Bereichsangabe aus den Punkten, "aussage": Ich- oder Wir-Form, höchstens 15 Wörter, nah am Wortlaut}.
-- "unterschied": null, außer die Punkte widersprechen sich (höchstens 20 Wörter).
-- "ansaetze": 2–3 Ansätze, zuerst organisatorisch ("prozess" oder "keineTechnik"), dann höchstens zwei technische ("software", "kiAssistenz", "robotikHardware"). Je Ansatz "text" (≤18 Wörter), "warum" (≤14 Wörter), "wasFehlt" (≤12 Wörter), "herkunft" ("rokiGeprueft" NUR mit passender "wissenId" aus dem Auszug, sonst "nichtGeprueft" und null). Keine Firmen oder Produkte.
-- "ersterSchritt": kleiner Prüfauftrag für 2–6 Wochen mit Rollen, höchstens 22 Wörter.
+- "punktIds": die ids der Punkte, die dazugehören. Jeder Punkt genau einmal.
+${FADEN_FELDER}
 
-ROKI-Wissensauszug: ${JSON.stringify(wissenKurz)}
-
-Antworte als JSON-Objekt: {"faeden": [{"punktIds": ["…"], "aufgabe": "…", "problem": "…", "sichtweisen": [{"bereich": "…", "aussage": "…"}], "unterschied": null, "ansaetze": [{"art": "prozess", "text": "…", "warum": "…", "wasFehlt": "…", "herkunft": "nichtGeprueft", "wissenId": null}], "ersterSchritt": "…"}]}`,
+Antworte als JSON-Objekt: {"faeden": [{"punktIds": ["…"], "kurzname": "…", "aufgabe": "…", "problem": "…", "sichtweisen": [{"bereich": "…", "aussage": "…"}], "unterschied": null}]}`,
     },
     { role: "user" as const, content: JSON.stringify({ punkte }) },
   ];

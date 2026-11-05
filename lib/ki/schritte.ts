@@ -1,14 +1,14 @@
-// Die drei KI-Schritte. Jede Ausgabe wird geprüft und im Code nachbearbeitet.
+// Die KI-Schritte (KONZEPT_V3 §8). Jede Ausgabe wird geprüft und im Code nachbearbeitet.
 // Fällt die KI aus (kein Schlüssel, Fehler, Zeitüberschreitung), greift der Demo-Modus.
 import { z } from "zod";
 import { bereichsLabel } from "../anonym";
-import { demoGesamtbild, wissensauszug } from "../daten";
-import { Faden, Gesamtbild, Verstaendnis, type Beitrag, type Bestandsaufnahme } from "../typen";
+import { demoGesamtbild } from "../daten";
+import { Faden, Gesamtbild, Profil, Verstaendnis, type Beitrag, type Bestandsaufnahme } from "../typen";
 import { fragJson, kiVerfuegbar } from "./json";
 import {
   neuerFadenPrompt,
   verstehePrompt,
-  zeitfresserPrompt,
+  vorbereitenPrompt,
   zuordnenPrompt,
   zusammenfuehrenPrompt,
   type PunktFuerKi,
@@ -20,41 +20,67 @@ function fehlerText(fehler: unknown) {
   return fehler instanceof Error ? fehler.message : String(fehler);
 }
 
-// ---------- ① ----------
-export async function schlageZeitfresserVor(b: Bestandsaufnahme): Promise<MitQuelle<string[]>> {
-  if (!kiVerfuegbar()) return { daten: b.zeitfresser, ausDemo: true };
+// ---------- ① Vorbereiten (beim Anlegen) ----------
+/** Ersatz ohne KI: allgemeine Chips je Bereich, damit die Befragung trotzdem startet. */
+function profilErsatz(b: Bestandsaufnahme): Profil {
+  const chips = Object.fromEntries(
+    b.bereiche.map((x) => [x.name, ["Informationen bekommen", "Material und Werkzeug", "Absprachen", "Dokumentation"]]),
+  );
+  const rueckfragen = Object.fromEntries(
+    b.bereiche.map((x) => [x.name, ["Von wem fehlt dir dann eine Information?", "Woran merkst du, dass es hakt?"]]),
+  );
+  return { kurz: b.betrieb.leistungen, extern: [], chips, rueckfragen };
+}
+
+export async function bereiteVor(b: Bestandsaufnahme, websiteText: string | null): Promise<MitQuelle<Profil>> {
+  if (!kiVerfuegbar()) return { daten: profilErsatz(b), ausDemo: true };
   try {
-    const { zeitfresser } = await fragJson(
-      z.object({ zeitfresser: z.array(z.string().min(2).max(40)).min(4).max(10) }),
-      zeitfresserPrompt(b),
-      { reasoningEffort: "low" },
-    );
-    return { daten: zeitfresser, ausDemo: false };
+    const profil = await fragJson(Profil, vorbereitenPrompt(b, websiteText), { reasoningEffort: "low", timeoutMs: 30_000 });
+    // Jeder Bereich braucht Chips und Rückfragen, auch wenn die KI einen ausgelassen hat.
+    const ersatz = profilErsatz(b);
+    for (const { name } of b.bereiche) {
+      if (!profil.chips[name]?.length) profil.chips[name] = ersatz.chips[name];
+      if (!profil.rueckfragen[name]?.length) profil.rueckfragen[name] = ersatz.rueckfragen[name];
+    }
+    return { daten: profil, ausDemo: false };
   } catch (fehler) {
-    console.error("Zeitfresser-Vorschläge fehlgeschlagen:", fehler);
-    return { daten: b.zeitfresser, ausDemo: true, fehler: fehlerText(fehler) };
+    console.error("Vorbereiten fehlgeschlagen:", fehler);
+    return { daten: profilErsatz(b), ausDemo: true, fehler: fehlerText(fehler) };
   }
 }
 
 // ---------- ② ----------
 export async function versteheGeschichte(
   b: Bestandsaufnahme,
-  eingabe: { bereich: string; zeitfresser: string; geschichte: string; rueckfrageErlaubt: boolean },
+  eingabe: { bereich: string; aufgabe: string; geschichte: string; rueckfrageErlaubt: boolean },
 ): Promise<MitQuelle<Verstaendnis>> {
   const ersatz: Verstaendnis = {
     spiegelung: "",
-    titel: eingabe.zeitfresser,
+    titel: eingabe.aufgabe,
     aussage: eingabe.geschichte.slice(0, 280),
     haeufigkeit: null,
     minuten: null,
     beteiligt: [],
     folge: null,
+    von: null,
+    an: null,
     rueckfrage: null,
   };
   if (!kiVerfuegbar()) return { daten: ersatz, ausDemo: true };
   try {
     const daten = await fragJson(Verstaendnis, verstehePrompt(b, eingabe), { reasoningEffort: "low" });
-    return { daten: eingabe.rueckfrageErlaubt ? daten : { ...daten, rueckfrage: null }, ausDemo: false };
+    // Übergabe nur mit bekannten Zielen; sonst leer lassen, die Person wählt selbst.
+    const ziele = new Set([...b.bereiche.map((x) => x.name), ...(b.profil?.extern ?? [])]);
+    const pruefe = (x: string | null) => (x && ziele.has(x) && x !== eingabe.bereich ? x : null);
+    return {
+      daten: {
+        ...daten,
+        von: pruefe(daten.von),
+        an: pruefe(daten.an),
+        rueckfrage: eingabe.rueckfrageErlaubt ? daten.rueckfrage : null,
+      },
+      ausDemo: false,
+    };
   } catch (fehler) {
     console.error("Verstehen fehlgeschlagen:", fehler);
     return { daten: ersatz, ausDemo: true, fehler: fehlerText(fehler) };
@@ -62,30 +88,17 @@ export async function versteheGeschichte(
 }
 
 // ---------- ③ ----------
-/** Prüft und bereinigt das Gesamtbild: nur echte Punkt-IDs, jeder Punkt einmal, Herkunft nur mit Beleg, Prozess zuerst. */
+/** Prüft das Gesamtbild: nur echte Punkt-IDs, jeder Punkt einmal, leere Fäden fallen weg. */
 function bereinige(bild: Gesamtbild, beitraege: Beitrag[]): Gesamtbild {
   const gueltig = new Set(beitraege.flatMap((x) => x.punkte.map((p) => p.id)));
   const vergeben = new Set<string>();
-  const wissenIds = new Set(wissensauszug.map((w) => w.id));
-  const rang = { prozess: 0, keineTechnik: 0, software: 1, kiAssistenz: 2, robotikHardware: 3 } as const;
-
   const faeden: Faden[] = bild.faeden
     .map((f) => {
       const punktIds = f.punktIds.filter((id) => gueltig.has(id) && !vergeben.has(id));
       punktIds.forEach((id) => vergeben.add(id));
-      const ansaetze = f.ansaetze
-        .map((a) =>
-          a.herkunft === "rokiGeprueft" && (!a.wissenId || !wissenIds.has(a.wissenId))
-            ? { ...a, herkunft: "nichtGeprueft" as const, wissenId: null }
-            : a.herkunft === "nichtGeprueft"
-              ? { ...a, wissenId: null }
-              : a,
-        )
-        .sort((x, y) => rang[x.art] - rang[y.art]);
-      return { ...f, punktIds, ansaetze };
+      return { ...f, punktIds };
     })
     .filter((f) => f.punktIds.length > 0);
-
   return { ...bild, faeden };
 }
 
@@ -134,7 +147,7 @@ export async function fuehreZusammen(
   const gutLaeuft = beitraege.flatMap((x) => (x.gutLaeuft ? [x.gutLaeuft] : []));
 
   try {
-    const bild = await fragJson(Gesamtbild, zusammenfuehrenPrompt(b, punkte, gutLaeuft, wissensauszug), {
+    const bild = await fragJson(Gesamtbild, zusammenfuehrenPrompt(b, punkte, gutLaeuft), {
       reasoningEffort: "medium",
       timeoutMs: 90_000,
     });
@@ -232,7 +245,7 @@ export async function ergaenzeBild(
 
 async function neueFaeden(b: Bestandsaufnahme, punkte: PunktFuerKi[], bestehende: Faden[]) {
   try {
-    const { faeden } = await fragJson(NeueFaeden, neuerFadenPrompt(b, punkte, bestehende, wissensauszug), {
+    const { faeden } = await fragJson(NeueFaeden, neuerFadenPrompt(b, punkte, bestehende), {
       reasoningEffort: "low",
       timeoutMs: 30_000,
     });

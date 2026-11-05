@@ -1,29 +1,41 @@
 {
-  "id": "heidekamp",
+  "id": "HEIDE1",
   "betrieb": {
     "name": "Metallbau Heidekamp",
     "branche": "produktionHandwerk",
     "mitarbeitende": 22,
-    "leistungen": "Treppen, Geländer und individuelle Stahlkonstruktionen",
+    "leistungen": "Treppen, Geländer und Balkone, Stahlkonstruktionen, Vordächer. Verzinkung und Pulverbeschichtung extern.",
+    "website": null,
     "fiktiv": true
   },
-  "leitung": { "vorname": "Sandra", "rolle": "Geschäftsführerin" },
   "anrede": "du",
-  "frage": "Unsere Aufträge brauchen zu viel Abstimmung. Ich weiß nicht, ob das an der Planung, an Änderungen oder an fehlenden Informationen liegt.",
-  "ziel": "Weniger Rückfragen und Nacharbeit, ohne zusätzliche Dokumentation einzuführen.",
-  "stundensatz": 50,
-  "arbeitswochen": 46,
-  "bereiche": ["Leitung", "Büro", "Werkstatt", "Montage"],
-  "mindestanzahl": 3,
-  "zeitfresser": [
-    "Unklarer Zeichnungsstand",
-    "Änderungen kommen spät an",
-    "Fehlendes Material",
-    "Warten auf Rückmeldung",
-    "Rückfragen und Telefonate",
-    "Nacharbeit",
-    "Doppelte Eingaben",
-    "Suchen von Unterlagen"
+  "ziel": "Ich will wissen, wo wir uns das Leben schwer machen, bevor ich die nächste Stelle ausschreibe.",
+  "deadline": "Do., 3. Dezember, 7:30 Uhr in der Werkstatt",
+  "bereiche": [
+    { "name": "Leitung", "satzVon": 60, "satzBis": 70 },
+    { "name": "Technik", "satzVon": 45, "satzBis": 55 },
+    { "name": "Büro", "satzVon": 35, "satzBis": 45 },
+    { "name": "Werkstatt", "satzVon": 38, "satzBis": 46 },
+    { "name": "Montage", "satzVon": 38, "satzBis": 46 }
   ],
-  "besprechungAm": "2026-11-19"
+  "arbeitswochen": 46,
+  "mindestanzahl": 1,
+  "profil": {
+    "kurz": "Metallbaubetrieb mit 22 Beschäftigten: Treppen, Geländer und Stahlkonstruktionen nach Maß – Aufmaß, Konstruktion, Fertigung und Montage aus einer Hand, Verzinkung extern.",
+    "extern": ["Kunde", "Verzinkerei"],
+    "chips": {
+      "Leitung": ["Angebote", "Kundenänderungen", "Einsatzplanung", "Personal"],
+      "Technik": ["Aufmaß vor Ort", "Zeichnung erstellen", "Zeichnung ändern", "Stückliste", "Rückfragen der Werkstatt"],
+      "Büro": ["Kundenanrufe", "Material bestellen", "Stunden erfassen", "Rechnungen", "Termine mit der Verzinkerei"],
+      "Werkstatt": ["Zuschnitt", "Serienteile schweißen", "Treppen und Wangen bauen", "Material suchen", "Zeichnung klären", "Azubis anleiten"],
+      "Montage": ["Laden und Packen", "Tragen auf der Baustelle", "Montage", "Nacharbeit vor Ort", "Stundenzettel"]
+    },
+    "rueckfragen": {
+      "Leitung": ["Wie erreichen Kundenänderungen die Technik?", "Wo erfährst du zuerst, dass ein Auftrag hakt?"],
+      "Technik": ["Wenn ein Kunde etwas ändert, wie erfährt die Werkstatt davon?", "Woran merkst du, dass eine Zeichnung veraltet in der Werkstatt hängt?"],
+      "Büro": ["Welche Kundenfrage kannst du oft nicht beantworten?", "Von wem fehlt dir am häufigsten eine Information?"],
+      "Werkstatt": ["Woran erkennst du, dass eine Zeichnung die gültige ist?", "Wen fragst du, wenn du nicht weiterweißt, und wie lange wartest du?"],
+      "Montage": ["Was musstet ihr zuletzt auf der Baustelle anders machen als geplant?", "Was fehlt am häufigsten, wenn ihr ankommt?"]
+    }
+  }
 }

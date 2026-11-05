@@ -4,8 +4,9 @@ import { z } from "zod";
 import beitraegeJson from "@/daten/demo/heidekamp/beitraege.json";
 import bestandsaufnahmeJson from "@/daten/demo/heidekamp/bestandsaufnahme.json";
 import gesamtbildJson from "@/daten/demo/heidekamp/gesamtbild.json";
+import loesungenJson from "@/daten/demo/heidekamp/loesungen.json";
 import wissenJson from "@/wissen/roki-wissensauszug.json";
-import { Beitrag, Bestandsaufnahme, Gesamtbild, WissensEintrag } from "./typen";
+import { Beitrag, Bestandsaufnahme, Gesamtbild, LoesungEintrag, WissensEintrag } from "./typen";
 
 export function pruefe<T>(schema: z.ZodType<T>, daten: unknown, quelle: string): T {
   const ergebnis = schema.safeParse(daten);
@@ -29,6 +30,13 @@ export const demoBeitraege = pruefe(z.array(Beitrag), beitraegeJson, "daten/demo
 
 /** Von der KI erzeugt und von einem Menschen geprüft (TECHNIK.md §7). */
 export const demoGesamtbild = pruefe(Gesamtbild, gesamtbildJson, "daten/demo/heidekamp/gesamtbild.json");
+
+/** Lösungen je Faden, von der KI erzeugt und von einem Menschen geprüft. */
+export const demoLoesungen = pruefe(
+  z.record(z.string(), LoesungEintrag),
+  loesungenJson,
+  "daten/demo/heidekamp/loesungen.json",
+);
 
 export const DEMO_ID = demoBestandsaufnahme.id;
 

@@ -64,7 +64,7 @@ async function zusammenfuehren(
   schluessel: string,
 ): Promise<GesamtbildEintrag> {
   const ergebnis = await fuehreZusammen(b, beitraege);
-  return { schluessel, bild: ergebnis.daten, ausDemo: ergebnis.ausDemo };
+  return { schluessel, bild: ergebnis.daten, ausDemo: ergebnis.ausDemo, loesungen: {} };
 }
 
 async function ergaenze(
@@ -76,7 +76,7 @@ async function ergaenze(
 ): Promise<GesamtbildEintrag> {
   const bild = await ergaenzeBild(b, vorhanden.bild, beitraege, fehlende);
   // KI nicht erreichbar: bisheriges Bild behalten, neue Punkte werden beim nächsten Abruf erneut versucht.
-  return { schluessel, bild: bild ?? vorhanden.bild, ausDemo: vorhanden.ausDemo };
+  return { schluessel, bild: bild ?? vorhanden.bild, ausDemo: vorhanden.ausDemo, loesungen: vorhanden.loesungen };
 }
 
 /** Nach einem neuen Beitrag: Bild ergänzen (bestehende Fäden bleiben stabil). */
