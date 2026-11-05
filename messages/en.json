@@ -2,7 +2,7 @@
   "HomePage": {
     "title": "Hello World",
     "description": "First page of the app.",
-    "intro": "The app is running. The product description is still to come."
+    "intro": "The app is running. The product description is in PROJEKT.md in the repository."
   },
   "LocaleSwitcher": {
     "label": "Language",
