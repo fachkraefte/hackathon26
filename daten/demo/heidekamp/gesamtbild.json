@@ -2,63 +2,107 @@
   "faeden": [
     {
       "id": "f1",
-      "aufgabe": "Alle erkennen den freigegebenen Zeichnungsstand eines Auftrags eindeutig.",
-      "problem": "Änderungen kommen über verschiedene Wege in die Werkstatt. Vor dem Start wird geklärt, welche Zeichnung gilt; manchmal wird nach einem alten Stand gefertigt und auf der Baustelle nachgearbeitet.",
-      "punktIds": ["sandra-1", "buero-1", "werkstatt-1-1", "werkstatt-3-1", "montage-1-1"],
+      "aufgabe": "Alle arbeiten nach derselben gültigen Zeichnung.",
+      "problem": "Änderungen kommen über mehrere Wege und teils zu spät an. Die Werkstatt klärt den Stand oder baut nach alter Zeichnung; danach braucht es Nacharbeit.",
+      "punktIds": [
+        "sandra-1",
+        "buero-1",
+        "werkstatt-1-1",
+        "werkstatt-3-1",
+        "montage-1-1"
+      ],
       "sichtweisen": [
-        { "bereich": "Leitung", "aussage": "Aufträge brauchen mehr Abstimmung als geplant." },
-        { "bereich": "Büro", "aussage": "Ich gebe Änderungen telefonisch oder über Einzelne weiter und weiß nicht, ob sie ankommen." },
-        { "bereich": "Werkstatt", "aussage": "Bevor wir anfangen, telefonieren wir herum, welche Zeichnung die aktuelle ist." },
-        { "bereich": "Montage", "aussage": "Ein Teil passt nicht, weil es nach einem älteren Stand gefertigt wurde." }
+        {
+          "bereich": "Leitung",
+          "aussage": "Ich weiß nicht, ob Planung, Änderungen oder fehlende Informationen die viele Abstimmung auslösen."
+        },
+        {
+          "bereich": "Büro",
+          "aussage": "Ich gebe Änderungen weiter, weiß aber nicht sicher, ob sie angekommen sind."
+        },
+        {
+          "bereich": "Werkstatt",
+          "aussage": "Wir telefonieren vor dem Start herum und haben schon nach einer alten Zeichnung gebaut."
+        },
+        {
+          "bereich": "Montage",
+          "aussage": "Wir passen Teile vor Ort an, weil sie nach einem älteren Stand gefertigt wurden."
+        }
       ],
-      "unterschied": "Das Büro sieht viele Weitergabewege, die Werkstatt sieht unklare Stände – beide beschreiben dieselbe Übergabe aus zwei Richtungen.",
+      "unterschied": "Das Büro braucht Rückmeldung, die Werkstatt einen klaren Zeichnungsstand. Die Montage trägt die Nacharbeit bis auf die Baustelle.",
+      "ersterSchritt": "Büro, Werkstatt und Montage testen drei Wochen an ausgewählten Aufträgen eine feste Änderungsübergabe und einen gemeinsamen Zeichnungsort ohne Zusatzlisten.",
       "ansaetze": [
-        { "art": "prozess", "text": "Eindeutige Freigabe: Jede Änderung bekommt einen Stand mit Datum, nur der freigegebene Stand liegt in der Werkstatt.", "warum": "Die Zeichnungen fehlen nicht – unklar ist, welche gilt.", "wasFehlt": "Wer gibt frei, und wie schnell muss das gehen?", "herkunft": "nichtGeprueft", "wissenId": null },
-        { "art": "software", "text": "Eine zentrale Ablage je Auftrag, die Werkstatt und Montage am Handy sehen.", "warum": "Ersetzt die vielen Weitergabewege durch einen Ort.", "wasFehlt": "Wie liegen Zeichnungen heute vor, und welche Geräte gibt es in Werkstatt und Montage?", "herkunft": "nichtGeprueft", "wissenId": null },
-        { "art": "kiAssistenz", "text": "Prüfen, ob KI Änderungen zwischen zwei Zeichnungsständen erkennen und kurz zusammenfassen kann.", "warum": "Würde zeigen, was sich geändert hat, ohne alles neu zu lesen.", "wasFehlt": "Dateiformate der Zeichnungen und ein Test an alten Aufträgen.", "herkunft": "nichtGeprueft", "wissenId": null }
-      ],
-      "ersterSchritt": "Bei drei laufenden Aufträgen vier Wochen lang festhalten, wie Zeichnungsänderungen die Werkstatt erreichen – Büro und Werkstattleitung gemeinsam."
+        {
+          "art": "prozess",
+          "text": "Änderungen direkt an eine feste Rolle in der Werkstatt geben; diese bestätigt den Empfang und klärt laufende Arbeiten.",
+          "warum": "Dem Büro fehlt die Bestätigung; Änderungen erreichen die Werkstatt teils erst nach dem Bau.",
+          "wasFehlt": "Wer übernimmt Änderungen auch bei Abwesenheit?",
+          "herkunft": "nichtGeprueft",
+          "wissenId": null
+        },
+        {
+          "art": "software",
+          "text": "Gültige Zeichnungen an einer gemeinsamen digitalen Stelle ablegen und alte Stände deutlich abtrennen, statt zusätzliche Listen anzulegen.",
+          "warum": "Die Werkstatt sucht den gültigen Stand; die Montage arbeitet Folgen alter Zeichnungen nach.",
+          "wasFehlt": "Können Werkstatt und Montage die vorhandenen Zeichnungen dort zuverlässig öffnen?",
+          "herkunft": "nichtGeprueft",
+          "wissenId": null
+        }
+      ]
     },
     {
       "id": "f2",
-      "aufgabe": "Das Material für einen Auftrag ist vollständig da, bevor die Arbeit beginnt.",
-      "problem": "Materialbedarf wird oft erst gemeldet, wenn etwas fehlt. In der Werkstatt wird umgeplant, auf der Baustelle fährt jemand zurück.",
-      "punktIds": ["buero-2", "werkstatt-2-1", "montage-2-1"],
+      "aufgabe": "Material liegt vor Fertigungsstart und Montage vollständig bereit.",
+      "problem": "Materialbedarf kommt erst beim Fehlen an. In Werkstatt und Montage fehlen Teile; dadurch entstehen Eilbestellungen, Umplanen und Rückfahrten.",
+      "punktIds": [
+        "buero-2",
+        "werkstatt-2-1",
+        "montage-2-1"
+      ],
       "sichtweisen": [
-        { "bereich": "Büro", "aussage": "Materialbedarf kommt erst, wenn etwas fehlt – dann bestelle ich eilig." },
-        { "bereich": "Werkstatt", "aussage": "Beim Start fehlen oft Kleinteile oder Profile." },
-        { "bereich": "Montage", "aussage": "Fehlen Schrauben oder Anker, fährt einer zurück." }
+        {
+          "bereich": "Büro",
+          "aussage": "Ich erfahre oft erst vom Materialbedarf, wenn etwas fehlt, und bestelle dann eilig."
+        },
+        {
+          "bereich": "Werkstatt",
+          "aussage": "Uns fehlen beim Start Kleinteile oder Profile, dann müssen wir umplanen."
+        },
+        {
+          "bereich": "Montage",
+          "aussage": "Uns fehlen vor Ort Schrauben oder Anker, dann fährt einer zurück."
+        }
       ],
-      "unterschied": null,
+      "unterschied": "Das Büro erlebt späte Bestellungen, die Werkstatt einen gestörten Start und die Montage fehlende Teile erst vor Ort.",
+      "ersterSchritt": "Büro, Werkstatt und Montage prüfen vier Wochen bei ausgewählten Aufträgen Material vor Einplanung und Abfahrt anhand vorhandener Unterlagen.",
       "ansaetze": [
-        { "art": "prozess", "text": "Materialliste je Auftrag, beim Freigeben der Zeichnung erstellt und vor der Abfahrt abgehakt.", "warum": "Bedarf wird früh sichtbar statt erst beim Fehlen.", "wasFehlt": "Wer erstellt die Liste, und wann?", "herkunft": "nichtGeprueft", "wissenId": null },
-        { "art": "software", "text": "Mindestbestand für Kleinteile mit Nachbestell-Hinweis.", "warum": "Kleinteile fehlen am häufigsten.", "wasFehlt": "Welche Teile fehlen wirklich oft?", "herkunft": "nichtGeprueft", "wissenId": null }
-      ],
-      "ersterSchritt": "Zwei Wochen lang notieren, welches Material bei welchem Auftrag gefehlt hat – Werkstatt und Montage, Auswertung mit dem Büro."
-    },
-    {
-      "id": "f3",
-      "aufgabe": "Kundinnen und Kunden wissen verlässlich, wann die Montage kommt.",
-      "problem": "Die Montage steht manchmal vor Ort, ohne dass der Kunde Bescheid weiß.",
-      "punktIds": ["montage-3-1"],
-      "sichtweisen": [
-        { "bereich": "Montage", "aussage": "Manchmal weiß der Kunde nicht, dass wir kommen." }
-      ],
-      "unterschied": null,
-      "ansaetze": [
-        { "art": "prozess", "text": "Am Vortag kurze Bestätigung an den Kunden.", "warum": "Einfach und sofort machbar.", "wasFehlt": "Wer schickt sie, und auf welchem Weg?", "herkunft": "nichtGeprueft", "wissenId": null }
-      ],
-      "ersterSchritt": "Einen Monat lang am Vortag jeden Montagetermin bestätigen und zählen, wie oft noch gewartet wird."
+        {
+          "art": "prozess",
+          "text": "Büro und Werkstatt prüfen vor der Einplanung gemeinsam den Materialbedarf anhand der vorhandenen Auftragsunterlagen.",
+          "warum": "Bedarf kommt bisher oft erst an, wenn Material schon fehlt.",
+          "wasFehlt": "Wann stehen Materialbedarf und Lieferzeiten für einen Auftrag fest?",
+          "herkunft": "nichtGeprueft",
+          "wissenId": null
+        },
+        {
+          "art": "prozess",
+          "text": "Werkstatt und Montage stellen Schrauben und Anker vor der Abfahrt auftragsweise zusammen und prüfen gemeinsam die Vollständigkeit.",
+          "warum": "Fehlende Kleinteile lösen Rückfahrten von der Baustelle aus.",
+          "wasFehlt": "Welche vorhandenen Unterlagen nennen die benötigten Schrauben und Anker?",
+          "herkunft": "nichtGeprueft",
+          "wissenId": null
+        }
+      ]
     }
   ],
   "staerken": [
+    "Der Betrieb hat genug Arbeit und ein erfahrenes Team.",
     "In der Werkstatt hilft jeder jedem.",
-    "Die Montagetrupps sind eingespielt.",
-    "Es gibt genug Arbeit und ein erfahrenes Team."
+    "Die Montagetrupps sind eingespielt."
   ],
   "offeneFragen": [
-    "Wie liegen Zeichnungen heute vor – Papier, PDF, CAD?",
-    "Wer darf eine Zeichnung freigeben?",
-    "Wie sieht die Montage die Sache mit dem Zeichnungsstand?"
+    "Wer legt verbindlich fest, welche Zeichnung gilt?",
+    "Welche vorhandenen Unterlagen reichen für die Materialprüfung vor Fertigung und Montage?",
+    "Wer bestätigt mit dem Kunden den Montagetermin vor der Abfahrt?"
   ]
 }

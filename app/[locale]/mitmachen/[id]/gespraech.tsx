@@ -18,6 +18,7 @@ type Geschichte = {
   text: string;
   verstaendnis?: Verstaendnis;
   rueckfrageOffen: boolean;
+  frage?: string; // gestellte Rückfrage, bleibt im Verlauf sichtbar
   antwort?: string;
   haeufigkeit: Haeufigkeit;
   minuten: number;
@@ -118,8 +119,8 @@ export function Gespraech(props: Props) {
       aendere(index, { rueckfrageOffen: false });
       return;
     }
-    aendere(index, { antwort, rueckfrageOffen: false });
     const frage = g.verstaendnis?.rueckfrage?.frage ?? "";
+    aendere(index, { antwort, frage, rueckfrageOffen: false });
     fragKi(index, `${g.text}\n\n(Rückfrage: ${frage})\n${antwort}`, false);
   }
 
@@ -279,8 +280,13 @@ export function Gespraech(props: Props) {
           <p className="ueberzeile">{t("themaVon", { nr: index + 1, gesamt: geschichten.length })}</p>
           <div className={styles.verlauf}>
             <p className={styles.person}>{aktuell.text}</p>
-            <p className={styles.ki}>{aktuell.verstaendnis.spiegelung}</p>
-            {aktuell.antwort && <p className={styles.person}>{aktuell.antwort}</p>}
+            {aktuell.antwort && aktuell.frage ? (
+              <>
+                <p className={styles.ki}>{aktuell.frage}</p>
+                <p className={styles.person}>{aktuell.antwort}</p>
+              </>
+            ) : null}
+            {!laedt && <p className={styles.ki}>{aktuell.verstaendnis.spiegelung}</p>}
           </div>
 
           {laedt ? (

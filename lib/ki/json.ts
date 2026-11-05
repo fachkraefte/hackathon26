@@ -1,7 +1,9 @@
 // Fragt das Modell nach JSON und prüft die Antwort mit zod.
 // Schlägt die Prüfung fehl: einmal mit der Fehlermeldung erneut fragen (TECHNIK.md §3).
 import { z } from "zod";
-import { requestModelCompletion, type ModelMessage } from "./model";
+import { requestModelCompletion, type ModelMessage, type ModelRequest } from "./model";
+
+type Optionen = Pick<ModelRequest, "reasoningEffort" | "timeoutMs">;
 
 export function kiVerfuegbar() {
   return Boolean(process.env.OPENAI_API_KEY?.trim());
@@ -15,14 +17,21 @@ function parseJson(text: string): unknown {
   }
 }
 
-export async function fragJson<T>(schema: z.ZodType<T>, messages: ModelMessage[]): Promise<T> {
-  const erste = await requestModelCompletion({ messages, json: true });
+export async function fragJson<T>(
+  schema: z.ZodType<T>,
+  messages: ModelMessage[],
+  optionen: Optionen = {},
+): Promise<T> {
+  const start = Date.now();
+  const erste = await requestModelCompletion({ messages, json: true, ...optionen });
+  console.info(`KI-Antwort nach ${((Date.now() - start) / 1000).toFixed(1)} s`);
   const ergebnis = schema.safeParse(parseJson(erste));
   if (ergebnis.success) return ergebnis.data;
 
   const fehler = z.prettifyError(ergebnis.error);
   const zweite = await requestModelCompletion({
     json: true,
+    ...optionen,
     messages: [
       ...messages,
       { role: "assistant", content: erste },

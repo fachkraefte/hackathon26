@@ -15,6 +15,13 @@ export type ModelRequest = {
    * Ask the model for a JSON object. Callers still validate the text.
    */
   json?: boolean;
+  /**
+   * How long the model may think. Short steps (a chat reply) use "low" for speed,
+   * the merge step uses more. Omitted: the model's default.
+   */
+  reasoningEffort?: "low" | "medium" | "high";
+  /** Overrides the default timeout for slow steps. */
+  timeoutMs?: number;
 };
 
 function requiredEnv(name: string): string {
@@ -89,8 +96,9 @@ export async function requestModelCompletion(
         model: modelName(),
         messages: request.messages,
         ...(request.json ? { response_format: { type: "json_object" } } : {}),
+        ...(request.reasoningEffort ? { reasoning_effort: request.reasoningEffort } : {}),
       }),
-      signal: AbortSignal.timeout(TIMEOUT_MS),
+      signal: AbortSignal.timeout(request.timeoutMs ?? TIMEOUT_MS),
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);

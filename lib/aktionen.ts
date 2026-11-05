@@ -3,7 +3,7 @@
 // Server Actions: öffentliche Endpunkte, deshalb wird jede Eingabe mit zod geprüft.
 import { z } from "zod";
 import { bereichsLabel } from "./anonym";
-import { holeGesamtbild } from "./gesamtbild";
+import { nimmBeitragAuf } from "./gesamtbild";
 import { schlageZeitfresserVor, versteheGeschichte } from "./ki/schritte";
 import { euroProJahr, fadenZahlen, stundenProWoche } from "./rechnen";
 import {
@@ -71,7 +71,7 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
   };
   speichereBeitrag(beitrag);
 
-  const ergebnis = await holeGesamtbild(b.id);
+  const ergebnis = await nimmBeitragAuf(b.id, beitrag);
   if (!ergebnis) throw new Error("Gesamtbild nicht verfügbar.");
   const meineIds = new Set(beitrag.punkte.map((p) => p.id));
   const meinLabel = bereichsLabel(beitrag, ergebnis.beitraege, b);

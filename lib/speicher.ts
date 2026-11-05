@@ -1,7 +1,7 @@
 // Laufzeitdaten im Speicher des Servers (Demo, TECHNIK.md §6).
 // Später ersetzt Supabase diese Datei; die Funktionen bleiben gleich.
 // globalThis überlebt das Neuladen im Dev-Server.
-import { demoBeitraege, demoBestandsaufnahme } from "./daten";
+import { demoBeitraege, demoBestandsaufnahme, demoGesamtbild } from "./daten";
 import type { Beitrag, Beschluss, Bestandsaufnahme, Gesamtbild } from "./typen";
 
 type GesamtbildEintrag = { schluessel: string; bild: Gesamtbild; ausDemo: boolean };
@@ -16,11 +16,24 @@ type Speicher = {
 
 const g = globalThis as typeof globalThis & { __rowaiSpeicher?: Speicher };
 
+export function schluesselFuer(beitraege: Beitrag[]) {
+  return beitraege
+    .flatMap((b) => b.punkte.map((p) => `${b.id}:${p.id}:${p.titel}:${p.aussage}`))
+    .sort()
+    .join("|");
+}
+
 function neuerSpeicher(): Speicher {
   return {
     bestandsaufnahmen: new Map([[demoBestandsaufnahme.id, structuredClone(demoBestandsaufnahme)]]),
     beitraege: new Map([[demoBestandsaufnahme.id, structuredClone(demoBeitraege)]]),
-    gesamtbilder: new Map(),
+    // Geprüftes Startbild: die Ergebnisseite lädt in der Demo sofort.
+    gesamtbilder: new Map([
+      [
+        demoBestandsaufnahme.id,
+        { schluessel: schluesselFuer(demoBeitraege), bild: structuredClone(demoGesamtbild), ausDemo: false },
+      ],
+    ]),
     laufend: new Map(),
     beschluesse: new Map(),
   };

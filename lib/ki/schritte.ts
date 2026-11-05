@@ -1,12 +1,11 @@
 // Die drei KI-Schritte. Jede Ausgabe wird geprüft und im Code nachbearbeitet.
 // Fällt die KI aus (kein Schlüssel, Fehler, Zeitüberschreitung), greift der Demo-Modus.
 import { z } from "zod";
-import fallbackJson from "@/daten/demo/heidekamp/gesamtbild.json";
 import { bereichsLabel } from "../anonym";
-import { wissensauszug } from "../daten";
+import { demoGesamtbild, wissensauszug } from "../daten";
 import { Gesamtbild, Verstaendnis, type Beitrag, type Bestandsaufnahme, type Faden } from "../typen";
 import { fragJson, kiVerfuegbar } from "./json";
-import { verstehePrompt, zeitfresserPrompt, zusammenfuehrenPrompt, type PunktFuerKi } from "./prompts";
+import { verstehePrompt, zeitfresserPrompt, zuordnenPrompt, zusammenfuehrenPrompt, type PunktFuerKi } from "./prompts";
 
 export type MitQuelle<T> = { daten: T; ausDemo: boolean; fehler?: string };
 
@@ -21,6 +20,7 @@ export async function schlageZeitfresserVor(b: Bestandsaufnahme): Promise<MitQue
     const { zeitfresser } = await fragJson(
       z.object({ zeitfresser: z.array(z.string().min(2).max(40)).min(4).max(10) }),
       zeitfresserPrompt(b),
+      { reasoningEffort: "low" },
     );
     return { daten: zeitfresser, ausDemo: false };
   } catch (fehler) {
@@ -46,7 +46,7 @@ export async function versteheGeschichte(
   };
   if (!kiVerfuegbar()) return { daten: ersatz, ausDemo: true };
   try {
-    const daten = await fragJson(Verstaendnis, verstehePrompt(b, eingabe));
+    const daten = await fragJson(Verstaendnis, verstehePrompt(b, eingabe), { reasoningEffort: "low" });
     return { daten: eingabe.rueckfrageErlaubt ? daten : { ...daten, rueckfrage: null }, ausDemo: false };
   } catch (fehler) {
     console.error("Verstehen fehlgeschlagen:", fehler);
@@ -84,7 +84,7 @@ function bereinige(bild: Gesamtbild, beitraege: Beitrag[]): Gesamtbild {
 
 /** Ersatz ohne KI: gespeichertes Bild; neue Punkte kommen in den Faden mit dem gleichen Zeitfresser. */
 function demoBild(beitraege: Beitrag[]): Gesamtbild {
-  const basis = Gesamtbild.parse(fallbackJson);
+  const basis = structuredClone(demoGesamtbild);
   const bekannte = new Set(basis.faeden.flatMap((f) => f.punktIds));
   const zeitfresserVon = new Map(beitraege.flatMap((x) => x.punkte.map((p) => [p.id, p.zeitfresser])));
   const faeden = basis.faeden.map((f) => ({ ...f, punktIds: [...f.punktIds] }));
@@ -120,10 +120,62 @@ export async function fuehreZusammen(
   const gutLaeuft = beitraege.flatMap((x) => (x.gutLaeuft ? [x.gutLaeuft] : []));
 
   try {
-    const bild = await fragJson(Gesamtbild, zusammenfuehrenPrompt(b, punkte, gutLaeuft, wissensauszug));
+    const bild = await fragJson(Gesamtbild, zusammenfuehrenPrompt(b, punkte, gutLaeuft, wissensauszug), {
+      reasoningEffort: "medium",
+      timeoutMs: 90_000,
+    });
     return { daten: bereinige(bild, beitraege), ausDemo: false };
   } catch (fehler) {
     console.error("Zusammenführen fehlgeschlagen:", fehler);
     return { daten: bereinige(demoBild(beitraege), beitraege), ausDemo: true, fehler: fehlerText(fehler) };
+  }
+}
+
+// ---------- ③b ----------
+const Zuordnung = z.object({
+  zuordnung: z.array(z.object({ punktId: z.string(), fadenId: z.string().nullable(), stimme: z.string() })),
+});
+
+/**
+ * Hängt die Punkte eines neuen Beitrags an bestehende Fäden (schnell, ein kurzer KI-Aufruf).
+ * Gibt null zurück, wenn ein Punkt nirgends passt – dann muss neu zusammengeführt werden.
+ */
+export async function ordneZu(
+  bild: Gesamtbild,
+  beitrag: Beitrag,
+  bereich: string,
+): Promise<Gesamtbild | null> {
+  if (!kiVerfuegbar()) return null;
+  try {
+    const { zuordnung } = await fragJson(
+      Zuordnung,
+      zuordnenPrompt(
+        bild.faeden.map((f) => ({ id: f.id, aufgabe: f.aufgabe, problem: f.problem })),
+        beitrag.punkte.map((p) => ({ id: p.id, titel: p.titel, aussage: p.aussage, beteiligt: p.beteiligt })),
+      ),
+      { reasoningEffort: "low" },
+    );
+    const fadenIds = new Set(bild.faeden.map((f) => f.id));
+    const passend = zuordnung.filter((z) => z.fadenId && fadenIds.has(z.fadenId));
+    if (passend.length < beitrag.punkte.length) return null;
+
+    const faeden = bild.faeden.map((f) => {
+      const meine = passend.filter((z) => z.fadenId === f.id);
+      if (meine.length === 0) return f;
+      const hatBereich = f.sichtweisen.some((s) => s.bereich === bereich);
+      return {
+        ...f,
+        punktIds: [...f.punktIds, ...meine.map((z) => z.punktId)],
+        // Neue Stimme vorne, damit der eigene Beitrag sichtbar ist; bestehende Stimme des Bereichs ersetzen.
+        sichtweisen: [
+          { bereich, aussage: meine[0].stimme },
+          ...f.sichtweisen.filter((s) => (hatBereich ? s.bereich !== bereich : true)),
+        ],
+      };
+    });
+    return { ...bild, faeden };
+  } catch (fehler) {
+    console.error("Zuordnen fehlgeschlagen:", fehler);
+    return null;
   }
 }
