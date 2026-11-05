@@ -224,6 +224,7 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 - Kosten der Probleme in € pro Jahr über den internen Stundensatz der Leitung
 - KI: OpenAI (`lib/ki/model.ts`, Modell über `OPENAI_MODEL`)
 - Demo-Fall: Personas Marco und Sandra im Betrieb Metallbau Heidekamp
+- Supabase-Schema: `bestandsaufnahmen`, `beitraege`, `gesamtbilder`, `beschluesse`, nur Server-Zugriff (05.11.2026)
 - Ergebnis ist eine Vorlage für eine Unternehmensbesprechung
 - Fünf fiktive Demo-Betriebe, keine echten Firmennamen; Live-Demo mit Metallbau Heidekamp
 - Speicherung über die Demo hinaus: Supabase. Der Server-Client ist angebunden. Tabellen folgen, sobald das Schema festliegt.
@@ -233,7 +234,6 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 - [ ] Bewertungskriterien der Jury, Länge des Pitches, Abgabeformat
 - [ ] Teamgröße und Verteilung der Arbeitspakete
 - [ ] Mindestanzahl Antworten pro Gruppe (Demo: 3)
-- [ ] Supabase-Schema für Bestandsaufnahmen, Beiträge, Gesamtbilder, Beschlüsse
 
 ---
 

@@ -289,12 +289,24 @@ function FadenAbschnitt({
         ))}
       </div>
 
-      <ErsterSchritt id={id} fadenId={faden.id} text={faden.ersterSchritt} beschluss={beschluss} />
+      <ErsterSchritt id={id} fadenId={faden.id} aufgabe={faden.aufgabe} text={faden.ersterSchritt} beschluss={beschluss} />
     </section>
   );
 }
 
-function ErsterSchritt({ id, fadenId, text, beschluss }: { id: string; fadenId: string; text: string; beschluss?: Beschluss }) {
+function ErsterSchritt({
+  id,
+  fadenId,
+  aufgabe,
+  text,
+  beschluss,
+}: {
+  id: string;
+  fadenId: string;
+  aufgabe: string;
+  text: string;
+  beschluss?: Beschluss;
+}) {
   const t = useTranslations("Ergebnis");
   const [wer, setWer] = useState(beschluss?.verantwortlich ?? "");
   const [bis, setBis] = useState(beschluss?.bis ?? "");
@@ -319,7 +331,7 @@ function ErsterSchritt({ id, fadenId, text, beschluss }: { id: string; fadenId: 
             setFehler(null);
             starte(async () => {
               try {
-                await beschliesse(id, { fadenId, verantwortlich: wer, bis });
+                await beschliesse(id, { fadenId, aufgabe, verantwortlich: wer, bis });
                 setFertig(true);
               } catch (err) {
                 setFehler(err instanceof Error ? err.message : String(err));
