@@ -24,7 +24,7 @@ The product description is not written yet. Another teammate will provide it. Do
 - Styling is not decided. Use plain CSS in `app/globals.css` or a CSS module next to the component. Do not add Tailwind, CSS-in-JS, or a component library.
 - Internationalization uses `next-intl` with locale prefixes (`/en`, `/de`). English is the default. To add a language, add its code to `i18n/routing.ts` and a `messages/<locale>.json` file with the same keys as `messages/en.json`. Do not add i18next, react-intl, or a second catalog. User-facing strings belong in the message files.
 - Import `Link`, `redirect`, `usePathname`, and `useRouter` from `i18n/navigation.ts`. Do not import those from `next/link` or `next/navigation`.
-- A database is not decided. If a task needs to save data, use Supabase. Stop and confirm before installing the client or creating tables. Do not add Prisma, Firebase, or another database. The Supabase service role key is server-only and must never use the `NEXT_PUBLIC_` prefix.
+- The database is Supabase. Use the server client in `lib/supabase/server.ts`. Confirm the schema before creating tables. Do not add Prisma, Firebase, or another database. The service role key is server-only and must never use the `NEXT_PUBLIC_` prefix. `@supabase/supabase-js` is the client because the app cannot reach Supabase without it. Do not add `@supabase/ssr` unless the app stores a user session in cookies.
 
 ## Safety and quality
 

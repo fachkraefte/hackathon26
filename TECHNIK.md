@@ -282,7 +282,8 @@ interface WissensEintrag {
 ## 6. Speicherung
 
 - **Demo:** JSON-Dateien im Repo unter `daten/demo/` (Betrieb, Bestandsaufnahme, Antworten, Aufgabenkarten) und Laufzeitdaten im Speicher bzw. in einer lokalen Datei.
-- **Später:** offen. Anforderungen: Hosting in der EU bzw. beim Betrieb selbst, Einzelantworten getrennt vom Gesamtbild, Löschen auf Wunsch.
+- **Datenbank:** Supabase. Der Server-Client liegt in `lib/supabase/server.ts` und nutzt den Service-Role-Key. Der Schlüssel bleibt auf dem Server und bekommt nie das Präfix `NEXT_PUBLIC_`. Tabellen werden erst angelegt, wenn das Schema bestätigt ist.
+- **Anforderungen für den echten Einsatz:** Hosting in der EU bzw. beim Betrieb selbst, Einzelantworten getrennt vom Gesamtbild, Löschen auf Wunsch.
 
 ---
 
