@@ -1,0 +1,19 @@
+.main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.main h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.main p {
+  margin: 1rem 0 0;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--muted);
+}

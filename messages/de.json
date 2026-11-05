@@ -1,0 +1,12 @@
+{
+  "HomePage": {
+    "title": "Hallo Welt",
+    "description": "Erste Seite der App.",
+    "intro": "Die App läuft. Die Produktbeschreibung folgt noch."
+  },
+  "LocaleSwitcher": {
+    "label": "Sprache",
+    "en": "English",
+    "de": "Deutsch"
+  }
+}
