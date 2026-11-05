@@ -1,0 +1,365 @@
+.gespraech {
+  padding-top: 0.5rem;
+}
+
+.fortschritt {
+  height: 4px;
+  margin-bottom: 1.75rem;
+  border-radius: 999px;
+  background: var(--brand-section-tint);
+  overflow: hidden;
+}
+
+.fortschritt span {
+  display: block;
+  height: 100%;
+  background: var(--brand-highlight);
+  transition: width 0.4s ease;
+}
+
+.schritt {
+  display: grid;
+  gap: 1rem;
+  animation: rein 0.35s ease;
+}
+
+@keyframes rein {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.schritt h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-weight: 600;
+}
+
+.frage {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--brand-highlight);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+  font-size: 1.0625rem;
+  font-style: italic;
+}
+
+.gross {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.frageKlein {
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
+
+.zustimmung {
+  display: flex;
+  gap: 0.625rem;
+  align-items: flex-start;
+  font-size: 0.9375rem;
+}
+
+.zustimmung input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  accent-color: var(--brand-highlight-dark);
+}
+
+.schutz {
+  margin: 0;
+}
+
+/* Zeitfresser-Chips */
+.themen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.thema {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--linie);
+  border-radius: 999px;
+  background: var(--brand-surface);
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.thema:active {
+  transform: scale(0.97);
+}
+
+.thema[aria-pressed="true"] {
+  border-color: var(--brand-highlight-dark);
+  background: var(--brand-highlight);
+  font-weight: 500;
+}
+
+.thema:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Chat */
+.verlauf {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.ki,
+.person {
+  max-width: 88%;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  animation: rein 0.35s ease;
+}
+
+.ki {
+  justify-self: start;
+  border-radius: 4px 18px 18px 18px;
+  background: var(--brand-text);
+  color: white;
+}
+
+.person {
+  justify-self: end;
+  border-radius: 18px 4px 18px 18px;
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.tippt {
+  display: flex;
+  gap: 0.375rem;
+  width: fit-content;
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border-radius: 4px 18px 18px 18px;
+  background: var(--brand-text);
+}
+
+.tippt span {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: white;
+  animation: tippen 1s ease-in-out infinite;
+}
+
+.tippt span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.tippt span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes tippen {
+  50% {
+    opacity: 0.3;
+    transform: translateY(-3px);
+  }
+}
+
+.rueckfrage {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ueberspringen {
+  padding: 0.5rem 0.875rem;
+  border: 0;
+  background: transparent;
+  color: var(--text-leise);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.regler {
+  display: grid;
+  gap: 0.75rem;
+  animation: rein 0.35s ease;
+}
+
+.live {
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+  color: var(--brand-primary-dark);
+}
+
+.knoepfe {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.fehler {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: var(--radius-button);
+  background: #fde8e8;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+}
+
+/* Karte */
+.karte {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.punkt {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.125rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-surface);
+  box-shadow: inset 4px 0 0 var(--brand-highlight), var(--shadow-soft);
+}
+
+.punkt h2 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.punkt p {
+  margin: 0;
+}
+
+.punktZahlen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 1rem;
+  font-size: 0.875rem;
+  color: var(--text-leise);
+}
+
+.punktZahlen strong {
+  color: var(--brand-primary-dark);
+}
+
+.korrigieren {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--brand-link);
+  font: inherit;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Zusammenführen */
+.zusammenfuehren {
+  display: grid;
+  place-items: center;
+  gap: 1.5rem;
+  min-height: 50vh;
+  text-align: center;
+  font-size: 1.125rem;
+}
+
+.faeden {
+  position: relative;
+  width: 16rem;
+  height: 10rem;
+}
+
+.faeden span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  background: var(--brand-text);
+  color: white;
+  font-size: 0.875rem;
+  animation: zusammen 2.4s ease-in-out infinite;
+}
+
+.faeden span:nth-child(1) { --x: -7rem; --y: -4rem; }
+.faeden span:nth-child(2) { --x: 3rem; --y: -4rem; }
+.faeden span:nth-child(3) { --x: -7rem; --y: 3rem; }
+.faeden span:nth-child(4) { --x: 3rem; --y: 3rem; }
+.faeden span:nth-child(5) { --x: -2rem; --y: -5rem; }
+
+@keyframes zusammen {
+  0%,
+  100% {
+    transform: translate(var(--x), var(--y));
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 1;
+    background: var(--brand-highlight-dark);
+  }
+}
+
+/* Fertig */
+.nichtAllein {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-text);
+  color: white;
+}
+
+.nichtAlleinTitel {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--brand-highlight);
+}
+
+.fadenTreffer {
+  display: grid;
+  gap: 0.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.fadenTreffer p {
+  margin: 0;
+}
+
+.andere {
+  font-size: 0.9375rem;
+  opacity: 0.85;
+}
+
+.aufgabe {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.euro {
+  font-weight: 600;
+  color: #f9b56f;
+}
+
+.meineZeit {
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.kleinTitel {
+  margin: 0 0 0.25rem;
+  font-size: 1.125rem;
+}

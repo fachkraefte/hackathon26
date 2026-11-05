@@ -1,0 +1,45 @@
+.feld {
+  position: relative;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.feld textarea {
+  min-height: 7rem;
+  padding: 0.875rem 1rem;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+.mikro {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--linie);
+  border-radius: 999px;
+  background: var(--brand-surface);
+  color: inherit;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.aktiv {
+  border-color: var(--brand-primary);
+  background: var(--orange-hell);
+  animation: puls 1.4s ease-in-out infinite;
+}
+
+@keyframes puls {
+  50% {
+    box-shadow: 0 0 0 6px rgba(240, 129, 25, 0.15);
+  }
+}
+
+.fehler {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #a33;
+}

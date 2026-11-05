@@ -1,6 +1,6 @@
 # Technik
 
-**Stand:** 05.11.2026 · Version 2
+**Stand:** 05.11.2026 · Version 3 (Workflow v2)
 Gehört zu [`PROJEKT.md`](PROJEKT.md). Bei Widersprüchen gilt `PROJEKT.md`. Für Stack, Stil und Arbeitsweise im Code gilt zusätzlich [`AGENTS.md`](AGENTS.md). Alles hier ist ein **Vorschlag für den Hackathon** und darf vom Team angepasst werden – Änderungen bitte hier eintragen.
 
 ---
@@ -24,227 +24,42 @@ Handy/Browser ──► Next.js auf Vercel (Seiten + API-Routen) ──► Model
 
 ## 2. Seiten, Sprache, Gestaltung
 
-Alle Seiten liegen unter `app/[locale]/` und haben ein Sprachpräfix. Deutsch ist Standard (`/de/…`), Englisch folgt später (`/en/…`). Links und Weiterleitungen immer über `@/i18n/navigation`.
-
-| Pfad (Beispiel Deutsch) | Wer | Inhalt |
+| Pfad (Deutsch) | Wer | Inhalt |
 |---|---|---|
-| `/de` | alle | kurze Erklärung, Start |
-| `/de/anlegen` | Leitung | Branche, Größe, Bereiche, Anrede, Einladungslinks |
-| `/de/abfrage/[linkId]` | Beschäftigte | Einzelabfrage als Gespräch, danach Selbsteinschätzung |
-| `/de/karte/[antwortId]` | die Person selbst | Aufgabenkarte prüfen, korrigieren, bestätigen; danach Einordnung |
-| `/de/ergebnis/[bestandsaufnahmeId]` | alle Beteiligten | Gesamtbild, Profildiagramm, Fahrplan |
-| `/de/besprechung/[bestandsaufnahmeId]` | alle Beteiligten | Besprechungsvorlage, Eingabe von Zielwerten und Beschlüssen |
+| `/de` | alle | Einstieg: die drei Momente, Demo zurücksetzen |
+| `/de/start` | Leitung | ① Starten: Frage, Ziel, Bereiche, Stundensatz → Einladung |
+| `/de/mitmachen/[id]` | jede Person | ② Erzählen: Chips, Erzählung mit Spiegelung, Regler, „So habe ich dich verstanden“, „Du bist nicht allein“ |
+| `/de/ergebnis/[id]` | alle | ③ Verstehen: Problemfäden, Kosten, Ansätze, erster Schritt, Präsentationsmodus |
 
-**Texte:** Alle festen Texte der Oberfläche stehen in `messages/de.json` (zuerst) und mit gleichen Schlüsseln in `messages/en.json`. Die KI antwortet im Hackathon auf Deutsch; später richtet sich die Sprache der Prompts nach der gewählten Sprache.
-
-**Gestaltung:** Handy zuerst. Vorerst nach `DESIGN.md`: Schrift Rubik (über `next/font`); Navy `#15263E`, Türkis `#2FB9CB`, Orange `#F08119` sparsam, Hintergrund `#F6F8FA`; Text auf farbigen Buttons in Navy, nicht Weiß. Werte als CSS-Variablen in `app/globals.css`, einfaches CSS bzw. CSS-Module, kein Tailwind und keine Komponentenbibliothek (siehe `AGENTS.md`).
+Texte der Oberfläche stehen in `messages/de.json`, `messages/en.json` hat dieselben Schlüssel (Übersetzung folgt). Die Oberfläche duzt (Demo-Betrieb hat „Du“ gewählt); eine Sie-Variante fehlt noch. Einsprechen nutzt die Spracherkennung des Browsers (`app/[locale]/_komponenten/eingabe.tsx`), ohne neue Abhängigkeit; der Text ist vor dem Absenden korrigierbar. Gestaltung nach `DESIGN.md`.
 
 ---
 
 ## 3. KI-Schritte
 
+Alle Aufrufe auf dem Server über `lib/ki/model.ts`, Prompts in `lib/ki/prompts.ts`, Schritte in `lib/ki/schritte.ts`. Jede Ausgabe wird mit zod geprüft; bei Formatfehler einmal mit der Fehlermeldung neu gefragt (`lib/ki/json.ts`), danach Demo-Modus.
+
 | Schritt | Eingabe | Ausgabe | Hinweise |
 |---|---|---|---|
-| **1a Gespräch** | Branche, Bereich, Anrede, Leitfragen, bisheriger Verlauf | nächste Frage (Text) | höchstens 2 Nachfragen je Leitfrage; keine Technik vorschlagen; Gesprächsende nach Leitfrage 7 |
-| **1b Aufgabenkarte** | kompletter Gesprächsverlauf + Selbsteinschätzung | `Aufgabenkarte` | Namen und Schuldzuweisungen neutralisieren; Gesundheitsdaten Dritter weglassen; nur übernehmen, was gesagt wurde |
-| **2 Einordnung** | bestätigte `Aufgabenkarte` + Wissensauszug + Entscheidungsmatrix | `Einordnung` | „von ROKI geprüft“ nur mit `wissenId` aus dem Auszug; „keine Technik nötig“ ist erlaubt; die Entscheidungsmatrix aus der Branchen-Problemanalyse dient als Begründung, nicht als Beleg |
-| **3 Gesamtbild** | alle bestätigten Aufgabenkarten + Einordnungen | `Gesamtbild` | erst ab Mindestanzahl je Gruppe; Profilwerte werden **im Code** berechnet, nicht von der KI |
-| **4 Fahrplan** | `Gesamtbild` + Einordnungen | `Fahrplan` | jede Maßnahme verweist auf ein Thema; erster Schritt muss konkret sein |
-| **5 Besprechung** | alle Daten | Seite | **keine KI nötig** – Vorlage wird im Code aus den Daten gebaut |
+| **① Zeitfresser** | Betrieb, Frage und Ziel der Leitung | 8 Chips à 2–4 Wörter | Situationen, keine Technik |
+| **② Verstehen** | Bereich, gewählter Zeitfresser, Erzählung | `Verstaendnis`: Spiegelung (1 Satz), Titel, neutrale Aussage, herausgehörte Häufigkeit und Minuten (oder null), Beteiligte, Folge, höchstens eine Rückfrage mit Chips | Rückfrage nur, wenn unklar ist, was passiert oder wer beteiligt ist; nie nach Häufigkeit/Zeit; höchstens 1 je Thema, 2 je Gespräch |
+| **③ Zusammenführen** | alle bestätigten Punkte (Bereiche bereits anonymisiert), „Was läuft gut“, Wissensauszug | `Gesamtbild`: 2–4 Fäden mit Punkt-IDs, Sichtweisen, Unterschied, Ansätzen, erstem Schritt; Stärken; offene Fragen | Code bereinigt: nur echte Punkt-IDs, jeder Punkt in höchstens einem Faden, „von ROKI geprüft“ nur mit gültiger `wissenId`, Ablauf-Ansatz zuerst. Zahlen rechnet `lib/rechnen.ts`. Ergebnis wird zwischengespeichert und nur bei neuen Beiträgen neu erzeugt (`lib/gesamtbild.ts`). |
 
-**Gemeinsame Regeln für alle Prompts:**
-- Antworte auf Deutsch, in einfacher, ruhiger Sprache, nach `ROKI_SPRACHE_UND_TONALITAET.md`.
-- Erfinde keine Fakten, Zahlen, Produkte, Firmen oder Studien.
-- Zahlen zu Zeitaufwand nur aus den Angaben der Beschäftigten.
-- Keine Einsparungen, Amortisationszeiten oder ROI berechnen.
-- Bei Unsicherheit: weglassen oder als offene Frage formulieren.
-- Gib ausschließlich JSON im vorgegebenen Format zurück (außer Schritt 1a).
-
-**Wenn die Prüfung einer KI-Ausgabe fehlschlägt:** einmal mit der Fehlermeldung erneut anfragen. Schlägt es wieder fehl: Fehler anzeigen und im Demo-Modus das gespeicherte Ergebnis nehmen.
+**Gemeinsame Regeln für alle Prompts:** einfache, ruhige Sprache · nichts erfinden · keine Namen, Schuldzuweisungen neutral · keine Gesundheitsdaten Dritter · keine Einsparungen oder ROI · nur JSON.
 
 ---
 
 ## 4. Datenformate
 
-Fachliche Feldnamen auf Deutsch in camelCase (wie in der ROKI-Plattform), ohne Umlaute. Technische Bezeichner im Code dürfen englisch sein.
+Maßgeblich ist `lib/typen.ts` (zod-Schemas, daraus die TypeScript-Typen). Kurzfassung:
 
-```ts
-// ---------- Grundbegriffe ----------
-type Branche =
-  | "gesundheitPflege"
-  | "gastronomie"
-  | "logistik"
-  | "produktionHandwerk"
-  | "facilityManagement";
-
-type Dimension =
-  | "informationUebergaben"
-  | "dokumentationVerwaltung"
-  | "planungKoordination"
-  | "koerperlicheBelastung"
-  | "wissenEinarbeitung"
-  | "digitaleWerkzeuge";
-
-type Wert = 1 | 2 | 3 | 4 | 5; // 1 = klappt schlecht, 5 = klappt gut
-
-type Loesungsart = "prozess" | "software" | "kiAssistenz" | "robotikHardware" | "keineTechnik";
-type Reifegrad = "imEinsatz" | "pilot" | "forschung";
-type Herkunft = "rokiGeprueft" | "nichtGeprueft";
-type Aufwand = "gering" | "mittel" | "hoch";
-type Zeitraum = "kurz" | "mittel" | "lang"; // bis 3 Monate | 3–12 Monate | über 12 Monate
-type Haeufigkeit = "mehrmalsTaeglich" | "taeglich" | "woechentlich" | "monatlich" | "selten";
-type Belastungsart = "zeit" | "koerperlich" | "nerven" | "fehleranfaellig" | "wartezeit";
-
-// ---------- Anlegen ----------
-interface Betrieb {
-  id: string;
-  name: string;
-  branche: Branche;
-  mitarbeitende: number;
-  ort: string;
-  fiktiv: boolean; // in der Demo immer true
-}
-
-interface Bereich {
-  id: string;
-  name: string; // z. B. "Werkstatt"
-  linkId: string; // Einladungslink
-  erwarteteAntworten: number;
-}
-
-interface Bestandsaufnahme {
-  id: string;
-  betriebId: string;
-  bereiche: Bereich[];
-  anrede: "sie" | "du";
-  mindestanzahl: number; // Vorschlag: 3
-  status: "offen" | "abgeschlossen";
-}
-
-// ---------- Schritt 1 ----------
-interface Antwort {
-  id: string;
-  bestandsaufnahmeId: string;
-  bereichId: string;
-  istLeitung: boolean; // Antworten der Leitung sind nie anonym
-  sichtbarkeitKleineGruppe?: "zusammenlegen" | "mitRolleZeigen";
-  verlauf: { von: "ki" | "person"; text: string }[];
-  selbsteinschaetzung: Record<Dimension, Wert>;
-}
-
-interface Uebergabe {
-  von: string; // Bereich oder Rolle, nie ein Name
-  an: string;
-  problem: string;
-}
-
-interface Aufgabe {
-  id: string;
-  titel: string;
-  beschreibung: string;
-  haeufigkeit: Haeufigkeit;
-  stundenProWoche?: number; // nur wenn die Person es angegeben hat
-  belastung: Belastungsart[];
-  uebergabe?: Uebergabe;
-  aussage: string; // gekürzte, neutralisierte Original-Aussage
-}
-
-interface Aufgabenkarte {
-  antwortId: string;
-  aufgaben: Aufgabe[];
-  wasGutLaeuft: string[];
-  wunsch?: string; // Leitfrage 7
-  bestaetigt: boolean;
-  korrigiert: boolean; // hat die Person etwas geändert?
-}
-
-// ---------- Schritt 2 ----------
-interface Loesungsvorschlag {
-  art: Loesungsart;
-  beschreibung: string;
-  reifegrad?: Reifegrad; // entfällt bei "prozess" und "keineTechnik"
-  herkunft: Herkunft;
-  wissenId?: string; // Pflicht, wenn herkunft = "rokiGeprueft"
-  aufwand: Aufwand;
-  aufwandHinweis: string; // was den Aufwand bestimmt
-  wasPruefen: string[];
-}
-
-interface Einordnung {
-  antwortId: string;
-  aufgabeId: string;
-  vorschlaege: Loesungsvorschlag[];
-}
-
-// ---------- Schritt 3 ----------
-interface Thema {
-  id: string;
-  titel: string;
-  beschreibung: string;
-  bereiche: string[]; // betroffene Bereiche
-  anzahlNennungen: number;
-  istSchnittstelle: boolean;
-  aussagen: string[]; // nur aus Gruppen ≥ Mindestanzahl oder mit Zustimmung
-  stundenProWoche?: number; // Summe der Angaben der Beschäftigten
-  vermuteteUrsache?: string; // als Vermutung gekennzeichnet
-}
-
-interface Profilwert {
-  dimension: Dimension;
-  bereich: string | "gesamt";
-  ist: number; // Durchschnitt, im Code berechnet
-  anzahl: number;
-  ziel?: Wert; // trägt das Team in der Besprechung ein
-}
-
-interface Gesamtbild {
-  bestandsaufnahmeId: string;
-  antwortenGesamt: number;
-  themen: Thema[];
-  staerken: string[];
-  profil: Profilwert[];
-}
-
-// ---------- Schritt 4 ----------
-interface Massnahme {
-  id: string;
-  zeitraum: Zeitraum;
-  titel: string;
-  themaId: string;
-  art: Loesungsart;
-  ersterSchritt: string;
-  wasPruefen: string[];
-  werHilft: ("intern" | "rokiWissen" | "rokiBeratung" | "rokiNetzwerk")[];
-  herkunft: Herkunft;
-  wissenId?: string;
-}
-
-interface Fahrplan {
-  bestandsaufnahmeId: string;
-  massnahmen: Massnahme[];
-}
-
-// ---------- Schritt 5 ----------
-interface Beschluss {
-  bestandsaufnahmeId: string;
-  zielwerte: { dimension: Dimension; ziel: Wert }[];
-  ersterTestlauf: string;
-  verantwortlich: string; // Rolle, kein Name nötig
-  nachschauenAm?: string; // Datum
-}
-
-// ---------- Wissensauszug ----------
-interface WissensEintrag {
-  id: string; // z. B. "cobot-01"
-  loesung: string; // z. B. "Kollaborativer Roboter (Cobot)"
-  art: Loesungsart;
-  branchen: Branche[];
-  typischeAufgaben: string[];
-  reifegrad: Reifegrad;
-  grenzen: string[];
-  quelle: { datei: string; abschnitt: string };
-}
-```
+- `Bestandsaufnahme`: Betrieb, Leitung, Anrede, Frage, Ziel, Stundensatz, Arbeitswochen, Bereiche, Mindestanzahl, Zeitfresser-Chips, Besprechungstermin
+- `Beitrag`: Bereich, istLeitung, Zustimmung zur Nennung des Bereichs, 1–3 `Punkt`e, Stimmungswert „bremst“ (1–5), „Was läuft gut“
+- `Punkt`: Zeitfresser, Titel, neutrale Aussage, Häufigkeit (Reglerstufe), Minuten pro Mal (eigene Zeit), Beteiligte, Folge
+- `Verstaendnis`: KI-Antwort auf eine Erzählung (siehe Schritt ②)
+- `Gesamtbild`: `Faden`[] (Aufgabe, Problem, Punkt-IDs, Sichtweisen, Unterschied, `Ansatz`[], erster Schritt), Stärken, offene Fragen
+- `Beschluss`: Faden, verantwortliche Rolle, Datum
+- `WissensEintrag`: wie bisher (Abschnitt 5)
 
 ---
 
@@ -295,13 +110,10 @@ interface WissensEintrag {
 
 ## 7. Demo-Modus
 
-Ziel: Die Demo läuft auch, wenn das Internet oder die API ausfällt.
-
-- Schalter über Umgebungsvariable, z. B. `DEMO_MODUS=an`.
-- Für Metallbau Heidekamp liegen **vorher erzeugte und geprüfte** Ergebnisse unter `daten/demo/metallbau-heidekamp/`: `aufgabenkarten.json`, `einordnungen.json`, `gesamtbild.json`, `fahrplan.json`.
-- Live läuft nur die Abfrage des Monteurs. Fällt dabei die API aus, wird eine gespeicherte Aufgabenkarte für den Monteur geladen.
-- Gesamtbild und Fahrplan werden nach der Live-Abfrage neu erzeugt; bei Fehler oder Zeitüberschreitung (Vorschlag: 20 Sekunden) wird die gespeicherte Fassung angezeigt.
-- Die gespeicherten Ergebnisse vor dem Pitch von einem Menschen lesen lassen: stimmen Kennzeichnungen, keine erfundenen Fakten?
+- Ohne `OPENAI_API_KEY`, bei Fehler oder Zeitüberschreitung (20 Sekunden) greift er automatisch und wird in der Oberfläche angezeigt.
+- ① nutzt die gespeicherten Zeitfresser-Chips, ② übernimmt die Erzählung ohne Spiegelung, ③ zeigt `daten/demo/heidekamp/gesamtbild.json` und hängt neue Punkte an den Faden mit demselben Zeitfresser.
+- Startdaten: `daten/demo/heidekamp/bestandsaufnahme.json` und `beitraege.json` (acht fiktive Beiträge). Laufzeitdaten liegen bis zur Supabase-Anbindung im Speicher des Servers (`lib/speicher.ts`); „Demo zurücksetzen“ auf der Startseite stellt den Ausgangszustand her.
+- Das gespeicherte Gesamtbild vor dem Pitch von einem Menschen lesen lassen.
 
 ---
 
@@ -313,18 +125,22 @@ Ziel: Die Demo läuft auch, wenn das Internet oder die API ausfällt.
 
 ---
 
-## 9. Ordnerstruktur (Vorschlag)
+## 9. Ordnerstruktur
 
 ```
-app/[locale]/           Seiten (mit Sprachpräfix)
-app/api/                API-Routen für die KI-Schritte (ohne Sprachpräfix)
+app/[locale]/           Seiten: start, mitmachen/[id], ergebnis/[id]
+app/[locale]/_komponenten/  Eingabe mit Sprache, Regler, Kennzeichnungen
 messages/               Texte der Oberfläche (de.json zuerst, en.json mit gleichen Schlüsseln)
-lib/ki/                 Modell-Schnittstelle, Prompts, Prüfung der Ausgaben
+lib/ki/                 Modell-Schnittstelle, Prompts, KI-Schritte, JSON-Prüfung
+lib/aktionen.ts         Server Actions (Eingaben mit zod geprüft)
+lib/gesamtbild.ts       Zusammenführen mit Zwischenspeicher
+lib/rechnen.ts          Stunden und €
+lib/anonym.ts           Bereichsnamen schützen
+lib/speicher.ts         Laufzeitdaten (Demo), später Supabase
 lib/supabase/           Zugriff auf die Datenbank (nur Server)
-lib/profil.ts           Berechnung der Profilwerte
-lib/typen.ts            Datenformate aus Abschnitt 4
+lib/typen.ts            Datenformate (zod)
 wissen/                 roki-wissensauszug.json
-daten/demo/             Testdaten und gespeicherte Ergebnisse
+daten/demo/heidekamp/   Startdaten und gespeichertes Gesamtbild
 ```
 
 ---
@@ -337,7 +153,7 @@ Laut `AGENTS.md` nur, wenn der vorhandene Stack es nicht kann – mit Begründun
 |---|---|
 | Supabase-Client (`@supabase/supabase-js`) | Speicherung (entschieden) |
 | — | KI-Aufrufe laufen per `fetch` an OpenAI (`lib/ki/model.ts`). Kein Anbieter-SDK, damit später ein lokales Modell dieselbe Schnittstelle nutzen kann. |
-| `zod` (Vorschlag) | Prüfung der KI-Ausgaben gegen die Datenformate |
+| `zod` | Prüfung der KI-Ausgaben und Eingaben gegen die Datenformate (eingebaut) |
 
 ---
 

@@ -1,0 +1,29 @@
+{
+  "id": "heidekamp",
+  "betrieb": {
+    "name": "Metallbau Heidekamp",
+    "branche": "produktionHandwerk",
+    "mitarbeitende": 22,
+    "leistungen": "Treppen, Geländer und individuelle Stahlkonstruktionen",
+    "fiktiv": true
+  },
+  "leitung": { "vorname": "Sandra", "rolle": "Geschäftsführerin" },
+  "anrede": "du",
+  "frage": "Unsere Aufträge brauchen zu viel Abstimmung. Ich weiß nicht, ob das an der Planung, an Änderungen oder an fehlenden Informationen liegt.",
+  "ziel": "Weniger Rückfragen und Nacharbeit, ohne zusätzliche Dokumentation einzuführen.",
+  "stundensatz": 50,
+  "arbeitswochen": 46,
+  "bereiche": ["Leitung", "Büro", "Werkstatt", "Montage"],
+  "mindestanzahl": 3,
+  "zeitfresser": [
+    "Unklarer Zeichnungsstand",
+    "Änderungen kommen spät an",
+    "Fehlendes Material",
+    "Warten auf Rückmeldung",
+    "Rückfragen und Telefonate",
+    "Nacharbeit",
+    "Doppelte Eingaben",
+    "Suchen von Unterlagen"
+  ],
+  "besprechungAm": "2026-11-19"
+}

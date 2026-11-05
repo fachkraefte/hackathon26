@@ -1,12 +1,193 @@
 {
   "HomePage": {
-    "title": "Hallo Welt",
-    "description": "Erste Seite der App.",
-    "intro": "Die App läuft. Die Produktbeschreibung steht in PROJEKT.md im Repository."
+    "title": "ROwAI – Bestandsaufnahme für KMU",
+    "description": "Beschäftigte erzählen, die KI führt zusammen, das Team entscheidet den ersten Schritt."
   },
   "LocaleSwitcher": {
     "label": "Sprache",
     "en": "English",
     "de": "Deutsch"
+  },
+  "Kopf": {
+    "marke": "ROwAI",
+    "demo": "Demo · fiktive Daten"
+  },
+  "Home": {
+    "ueberzeile": "ROKI · Robotik und KI für die Fachkräftesicherung",
+    "titel": "Wo macht ihr euch das Leben unnötig schwer?",
+    "einleitung": "Jede Person erzählt in wenigen Minuten, was Zeit und Nerven kostet. ROwAI führt die Stimmen zusammen, zeigt, was es den Betrieb kostet – und welcher erste Schritt sich lohnt.",
+    "m1": {
+      "dauer": "2 Minuten",
+      "titel": "Starten",
+      "text": "Die Leitung beschreibt in einem Satz, was besser werden soll, und teilt einen Link.",
+      "los": "Als Leitung starten"
+    },
+    "m2": {
+      "dauer": "3–5 Minuten",
+      "titel": "Erzählen",
+      "text": "Jede Person tippt an, was sie aufhält, und erzählt kurz davon – schreiben oder einsprechen.",
+      "los": "Als Marco mitmachen"
+    },
+    "m3": {
+      "dauer": "live",
+      "titel": "Verstehen",
+      "text": "Alle sehen dasselbe Bild: welche Probleme zusammenhängen, was sie kosten, womit man anfängt.",
+      "los": "Gemeinsames Bild ansehen"
+    },
+    "grundsatz": "Aufgabe vor Technik: Der erste Schritt ist oft eine bessere Absprache. Technik kommt dort ins Spiel, wo sie wirklich hilft – mit Begründung und offenen Fragen.",
+    "zuruecksetzen": "Demo zurücksetzen",
+    "zurueckgesetzt": "Demo ist zurückgesetzt"
+  },
+  "Eingabe": {
+    "sprechen": "Einsprechen",
+    "stopp": "Fertig",
+    "fehler": "Einsprechen hat nicht geklappt ({grund}). Du kannst auch schreiben."
+  },
+  "Start": {
+    "ueberzeile": "{betrieb} · Leitung",
+    "titel": "Was soll besser werden?",
+    "einleitung": "Ein Satz reicht. Daraus macht ROwAI eine kurze Befragung für dein Team.",
+    "frageLabel": "Wo macht ihr euch das Leben schwer?",
+    "fragePlatzhalter": "Zum Beispiel: Unsere Aufträge brauchen zu viel Abstimmung …",
+    "zielLabel": "Was wäre in drei Monaten ein Erfolg?",
+    "zielPlatzhalter": "Zum Beispiel: weniger Rückfragen und Nacharbeit",
+    "bereicheLabel": "Bereiche im Betrieb",
+    "bereichNeu": "+ Bereich",
+    "stundensatzLabel": "Interner Stundensatz",
+    "stundensatzHinweis": "Nur für die Umrechnung von Stunden in Euro",
+    "absenden": "Befragung erstellen",
+    "bereitet": "ROwAI bereitet vor …",
+    "fertigUeberzeile": "Fertig",
+    "fertigTitel": "Dein Team kann loslegen",
+    "themenVorschau": "Diese Themen schlägt ROwAI deinem Team zum Antippen vor",
+    "themenHinweis": "Passend zu deiner Frage. Jede Person kann auch etwas Eigenes nennen.",
+    "einladung": "Einladung",
+    "einladungText": "{leitung} möchte wissen, wo wir uns im Alltag das Leben schwer machen. Dauert 3–5 Minuten, anonym: {link}",
+    "whatsapp": "Per WhatsApp teilen",
+    "kopieren": "Text kopieren",
+    "kopiert": "Kopiert ✓",
+    "kopierFehler": "Kopieren hat nicht geklappt: {grund}",
+    "selbstAntworten": "Selbst antworten",
+    "zumErgebnis": "Zum gemeinsamen Bild"
+  },
+  "Mitmachen": {
+    "startTitel": "{leitung} möchte wissen, was dich aufhält",
+    "startText": "3–5 Minuten. Du erzählst, ROwAI hört zu – und am Ende siehst du, wer dasselbe erlebt.",
+    "bereichFrage": "Wo arbeitest du?",
+    "zustimmung": "Mein Bereich darf genannt werden, auch wenn wir nur wenige sind.",
+    "schutz": "Anonym. Keine Namen. Die Leitung sieht keine Einzelantworten, nur das gemeinsame Bild.",
+    "schutzLeitung": "Als Leitung antwortest du nicht anonym – so wissen alle, woher deine Sicht kommt.",
+    "los": "Los geht's",
+    "themenTitel": "Was kostet dich Zeit oder Nerven?",
+    "themenText": "Tipp bis zu {max} an.",
+    "eigenesPlatzhalter": "Etwas anderes …",
+    "themaVon": "Thema {nr} von {gesamt}",
+    "erzaehlFrage": "Erzähl kurz vom letzten Mal, als das passiert ist.",
+    "erzaehlPlatzhalter": "Ein, zwei Sätze reichen …",
+    "hoertZu": "ROwAI hört zu …",
+    "spiegelungErsatz": "Danke, das habe ich notiert.",
+    "ueberspringen": "Überspringen",
+    "reglerTitel": "Passt das so?",
+    "wieOft": "Wie oft passiert das?",
+    "wieLange": "Wie viel Zeit kostet es dich pro Mal?",
+    "herausgehoert": "✨ aus deiner Erzählung",
+    "minuten": "{m} Min",
+    "stunden": "{h} Std",
+    "liveZeit": "≈ {h} Std. im Monat für dich",
+    "nochmalErzaehlen": "Ergänzen",
+    "abschlussTitel": "Fast geschafft",
+    "bremstFrage": "Wie sehr bremst dich das alles im Alltag?",
+    "gutFrage": "Was läuft gut und soll bleiben? (optional)",
+    "gutPlatzhalter": "Zum Beispiel: Wir helfen uns gegenseitig",
+    "karteUeberzeile": "Der Mensch entscheidet",
+    "karteTitel": "So habe ich dich verstanden",
+    "proMal": "{dauer} pro Mal",
+    "proMonat": "≈ {h} Std./Monat",
+    "stimmtNicht": "Stimmt nicht ganz",
+    "uebernehmen": "Übernehmen",
+    "stimmtSo": "Stimmt so",
+    "legtZusammen": "ROwAI legt deinen Beitrag zu den anderen …",
+    "fertigUeberzeile": "Danke!",
+    "fertigTitel": "Dein Beitrag ist im gemeinsamen Bild",
+    "nichtAllein": "Du bist nicht allein",
+    "andere": "{anzahl, plural, one {# weitere Person beschreibt} other {# weitere Personen beschreiben}} dasselbe",
+    "ausBereichen": "– aus {bereiche}.",
+    "kostetBetrieb": "Dieses Thema kostet den Betrieb ≈ {euro} im Jahr.",
+    "meineZeit": "Dich selbst kostet es nach deinen Angaben ≈ {h} Stunden im Monat.",
+    "wasPassiert": "Was jetzt passiert",
+    "besprechung": "Am {datum} bespricht das Team das gemeinsame Bild und entscheidet den ersten Schritt. Alle sehen dasselbe.",
+    "besprechungOhneDatum": "Das Team bespricht das gemeinsame Bild und entscheidet den ersten Schritt. Alle sehen dasselbe.",
+    "zumBild": "Gemeinsames Bild ansehen",
+    "demoHinweis": "Demo-Modus: Die KI war nicht erreichbar, es wird ein gespeichertes Ergebnis genutzt.",
+    "zurueck": "Zurück",
+    "weiter": "Weiter"
+  },
+  "Ergebnis": {
+    "laden": "ROwAI führt die Stimmen zusammen …",
+    "titel": "Das gemeinsame Bild",
+    "proJahr": "pro Jahr, was diese Themen kosten",
+    "proWoche": "pro Woche",
+    "stimmen": "Stimmen",
+    "verteilungAria": "Verteilung der Kosten auf die Themen",
+    "stundensatz": "Gerechnet mit",
+    "rechenweg": "Nur Zeit nach Angaben der Beschäftigten × Stundensatz × {wochen} Arbeitswochen. Jede Person zählt nur ihre eigene Zeit. Keine Einsparungsrechnung.",
+    "praesentieren": "Präsentieren",
+    "mitmachen": "Selbst mitmachen",
+    "beenden": "Beenden",
+    "demoHinweis": "Demo-Modus: Die KI war nicht erreichbar, es wird ein gespeichertes Ergebnis genutzt.",
+    "faden": "Thema {nr}",
+    "gemeinsameAufgabe": "Gemeinsame Aufgabe",
+    "kostenZeile": "pro Jahr · {h} Std./Woche · {personen, plural, one {# Person} other {# Personen}}",
+    "unterschied": "Unterschiedlich gesehen:",
+    "ansaetze": "Was helfen könnte",
+    "zuerst": "Zuerst",
+    "warum": "Warum:",
+    "wasFehlt": "Noch zu klären:",
+    "ersterSchritt": "Vorschlag für den ersten Schritt",
+    "beschlossen": "Beschlossen",
+    "werPlatzhalter": "Wer kümmert sich? (Rolle)",
+    "machenWir": "Machen wir",
+    "werBis": "{wer} · bis {bis}",
+    "aendern": "ändern",
+    "stimmungTitel": "Wie sehr bremst das im Alltag?",
+    "stimmungSkala": "Durchschnitt je Bereich, 1 = kaum · 5 = sehr stark. Kleine Bereiche nur zusammengefasst.",
+    "staerkenTitel": "Was gut läuft",
+    "offenTitel": "Noch offen",
+    "zielTitel": "Ziel der Leitung"
+  },
+  "Begriffe": {
+    "loesungsart": {
+      "prozess": "Absprache / Ablauf",
+      "software": "Software",
+      "kiAssistenz": "KI-Assistenz",
+      "robotikHardware": "Robotik / Hardware",
+      "keineTechnik": "Keine Technik nötig"
+    },
+    "reifegrad": {
+      "imEinsatz": "heute praktisch eingesetzt",
+      "pilot": "in Pilotprojekten",
+      "forschung": "noch in Forschung"
+    },
+    "herkunft": {
+      "rokiGeprueft": "von ROKI geprüft",
+      "nichtGeprueft": "nicht von ROKI geprüft"
+    },
+    "herkunftHinweisUngeprueft": "Allgemeine Einschätzung – vor einer Entscheidung prüfen.",
+    "quelle": "Quelle: {quelle}",
+    "haeufigkeit": {
+      "monatlich": "etwa monatlich",
+      "mehrmalsImMonat": "mehrmals im Monat",
+      "woechentlich": "wöchentlich",
+      "mehrmalsProWoche": "mehrmals pro Woche",
+      "taeglich": "täglich",
+      "mehrmalsTaeglich": "mehrmals täglich"
+    },
+    "bremst": {
+      "1": "kaum",
+      "2": "etwas",
+      "3": "spürbar",
+      "4": "stark",
+      "5": "sehr stark"
+    }
   }
 }

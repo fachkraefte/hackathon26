@@ -1,0 +1,72 @@
+[
+  {
+    "id": "sandra", "bestandsaufnahmeId": "heidekamp", "bereich": "Leitung", "istLeitung": true, "rolleZeigen": true, "fiktiv": true, "bremst": 4,
+    "gutLaeuft": "Wir haben genug Arbeit und ein erfahrenes Team.",
+    "punkte": [
+      { "id": "sandra-1", "zeitfresser": "Rückfragen und Telefonate", "titel": "Aufträge brauchen mehr Abstimmung als geplant",
+        "aussage": "Viele Aufträge brauchen mehr Abstimmung als geplant. Ob das an der Planung, an Änderungen oder an fehlenden Informationen liegt, ist unklar.",
+        "haeufigkeit": "mehrmalsProWoche", "minuten": 30, "beteiligt": ["Büro", "Werkstatt"], "folge": "Termine verschieben sich" }
+    ]
+  },
+  {
+    "id": "buero", "bestandsaufnahmeId": "heidekamp", "bereich": "Büro", "istLeitung": false, "rolleZeigen": true, "fiktiv": true, "bremst": 4,
+    "punkte": [
+      { "id": "buero-1", "zeitfresser": "Änderungen kommen spät an", "titel": "Änderungen laufen über viele Wege",
+        "aussage": "Kunden schicken Änderungen per Mail oder rufen an. Ich gebe sie telefonisch oder über einzelne Kollegen an die Werkstatt weiter und weiß nicht sicher, ob sie angekommen sind.",
+        "haeufigkeit": "mehrmalsProWoche", "minuten": 20, "beteiligt": ["Werkstatt", "Kunde"], "folge": "Rückfragen aus der Werkstatt" },
+      { "id": "buero-2", "zeitfresser": "Fehlendes Material", "titel": "Materialbedarf wird kurzfristig gemeldet",
+        "aussage": "Materialbedarf kommt oft erst, wenn etwas fehlt. Dann bestelle ich als Eilbestellung.",
+        "haeufigkeit": "woechentlich", "minuten": 30, "beteiligt": ["Werkstatt"], "folge": "Eilbestellungen und Wartezeit" }
+    ]
+  },
+  {
+    "id": "werkstatt-1", "bestandsaufnahmeId": "heidekamp", "bereich": "Werkstatt", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 3,
+    "gutLaeuft": "In der Werkstatt hilft jeder jedem.",
+    "punkte": [
+      { "id": "werkstatt-1-1", "zeitfresser": "Unklarer Zeichnungsstand", "titel": "Vor dem Start unklar, welche Zeichnung gilt",
+        "aussage": "Bevor wir anfangen, telefonieren wir oft herum, welche Zeichnung die aktuelle ist.",
+        "haeufigkeit": "mehrmalsProWoche", "minuten": 20, "beteiligt": ["Büro", "Leitung"], "folge": "Die Fertigung startet später" }
+    ]
+  },
+  {
+    "id": "werkstatt-2", "bestandsaufnahmeId": "heidekamp", "bereich": "Werkstatt", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 4,
+    "punkte": [
+      { "id": "werkstatt-2-1", "zeitfresser": "Fehlendes Material", "titel": "Material fehlt beim Fertigungsstart",
+        "aussage": "Beim Start eines Auftrags fehlen oft Kleinteile oder Profile. Dann muss umgeplant werden.",
+        "haeufigkeit": "woechentlich", "minuten": 45, "beteiligt": ["Büro"], "folge": "Umplanen und Leerlauf" }
+    ]
+  },
+  {
+    "id": "werkstatt-3", "bestandsaufnahmeId": "heidekamp", "bereich": "Werkstatt", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 3,
+    "punkte": [
+      { "id": "werkstatt-3-1", "zeitfresser": "Nacharbeit", "titel": "Nacharbeit nach geänderter Zeichnung",
+        "aussage": "Ein Geländer wurde nach der alten Zeichnung gebaut. Die Änderung kam erst danach in der Werkstatt an.",
+        "haeufigkeit": "monatlich", "minuten": 240, "beteiligt": ["Büro", "Montage"], "folge": "Ein halber Tag Nacharbeit" }
+    ]
+  },
+  {
+    "id": "montage-1", "bestandsaufnahmeId": "heidekamp", "bereich": "Montage", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 4,
+    "gutLaeuft": "Unsere Montagetrupps sind eingespielt.",
+    "punkte": [
+      { "id": "montage-1-1", "zeitfresser": "Nacharbeit", "titel": "Teile passen auf der Baustelle nicht",
+        "aussage": "Auf der Baustelle passt ein Teil nicht, weil es nach einem älteren Stand gefertigt wurde. Wir passen vor Ort an.",
+        "haeufigkeit": "mehrmalsImMonat", "minuten": 90, "beteiligt": ["Werkstatt"], "folge": "Nacharbeit vor Ort, der Kunde wartet" }
+    ]
+  },
+  {
+    "id": "montage-2", "bestandsaufnahmeId": "heidekamp", "bereich": "Montage", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 3,
+    "punkte": [
+      { "id": "montage-2-1", "zeitfresser": "Fehlendes Material", "titel": "Kleinteile fehlen auf der Baustelle",
+        "aussage": "Auf der Baustelle fehlen Schrauben oder Anker. Dann fährt einer zurück in die Werkstatt.",
+        "haeufigkeit": "mehrmalsImMonat", "minuten": 90, "beteiligt": ["Werkstatt"], "folge": "Fahrt zurück in die Werkstatt" }
+    ]
+  },
+  {
+    "id": "montage-3", "bestandsaufnahmeId": "heidekamp", "bereich": "Montage", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 2,
+    "punkte": [
+      { "id": "montage-3-1", "zeitfresser": "Warten auf Rückmeldung", "titel": "Kunde weiß nicht, dass die Montage kommt",
+        "aussage": "Manchmal weiß der Kunde nicht, dass wir kommen, und wir warten vor Ort.",
+        "haeufigkeit": "monatlich", "minuten": 45, "beteiligt": ["Büro", "Kunde"], "folge": "Warten vor Ort" }
+    ]
+  }
+]

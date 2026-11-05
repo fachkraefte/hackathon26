@@ -2,7 +2,7 @@
 
 **Arbeitstitel:** noch offen
 **Rahmen:** 48-Stunden-AI-Hackathon an der Leuphana Universität Lüneburg, im Rahmen von ROKI – Robotik und KI für die Fachkräftesicherung nutzen (Süderelbe AG)
-**Stand:** 05.11.2026 · Version 3
+**Stand:** 05.11.2026 · Version 4 (Workflow v2)
 **Diese Datei ist maßgeblich.** Wenn eine andere Datei widerspricht, gilt `PROJEKT.md`.
 
 | Datei | Wofür |
@@ -70,86 +70,39 @@ Sprache und Ton folgen [`ROKI_SPRACHE_UND_TONALITAET.md`](ROKI_SPRACHE_UND_TONAL
 
 ---
 
-## 5. Ablauf in der App
+## 5. Ablauf in der App (Workflow v2)
 
-| Schritt | Wer | Was passiert | Ergebnis |
-|---|---|---|---|
-| **0. Anlegen** | Leitung | Branche, Größe, Bereiche wählen; Anrede wählen; optional Dokumente hochladen (z. B. Organigramm, Ablaufbeschreibungen); Einladungslinks pro Bereich erzeugen | Bestandsaufnahme ist angelegt |
-| **1. Einzelabfrage** | jede beteiligte Person | Leitfragen (Abschnitt 6), KI fragt nach; Selbsteinschätzung auf den Profil-Dimensionen | **Aufgabenkarte** – die Person bestätigt oder korrigiert sie |
-| **2. Einordnung** | KI; Person sieht das Ergebnis | jede Aufgabe → Lösungsart(en), Reifegrad, Herkunft, Aufwand, „Was prüfen?“ | Einzelvorschläge |
-| **3. Gesamtbild** | KI, sobald genug Antworten bestätigt sind | Themen über Bereiche hinweg, Schnittstellen, doppelte Arbeit, Belastungen, Stärken, Kosten der Probleme in Stunden | Gesamtanalyse + **Profildiagramm (Ist)** |
-| **4. Fahrplan** | KI; Leitung und Team prüfen | Maßnahmen kurz-, mittel-, langfristig, je mit erstem Schritt, „Was prüfen?“ und „Wer hilft?“ | Fahrplan |
-| **5. Besprechung** | ganzes Team | Vorlage wird aus den Daten erzeugt; im Termin werden Zielwerte, erster Testlauf und Verantwortliche eingetragen | Beschluss |
+Drei Momente statt vieler Schritte. Begründung und Durchlauf mit den Personas: [`KONZEPT_WORKFLOW.md`](KONZEPT_WORKFLOW.md).
 
-**Zeiträume im Fahrplan (Vorschlag):** kurz = bis 3 Monate · mittel = 3 bis 12 Monate · lang = über 12 Monate.
+| Moment | Wer | Dauer | Was passiert | Ergebnis |
+|---|---|---|---|---|
+| **① Starten** | Leitung | ca. 2 Min | Ein Satz „Was soll besser werden?“ (schreiben oder einsprechen), Ziel, Bereiche als Chips, interner Stundensatz per Regler. Die KI schlägt daraus die Zeitfresser-Chips für das Team vor. | Einladungstext mit Link (WhatsApp, kopieren) |
+| **② Erzählen** | jede Person | 3–5 Min | Kurzes Formular und Gespräch gemischt: Bereich antippen → bis zu 3 Zeitfresser antippen → je Thema kurz vom letzten Mal erzählen (Text oder Sprache) → die KI spiegelt in einem Satz, fragt höchstens einmal nach und belegt die Regler „Wie oft?“ und „Wie lange?“ aus der Erzählung vor → Regler „Wie sehr bremst dich das?“ → **„So habe ich dich verstanden“** bestätigen oder korrigieren | Beitrag; sofort danach „Du bist nicht allein“ mit der gemeinsamen Aufgabe und ihren Kosten |
+| **③ Verstehen** | alle | live | Die KI führt alle bestätigten Beiträge zu **Problemfäden** zusammen: Sichtweisen der Bereiche → gemeinsame Aufgabe. Je Faden Kosten in € pro Jahr (rechnet der Code), Ansätze (Ablauf zuerst, dann Technik mit Begründung), ein erster Schritt zum Beschließen. Dieselbe Seite dient als Präsentation. | Gemeinsames Bild und Beschluss |
+
+**Regeln gegen nervige Rückfragen:** Die KI fragt nur, wenn unklar ist, *was* passiert oder *wer* beteiligt ist – nie nach Häufigkeit oder Zeit (dafür gibt es Regler), nie nach schon Gesagtem. Höchstens eine Rückfrage je Thema und zwei im ganzen Gespräch, immer mit Antwort-Chips und „Überspringen“.
 
 ### Wer sieht was
 
 | | Person selbst | alle Beteiligten | Leitung | ROKI |
 |---|---|---|---|---|
-| eigene Aufgabenkarte und Einordnung | ✓ | – | – | – |
-| Einzelantworten anderer | – | – | – | – |
-| Gesamtbild, Profil, Fahrplan, Besprechungsvorlage | ✓ | ✓ | ✓ | nur wenn geteilt |
-| Original-Aussagen (gekürzt, ohne Namen) | ✓ wenn Gruppe ≥ Mindestanzahl | ✓ wenn Gruppe ≥ Mindestanzahl | ✓ wenn Gruppe ≥ Mindestanzahl | nur wenn geteilt |
+| eigener Beitrag („So habe ich dich verstanden“) | ✓ | – | – | – |
+| Einzelbeiträge anderer | – | – | – | – |
+| Gemeinsames Bild, Kosten, Beschlüsse | ✓ | ✓ | ✓ | nur wenn geteilt |
+| Bereichsname bei Aussagen | ✓ wenn Bereich ≥ Mindestanzahl oder Zustimmung, sonst „ein anderer Bereich“ | | | |
 
-**Gruppen kleiner als die Mindestanzahl** (Vorschlag: 3 Antworten): Die Person entscheidet beim Ausfüllen, ob ihre Antworten mit einer benachbarten Gruppe zusammengelegt oder mit Rollenbezeichnung gezeigt werden. Die Antworten der Leitung sind nie anonym.
+Die Antworten der Leitung sind nie anonym. Kleine Bereiche werden schon **vor** dem KI-Aufruf zu „ein anderer Bereich“, das Modell sieht ihren Namen nicht. Der Browser bekommt nur Zusammengeführtes, keine Einzelbeiträge.
 
-### Gliederung der Besprechungsvorlage
+### Zahlen
 
-1. Wer hat mitgemacht? (Anzahl je Bereich, keine Namen)
-2. Was gut läuft
-3. Profil heute
-4. Die drei wichtigsten Themen, mit gekürzten Original-Aussagen
-5. Was diese Themen kosten (Stunden pro Woche, nach Angaben der Beschäftigten)
-6. Mögliche Lösungen mit Aufwand, Reifegrad und Herkunft
-7. Fahrplan kurz / mittel / lang
-8. Gemeinsam entscheiden: Zielwerte, erster Testlauf, Verantwortliche, Termin zum Nachschauen
-9. Nächster Schritt mit ROKI
+- Jede Person gibt nur ihre **eigene** Zeit an (verhindert Doppelzählung).
+- Stunden pro Woche = Häufigkeit (Reglerstufe, z. B. „mehrmals pro Woche“ ≈ 3×) × Minuten pro Mal.
+- € pro Jahr = Stunden pro Woche × interner Stundensatz × Arbeitswochen (Demo: 46). Stundensatz ist auf der Ergebnisseite verschiebbar.
+- Das sind die **Kosten des Problems**, keine Einsparungen und kein ROI (Abschnitt 9).
 
----
+### Stimmungswert statt Profildiagramm
 
-## 6. Die Einzelabfrage
-
-**Dauer:** höchstens 10 Minuten. **Gerät:** Handy zuerst.
-
-**Leitfragen (für alle Branchen; die KI passt Beispiele an Branche und Bereich an):**
-1. Was machen Sie an einem typischen Arbeitstag?
-2. Was kostet Sie Zeit, ohne dass es sich sinnvoll anfühlt?
-3. Was ist körperlich am anstrengendsten?
-4. Wo warten Sie auf Informationen, Material oder Rückmeldungen – und von wem?
-5. Was müssen Sie doppelt erfassen, aufschreiben oder nachfragen?
-6. Was läuft gut und sollte so bleiben?
-7. Wenn Sie eine Sache ändern könnten: Welche wäre das?
-
-Danach: Selbsteinschätzung auf den sechs Profil-Dimensionen (Abschnitt 7).
-
-**Regeln für die Nachfragen der KI:**
-- höchstens zwei Nachfragen pro Leitfrage
-- nach Häufigkeit und ungefährem Zeitaufwand fragen („Wie oft? Wie lange ungefähr?“)
-- keine Technik vorschlagen, nicht bewerten, nicht beschwichtigen
-- Namen und Schuldzuweisungen in der Aufgabenkarte neutral umformulieren („Kollege X vergisst …“ → „Information fehlt bei Übergabe von A nach B“)
-- Gesundheitsdaten Dritter (z. B. Bewohner:innen) nicht übernehmen
-
----
-
-## 7. Profildiagramm
-
-Zeigt pro Dimension, wie gut etwas heute klappt (**Ist**) und wohin der Betrieb will (**Ziel**).
-
-| Dimension | Leitfrage |
-|---|---|
-| Information und Übergaben | Kommen Informationen vollständig und rechtzeitig an? |
-| Dokumentation und Verwaltung | Wie viel Zeit kostet Papierkram, und ist er nötig? |
-| Planung und Koordination | Klappen Einsatz-, Dienst- und Tourenplanung? |
-| Körperliche Belastung | Wie gut ist die körperliche Belastung zu bewältigen? |
-| Wissen und Einarbeitung | Ist Wissen verteilt, oder hängt es an Einzelnen? |
-| Digitale Werkzeuge | Helfen die vorhandenen Werkzeuge, oder stören sie? |
-
-**Regeln:**
-- Skala 1–5, immer gleich gepolt: **1 = klappt schlecht, 5 = klappt gut**. (Bei „Körperliche Belastung“ heißt 5: gut zu bewältigen.)
-- **Ist** = Durchschnitt der Selbsteinschätzungen je Bereich und gesamt, mit Anzahl der Antworten. Die KI schätzt keine Werte.
-- **Ziel** trägt das Team in der Besprechung ein.
-- Darstellung (Netzdiagramm oder Balkenpaar „Ist → Ziel“) ist noch offen.
+Das Profildiagramm mit sechs Dimensionen entfällt (entschieden am 05.11.2026). Stattdessen eine Frage „Wie sehr bremst dich das im Alltag?“ (1 = kaum bis 5 = sehr stark), als Durchschnitt je Bereich.
 
 ---
 
@@ -188,13 +141,13 @@ Zeigt pro Dimension, wie gut etwas heute klappt (**Ist**) und wohin der Betrieb 
 
 | | Inhalt |
 |---|---|
-| **Muss (Live-Demo)** | Einzelabfrage mit KI-Nachfragen und Korrektur · Einordnung · Gesamtbild mit Kosten in Stunden · Profildiagramm (Ist) · Fahrplan · Besprechungsvorlage – für Metallbau Heidekamp |
-| **Simuliert** | Login und Einladungen (Links ohne Konto) · Antworten der übrigen Personen als Testdaten aus [`DEMO_BETRIEBE.md`](DEMO_BETRIEBE.md) |
-| **Kann (wenn Zeit bleibt)** | Spracheingabe · zweiter Demo-Betrieb · Zielwerte im Diagramm eintragen · Export der Besprechungsvorlage |
+| **Muss (Live-Demo)** | Starten · Erzählen mit KI-Spiegelung, vorbelegten Reglern und Korrektur · Verstehen mit Problemfäden, Kosten in €, erstem Schritt und Präsentationsmodus – für Metallbau Heidekamp (Personas Marco und Sandra) |
+| **Simuliert** | Login und Einladungen (Links ohne Konto) · acht Beiträge als fiktive Testdaten (`daten/demo/heidekamp/`) |
+| **Kann (wenn Zeit bleibt)** | zweiter Demo-Betrieb · Sie-Anrede · Export als PDF · Puls nach 4–6 Wochen („Ist es besser geworden?“) |
 | **Nicht im Hackathon** | lokale KI · echte Nutzerverwaltung · Anbindung an die ROKI-Plattform · englische Texte (der Umschalter ist schon da, die Übersetzung folgt später) · Teilen mit ROKI |
 
 **Fertig ist das Projekt, wenn:**
-- die Live-Demo von der Abfrage bis zur Besprechungsvorlage ohne Eingriff durchläuft,
+- die Live-Demo vom Erzählen bis zum Beschluss ohne Eingriff durchläuft,
 - sie auch ohne Internet bzw. bei API-Ausfall mit gespeicherten Ergebnissen läuft (Demo-Modus, siehe [`TECHNIK.md`](TECHNIK.md)),
 - jeder Vorschlag Reifegrad und Herkunft zeigt,
 - der Pitch zweimal komplett geprobt ist.
@@ -233,13 +186,12 @@ Zeiten relativ zum Start (S). Personen tragen sich in die Arbeitspakete ein.
 5. **Warum ROKI:** schließt die Lücke zwischen Wissen und Beratung; Baustein für den geplanten KI-Assistenten.
 6. **Ausblick:** lokale KI, Anbindung an die ROKI-Wissensplattform, regionale Muster aus geteilten Ergebnissen.
 
-**Drehbuch der Live-Demo (Metallbau Heidekamp):**
-1. Die Bestandsaufnahme ist angelegt, 14 von 15 Personen haben geantwortet (Testdaten). Kurz zeigen.
-2. **Live am Handy:** Ein Monteur füllt die Abfrage aus. Die KI fragt nach („Wie oft passiert das?“). Er korrigiert einen Punkt auf seiner Aufgabenkarte → *Der Mensch entscheidet.*
-3. Seine Aufgaben werden eingeordnet – mit Reifegrad und Herkunft.
-4. **Gesamtbild:** Erst jetzt wird sichtbar, dass Werkstatt, Montage, Büro und Leitung über dasselbe Problem sprechen: Das Aufmaß ist der Anfang einer Kette (Werkstatt → Montage → Stundenzettel → Rechnung). Kosten in Stunden pro Woche.
-5. **Fahrplan:** kurz – Aufmaß-Vorlage mit Pflichtfeldern; mittel – digitales Aufmaß und Zeiterfassung per Handy, Exoskelette fürs Tragen mit den Beschäftigten testen; lang – Schweiß-Cobot für Serienteile prüfen.
-6. **Besprechungsvorlage** und Übergabe an ROKI.
+**Drehbuch der Live-Demo (Metallbau Heidekamp, Personas aus [`ROwAI_Personas_Metallbau.md`](ROwAI_Personas_Metallbau.md)):**
+1. Sandra (Geschäftsführerin) hat in zwei Minuten gestartet: „Unsere Aufträge brauchen zu viel Abstimmung.“ Acht Beiträge liegen vor (Testdaten).
+2. **Live am Handy:** Marco (Werkstattleiter) tippt „Unklarer Zeichnungsstand“ an und spricht ein: „Heute hatten wir wieder zwei Zeichnungsstände.“ ROwAI spiegelt in einem Satz und hat „mehrmals pro Woche“ schon herausgehört. Er korrigiert seine Karte → *Der Mensch entscheidet.*
+3. **„Du bist nicht allein“:** Büro, Montage und Leitung beschreiben dieselbe Stelle – das Thema kostet den Betrieb einen fünfstelligen Betrag im Jahr.
+4. **Gemeinsames Bild:** Ein Faden, vier Sichtweisen, eine gemeinsame Aufgabe. Stundensatz verschieben, die Zahl folgt.
+5. **Erster Schritt:** ein kleiner Prüfauftrag statt einer Anschaffung – im Termin mit Rolle und Datum beschlossen. Präsentationsmodus für die Besprechung und das Gespräch mit ROKI.
 
 Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe – und das hat der Betrieb von seinen eigenen Leuten erfahren. Assistenztechnik und Robotik kommen dort ins Spiel, wo die Belastung körperlich ist oder sich Handgriffe ständig wiederholen.
 
@@ -267,7 +219,11 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 - Die Leitung legt an, Inhalt kommt von unten
 - Vier gleichwertige Lösungsarten, nicht nur Robotik
 - Demo mit Cloud-KI und nur fiktiven Daten; Ziel ist lokale KI
-- Profildiagramm mit Ist (von Beschäftigten) und Ziel (vom Team)
+- Workflow v2: drei Momente (Starten, Erzählen, Verstehen), Formular und KI-Gespräch gemischt (05.11.2026)
+- Statt Profildiagramm ein Stimmungswert „Wie sehr bremst das?“
+- Kosten der Probleme in € pro Jahr über den internen Stundensatz der Leitung
+- KI: OpenAI (`lib/ki/model.ts`, Modell über `OPENAI_MODEL`)
+- Demo-Fall: Personas Marco und Sandra im Betrieb Metallbau Heidekamp
 - Ergebnis ist eine Vorlage für eine Unternehmensbesprechung
 - Fünf fiktive Demo-Betriebe, keine echten Firmennamen; Live-Demo mit Metallbau Heidekamp
 - Speicherung über die Demo hinaus: Supabase. Der Server-Client ist angebunden. Tabellen folgen, sobald das Schema festliegt.
@@ -276,9 +232,8 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 - [ ] Name des Projekts
 - [ ] Bewertungskriterien der Jury, Länge des Pitches, Abgabeformat
 - [ ] Teamgröße und Verteilung der Arbeitspakete
-- [ ] Welche Cloud-API
-- [ ] Darstellung des Profildiagramms (Netz oder Balken)
-- [ ] Mindestanzahl Antworten pro Gruppe (Vorschlag: 3)
+- [ ] Mindestanzahl Antworten pro Gruppe (Demo: 3)
+- [ ] Supabase-Schema für Bestandsaufnahmen, Beiträge, Gesamtbilder, Beschlüsse
 
 ---
 

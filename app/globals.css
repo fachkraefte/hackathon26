@@ -1,8 +1,39 @@
+/* Farben, Radien und Schatten nach DESIGN.md (ROKI-Design). */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --muted: #4b5563;
-  --link: #0f4e8a;
+  --brand-bg: #f6f8fa;
+  --brand-surface: #ffffff;
+  --brand-text: #15263e;
+  --brand-primary: #f08119;
+  --brand-primary-dark: #c86711;
+  --brand-highlight: #2fb9cb;
+  --brand-highlight-dark: #1f8c9a;
+  --brand-link: #0f4e8a;
+  --brand-section-tint: #eaf2fa;
+  --brand-focus: #2a7dd1;
+  --brand-deep: #1c4d7a;
+
+  --text-leise: rgba(21, 38, 62, 0.68);
+  --linie: rgba(21, 38, 62, 0.12);
+  --tuerkis-hell: rgba(47, 185, 203, 0.14);
+  --orange-hell: rgba(240, 129, 25, 0.14);
+
+  /* Lösungsarten: gleichwertig, daher ruhige, unterscheidbare Töne */
+  --art-prozess: #2fb9cb;
+  --art-software: #5b7fd6;
+  --art-kiAssistenz: #8a6bc9;
+  --art-robotikHardware: #f08119;
+  --art-keineTechnik: #6b9e6e;
+
+  --radius-button: 10px;
+  --radius-card: 14px;
+  --shadow-soft: 0 10px 26px rgba(21, 38, 62, 0.08);
+  --shadow-card-hover: 0 16px 35px rgba(21, 38, 62, 0.14);
+
+  --seitenbreite: 72rem;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -12,11 +43,219 @@ html {
 body {
   min-height: 100%;
   margin: 0;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--brand-text);
+  background: var(--brand-bg);
+  font-family: var(--font-rubik), system-ui, sans-serif;
+  line-height: 1.5;
 }
 
 a {
-  color: var(--link);
+  color: var(--brand-link);
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand-focus);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Seitenrahmen ---------- */
+.seite {
+  max-width: var(--seitenbreite);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+
+.seite--schmal {
+  max-width: 40rem;
+}
+
+.seitenkopf {
+  margin: 1.5rem 0 2rem;
+}
+
+.seitenkopf h1 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 600;
+}
+
+.seitenkopf p {
+  margin: 0;
+  max-width: 44rem;
+  font-size: 1.0625rem;
+  color: var(--text-leise);
+}
+
+.ueberzeile {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand-highlight-dark);
+}
+
+.abschnitt {
+  margin: 3rem 0;
+}
+
+.abschnitt > h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.abschnitt > .unterzeile {
+  margin: 0 0 1.25rem;
+  color: var(--text-leise);
+}
+
+/* ---------- Karten ---------- */
+.karte {
+  background: var(--brand-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  padding: 1.25rem;
+}
+
+.raster {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+}
+
+/* ---------- Buttons ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.625rem 1.25rem;
+  border: 0;
+  border-radius: var(--radius-button);
+  background: var(--brand-primary);
+  color: var(--brand-text);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.button:hover {
+  background: var(--brand-primary-dark);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.button.button--tuerkis {
+  background: var(--brand-highlight);
+}
+
+.button.button--tuerkis:hover {
+  background: var(--brand-highlight-dark);
+}
+
+.button.button--ghost {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--linie);
+}
+
+.button.button--ghost:hover {
+  background: var(--brand-section-tint);
+}
+
+/* ---------- Chips und Kennzeichnungen ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 999px;
+  background: var(--brand-section-tint);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.leise {
+  color: var(--text-leise);
+}
+
+.klein {
+  font-size: 0.875rem;
+}
+
+/* ---------- Formulare ---------- */
+.feld {
+  display: grid;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.feld > span {
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1.5px solid var(--linie);
+  border-radius: var(--radius-button);
+  background: var(--brand-surface);
+  color: inherit;
+  font: inherit;
+}
+
+textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+/* Auswahl-Kacheln (Rollen, Aufgaben, Chips zum Antippen) */
+.auswahl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border: 1.5px solid var(--linie);
+  border-radius: 999px;
+  background: var(--brand-surface);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.auswahl[aria-pressed="true"] {
+  border-color: var(--brand-highlight);
+  background: var(--tuerkis-hell);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
