@@ -1,135 +1,172 @@
-# ROKI – Branchenspezifische Problemanalyse: Robotik und Automatisierung in KMU
+# Branchen-Problemanalyse: Robotik, KI und Automatisierung in KMU
 
-**Zweck dieses Dokuments:**  
-Dieses Dokument verbindet die betrieblichen Realitäten von fünf typischen KMU-Profilen (Handwerk, Gastronomie, Pflege, Logistik, Facility Management) mit dem **geprüften Wissensstand der ROKI-Recherchen** (u. a. zu Robotertypen nach ISO 8373/IFR, Pflege-Praxisprojekten wie *Lio*, *HoLLiECares*, *EXPERTISE 4.0* sowie Sicherheitsnormen von DGUV und ISO 13482).
-
-Es folgt dem ROKI-Grundsatz: **Vom konkreten Arbeitsalltag zur Technologie** – ehrlich, evidenzbasiert und frei von technischer Euphorie.
-
----
-
-## 1. Handwerk: Metallbau & Montage
-**Betriebsprofil:** 15 Beschäftigte. Schwerpunkt auf Zäunen, Toren und Geländern. Teams sind viel und getrennt voneinander auf Baustellen und Kundenliegenschaften unterwegs.
-
-### Typische Probleme im Arbeitsalltag
-* **Schwere Schlepp- und Hebearbeit auf Baustellen:** Zaunelemente, schwere Schiebetore und Geländer wiegen oft zwischen 40 und über 100 kg. Sie müssen vom Fahrzeug über unebenes Gelände (Rasen, Schotter, Erdaushub, Stufen) getragen werden. Führt zu berufsbedingtem Rücken- und Gelenkverschleiß, Ausfallzeiten und Nachwuchssorgen.
-* **Körperlich anstrengendes Halten & Fixieren:** Bei der Montage müssen Bauteile minutenlang exakt in Waage gehalten werden, während ein Kollege bohrt, dübelt oder heftet.
-* **Monotone Routinearbeiten in der Werkstatt:** Fachkräfte verbringen Stunden damit, Zaunpfosten zuzuschneiden, Bohrungen zu setzen oder standardisierte Gitterstrukturen zu schweißen – Zeit, die für anspruchsvolle Sonderanfertigungen fehlt.
-* **Reibungsverluste zwischen Baustelle und Werkstatt:** Ungenaue Handaufmaße oder fehlendes Montagematerial vor Ort erfordern zeitintensive Rückfragen und Nachfahrten.
-
-### Verknüpfung mit den ROKI-Rechercheergebnissen
-* **Exoskelette als Assistenztechnik (Abgrenzung nach ISO 8373):**  
-  *Gemäß ROKI-Grundlagenrecherche* gelten passive Exoskelette nicht als Roboter im engeren Sinne (da kein eigener Antrieb/keine Autonomie), sondern als **angrenzende physische Assistenztechnologie**. 
-  * *Praxisnutzen im Metallbau:* Für die Baustelle sind vor allem **rein mechanische Rücken-Exoskelette (Federzug/Gasdruck)** relevant. Sie benötigen keinen Akku, sind unempfindlich gegen Staub, Feuchtigkeit und Funkenflug und passen in jeden Montagebus. Für Überkopf-Geländermontagen reduzieren Schulter-Exoskelette die Muskelermüdung messbar.
-* **Cobots in der Werkstatt – Sicherheitsrealität nach DGUV:**  
-  Kollaborierende Roboter (Cobots) eignen sich hervorragend für kleine Serien (Schweißen von 20 gleichen Zaunelementen).  
-  *Wichtige ROKI-Erkenntnis:* „Kollaborierend“ bedeutet **nicht automatisch schutzzaunfrei**. Nach DGUV/IFA-Regeln geht beim Schweißen die Gefährdung nicht primär vom Roboterarm aus, sondern vom **Werkzeug und Prozess** (Lichtbogen, Hitze, Schweißspritzer, giftige Gase). Auch eine Cobot-Schweißzelle im Handwerksbetrieb benötigt daher Blend- und Absaugschutz sowie eine Sicherheitsunterweisung nach EN ISO 10218.
-* **Realitäts-Check zu Laufrobotern („Roboterhunden“):**  
-  *Gemäß ROKI-Recherche Roboterhunde:* Vierbeinige Laufroboter (z. B. Boston Dynamics Spot, Unitree) faszinieren auf Baustellen, dienen heute aber primär der **autonomen Bauvermessung / 3D-Laserscannung** (z. B. mit Leica/Trimble) oder Inspektion. Als Lastenträger für schwere Zaunelemente sind sie aktuell weder wirtschaftlich noch mechanisch ausgelegt (Nutzlasten liegen meist nur bei 10–15 kg).
-* **Praxistaugliche Alternative für die Baustelle:** Kompakte elektrische Raupentransporter, motorisierte Treppensteiger und mobile Vakuum-Hebelifter.
+**Stand:** 05.11.2026 · Version 2
+**Ursprünglicher Entwurf:** Matthis · **Überarbeitet:** am 05.11.2026, damit das Dokument ins Gesamtkonzept passt (Abgleich mit den geprüften Recherchen, fiktive Betriebe, Sprachregeln)
+Gehört zu [`PROJEKT.md`](PROJEKT.md). Bei Widersprüchen gilt `PROJEKT.md`.
 
 ---
 
-## 2. Gastronomie: Kantine & Mensa
-**Betriebsprofil:** 20 Beschäftigte. Betrieb von zwei festen Kantinenstandorten mit Mittagsverpflegung.
+## Wofür dieses Dokument da ist
 
-### Typische Probleme im Arbeitsalltag
-* **Massive Belastungsspitzen zur Mittagszeit:** Zwischen 11:30 und 13:30 Uhr ballt sich die Arbeit: Essensausgabe, Kassiervorgang, Tische reinigen und Tablettwagen leeren müssen gleichzeitig bewältigt werden.
-* **Körperlicher Engpass Spülküche:** Hunderte Tabletts, Teller, Schalen und Bestecke müssen in kürzester Zeit abgeräumt, sortiert, gereinigt und verräumt werden. Das feucht-heiße, laute Arbeitsumfeld führt zu hoher Personalfluktuation.
-* **Hohe Laufwege im Gastraum:** Servicekräfte legen weite Strecken zurück, um Tablettwagen zu leeren und Stationen nachzufüllen.
-* **Standort-Logistik:** Der tägliche Transport von Speisen (GN-Behälter) und Nachschub zwischen Zentralküche und zweitem Standort erfordert wiederkehrendes Heben und Verladen.
+Es beschreibt pro Branche, **was im Arbeitsalltag typischerweise belastet** – vor allem körperlich und organisatorisch – und welche Lösungsansätze dazu passen könnten. Es ergänzt [`DEMO_BETRIEBE.md`](DEMO_BETRIEBE.md): Dort stehen die Testdaten (mit Schwerpunkt auf Übergaben und Abläufen), hier die Branchensicht (mit Schwerpunkt auf körperlicher Belastung und Technik).
 
-### Verknüpfung mit den ROKI-Rechercheergebnissen
-* **Serviceroboter im Gastraum (IFR-Kategorie Hospitality):**  
-  Fahrroboter mit Ablagefächern (Tray-Roboter) entlasten Servicekräfte spürbar von reinen Transportwegen.  
-  *Einschränkung aus der ROKI-Evidenz:* Serviceroboter können nicht selbstständig Tische abräumen oder wischen (mobile Manipulatoren mit Greifarmen sind dafür im hektischen Publikumsverkehr noch viel zu fehleranfällig und teuer). Sie fungieren als **fahrende Sammelstationen**, auf denen Gäste oder das Personal Geschirr abstellen.
-* **Kassenautomatisierung per KI-Bilderkennung:**  
-  Kamerasysteme scannen das gesamte Tablett in unter einer Sekunde und erkennen Speisen zuverlässig. Das entlastet eine volle Fachkraft an der Kasse während der Stoßzeit komplett.
-* **Wirtschaftlichkeit & RaaS (Robot-as-a-Service):**  
-  *Aus ROKI-Kostenanalysen:* Die Anschaffungskosten für Gastro-Serviceroboter liegen zwischen 12.000 und 25.000 Euro. In der Gastronomie setzen sich zunehmend **Miet- und RaaS-Modelle** (ca. 400–800 Euro/Monat) durch. Dadurch entfällt das Investitionsrisiko bei Saisonschwankungen; Wartung und Software-Updates sind abgedeckt.
-* **Voraussetzungen im Betrieb:** Rutschfeste, ebene Böden ohne Stufen/Schwellen, ausreichend breite Hauptgänge (mind. 1,20 m) und Einhaltung der Hygieneanforderungen (HACCP – Gehäuse müssen feucht desinfizierbar sein).
+**So wird es genutzt:**
+- **Problem-Hypothesen** → Ideen für Nachfragen der KI in der Einzelabfrage und für zusätzliche Testantworten. Es sind Annahmen, keine Fakten über echte Betriebe.
+- **Lösungsansätze mit [ROKI geprüft]** → dürfen in den ROKI-Wissensauszug (`wissen/roki-wissensauszug.json`, siehe [`TECHNIK.md`](TECHNIK.md)). Die Fundstelle steht jeweils dabei.
+- **Lösungsansätze mit [nicht geprüft]** → dürfen von der KI nur als „nicht von ROKI geprüft“ vorgeschlagen werden.
+- **Entscheidungsmatrix** (am Ende) → Teamregel für die Einordnung in Schritt 2.
 
----
+**Kennzeichnung:**
+- **[ROKI geprüft]** – steht so in einer der drei geprüften Recherchen im Repo (Fundstelle in Klammern)
+- **[nicht geprüft]** – plausible Einschätzung, aber nicht durch die geprüften Recherchen belegt
 
-## 3. Gesundheit und Pflege: Pflegeheim mit Demenz-Abteilung
-**Betriebsprofil:** 100 Beschäftigte. Vollstationäre Einrichtung mit spezialisiertem Wohnbereich für Menschen mit Demenz.
+Die Betriebsprofile sind die **fiktiven** Demo-Betriebe aus `DEMO_BETRIEBE.md`.
 
-### Typische Probleme im Arbeitsalltag
-* **Schwere körperliche Transfers:** Bewohnerinnen und Bewohner müssen mehrfach täglich aus dem Bett in den Rollstuhl mobilisiert, im Bett gelagert oder beim Gehen gestützt werden (Hauptursache für Bandscheibenvorfälle).
-* **Hoher Zeitaufwand für interne Transporte:** Pflegekräfte verbringen 20 bis 30 % ihrer Schicht mit reinen Botendiensten: Wäschewagen schieben, Mahlzeitentabletts verteilen, Inkontinenzmaterial auffüllen und Abfall entsorgen.
-* **Nachtwachen und Sturzgefahren (speziell Demenz):** Desorientierte Personen stehen nachts auf und stürzen ("Hinlauftendenz"). Regelmäßige Kontrollgänge wecken Bewohner oft unnötig auf; lückenlose Sichtkontrollen sind personell nicht machbar.
-* **Hoher Dokumentationsaufwand:** Vorschriftsmäßige Pflegeberichte binden wertvolle Zeit an Computerarbeitsplätzen, die in der direkten Betreuung fehlt.
-
-### Verknüpfung mit den ROKI-Rechercheergebnissen
-* **Erkenntnisse aus dem 22-monatigen Praxistest des Assistenzroboters *Lio*:**  
-  *Befund der ROKI-Pflegerecherche:* Bewohner:innen reagierten auf Assistenzroboter wie *Lio* mehrheitlich positiv. **Beim Personal sank die Akzeptanz im Testverlauf jedoch deutlich**, weil technische Zuverlässigkeit und Bedienbarkeit die hohen Erwartungen nicht erfüllten. Das System erzeugte zusätzlichen Betreuungsaufwand, sodass **keine wahrnehmbare Netto-Entlastung** gemessen werden konnte.  
-  *ROKI-Lehre für KMU:* Komplexe, multifunktionale Assistenzroboter sind für den Pflegealltag derzeit noch zu wartungsintensiv.
-* **Körpernahe Robotik – Scheitern im Projekt *HoLLiECares*:**  
-  Versuche, Roboter Aufgaben wie das autonome Schieben von Rollstühlen oder die direkte Patientenbegleitung übernehmen zu lassen, scheiterten im Feldtest an mechanischen Hardwareschnittstellen und Sicherheitsrisiken im Realbetrieb.
-* **Erkenntnisse zu Pflege-Exoskeletten aus dem INQA-Projekt *EXPERTISE 4.0*:**  
-  Pflegekräfte bestätigen eine spürbare Entlastung der Lendenwirbelsäule beim Umlagern im Bett.  
-  *Wichtige Einschränkung:* Nutzen, Tragekomfort und Passform sind extrem personenspezifisch. Ein Exoskelett kann in einer 100-MA-Einrichtung nicht einfach „für alle“ im Schrank hängen, sondern muss individuell angepasst und akzeptiert werden.
-* **Wo Automatisierung heute tatsächlich wirkt:**  
-  1. **Autonome Transportroboter (AMR) in der Hintergrundlogistik:** Transportieren Wäsche- und Essenswagen über Aufzugskopplungen, ohne mit Bewohnern direkt zu interagieren.  
-  2. **Diskrete Sensorik statt Kameras:** Deckenmontierte optische Sensoren oder Radarsensoren erkennen Stürze und Bettflucht sofort, ohne Bilder aufzuzeichnen (Schutz von Würde und Intimsphäre).  
-  3. **KI-Sprachdiktat:** Entlastet nachweislich von Schreibarbeiten bei der Dokumentation.
+Abkürzungen für Fundstellen: *Robotertypen* = `ROKI_Recherche_Robotertypen_geprueft.md` · *Pflege* = `ROKI_Recherche_Roboter_in_der_Pflege_2026-08-18_geprueft.md` · *Roboterhunde* = `ROKI_Recherche_Roboterhunde_2026-08-13_geprueft.md`
 
 ---
 
-## 4. Logistik: Spedition & Umschlagslager (Beispiel Hiller Logistik)
-**Betriebsprofil:** Mittelständisches Logistikunternehmen mit Lagerhaltung, Umschlag und LKW-Transport.
+## 1. Produktion und Handwerk – Metallbau
 
-### Typische Probleme im Arbeitsalltag
-* **Lange Laufwege beim Kommissionieren:** Lagermitarbeitende laufen pro Schicht oft 10 bis 18 Kilometer zu Fuß durch Hochregalgänge, um Teilsendungen und Kartons einzusammeln.
-* **Körperliche Extrembelastung an der Rampe:** Manuelles Be- und Entladen von LKW oder Containern mit lose geladener Stückgutware ("Floor-Loaded") führt zu hoher Ermüdung und Fehlzeiten.
-* **Mangel an Fahrpersonal für Flurförderzeuge:** Zuverlässige Gabelstaplerfahrer für den Mehrschichtbetrieb sind schwer zu rekrutieren.
-* **Suchzeiten und Kommissionierfehler:** Falsch abgestellte Paletten oder manuelle Scan-Verzögerungen stören den Takt der Tourenbereitstellung.
+**Profil:** Metallbau Heidekamp (fiktiv), 15 Beschäftigte, Zäune, Tore, Geländer. Teams viel und getrennt auf Baustellen unterwegs.
 
-### Verknüpfung mit den ROKI-Rechercheergebnissen
-* **AMR vs. FTS (Klassifikation nach ISO 8373 / IFR):**  
-  *Gemäß ROKI-Recherche* war Transport und Logistik 2024 die mit Abstand größte Anwendungsgruppe professioneller Service-Robotik.  
-  *Unterschied für KMU:* Klassische Fahrerlose Transportsysteme (FTS/AGV) benötigen feste Bodenmarkierungen oder Magnetspuren. Für bestehende Logistikhallen mittelständischer Betriebe sind **Autonome Mobile Roboter (AMR)** deutlich besser geeignet, da sie dank SLAM-Navigation und Laserscannern dynamisch um Hindernisse herumfahren, ohne dass der Boden umgebaut werden muss.
-* **Die Kosten- und Integrationsfalle (IFR-Befund):**  
-  *Aus ROKI-Recherche Robotertypen:* Der reine Anschaffungspreis eines mobilen Transportroboters (ca. 25.000 bis 60.000 Euro) ist **nur ein Teil der Gesamtkosten**. 
-  Integration, Anbindung an das Lagerverwaltungssystem (LVS/WMS), Erstellung der digitalen Sicherheitskarte und Anpassung von Schutzzonen machen häufig **bis zu 40–50 % der Gesamtinvestition** aus.
-* **Praxisbewährte Einstiegslösungen:**  
-  * **Kollaborative Follow-Me-Wagen:** Der Roboter folgt dem Picker autonom. Der Mensch kommissioniert mit beiden Händen frei; die körperliche Belastung durch das Ziehen schwerer Rollwagen entfällt.
-  * **Automatische Palettenwickler am Bandende:** Standardtechnik mit extrem schnellem ROI (unter 12 Monaten).
-  * **Industrie-Exoskelette an der Rampe:** Mechanische Unterstützung beim Heben schwerer Einzelkartons im Container.
+### Problem-Hypothesen
+- **Schweres Tragen auf der Baustelle:** Zaunelemente, Tore und Geländer müssen vom Fahrzeug über unebenes Gelände (Rasen, Schotter, Aushub, Stufen) getragen werden. Folgen können Rücken- und Gelenkbeschwerden und Ausfallzeiten sein.
+- **Halten und Fixieren bei der Montage:** Bauteile müssen oft längere Zeit genau gehalten werden, während jemand bohrt, dübelt oder heftet.
+- **Gleichförmige Arbeit in der Werkstatt:** Pfosten zuschneiden, Bohrungen setzen, gleiche Gitter schweißen – Zeit, die für Sonderanfertigungen fehlt.
+- **Reibung zwischen Baustelle und Werkstatt:** ungenaues Aufmaß oder fehlendes Material führen zu Rückfragen und Nachfahrten. (Das ist der Kern der Live-Demo, siehe `DEMO_BETRIEBE.md`.)
 
----
+**Nachfragen für die Abfrage (Ideen):** „Was tragen Sie am häufigsten, und wie weit?“ · „Wobei müssen Sie lange etwas halten?“ · „Welche Handgriffe in der Werkstatt wiederholen sich?“
 
-## 5. Facility Management: Hausmeisterservice
-**Betriebsprofil:** 8 Beschäftigte. Betreuung zahlreicher dezentraler Liegenschaften (Schulen, Gewerbeimmobilien, Wohnanlagen); Teams sind mobil und verteilt im Einsatz.
-
-### Typische Probleme im Arbeitsalltag
-* **Saisonale Überlastungsspitzen und Witterungsdruck:**
-  * *Winterdienst:* Schneeräumung und Streupflicht ab 4:00 Uhr morgens auf 15 getrennten Objekten gleichzeitig – mit 8 Mitarbeitern kaum fristgerecht zu bewältigen.
-  * *Grünpflege im Sommer:* Tagelanges Mähen großer Rasenflächen bei sommerlicher Hitze.
-* **Hohe Rüst- und Fahrzeiten:** 30 bis 50 % der Arbeitszeit wird im Fahrzeug beim Pendeln zwischen Objekten verbracht.
-* **Wiederholtes Verladen schwerer Maschinen:** Schwere Benzin-Rasenmäher, Balkenmäher, Laubbläser und Streusalzsäcke müssen mehrmals täglich auf Pritschenwagen gehoben und gesichert werden.
-* **Unwirtschaftliche Kontrollfahrten:** Anfahrt zum Objekt, nur um festzustellen, dass Müllcontainer noch nicht voll oder Gehwege noch sauber sind.
-
-### Verknüpfung mit den ROKI-Rechercheergebnissen
-* **Das Dezentralitäts-Dilemma kleiner Betriebe:**  
-  *Erkenntnis aus den ROKI-Kosten- und Einsatzanalysen:* Mobile Robotik rechnet sich für einen 8-Personen-Dienstleister **nicht**, wenn der Roboter täglich auf den Pritschenwagen gehoben, zum Kunden gefahren, abgeladen, überwacht und wieder eingepackt werden muss. Die Rüstzeiten fressen den Produktivitätsgewinn vollständig auf.
-* **Lösung: Stationierung auf Kundenliegenschaften (RTK-GPS-Mähroboter):**  
-  Großflächenmähroboter arbeiten heute dank RTK-Satellitennavigation ohne Begrenzungskabel und verbleiben ganzjährig fest auf dem betreuten Gewerbeobjekt oder Schulhof. Das FM-Unternehmen verkauft dem Kunden das „gepflegte Grün als Dienstleistung“ und muss nur noch sporadisch Kanten schneiden.
-* **Professionelle Reinigungsrobotik (IFR-Kategorie Service):**  
-  Autonome Scheuersaugroboter sind technologisch hochgradig ausgereift (Reinigungsroboter bilden die zweitgrößte Gruppe professioneller Serviceroboter weltweit). Bei betreuten Großobjekten (z. B. Bürokomplexe, Turnhallen) reinigen sie nachts selbstständig Flure und Hallen.
-* **IoT-Sensorik schlägt Roboter:**  
-  Für viele Probleme eines mobilen Hausmeisterservices ist kein teurer Roboter nötig, sondern smarte Sensorik: Füllstandssensoren in Großcontainern, Laub- und Feuchtigkeitssensoren in Dachrinnen sowie Bodentemperaturmelder für Glatteis verhindern unnötige Anfahrten.
+### Lösungsansätze
+| Ansatz | Was man wissen sollte | Kennzeichnung |
+|---|---|---|
+| **Exoskelette** (z. B. für Heben, Tragen, Überkopfarbeiten) | Passive Exoskelette sind keine Roboter im engeren Sinn, sondern angrenzende Assistenztechnik. Nutzen hängt von Tätigkeit und Passform ab; Auswahl, Gefährdungsbeurteilung, Schulung und Test sind nötig. | [ROKI geprüft] (Robotertypen 3.13) |
+| Rein mechanische Exoskelette für die Baustelle (ohne Akku, robust gegen Staub und Nässe) | Plausibel für die Baustelle, aber nicht in der Recherche untersucht. | [nicht geprüft] |
+| **Cobot in der Werkstatt** (z. B. Schweißen gleicher Teile) | Schweißen und Handwerk werden als typische Anwendung genannt. „Kollaborativ“ heißt nicht automatisch ohne Schutzeinrichtung – entscheidend sind Werkzeug, Werkstück, Geschwindigkeit und Arbeitsraum; eine Risikobeurteilung ist nötig. Integration bestimmt die Kosten stärker als der Arm. | [ROKI geprüft] (Robotertypen 3.3) |
+| Schutz bei Cobot-Schweißzellen (Blendschutz, Absaugung) | Folgt fachlich aus dem Punkt oben, ist aber nicht einzeln belegt. Konkrete Normen klären. | [nicht geprüft] |
+| **Vierbeinige Roboter („Roboterhunde“)** | Auf Baustellen werden sie zur wiederholten digitalen Erfassung des Baufortschritts erprobt (Forschung/Feldversuch). Spot trägt laut Hersteller bis zu 14 kg – als Lastenträger für schwere Bauteile kommen sie damit nicht in Frage. | [ROKI geprüft] (Roboterhunde 3.1, 3.15, 5) |
+| Elektrische Raupentransporter, Treppensteiger, Vakuum-Hebegeräte | Mögliche einfache Alternativen für den Transport auf der Baustelle. | [nicht geprüft] |
 
 ---
 
-## Zusammenfassung: Die ROKI-Entscheidungsmatrix für KMU
+## 2. Gastronomie – Kantine
 
-| Kriterium | Eignung für vollautonome Robotik | Besserer Alternativansatz für KMU |
-|:---|:---|:---|
-| **Umgebung** | **Geschlossen, strukturiert, eben** (Lager, Kantinensaal, Krankenhausflur) | **Unstrukturiert, wechselnd** (Baustelle, Garten) → *Exoskelette, motorisierte Handgeräte* |
-| **Aufgabenart** | **Hochgradig repetitiv, feste Routen** (Palettentransport, Bodenreinigung, Kassenbild) | **Individuelle Einzelmontage, Pflege am Menschen** → *Cobots für Werkstatt, Sensorik für Sicherheit* |
-| **Betriebsort** | **Stationär am Standort** (Gerät verbleibt vor Ort) | **Verteilt / Dezentral** (Dienstleister fährt viele Orte an) → *IoT-Fernüberwachung statt mobiler Roboter* |
-| **Interaktion** | **Hintergrundlogistik & Assistenz** | **Direkte menschliche Nähe** → *Hohe Akzeptanzhürden; Überfrachtung mit Erwartungen vermeiden* |
+**Profil:** Kantinenbetrieb Elbküche (fiktiv), 20 Beschäftigte, zwei Kantinen, Standort A kocht für beide.
+
+### Problem-Hypothesen
+- **Spitzen zur Mittagszeit:** Ausgabe, Kasse, Tische und Tablettwagen gleichzeitig.
+- **Spülküche als körperlicher Engpass:** viel Geschirr in kurzer Zeit, feucht, heiß, laut – möglicherweise ein Grund für Personalwechsel.
+- **Laufwege im Speisesaal:** Tablettwagen leeren, Stationen nachfüllen.
+- **Transport zwischen den Standorten:** Speisen in Behältern und Nachschub werden täglich gehoben und verladen.
+
+**Nachfragen für die Abfrage (Ideen):** „Was ist zwischen 11:30 und 13:30 am anstrengendsten?“ · „Wie viele Wege gehen Sie im Speisesaal?“ · „Wer belädt den Transport zum zweiten Standort?“
+
+### Lösungsansätze
+| Ansatz | Was man wissen sollte | Kennzeichnung |
+|---|---|---|
+| **Transport-/Serviceroboter im Speisesaal** | Typisch sind Speisen- und Getränketransport und Abräumen. Voraussetzungen: breite, ebene Wege, verlässliche Navigation, klare Übergabe an Personal oder Gäste, Hygiene- und Reinigungsprozesse, Akzeptanz. Eignung mittel bis gut bei häufigen Laufwegen; Nutzen stark prozessabhängig. Kauf, Leasing oder Mietmodelle sind üblich; belastbare herstellerunabhängige Preise gibt es laut Recherche nicht. | [ROKI geprüft] (Robotertypen 3.8) |
+| Einschätzung: Ohne Greifarm arbeiten solche Roboter eher als fahrende Sammelstation, auf der Geschirr abgestellt wird | Team-Einschätzung, im konkreten System prüfen. | [nicht geprüft] |
+| **Reinigungsroboter für den Speisesaal** | Gut bei größeren, regelmäßig zu reinigenden Flächen; weniger bei kleinen, verwinkelten oder oft umgestellten Flächen. Manuelle Ergänzung bleibt nötig. | [ROKI geprüft] (Robotertypen 3.7) |
+| Kassen mit KI-Bilderkennung (Tablett wird erkannt) | Könnte die Kasse in der Spitze entlasten; Wirkung nicht untersucht. | [nicht geprüft] |
 
 ---
 
-*Erstellt auf Basis der geprüften ROKI-Recherchen zu Robotertypen (ISO 8373), Pflegerobotik (Lio, HoLLiECares, EXPERTISE 4.0), Roboterhunden und DGUV-Arbeitsschutzrichtlinien.*
+## 3. Gesundheit und Pflege – Pflegeheim mit Demenzbereich
+
+**Profil:** Haus am Elbufer (fiktiv), 100 Beschäftigte, vollstationär, eigener Wohnbereich für Menschen mit Demenz.
+
+### Problem-Hypothesen
+- **Schwere Transfers:** Bewohner:innen mehrmals täglich vom Bett in den Rollstuhl mobilisieren, lagern, beim Gehen stützen.
+- **Interne Transporte:** Wäsche, Mahlzeiten, Material, Abfall – Wege, die nicht pflegerisch sind, aber Zeit kosten.
+- **Nachtdienst und Stürze im Demenzbereich:** Menschen stehen nachts auf, Kontrollgänge wecken andere, lückenlose Aufsicht ist nicht möglich.
+- **Dokumentation:** Pflegeberichte binden Zeit am Computer.
+
+**Nachfragen für die Abfrage (Ideen):** „Welche Transfers belasten Sie am meisten?“ · „Welche Wege gehen Sie, die mit Pflege nichts zu tun haben?“ · „Was macht den Nachtdienst schwer?“
+
+### Lösungsansätze
+| Ansatz | Was man wissen sollte | Kennzeichnung |
+|---|---|---|
+| **Transportroboter für Wäsche, Essen, Material** | Transport ist eines der reiferen Einsatzfelder, weil standardisierbar und meist ohne Körperkontakt. Entscheidend sind Aufzüge, Türen, Übergabepunkte, Hygiene, Störungen. Erste Schritte laut Recherche: Transportwege messen, häufige nicht-pflegerische Wege finden, Gebäude prüfen, Pilot auf einer Route, tatsächlich eingesparte Personalzeit messen. | [ROKI geprüft] (Pflege 2, 3.3) |
+| **Multifunktionale Assistenzroboter (Beispiel Lio)** | Im 22-monatigen Feldtest reagierten Bewohner:innen überwiegend positiv; beim Personal sank die Akzeptanz, weil Zuverlässigkeit und Bedienbarkeit die Erwartungen nicht erfüllten. Eine wahrnehmbare Entlastung wurde nicht festgestellt. | [ROKI geprüft] (Pflege 2, 3.4) |
+| **Körpernahe Robotik (Beispiel HoLLiECares)** | Autonomes Rollstuhlschieben und Patientenbegleitung scheiterten im Realtest teilweise an Hardware- und Integrationsproblemen. Körpernahe Systeme sind deutlich anspruchsvoller und sicherheitskritischer als Logistikroboter. | [ROKI geprüft] (Pflege 2, 3.5) |
+| **Exoskelette (Beispiel EXPERTISE 4.0)** | Pflegekräfte beschrieben sie als spürbar entlastend und rückenschonend; leichte Modelle wurden besser angenommen. Passform und Nutzen hängen stark von Person und Tätigkeit ab. Einführung freiwillig und begleitet gestalten. | [ROKI geprüft] (Pflege 2, 3.6) |
+| Sensoren für Sturz- und Bettfluchterkennung ohne Kamerabilder | Könnte Würde und Privatsphäre schützen; nicht in der Recherche untersucht. | [nicht geprüft] |
+| KI-gestützte Spracheingabe für die Dokumentation | Software ist nicht Gegenstand der Pflege-Recherche. | [nicht geprüft] |
+
+---
+
+## 4. Logistik – Lager und Nahverkehr
+
+**Profil:** Nordheide Logistik (fiktiv), 45 Beschäftigte, Lager im Schichtbetrieb, eigene Fahrzeuge, Lagerverwaltungssystem vorhanden.
+
+### Problem-Hypothesen
+- **Lange Laufwege beim Kommissionieren.**
+- **Körperliche Belastung an der Rampe:** Be- und Entladen loser Ware von Hand.
+- **Fahrpersonal für Stapler** ist schwer zu finden.
+- **Suchzeiten und Fehler beim Kommissionieren:** falsch abgestellte Paletten, verzögertes Scannen.
+
+**Nachfragen für die Abfrage (Ideen):** „Wie viel laufen Sie pro Schicht ungefähr?“ · „Was laden Sie von Hand?“ · „Wann suchen Sie Ware?“
+
+### Lösungsansätze
+| Ansatz | Was man wissen sollte | Kennzeichnung |
+|---|---|---|
+| **Fahrerlose Transportsysteme (FTS)** | Folgen festgelegten oder infrastrukturgestützten Routen; gut bei stabilen Materialflüssen und häufigen, wiederkehrenden Transporten. | [ROKI geprüft] (Robotertypen 3.4) |
+| **Autonome mobile Roboter (AMR)** | Navigieren flexibler über Sensorik und berücksichtigen Hindernisse. Transport und Logistik war 2024 in der IFR-Herstellerstichprobe die größte Anwendungsgruppe professioneller Serviceroboter. Integration, Flottensteuerung und Anbindung ans Lagerverwaltungssystem können wesentliche Zusatzkosten verursachen; Flotten- und Systemanbindung erhöhen den Aufwand deutlich. Die Abgrenzung FTS/AMR wird am Markt nicht einheitlich verwendet. | [ROKI geprüft] (Robotertypen 3.5, K07) |
+| **Exoskelette an der Rampe** | Heben und Tragen in der Logistik sind typische Anwendungen; Nutzen tätigkeitsspezifisch prüfen. | [ROKI geprüft] (Robotertypen 3.13) |
+| Roboterwagen, die beim Kommissionieren folgen | Plausibler Einstieg; nicht in der Recherche untersucht. | [nicht geprüft] |
+| Automatische Palettenwickler | Etablierte Technik; Wirtschaftlichkeit im Einzelfall prüfen. | [nicht geprüft] |
+
+---
+
+## 5. Facility Management – Hausmeisterservice
+
+**Profil:** Hausmeisterservice Schwinge (fiktiv), 8 Beschäftigte, rund 40 Objekte (Wohnanlagen, Gewerbe, Schulen), davon rund 15 im Winterdienst. Alle sind verteilt unterwegs.
+
+### Problem-Hypothesen
+- **Saisonale Spitzen:** Winterdienst früh am Morgen auf vielen Objekten gleichzeitig; im Sommer lange Mäharbeiten bei Hitze.
+- **Viel Zeit im Fahrzeug** zwischen den Objekten.
+- **Wiederholtes Verladen schwerer Geräte** (Mäher, Laubbläser, Streusalz).
+- **Kontrollfahrten ohne Anlass** (z. B. Container noch nicht voll).
+
+**Nachfragen für die Abfrage (Ideen):** „Wie viel Ihrer Zeit sind Sie unterwegs?“ · „Was laden Sie täglich ein und aus?“ · „Welche Fahrten waren im Nachhinein unnötig?“
+
+### Lösungsansätze
+| Ansatz | Was man wissen sollte | Kennzeichnung |
+|---|---|---|
+| **Reinigungsroboter in großen Objekten** | Professionelle Reinigungsroboter sind eine eigenständige, wachsende Anwendung; gut bei größeren, regelmäßig zu reinigenden Flächen. Laut Recherche im Facility Management häufig näher am breiten Praxiseinsatz als komplexe Assistenzroboter. | [ROKI geprüft] (Robotertypen 2, 3.7) |
+| **Inspektion mit Robotern oder Drohnen** | Gut für klar definierte Inspektionsaufgaben, besonders wenn gefährliche oder zeitaufwändige Begehungen wegfallen. Dienstleistungsmodelle können Investitionshürden senken. Bei Drohnen gelten luftrechtliche Anforderungen. | [ROKI geprüft] (Robotertypen 3.11) |
+| Team-Einschätzung: Mobile Roboter, die täglich verladen und zum Kunden gefahren werden müssen, lohnen sich für einen kleinen Dienstleister kaum – Geräte sollten vor Ort bleiben | Plausible Überlegung, nicht belegt. | [nicht geprüft] |
+| Mähroboter, die dauerhaft auf einer Liegenschaft bleiben | Nicht in der Recherche untersucht. | [nicht geprüft] |
+| Sensoren statt Kontrollfahrten (Füllstand, Glätte) | Könnte unnötige Fahrten sparen; nicht in der Recherche untersucht. | [nicht geprüft] |
+
+---
+
+## Entscheidungsmatrix (Teamregel für Schritt 2)
+
+Diese Matrix ist eine **Faustregel des Teams** für die Einordnung von Aufgaben. Sie ist aus den Ansätzen oben abgeleitet, aber als Ganzes **nicht von ROKI geprüft**. Die KI darf sie zur Begründung nutzen, nicht als Beleg.
+
+| Kriterium | Eher geeignet für Robotik | Eher andere Ansätze |
+|---|---|---|
+| **Umgebung** | geschlossen, eben, gleichbleibend (Lager, Speisesaal, Flur) | wechselnd, unstrukturiert (Baustelle, Garten) → Exoskelette, Hilfsgeräte, Prozess |
+| **Aufgabe** | häufig wiederkehrend, feste Wege (Transport, Bodenreinigung) | Einzelanfertigung, Arbeit direkt am Menschen → Cobot nur in der Werkstatt, Sensorik, Prozess |
+| **Einsatzort** | Gerät bleibt an einem Ort | viele verteilte Orte → Fernüberwachung, Software, Prozess |
+| **Kontakt zu Menschen** | Hintergrundaufgaben (Logistik) | direkte körperliche Nähe → hohe Hürden, Erwartungen klein halten |
+
+---
+
+## Offene Punkte: Belege nachreichen
+
+Diese Angaben standen in Version 1, sind aber **nicht durch die geprüften Recherchen gedeckt**. Sie wurden entfernt oder abgeschwächt. Wer eine Quelle hat, trägt sie hier ein. Mit Quelle können sie als „nicht von ROKI geprüft, Quelle: …“ wieder aufgenommen werden.
+
+- Gewicht von Zaunelementen und Toren (40 bis über 100 kg)
+- Preise für Gastro-Serviceroboter (12.000–25.000 €) und Mietraten (400–800 €/Monat). *Hinweis:* Die Robotertypen-Recherche sagt ausdrücklich, dass keine belastbaren herstellerunabhängigen Durchschnittspreise gefunden wurden (3.8).
+- Mindestbreite von Gängen (1,20 m)
+- Anteil der Schicht für Botendienste in der Pflege (20–30 %)
+- Laufwege beim Kommissionieren (10–18 km pro Schicht)
+- Preise für mobile Transportroboter (25.000–60.000 €) und Anteil der Integration (40–50 %). *Hinweis:* Die Recherche nennt nur Herstellerbeispiele und „wesentliche Zusatzkosten“ (3.5).
+- Amortisation von Palettenwicklern unter 12 Monaten – widerspricht außerdem dem Grundsatz, keine ROI-Aussagen zu machen (`PROJEKT.md`, Abschnitt 9)
+- Anteil der Fahrzeit im Hausmeisterservice (30–50 %)
+- „Reinigungsroboter sind die zweitgrößte Gruppe professioneller Serviceroboter“. *Korrektur:* Laut Recherche war 2024 Hospitality die zweitgrößte Gruppe (Robotertypen 3.8).
+- Messbare Entlastung durch Schulter-Exoskelette
+- Normen EN ISO 10218 und ISO 13482 (in den Recherchen nicht behandelt)

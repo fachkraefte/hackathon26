@@ -2,7 +2,7 @@
   "HomePage": {
     "title": "Hallo Welt",
     "description": "Erste Seite der App.",
-    "intro": "Die App läuft. Die Produktbeschreibung folgt noch."
+    "intro": "Die App läuft. Die Produktbeschreibung steht in PROJEKT.md im Repository."
   },
   "LocaleSwitcher": {
     "label": "Sprache",

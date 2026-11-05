@@ -1,7 +1,9 @@
 # Demo-Betriebe
 
-**Stand:** 05.11.2026 · Version 2
+**Stand:** 05.11.2026 · Version 3
 Gehört zu [`PROJEKT.md`](PROJEKT.md). Datenformate: [`TECHNIK.md`](TECHNIK.md), Abschnitt 4.
+
+**Diese Datei ist die einzige Quelle für Testdaten.** Die [`ROKI_Branchen_Problemanalyse_Robotik_und_Automatisierung.md`](ROKI_Branchen_Problemanalyse_Robotik_und_Automatisierung.md) beschreibt dieselben fünf Betriebe aus Branchensicht (vor allem körperliche Belastung und Technik). Ihre Problem-Hypothesen können als Vorlage für zusätzliche Testantworten dienen.
 
 > **Wichtig:** Alle Betriebe in dieser Datei sind **frei erfunden**. Namen, Strukturen, Aussagen, Stunden und Bewertungen sind plausible Annahmen für Testdaten – keine Rechercheergebnisse und keine Beschreibung realer Unternehmen. Ähnlichkeiten mit echten Betrieben sind nicht beabsichtigt. Echte Firmennamen verwenden wir nur mit Einverständnis.
 
@@ -85,10 +87,10 @@ Das sind keine Vorgaben für die KI, sondern das, was ein Mensch aus den Testdat
 
 **Fahrplan, ungefähr:**
 - **kurz:** Aufmaß-Vorlage mit Pflichtfeldern und Fotos (Prozess) · Packliste pro Auftrag (Prozess) · Termin-Info an Kunden am Vortag (Software, [nicht geprüft])
-- **mittel:** digitales Aufmaß auf dem Tablet, direkt für die Werkstatt sichtbar (Software, [nicht geprüft]) · Zeiterfassung per Handy (Software, [nicht geprüft]) · Angebotsentwurf aus dem digitalen Aufmaß (KI-Assistenz, [nicht geprüft]) · Wissen des Meisters für Einarbeitung festhalten (Prozess)
+- **mittel:** digitales Aufmaß auf dem Tablet, direkt für die Werkstatt sichtbar (Software, [nicht geprüft]) · Zeiterfassung per Handy (Software, [nicht geprüft]) · Angebotsentwurf aus dem digitalen Aufmaß (KI-Assistenz, [nicht geprüft]) · Wissen des Meisters für Einarbeitung festhalten (Prozess) · Exoskelette fürs Tragen und Halten mit den Beschäftigten testen – Nutzen hängt von Tätigkeit und Passform ab (Hardware, [ROKI geprüft] – Robotertypen-Recherche 3.13)
 - **lang:** Schweiß-Cobot für Serienteile wie Pfosten prüfen (Robotik, [ROKI geprüft] – Cobots im Handwerk z. B. zum Schweißen; Integration und Risikobeurteilung bestimmen den Aufwand; Robotertypen-Recherche 3.3)
 
-**Die Pointe:** Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe.
+**Die Pointe:** Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe. Assistenztechnik und Robotik kommen dort ins Spiel, wo die Belastung körperlich ist oder sich Handgriffe ständig wiederholen.
 
 ---
 
@@ -208,7 +210,7 @@ Auf dem Papier eine klare Hierarchie, im Alltag gemischt: Die Pflege übernimmt 
 
 ## 5. Facility Management – Hausmeisterservice Schwinge
 
-**Steckbrief:** Hausmeisterservice in Stade, 8 Mitarbeitende, betreut rund 40 Objekte (Wohnanlagen, Gewerbe). Saisonal Grünpflege und Winterdienst. Anrede: „Du“ (vom Betrieb gewählt).
+**Steckbrief:** Hausmeisterservice in Stade, 8 Mitarbeitende, betreut rund 40 Objekte (Wohnanlagen, Gewerbe, Schulen). Saisonal Grünpflege und für rund 15 Objekte Winterdienst. Anrede: „Du“ (vom Betrieb gewählt).
 
 **Bereiche:**
 
@@ -224,6 +226,7 @@ Auf dem Papier eine klare Hierarchie, im Alltag gemischt: Die Pflege übernimmt 
 - Hausmeister: „Was man über ein Objekt wissen muss, hat jeder nur im Kopf.“
 - Leitung: „Neue Kollegen einzuarbeiten dauert ewig.“
 - Hausmeister: „Mir fehlt oft Material, dann fahre ich zum Baumarkt.“
+- Hausmeister: „Mäher und Streusalz lade ich mehrmals am Tag ein und aus.“
 
 **Mögliche Ansätze:**
 
