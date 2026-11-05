@@ -1,10 +1,12 @@
 "use server";
 
 // Server Actions: öffentliche Endpunkte, deshalb wird jede Eingabe mit zod geprüft.
+import { after } from "next/server";
 import { z } from "zod";
 import { bereichsLabel } from "./anonym";
 import { nimmBeitragAuf } from "./gesamtbild";
 import { bereiteVor, versteheGeschichte } from "./ki/schritte";
+import { ergaenzeLoesungen } from "./loesungen";
 import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
 import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, speichereBeitrag } from "./speicher";
 import { Beitrag, Bereich, Branche, Profil, Punkt, type Bestandsaufnahme } from "./typen";
@@ -120,6 +122,8 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
 
   const ergebnis = await nimmBeitragAuf(b.id);
   if (!ergebnis) throw new Error("Gesamtbild nicht verfügbar.");
+  // Lösungen für neue Handlungsfelder nach der Antwort im Hintergrund vorbereiten.
+  after(() => ergaenzeLoesungen(b.id).then(() => undefined, (e: unknown) => console.error("Lösungen im Hintergrund:", e)));
   const meineIds = new Set(beitrag.punkte.map((p) => p.id));
   const meinLabel = bereichsLabel(beitrag, ergebnis.beitraege, b);
   const meineStunden = beitrag.punkte.reduce((s, p) => s + stundenProWoche(p), 0);

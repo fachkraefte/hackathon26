@@ -2,10 +2,11 @@
 // Fällt die KI aus (kein Schlüssel, Fehler, Zeitüberschreitung), greift der Demo-Modus.
 import { z } from "zod";
 import { bereichsLabel } from "../anonym";
-import { demoGesamtbild } from "../daten";
-import { Faden, Gesamtbild, Profil, Verstaendnis, type Beitrag, type Bestandsaufnahme } from "../typen";
+import { demoGesamtbild, loesungsmuster } from "../daten";
+import { Faden, Gesamtbild, Loesung, Loesungsart, Profil, Reifegrad, Verstaendnis, type Beitrag, type Bestandsaufnahme } from "../typen";
 import { fragJson, kiVerfuegbar } from "./json";
 import {
+  loesungPrompt,
   neuerFadenPrompt,
   verstehePrompt,
   vorbereitenPrompt,
@@ -252,6 +253,52 @@ async function neueFaeden(b: Bestandsaufnahme, punkte: PunktFuerKi[], bestehende
     return faeden;
   } catch (fehler) {
     console.error("Neuer Faden fehlgeschlagen:", fehler);
+    return null;
+  }
+}
+
+// ---------- ④ Lösung je Handlungsfeld ----------
+const LoesungKi = z.object({
+  musterId: z.string().nullable(),
+  name: z.string(),
+  satz: z.string(),
+  schritte: z.array(z.string()).length(3),
+  braucht: z.array(z.string()).min(1).max(5),
+  kniff: z.string(),
+  zeitFrei: z.string(),
+  art: Loesungsart,
+  reife: Reifegrad,
+  testlauf: z.string(),
+  bauplanPrompt: z.string().min(200),
+});
+
+/**
+ * Erzeugt die Lösung für einen Faden. Reife und Herkunft kommen bei einem Muster aus dem Katalog,
+ * nie aus der KI – „von ROKI geprüft“ gibt es nur mit Verweis auf den Wissensauszug.
+ */
+export async function erzeugeLoesung(b: Bestandsaufnahme, faden: Faden, beitraege: Beitrag[]): Promise<Loesung | null> {
+  if (!kiVerfuegbar()) return null;
+  const ids = new Set(faden.punktIds);
+  const stimmen = beitraege.flatMap((x) => x.punkte.filter((p) => ids.has(p.id)).map((p) => ({ titel: p.titel, aussage: p.aussage })));
+  const katalog = loesungsmuster.map(({ id, name, passtZu, art, kern, kniff, braucht }) => ({ id, name, passtZu, art, kern, kniff, braucht }));
+  try {
+    const ki = await fragJson(LoesungKi, loesungPrompt(b, faden, stimmen.slice(0, 12), katalog), {
+      reasoningEffort: "medium",
+      timeoutMs: 75_000,
+    });
+    const muster = loesungsmuster.find((m) => m.id === ki.musterId);
+    const { musterId: _muster, ...rest } = ki;
+    void _muster;
+    return {
+      ...rest,
+      name: muster?.name ?? ki.name, // wiedererkennbar: Muster behalten ihren Namen
+      art: muster?.art ?? (ki.art === "prozess" || ki.art === "keineTechnik" ? "kiAssistenz" : ki.art),
+      reife: muster?.reife ?? (ki.reife === "imEinsatz" ? "pilot" : ki.reife),
+      herkunft: muster?.wissenId ? "rokiGeprueft" : "nichtGeprueft",
+      wissenId: muster?.wissenId ?? null,
+    };
+  } catch (fehler) {
+    console.error(`Lösung für ${faden.id} fehlgeschlagen:`, fehler);
     return null;
   }
 }

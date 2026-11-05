@@ -100,18 +100,29 @@
     },
     {
       "id": "f5",
-      "kurzname": "Körperliche Belastung",
-      "aufgabe": "Schwere und gleichförmige Arbeit belastet niemanden auf Dauer.",
-      "problem": "Serienteile werden wie Einzelstücke von Hand geschweißt. Auf der Baustelle werden schwere Bauteile ohne Hilfsmittel getragen.",
+      "kurzname": "Serienarbeit",
+      "aufgabe": "Gleichförmige Serienteile binden keine Fachkraft mehr ganze Tage.",
+      "problem": "Pfosten und Geländerstäbe werden wie Einzelstücke von Hand geschweißt. Das ermüdet und fehlt für Sonderanfertigungen.",
       "punktIds": [
-        "hd-werkstatt-2-2",
-        "hd-montage-2-2"
+        "hd-werkstatt-2-2"
       ],
       "sichtweisen": [
         {
           "bereich": "Werkstatt",
           "aussage": "Pfosten schweißen ist immer derselbe Handgriff, oft einen ganzen Tag."
-        },
+        }
+      ],
+      "unterschied": null
+    },
+    {
+      "id": "f6",
+      "kurzname": "Schweres Tragen",
+      "aufgabe": "Schwere Bauteile kommen ohne Rückenschmerzen an ihren Platz.",
+      "problem": "Treppenwangen und Geländerfelder werden ohne Hilfsmittel über Baustelle und Treppenhaus getragen.",
+      "punktIds": [
+        "hd-montage-2-2"
+      ],
+      "sichtweisen": [
         {
           "bereich": "Montage",
           "aussage": "Wir tragen Wangen und Geländerfelder oft bis in den dritten Stock."

@@ -24,10 +24,21 @@ export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehl
     return k.stimmen >= 3 ? FARBE.rot : k.stimmen === 2 ? FARBE.orange : FARBE.grau;
   };
   const breite = (k: KartenKante) => 2 + 2.2 * Math.min(k.stimmen, 4);
+  const loesungVon = (k: KartenKante) => k.fadenIds.map((id) => loesungen[id]).find(Boolean);
+  // Im Lösungsmodus steht jede Lösung nur einmal – an ihrer stärksten Linie (weniger Überlappung).
+  const beschriftet = new Set<number>();
+  if (modus === "loesungen") {
+    const beste = new Map<string, number>();
+    karte.kanten.forEach((k, i) => {
+      const name = loesungVon(k);
+      if (name && (!beste.has(name) || karte.kanten[beste.get(name)!].stimmen < k.stimmen)) beste.set(name, i);
+    });
+    beste.forEach((i) => beschriftet.add(i));
+  }
 
   return (
     <figure className={styles.karte}>
-      <svg viewBox={`0 0 ${karte.breite} ${karte.hoehe}`} role="img" aria-label={beschriftung.legende.hinweis}>
+      <svg viewBox={`-110 -45 ${karte.breite + 220} ${karte.hoehe + 90}`} role="img" aria-label={beschriftung.legende.hinweis}>
         <defs>
           {Object.entries(FARBE).map(([name, f]) => (
             <marker key={name} id={`pfeil-${name}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto">
@@ -42,10 +53,10 @@ export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehl
           if (!a || !z) return null;
           const f = farbe(k);
           const marker = `url(#pfeil-${Object.entries(FARBE).find(([, wert]) => wert === f)?.[0] ?? "grau"})`;
-          const { d, lx, ly } = k.von === k.an ? schleife(a.x, a.y) : bogen(a.x, a.y, z.x, z.y);
+          const { d, lx, ly } = k.von === k.an ? schleife(a.x, a.y, karte.breite / 2, karte.hoehe / 2) : bogen(a.x, a.y, z.x, z.y);
           const aktiv = gewaehlt === i;
-          const loesung = modus === "loesungen" ? k.fadenIds.map((id) => loesungen[id]).find(Boolean) : undefined;
-          const zeigeText = aktiv || k.stimmen >= 2 || Boolean(loesung);
+          const loesung = modus === "loesungen" && beschriftet.has(i) ? loesungVon(k) : undefined;
+          const zeigeText = modus === "loesungen" ? Boolean(loesung) : aktiv || k.stimmen >= 2;
           return (
             <g
               key={`${k.von}-${k.an}`}
@@ -127,14 +138,17 @@ function bogen(x1: number, y1: number, x2: number, y2: number) {
   return { d: `M${r(sx)},${r(sy)} Q${r(mx)},${r(my)} ${r(ex)},${r(ey)}`, lx: Math.round(lx), ly: Math.round(ly) };
 }
 
-/** Schleife über dem Knoten: Problem innerhalb eines Bereichs. */
-function schleife(x: number, y: number) {
-  const oben = y - R;
-  return {
-    d: `M${x - 16},${oben + 4} C${x - 50},${oben - 62} ${x + 50},${oben - 62} ${x + 16},${oben + 4}`,
-    lx: x,
-    ly: oben - 58,
-  };
+/** Schleife außen am Knoten (vom Kartenmittelpunkt weg): Problem innerhalb eines Bereichs. */
+function schleife(x: number, y: number, mx: number, my: number) {
+  const w = Math.atan2(y - my, x - mx) || -Math.PI / 2;
+  const r = (n: number) => Math.round(n * 10) / 10;
+  const punkt = (winkel: number, abstand: number) => [r(x + Math.cos(winkel) * abstand), r(y + Math.sin(winkel) * abstand)];
+  const [ax, ay] = punkt(w - 0.35, R + 2);
+  const [bx, by] = punkt(w + 0.35, R + 2);
+  const [c1x, c1y] = punkt(w - 0.75, R + 62);
+  const [c2x, c2y] = punkt(w + 0.75, R + 62);
+  const [lx, ly] = punkt(w, R + 72);
+  return { d: `M${ax},${ay} C${c1x},${c1y} ${c2x},${c2y} ${bx},${by}`, lx: Math.round(lx), ly: Math.round(ly) };
 }
 
 /** Knotennamen auf höchstens zwei Zeilen verteilen. */

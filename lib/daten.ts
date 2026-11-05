@@ -5,8 +5,9 @@ import beitraegeJson from "@/daten/demo/heidekamp/beitraege.json";
 import bestandsaufnahmeJson from "@/daten/demo/heidekamp/bestandsaufnahme.json";
 import gesamtbildJson from "@/daten/demo/heidekamp/gesamtbild.json";
 import loesungenJson from "@/daten/demo/heidekamp/loesungen.json";
+import musterJson from "@/wissen/loesungsmuster.json";
 import wissenJson from "@/wissen/roki-wissensauszug.json";
-import { Beitrag, Bestandsaufnahme, Gesamtbild, LoesungEintrag, WissensEintrag } from "./typen";
+import { Beitrag, Bestandsaufnahme, Gesamtbild, LoesungEintrag, LoesungsMuster, WissensEintrag } from "./typen";
 
 export function pruefe<T>(schema: z.ZodType<T>, daten: unknown, quelle: string): T {
   const ergebnis = schema.safeParse(daten);
@@ -19,6 +20,14 @@ export function pruefe<T>(schema: z.ZodType<T>, daten: unknown, quelle: string):
 }
 
 export const wissensauszug = pruefe(z.array(WissensEintrag), wissenJson, "wissen/roki-wissensauszug.json");
+
+export const loesungsmuster = pruefe(z.array(LoesungsMuster), musterJson, "wissen/loesungsmuster.json");
+// Jedes Muster mit wissenId muss auf einen echten Eintrag im Wissensauszug zeigen.
+for (const m of loesungsmuster) {
+  if (m.wissenId && !wissensauszug.some((w) => w.id === m.wissenId)) {
+    throw new Error(`Lösungsmuster ${m.id} verweist auf unbekannten Wissenseintrag ${m.wissenId}`);
+  }
+}
 
 export const demoBestandsaufnahme = pruefe(
   Bestandsaufnahme,

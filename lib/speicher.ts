@@ -286,6 +286,16 @@ export async function speichereGesamtbildEintrag(id: string, e: GesamtbildEintra
   );
 }
 
+/** Nur die Lösungen schreiben – so überschreibt ein paralleles Ergänzen des Bilds sie nicht. */
+export async function speichereLoesungen(id: string, loesungen: Record<string, LoesungEintrag>) {
+  if (!supabaseKonfiguriert()) {
+    const e = imServer().gesamtbilder.get(id);
+    if (e) imServer().gesamtbilder.set(id, { ...e, loesungen });
+    return;
+  }
+  fehler("Lösungen speichern", (await db().from("gesamtbilder").update({ loesungen: loesungen as Json }).eq("bestandsaufnahme_id", id)).error);
+}
+
 /** Setzt die Demo auf den Ausgangszustand zurück (vor jedem Pitch-Durchlauf). */
 export async function demoZuruecksetzen() {
   laufend.clear();

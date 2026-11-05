@@ -183,3 +183,46 @@ ${JSON.stringify(faeden)}`,
     { role: "user" as const, content: JSON.stringify({ punkte }) },
   ];
 }
+
+// ---------- ④ Lösung für ein Handlungsfeld ----------
+export function loesungPrompt(
+  b: Bestandsaufnahme,
+  faden: { kurzname: string; aufgabe: string; problem: string; sichtweisen: { bereich: string; aussage: string }[]; unterschied: string | null },
+  stimmen: { titel: string; aussage: string }[],
+  muster: { id: string; name: string; passtZu: string[]; art: string; kern: string; kniff: string; braucht: string[] }[],
+) {
+  return [
+    {
+      role: "system" as const,
+      content: `Du entwickelst für EIN Handlungsfeld eines Betriebs eine KI- oder Robotik-Lösung. Sie soll sich anfühlen, als wäre sie für genau diesen Betrieb gebaut: mit seinen Bereichen, Bauteilen, Abläufen und Begriffen. Die Beschäftigten lesen sie – sie sollen denken: „Ja, genau so würde das bei uns laufen.“
+${GRUNDREGELN}
+- Keine Anbieter, Produktnamen, Preise oder Einsparungen.
+- Nur Technik, die es heute gibt. Ehrlich bleiben: Eine Person bestätigt, die KI entscheidet nie allein.
+
+${betriebKontext(b)}
+
+Vorgehen:
+1. Wähle aus dem Muster-Katalog das Muster, das zur URSACHE des Handlungsfelds passt ("musterId"). Körperliche Belastung → Robotik- oder Assistenz-Muster. Passt keines wirklich, "musterId": null und entwirf eine eigene Lösung.
+2. Passe das Muster konkret an diesen Betrieb an. Nutze die Bereiche, Externen und Begriffe aus den Stimmen. Allgemeine Sätze wie „KI optimiert Prozesse“ sind verboten.
+
+Felder (strikte Längen):
+- "musterId": id aus dem Katalog oder null.
+- "name": höchstens 4 Wörter (Name des Musters übernehmen oder leicht anpassen).
+- "satz": höchstens 14 Wörter: was sich für die Beschäftigten ändert.
+- "schritte": GENAU 3 Sätze, je höchstens 28 Wörter, in der Gegenwart, konkret mit Bereichen dieses Betriebs („Die Technik …“, „Die Werkstatt sieht …“). Wo es hilft, ein kurzes Beispiel in Anführungszeichen.
+- "braucht": 2–4 Dinge, die vorher da sein müssen (Daten, Geräte, Absprachen), je höchstens 8 Wörter.
+- "kniff": höchstens 30 Wörter: was die KI hier kann, das eine Liste oder ein Programm allein nicht kann. Bei Robotik ohne KI: ehrlich sagen, dass die Maschine eine Routine übernimmt.
+- "zeitFrei": höchstens 20 Wörter: wofür die gewonnene Zeit genutzt wird. Niemand wird ersetzt.
+- "art": "software", "kiAssistenz" oder "robotikHardware" (bei Muster: übernehmen).
+- "reife": "imEinsatz", "pilot" oder "forschung" (bei Muster: übernehmen).
+- "testlauf": höchstens 22 Wörter: kleinster Test für 2–4 Wochen mit beteiligten Rollen.
+- "bauplanPrompt": ein fertiger Prompt auf Deutsch (150–260 Wörter), den man in einen gängigen KI-Assistenten kopiert, um diese Lösung für DIESEN Betrieb einzurichten. Aufbau mit Überschriften in GROSSBUCHSTABEN: Rolle und Betrieb (ein Satz) · WER DICH NUTZT · DU BEKOMMST · SO ANTWORTEST DU (Format, kurze Sätze, Quelle nennen) · REGELN (nichts erfinden, Unklares nachfragen, ein Mensch bestätigt, keine Namen, sensible Daten nur mit lokal betriebener KI) · BEGRIFFE IN DIESEM BETRIEB. Keine Namen von Personen, keine Zahlen aus der Befragung.
+
+Muster-Katalog:
+${JSON.stringify(muster)}
+
+Format: {"musterId": "…", "name": "…", "satz": "…", "schritte": ["…", "…", "…"], "braucht": ["…"], "kniff": "…", "zeitFrei": "…", "art": "kiAssistenz", "reife": "pilot", "testlauf": "…", "bauplanPrompt": "…"}`,
+    },
+    { role: "user" as const, content: JSON.stringify({ handlungsfeld: faden, stimmen }) },
+  ];
+}

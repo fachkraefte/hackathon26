@@ -164,6 +164,21 @@ export type Loesung = z.infer<typeof Loesung>;
 export const LoesungEintrag = z.object({ fingerabdruck: z.string(), loesung: Loesung });
 export type LoesungEintrag = z.infer<typeof LoesungEintrag>;
 
+// ---------- Lösungsmuster (wissen/loesungsmuster.json) ----------
+/** Bewährtes Muster aus den Fallstudien; die KI passt es an den Betrieb an, statt frei zu erfinden. */
+export const LoesungsMuster = z.object({
+  id: z.string(),
+  name: z.string(),
+  passtZu: z.array(z.string()),
+  art: Loesungsart,
+  reife: Reifegrad,
+  wissenId: z.string().nullable(), // nur dann „von ROKI geprüft“
+  kern: z.string(),
+  kniff: z.string(),
+  braucht: z.array(z.string()),
+});
+export type LoesungsMuster = z.infer<typeof LoesungsMuster>;
+
 // ---------- Wissensauszug ----------
 export const WissensEintrag = z.object({
   id: z.string(),
