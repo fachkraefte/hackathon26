@@ -13,30 +13,64 @@
     "demo": "Demo · fiktive Daten"
   },
   "Home": {
-    "ueberzeile": "ROKI · Robotik und KI für die Fachkräftesicherung",
-    "titel": "Wo macht ihr euch das Leben unnötig schwer?",
-    "einleitung": "Jede Person erzählt in wenigen Minuten, was Zeit und Nerven kostet. ROKIO führt die Stimmen zusammen, zeigt, was es den Betrieb kostet – und welcher erste Schritt sich lohnt.",
-    "m1": {
-      "dauer": "2 Minuten",
-      "titel": "Starten",
-      "text": "Die Leitung beschreibt in einem Satz, was besser werden soll, und teilt einen Link.",
-      "los": "Als Leitung starten"
+    "ueberzeile": "ROKIO · Robotik und KI für den Mittelstand",
+    "titel": "Ihre Leute wissen, wo es hakt",
+    "ort": {
+      "werkstatt": "– in der Werkstatt.",
+      "pflege": "– in der Pflege.",
+      "kueche": "– in der Küche.",
+      "lager": "– im Lager."
     },
-    "m2": {
-      "dauer": "3–5 Minuten",
-      "titel": "Erzählen",
-      "text": "Jede Person tippt an, was sie aufhält, und erzählt kurz davon – schreiben oder einsprechen.",
-      "los": "Als Marco mitmachen"
+    "einleitung": "ROKIO fragt alle im Betrieb in fünf Minuten am Handy, macht sichtbar, an welchen Übergaben Zeit verloren geht – und zeigt, welche KI- und Robotik-Lösungen genau dort helfen. Bis zum fertigen Bauplan.",
+    "fuerLeitung": "Für die Leitung",
+    "anlegen": "Projekt anlegen",
+    "fuerTeam": "Für das Team – Code eingeben",
+    "analyseAnsehen": "Aktuelle Analyse ansehen",
+    "beispielAnsehen": "Beispiel Metallbau ansehen",
+    "karteHeute": "Heute: wo es hakt",
+    "karteMitLoesungen": "Mit Lösungen",
+    "stimmen": "{n} Stimmen",
+    "karteHinweis": "Übergabe-Karte eines fiktiven Metallbaubetriebs",
+    "schritteTitel": "So funktioniert ROKIO",
+    "schritt": {
+      "anlegen": {
+        "dauer": "3 Minuten",
+        "titel": "Anlegen",
+        "text": "Die Leitung nennt Bereiche, eine grobe Stundensatz-Spanne und den Termin der Ergebnisbesprechung. ROKIO lernt den Betrieb kennen und bereitet passende Fragen vor."
+      },
+      "erzaehlen": {
+        "dauer": "5 Minuten am Handy",
+        "titel": "Alle erzählen",
+        "text": "Jede Person tippt an, wo es hakt, und erzählt – auch per Sprache. ROKIO fragt höchstens einmal nach. Anonym, ohne Namen."
+      },
+      "loesen": {
+        "dauer": "live",
+        "titel": "Sehen und lösen",
+        "text": "Die Analyse zeigt die Bruchstellen zwischen den Bereichen und was sie kosten. Danach: KI- und Robotik-Lösungen für genau diesen Betrieb, mit Bauplan zum Selbst-Einrichten."
+      }
     },
-    "m3": {
-      "dauer": "live",
-      "titel": "Verstehen",
-      "text": "Alle sehen dasselbe Bild: welche Probleme zusammenhängen, was sie kosten, womit man anfängt.",
-      "los": "Gemeinsames Bild ansehen"
+    "beispieleTitel": "Aus vielen Stimmen eine Lösung",
+    "beispiel": {
+      "metallbau": {
+        "branche": "Metallbau · 22 Beschäftigte",
+        "stimme": "Wir haben ein Geländer nach der alten Zeichnung gebaut.",
+        "loesung": "Änderungs-Agent: Eine Änderung wird einmal gesagt und ist überall richtig."
+      },
+      "pflege": {
+        "branche": "Pflegeheim · 100 Beschäftigte",
+        "stimme": "In der Übergabe sprechen alle schnell und mit Abkürzungen.",
+        "loesung": "Übergabe-Assistent: in jeder Sprache, ohne Kürzel."
+      },
+      "mensa": {
+        "branche": "Mensa · 42 Beschäftigte",
+        "stimme": "Zwischen zwölf und zwei läuft das Band über.",
+        "loesung": "Rückgabe mit Augen: Die Spülküche meldet, was zu viel gekocht wurde."
+      }
     },
-    "grundsatz": "Aufgabe vor Technik: Der erste Schritt ist oft eine bessere Absprache. Technik kommt dort ins Spiel, wo sie wirklich hilft – mit Begründung und offenen Fragen.",
+    "ehrlich": "Ehrlich gekennzeichnet: Reife und Herkunft stehen an jeder Lösung, „von ROKI geprüft“ nur mit Quelle. Die Demo nutzt fiktive Betriebe; im echten Einsatz läuft die KI lokal und datenschutzkonform.",
     "zuruecksetzen": "Demo zurücksetzen",
-    "zurueckgesetzt": "Demo ist zurückgesetzt"
+    "zurueckgesetzt": "Demo ist zurückgesetzt",
+    "zuruecksetzenFehler": "Zurücksetzen fehlgeschlagen: {grund}"
   },
   "Eingabe": {
     "sprechen": "Einsprechen",

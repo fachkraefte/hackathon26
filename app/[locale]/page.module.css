@@ -1,51 +1,170 @@
-.held {
-  padding: 3rem 0 2rem;
+.start {
+  display: grid;
+  gap: 4rem;
+  width: min(100% - 2rem, var(--seitenbreite));
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
 }
 
-.held h1 {
-  max-width: 44rem;
+/* ---------- Hero ---------- */
+.held {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.heldText h1 {
   margin: 0.5rem 0 1rem;
-  font-size: clamp(2rem, 5.5vw, 3.5rem);
-  font-weight: 600;
+  font-size: clamp(2.125rem, 5.5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+/* Wechselnde Zeile: in der Werkstatt / Pflege / Küche / im Lager */
+.wechsel {
+  position: relative;
+  display: block;
+  height: 1.3em;
+  overflow: hidden;
+  color: var(--brand-highlight-dark);
+}
+
+.wechsel span {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: wechsel 10s infinite;
+}
+
+.wechsel span:nth-child(2) {
+  animation-delay: 2.5s;
+}
+
+.wechsel span:nth-child(3) {
+  animation-delay: 5s;
+}
+
+.wechsel span:nth-child(4) {
+  animation-delay: 7.5s;
+}
+
+@keyframes wechsel {
+  0% {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+  4%,
+  22% {
+    opacity: 1;
+    transform: none;
+  }
+  26%,
+  100% {
+    opacity: 0;
+    transform: translateY(-0.4em);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wechsel span:first-child {
+    opacity: 1;
+  }
 }
 
 .einleitung {
-  max-width: 40rem;
-  margin: 0;
+  max-width: 34rem;
+  margin: 0 0 1.75rem;
   font-size: 1.1875rem;
-  color: var(--text-leise);
+  line-height: 1.5;
 }
 
-.momente {
+.einstiege {
   display: grid;
+  grid-template-columns: auto 1fr;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  align-items: end;
+}
+
+.einstieg {
+  display: grid;
+  gap: 0.375rem;
+  padding: 1rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.fuer {
+  margin: 0;
+  color: var(--text-leise);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.analyseLink {
+  margin: 1rem 0 0;
+  font-size: 0.9375rem;
+}
+
+.analyseLink a {
+  color: var(--brand-link);
+}
+
+.heldBild {
+  position: relative;
+}
+
+.liveKarte {
+  position: relative;
+}
+
+.modus {
+  position: absolute;
+  z-index: 1;
+  top: 0.75rem;
+  left: 0.75rem;
+  margin: 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--orange-hell);
+  color: var(--brand-primary-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+.modus[data-modus="loesungen"] {
+  background: var(--tuerkis-hell);
+  color: var(--brand-highlight-dark);
+}
+
+/* ---------- Abschnitte ---------- */
+.abschnitt h2 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+}
+
+.schritte {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.moment {
+.schritte li {
   display: grid;
-  gap: 0.5rem;
-  height: 100%;
+  align-content: start;
+  gap: 0.375rem;
   padding: 1.5rem;
-  border-radius: calc(var(--radius-card) + 4px);
+  border-radius: var(--radius-card);
   background: var(--brand-surface);
   box-shadow: var(--shadow-soft);
-  color: inherit;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.moment:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.moment strong {
-  font-size: 1.375rem;
-  font-weight: 600;
 }
 
 .nummer {
@@ -54,28 +173,85 @@
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 50%;
-  background: var(--brand-highlight);
+  background: var(--brand-text);
+  color: #fff;
   font-weight: 700;
 }
 
 .dauer {
-  justify-self: start;
-  padding: 0.125rem 0.625rem;
-  border-radius: 999px;
-  background: var(--orange-hell);
+  color: var(--brand-highlight-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.schritte strong {
+  font-size: 1.25rem;
+}
+
+.beispiele {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.beispiel {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-text);
+  color: #fff;
+}
+
+.beispiel p {
+  margin: 0;
+}
+
+.branche {
+  color: rgba(255, 255, 255, 0.65);
   font-size: 0.8125rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.los {
-  align-self: end;
-  margin-top: 0.5rem;
-  font-weight: 600;
-  color: var(--brand-link);
+.stimme {
+  font-size: 1.1875rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-.grundsatz {
+.loesung {
+  color: var(--brand-highlight);
+  font-weight: 500;
+}
+
+.ehrlich {
+  display: grid;
+  gap: 0.75rem;
   max-width: 44rem;
-  margin: 2.5rem 0 1rem;
-  font-size: 1.125rem;
+  color: var(--text-leise);
+  font-size: 0.9375rem;
+}
+
+.ehrlich p {
+  margin: 0;
+}
+
+@media (max-width: 52rem) {
+  .held {
+    grid-template-columns: 1fr;
+  }
+
+  .schritte,
+  .beispiele {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 34rem) {
+  .einstiege {
+    grid-template-columns: 1fr;
+  }
 }

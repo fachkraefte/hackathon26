@@ -15,9 +15,10 @@ type Props = {
   gewaehlt?: number | null;
   waehle?: (index: number | null) => void;
   beschriftung: { stimmen: (n: number) => string; legende: { laeuft: string; reibung: string; bruch: string; loesung: string; hinweis: string } };
+  ohneLegende?: boolean;
 };
 
-export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehlt = null, waehle, beschriftung }: Props) {
+export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehlt = null, waehle, beschriftung, ohneLegende = false }: Props) {
   const pos = new Map(karte.knoten.map((k) => [k.name, k]));
   const farbe = (k: KartenKante) => {
     if (modus === "loesungen") return k.fadenIds.some((id) => loesungen[id]) ? FARBE.tuerkis : FARBE.grau;
@@ -99,7 +100,7 @@ export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehl
           </g>
         ))}
       </svg>
-      <figcaption className={styles.legende}>
+      {!ohneLegende && <figcaption className={styles.legende}>
         {modus === "heute" ? (
           <>
             <span><i style={{ background: FARBE.grau, height: 2 }} />{beschriftung.legende.laeuft}</span>
@@ -110,7 +111,7 @@ export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehl
           <span><i style={{ background: FARBE.tuerkis }} />{beschriftung.legende.loesung}</span>
         )}
         <span className={styles.hinweis}>{beschriftung.legende.hinweis}</span>
-      </figcaption>
+      </figcaption>}
     </figure>
   );
 }
