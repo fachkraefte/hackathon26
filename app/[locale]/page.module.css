@@ -1,19 +1,64 @@
-.main {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
+.held {
+  padding: 3rem 0 1rem;
 }
 
-.main h1 {
-  margin: 0;
-  font-size: 2.5rem;
+.held h1 {
+  max-width: 42rem;
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(2rem, 5vw, 3.25rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
 }
 
-.main p {
-  margin: 1rem 0 0;
+.einleitung {
+  max-width: 40rem;
+  margin: 0;
+  font-size: 1.1875rem;
+  color: var(--text-leise);
+}
+
+.aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.ablauf {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ablauf h3 {
+  margin: 0.75rem 0 0.25rem;
   font-size: 1.125rem;
-  line-height: 1.5;
-  color: var(--muted);
+}
+
+.ablauf p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.nummer {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--tuerkis-hell);
+  font-weight: 600;
+}
+
+.grundsatz {
+  background: var(--brand-text);
+  color: white;
+}
+
+.grundsatz p {
+  margin: 0.5rem 0 0;
+  max-width: 44rem;
+  font-size: 1.125rem;
 }

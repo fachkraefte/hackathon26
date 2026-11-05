@@ -1,0 +1,373 @@
+.kopf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.layout {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: 14rem 1fr;
+    align-items: start;
+  }
+}
+
+.agenda {
+  position: sticky;
+  top: 4.5rem;
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .agenda {
+    display: block;
+  }
+}
+
+.agenda ol {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.agenda a {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 8px;
+  color: var(--brand-text);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.agenda a:hover {
+  background: var(--brand-section-tint);
+}
+
+.agenda a span {
+  color: var(--brand-highlight-dark);
+  font-weight: 600;
+}
+
+.inhalt {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.abschnitt {
+  position: relative;
+  padding: 1.5rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+  scroll-margin-top: 5rem;
+  overflow: hidden;
+}
+
+.abschnitt h2 {
+  position: relative;
+  margin: 0 0 1rem;
+  font-size: 1.375rem;
+}
+
+.nummer {
+  position: absolute;
+  top: -0.75rem;
+  right: 1rem;
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--brand-section-tint);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.hervorgehoben {
+  background: linear-gradient(160deg, var(--orange-hell), var(--brand-surface) 40%);
+  box-shadow: inset 0 4px 0 var(--brand-primary), var(--shadow-soft);
+}
+
+/* 1 Teilnahme */
+.teilnahme {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+}
+
+.teilnahmeBereich {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.punkte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 0.25rem;
+}
+
+.punkte span {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  border: 2px solid var(--brand-highlight);
+}
+
+.punkte span[data-voll] {
+  background: var(--brand-highlight);
+}
+
+/* 2 Gut */
+.gutListe {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gutListe li {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-button);
+  background: color-mix(in srgb, var(--art-keineTechnik) 12%, white);
+  font-size: 1.0625rem;
+}
+
+/* 4 Top 3 */
+.top3 {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+.topThema {
+  position: relative;
+  padding: 1rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-bg);
+}
+
+.topThema h3 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.0625rem;
+}
+
+.topThema blockquote {
+  margin: 0.5rem 0 0;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--brand-highlight);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.rang {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--brand-text);
+  color: white;
+  font-weight: 700;
+}
+
+/* 5 Stunden */
+.summe {
+  margin: 0 0 1rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--brand-primary-dark);
+}
+
+.stundenStapel {
+  display: flex;
+  gap: 3px;
+  height: 2.75rem;
+  border-radius: var(--radius-button);
+  overflow: hidden;
+}
+
+.stundenStapel span {
+  display: grid;
+  place-items: center;
+  min-width: 2.5rem;
+  background: var(--brand-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.stundenStapel span:nth-child(2) {
+  background: #f5a75c;
+}
+
+.stundenStapel span:nth-child(3) {
+  background: #f9c999;
+}
+
+.stundenLegende {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.75rem 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+
+/* 6 Lösungen */
+.loesungen {
+  display: grid;
+}
+
+.loesung {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--linie);
+}
+
+.geprueft {
+  background: var(--tuerkis-hell);
+}
+
+/* 7 Mini-Fahrplan */
+.miniFahrplan {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  margin-bottom: 0.75rem;
+}
+
+.miniFahrplan h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.miniFahrplan ul {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.miniFahrplan li {
+  padding: 0.375rem 0.625rem;
+  border-left: 4px solid var(--art);
+  border-radius: 4px;
+  background: var(--brand-bg);
+  font-size: 0.875rem;
+}
+
+/* 8 Beschluss */
+.beschluss {
+  display: grid;
+  gap: 1rem;
+}
+
+.beschluss h3 {
+  margin: 0;
+}
+
+.zielZeile {
+  display: grid;
+  gap: 0.375rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--linie);
+}
+
+@media (min-width: 40rem) {
+  .zielZeile {
+    grid-template-columns: 1fr 15rem;
+    align-items: center;
+  }
+}
+
+.zielStufen {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.25rem;
+}
+
+.zielStufen button {
+  min-height: 2.25rem;
+  border: 1.5px solid var(--linie);
+  border-radius: 8px;
+  background: var(--brand-surface);
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.zielStufen button[data-unter-ist] {
+  opacity: 0.5;
+}
+
+.zielStufen button[aria-checked="true"] {
+  border-color: var(--brand-primary-dark);
+  background: var(--brand-primary);
+  opacity: 1;
+}
+
+.fehler {
+  padding: 0.75rem;
+  border-radius: var(--radius-button);
+  background: #fde8e8;
+  white-space: pre-wrap;
+}
+
+.offen {
+  font-size: 1.25rem;
+  color: var(--text-leise);
+}
+
+.uebersicht {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  margin: 0;
+}
+
+.uebersicht div {
+  padding: 1rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-bg);
+}
+
+.uebersicht dt {
+  font-size: 0.875rem;
+  color: var(--text-leise);
+}
+
+.uebersicht dd {
+  margin: 0.25rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+@media print {
+  .agenda,
+  .kopf button {
+    display: none;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .abschnitt {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    box-shadow: none;
+    border: 1px solid var(--linie);
+  }
+}

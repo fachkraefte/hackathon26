@@ -1,0 +1,31 @@
+.steuerung {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.art {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--brand-section-tint);
+}
+
+.art button {
+  padding: 0.375rem 0.875rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.art button[aria-pressed="true"] {
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+  font-weight: 500;
+}

@@ -1,0 +1,78 @@
+{
+  "bestandsaufnahmeId": "heidekamp",
+  "antwortenGesamt": 14,
+  "themen": [
+    {
+      "id": "t1",
+      "titel": "Unvollständiges Aufmaß löst eine Kette aus",
+      "beschreibung": "Fehlen Maße im Aufmaß, wartet die Werkstatt auf Rückfragen, die Montage arbeitet vor Ort nach oder fährt zurück. Die Leitung wird beim Kunden angerufen.",
+      "bereiche": ["leitung", "werkstatt", "montage"],
+      "anzahlNennungen": 6,
+      "istSchnittstelle": true,
+      "aussagen": [
+        "Auf dem Aufmaß fehlen oft Maße. Ich warte, bis ich nachfragen kann.",
+        "Manche Maße kann ich nicht lesen. Dann schätze ich oder warte.",
+        "Die Maße passen vor Ort nicht, wir arbeiten nach.",
+        "Etwa einmal pro Woche fehlt ein Teil. Dann fahren wir zurück.",
+        "Leitung: Beim Kunden ruft ständig die Werkstatt an."
+      ],
+      "stundenProWoche": 14,
+      "vermuteteUrsache": "Vermutung: Das Aufmaß entsteht auf Papier ohne feste Pflichtangaben."
+    },
+    {
+      "id": "t2",
+      "titel": "Stundenzettel verzögern Rechnungen",
+      "beschreibung": "Stunden werden am Ende der Woche aus dem Gedächtnis aufgeschrieben und vom Büro telefonisch nachgefragt. Rechnungen gehen dadurch spät raus.",
+      "bereiche": ["montage", "buero"],
+      "anzahlNennungen": 2,
+      "istSchnittstelle": true,
+      "aussagen": [
+        "Den Stundenzettel schreibe ich am Freitag aus dem Gedächtnis.",
+        "Büro: Stundenzettel telefoniere ich hinterher. Rechnungen gehen dadurch spät raus."
+      ],
+      "stundenProWoche": 3
+    },
+    {
+      "id": "t3",
+      "titel": "Kundschaft weiß nicht, wann das Team kommt",
+      "beschreibung": "Kundinnen und Kunden rufen im Büro an und fragen nach dem Termin. Die Montage steht manchmal vor verschlossenem Tor.",
+      "bereiche": ["buero", "montage"],
+      "anzahlNennungen": 2,
+      "istSchnittstelle": false,
+      "aussagen": [
+        "Büro: Kunden rufen an und fragen, wann wir kommen – das weiß ich oft selbst nicht.",
+        "Der Kunde weiß oft nicht, dass wir kommen. Dann stehen wir vor verschlossenem Tor."
+      ],
+      "stundenProWoche": 4
+    },
+    {
+      "id": "t4",
+      "titel": "Körperliche Belastung in Werkstatt und Montage",
+      "beschreibung": "Schwere Zaunfelder heben, Pfosten einbetonieren und immer gleiche Schweißhandgriffe belasten Rücken und Kraft.",
+      "bereiche": ["werkstatt", "montage"],
+      "anzahlNennungen": 3,
+      "istSchnittstelle": false,
+      "aussagen": [
+        "Die Zaunfelder sind schwer, wir heben oft zu zweit.",
+        "Pfosten schweißen ist immer derselbe Handgriff, das ermüdet.",
+        "Pfosten einbetonieren geht in den Rücken."
+      ]
+    },
+    {
+      "id": "t5",
+      "titel": "Wissen hängt an Einzelnen",
+      "beschreibung": "Fragen in der Werkstatt laufen über den Meister, Aufmaß und Angebote über den Inhaber. Fällt eine Person aus oder hat keine Zeit, stockt es.",
+      "bereiche": ["werkstatt", "leitung"],
+      "anzahlNennungen": 2,
+      "istSchnittstelle": false,
+      "aussagen": [
+        "Ich frage viel, aber alles Wissen hängt am Meister, und der hat wenig Zeit.",
+        "Leitung: Angebote schreibe ich abends."
+      ]
+    }
+  ],
+  "staerken": [
+    "Hilfsbereitschaft in der Werkstatt: „Bei uns hilft jeder jedem.“",
+    "Eingespielte Montagetrupps"
+  ]
+}

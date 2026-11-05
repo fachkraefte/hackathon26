@@ -1,0 +1,59 @@
+{
+  "bestandsaufnahmeId": "heidekamp",
+  "massnahmen": [
+    {
+      "id": "m1", "zeitraum": "kurz", "titel": "Aufmaß-Vorlage mit Pflichtfeldern und Fotos", "themaId": "t1", "art": "prozess",
+      "ersterSchritt": "Leitung, Werkstatt-Meister und ein Montagetrupp legen gemeinsam die Pflichtfelder fest und testen die Vorlage zwei Wochen.",
+      "wasPruefen": ["Welche Maße fehlen am häufigsten?", "Wo landen die Fotos, damit die Werkstatt sie sieht?"],
+      "werHilft": ["intern"], "herkunft": "nichtGeprueft"
+    },
+    {
+      "id": "m2", "zeitraum": "kurz", "titel": "Packliste pro Auftrag", "themaId": "t1", "art": "prozess",
+      "ersterSchritt": "Für die nächsten fünf Aufträge eine Packliste anlegen und vor der Abfahrt abhaken.",
+      "wasPruefen": ["Wer erstellt die Liste – Werkstatt oder Leitung?"],
+      "werHilft": ["intern"], "herkunft": "nichtGeprueft"
+    },
+    {
+      "id": "m3", "zeitraum": "kurz", "titel": "Termin-Info an die Kundschaft am Vortag", "themaId": "t3", "art": "software",
+      "ersterSchritt": "Vier Wochen lang am Vortag eine kurze Nachricht an die Kundschaft schicken und zählen, wie viele Nachfragen-Anrufe es noch gibt.",
+      "wasPruefen": ["Reicht SMS oder Mail, oder braucht es ein Programm?", "Datenschutz bei Kundenkontakten"],
+      "werHilft": ["intern", "rokiBeratung"], "herkunft": "nichtGeprueft"
+    },
+    {
+      "id": "m4", "zeitraum": "mittel", "titel": "Digitales Aufmaß auf dem Tablet", "themaId": "t1", "art": "software",
+      "ersterSchritt": "Zwei bis drei Programme mit der Werkstatt ansehen: Sieht die Werkstatt das Aufmaß sofort?",
+      "wasPruefen": ["Läuft es auf vorhandenen Geräten?", "Wer pflegt es?", "Schulung für die Leitung"],
+      "werHilft": ["rokiBeratung", "rokiNetzwerk"], "herkunft": "nichtGeprueft"
+    },
+    {
+      "id": "m5", "zeitraum": "mittel", "titel": "Zeiterfassung per Handy", "themaId": "t2", "art": "software",
+      "ersterSchritt": "Einen Montagetrupp einen Monat lang testen lassen und mit dem Büro auswerten.",
+      "wasPruefen": ["Mitbestimmung und Datenschutz klären", "Passt es zur Lohnabrechnung?"],
+      "werHilft": ["rokiBeratung"], "herkunft": "nichtGeprueft"
+    },
+    {
+      "id": "m6", "zeitraum": "mittel", "titel": "Angebotsentwurf aus dem digitalen Aufmaß", "themaId": "t5", "art": "kiAssistenz",
+      "ersterSchritt": "Erst nach dem digitalen Aufmaß: an drei alten Aufträgen testen, ob der Entwurf brauchbar ist.",
+      "wasPruefen": ["Setzt das digitale Aufmaß voraus", "Wer prüft den Entwurf vor dem Versand?"],
+      "werHilft": ["rokiWissen", "rokiBeratung"], "herkunft": "nichtGeprueft"
+    },
+    {
+      "id": "m7", "zeitraum": "mittel", "titel": "Wissen des Meisters für die Einarbeitung festhalten", "themaId": "t5", "art": "prozess",
+      "ersterSchritt": "Die fünf häufigsten Fragen in der Werkstatt sammeln und als kurze Anleitung oder Handy-Video festhalten.",
+      "wasPruefen": ["Wann hat der Meister dafür Zeit?"],
+      "werHilft": ["intern"], "herkunft": "nichtGeprueft"
+    },
+    {
+      "id": "m8", "zeitraum": "mittel", "titel": "Exoskelette fürs Tragen und Halten testen", "themaId": "t4", "art": "robotikHardware",
+      "ersterSchritt": "Mit den Beschäftigten aus Werkstatt und Montage ein Modell zur Probe tragen – der Nutzen hängt von Tätigkeit und Passform ab.",
+      "wasPruefen": ["Passform und Tragekomfort", "Auswahl nach konkreter Tätigkeit", "Gefährdungsbeurteilung", "Verlagert sich die Belastung?"],
+      "werHilft": ["rokiWissen", "rokiNetzwerk"], "herkunft": "rokiGeprueft", "wissenId": "exoskelett-01"
+    },
+    {
+      "id": "m9", "zeitraum": "lang", "titel": "Schweiß-Cobot für Serienteile wie Pfosten prüfen", "themaId": "t4", "art": "robotikHardware",
+      "ersterSchritt": "Zählen, wie viele gleiche Pfosten pro Jahr geschweißt werden, und mit ROKI ein Praxisbeispiel ansehen.",
+      "wasPruefen": ["Integration und Programmierung bestimmen den Aufwand", "Risikobeurteilung für die konkrete Anwendung", "Genügend gleiche Teile?"],
+      "werHilft": ["rokiWissen", "rokiBeratung", "rokiNetzwerk"], "herkunft": "rokiGeprueft", "wissenId": "cobot-01"
+    }
+  ]
+}

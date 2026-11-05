@@ -1,0 +1,45 @@
+[
+  {
+    "id": "cobot-01",
+    "loesung": "Kollaborativer Roboter (Cobot)",
+    "art": "robotikHardware",
+    "branchen": ["produktionHandwerk", "logistik"],
+    "typischeAufgaben": ["Schweißen", "Maschinenbeschickung", "Montage", "Pick-and-Place"],
+    "reifegrad": "imEinsatz",
+    "grenzen": [
+      "Hardwarepreis ist nur ein Teil der Gesamtkosten; Programmierung und Integration können einen großen Teil ausmachen",
+      "'Kollaborativ' heißt nicht automatisch ohne Schutzeinrichtung – die konkrete Anwendung braucht eine Risikobeurteilung",
+      "Wirtschaftlichkeit hängt stärker von Gesamtprozess und Integration ab als vom Arm allein"
+    ],
+    "quelle": { "datei": "ROKI_Recherche_Robotertypen_geprueft.md", "abschnitt": "2 Kurzfazit; 3.3; 4 Sektormatrix" }
+  },
+  {
+    "id": "exoskelett-01",
+    "loesung": "Exoskelette und körpergetragene Assistenzsysteme",
+    "art": "robotikHardware",
+    "branchen": ["produktionHandwerk", "logistik", "gesundheitPflege", "facilityManagement"],
+    "typischeAufgaben": ["Überkopfarbeiten", "Heben und Tragen", "Montage", "Logistik", "Pflege", "Bau- und Handwerksarbeiten"],
+    "reifegrad": "imEinsatz",
+    "grenzen": [
+      "Individuelle Passform und Auswahl nach konkreter Tätigkeit nötig",
+      "Ergonomie- und Gefährdungsbeurteilung, Schulung und Prüfung möglicher Belastungsverlagerungen",
+      "Akzeptanz und Tragekomfort entscheiden mit; der Nutzen muss tätigkeitsspezifisch geprüft werden",
+      "Keine belastbare neutrale Preisstatistik gefunden"
+    ],
+    "quelle": { "datei": "ROKI_Recherche_Robotertypen_geprueft.md", "abschnitt": "3.13" }
+  },
+  {
+    "id": "reinigung-01",
+    "loesung": "Professioneller Reinigungsroboter",
+    "art": "robotikHardware",
+    "branchen": ["facilityManagement", "gesundheitPflege", "gastronomie", "logistik"],
+    "typischeAufgaben": ["Bodenreinigung großer Flächen", "Scheuersaugen"],
+    "reifegrad": "imEinsatz",
+    "grenzen": [
+      "Gut bei größeren, regelmäßig zu reinigenden Flächen; weniger bei kleinen, verwinkelten oder oft umgestellten Flächen",
+      "Braucht geeignete Boden- und Türsituationen sowie Lade- und Servicepunkte",
+      "Schwer zugängliche Bereiche müssen weiter von Hand gereinigt werden"
+    ],
+    "quelle": { "datei": "ROKI_Recherche_Robotertypen_geprueft.md", "abschnitt": "2 Kurzfazit; 3.7" }
+  }
+]

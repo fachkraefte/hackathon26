@@ -1,0 +1,24 @@
+{
+  "betrieb": {
+    "id": "metallbau-heidekamp",
+    "name": "Metallbau Heidekamp",
+    "branche": "produktionHandwerk",
+    "mitarbeitende": 15,
+    "ort": "Winsen (Luhe)",
+    "leistungen": "Zäune, Tore, Geländer für Privatkunden und Hausverwaltungen",
+    "fiktiv": true
+  },
+  "bestandsaufnahme": {
+    "id": "heidekamp",
+    "betriebId": "metallbau-heidekamp",
+    "anrede": "sie",
+    "mindestanzahl": 3,
+    "status": "offen",
+    "bereiche": [
+      { "id": "leitung", "name": "Leitung", "linkId": "heidekamp-leitung", "erwarteteAntworten": 1 },
+      { "id": "buero", "name": "Büro", "linkId": "heidekamp-buero", "erwarteteAntworten": 1 },
+      { "id": "werkstatt", "name": "Werkstatt", "linkId": "heidekamp-werkstatt", "erwarteteAntworten": 7 },
+      { "id": "montage", "name": "Montage", "linkId": "heidekamp-montage", "erwarteteAntworten": 6 }
+    ]
+  }
+}

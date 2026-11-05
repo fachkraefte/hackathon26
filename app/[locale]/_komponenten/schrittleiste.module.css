@@ -1,0 +1,57 @@
+.leiste {
+  overflow-x: auto;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  scrollbar-width: none;
+}
+
+.leiste ol {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schritt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem 0.375rem 0.375rem;
+  border-radius: 999px;
+  color: var(--text-leise);
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.schritt:hover {
+  background: var(--brand-section-tint);
+}
+
+.nummer {
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 50%;
+  background: var(--brand-section-tint);
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+.schritt[aria-current="step"] {
+  color: var(--brand-text);
+  background: var(--tuerkis-hell);
+  font-weight: 500;
+}
+
+.schritt[aria-current="step"] .nummer {
+  background: var(--brand-highlight);
+}
+
+@media print {
+  .leiste {
+    display: none;
+  }
+}

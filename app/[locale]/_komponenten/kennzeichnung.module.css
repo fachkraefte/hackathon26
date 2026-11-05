@@ -1,0 +1,35 @@
+.art {
+  background: color-mix(in srgb, var(--art) 18%, white);
+  box-shadow: inset 3px 0 0 var(--art);
+  border-radius: 6px;
+}
+
+.reifegrad {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--linie);
+}
+
+.herkunft {
+  display: grid;
+  gap: 0.125rem;
+  margin: 0.75rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+}
+
+.geprueft {
+  background: var(--tuerkis-hell);
+}
+
+.geprueft strong::before {
+  content: "✓ ";
+}
+
+.ungeprueft {
+  background: rgba(21, 38, 62, 0.05);
+}
+
+.ungeprueft strong::before {
+  content: "○ ";
+}
