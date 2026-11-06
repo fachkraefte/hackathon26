@@ -1,0 +1,94 @@
+.karte {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: var(--radius-card);
+  background: var(--brand-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.karte svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: inherit;
+}
+
+.knoten {
+  fill: var(--brand-surface);
+  stroke: var(--brand-text);
+  stroke-width: 2;
+}
+
+.extern {
+  fill: var(--brand-surface);
+  stroke: var(--brand-text);
+  stroke-opacity: 0.3;
+  stroke-dasharray: 4 3;
+}
+
+.knotenText {
+  fill: var(--brand-text);
+  font-size: 16px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.kante {
+  cursor: pointer;
+  outline: none;
+}
+
+.linie {
+  transition:
+    stroke 0.6s ease,
+    stroke-width 0.3s ease;
+}
+
+.kante:hover .linie,
+.kante:focus-visible .linie {
+  filter: drop-shadow(0 0 4px rgba(21, 38, 62, 0.35));
+}
+
+.kantenText {
+  fill: var(--brand-text);
+  font-size: 14px;
+  paint-order: stroke;
+  stroke: var(--brand-surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.kantenTitel {
+  font-weight: 600;
+}
+
+.leise {
+  fill-opacity: 0.7;
+}
+
+.legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0.5rem 0.25rem 0;
+  color: var(--text-leise);
+  font-size: 0.8125rem;
+}
+
+.legende span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.legende i {
+  display: inline-block;
+  width: 1.5rem;
+  height: 5px;
+  border-radius: 3px;
+}
+
+.hinweis {
+  flex-basis: 100%;
+}

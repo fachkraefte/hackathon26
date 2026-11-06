@@ -2,107 +2,137 @@
   "faeden": [
     {
       "id": "f1",
-      "aufgabe": "Alle arbeiten nach derselben gültigen Zeichnung.",
-      "problem": "Änderungen kommen über mehrere Wege und teils zu spät an. Die Werkstatt klärt den Stand oder baut nach alter Zeichnung; danach braucht es Nacharbeit.",
+      "kurzname": "Zeichnungsstand",
+      "aufgabe": "Alle arbeiten nach derselben freigegebenen Zeichnung.",
+      "problem": "Änderungen kommen mündlich in den Betrieb. Die Technik zeichnet mehrfach um, die Werkstatt baut teils nach altem Stand, die Montage arbeitet vor Ort nach.",
       "punktIds": [
-        "sandra-1",
-        "buero-1",
-        "werkstatt-1-1",
-        "werkstatt-3-1",
-        "montage-1-1"
+        "hd-sandra-1",
+        "hd-technik-1",
+        "hd-werkstatt-1-1",
+        "hd-montage-3-1",
+        "hd-montage-4-1"
       ],
       "sichtweisen": [
         {
           "bereich": "Leitung",
-          "aussage": "Ich weiß nicht, ob Planung, Änderungen oder fehlende Informationen die viele Abstimmung auslösen."
+          "aussage": "Kunden ändern am Telefon, ich gebe es abends per Sprachnachricht weiter."
         },
         {
-          "bereich": "Büro",
-          "aussage": "Ich gebe Änderungen weiter, weiß aber nicht sicher, ob sie angekommen sind."
+          "bereich": "Technik",
+          "aussage": "Ich zeichne dreimal um und weiß nicht, welche Version in der Werkstatt hängt."
         },
         {
           "bereich": "Werkstatt",
-          "aussage": "Wir telefonieren vor dem Start herum und haben schon nach einer alten Zeichnung gebaut."
+          "aussage": "Wir haben ein Geländer nach der alten Zeichnung gebaut."
         },
         {
           "bereich": "Montage",
-          "aussage": "Wir passen Teile vor Ort an, weil sie nach einem älteren Stand gefertigt wurden."
+          "aussage": "Vor Ort passt ein Maß nicht, wir kürzen und schweißen nach."
         }
       ],
-      "unterschied": "Das Büro braucht Rückmeldung, die Werkstatt einen klaren Zeichnungsstand. Die Montage trägt die Nacharbeit bis auf die Baustelle.",
-      "ersterSchritt": "Büro, Werkstatt und Montage testen drei Wochen an ausgewählten Aufträgen eine feste Änderungsübergabe und einen gemeinsamen Zeichnungsort ohne Zusatzlisten.",
-      "ansaetze": [
-        {
-          "art": "prozess",
-          "text": "Änderungen direkt an eine feste Rolle in der Werkstatt geben; diese bestätigt den Empfang und klärt laufende Arbeiten.",
-          "warum": "Dem Büro fehlt die Bestätigung; Änderungen erreichen die Werkstatt teils erst nach dem Bau.",
-          "wasFehlt": "Wer übernimmt Änderungen auch bei Abwesenheit?",
-          "herkunft": "nichtGeprueft",
-          "wissenId": null
-        },
-        {
-          "art": "software",
-          "text": "Gültige Zeichnungen an einer gemeinsamen digitalen Stelle ablegen und alte Stände deutlich abtrennen, statt zusätzliche Listen anzulegen.",
-          "warum": "Die Werkstatt sucht den gültigen Stand; die Montage arbeitet Folgen alter Zeichnungen nach.",
-          "wasFehlt": "Können Werkstatt und Montage die vorhandenen Zeichnungen dort zuverlässig öffnen?",
-          "herkunft": "nichtGeprueft",
-          "wissenId": null
-        }
-      ]
+      "unterschied": "Die Leitung sieht ein Aufmaßproblem, die Werkstatt sagt: Es ist nicht erkennbar, welche Zeichnung gilt."
     },
     {
       "id": "f2",
-      "aufgabe": "Material liegt vor Fertigungsstart und Montage vollständig bereit.",
-      "problem": "Materialbedarf kommt erst beim Fehlen an. In Werkstatt und Montage fehlen Teile; dadurch entstehen Eilbestellungen, Umplanen und Rückfahrten.",
+      "kurzname": "Material",
+      "aufgabe": "Jeder weiß, was da ist und was mitmuss.",
+      "problem": "Der Bestand steht nur in den Köpfen, gepackt wird ohne Liste. Material wird gesucht, eilig bestellt, und auf der Baustelle fehlen Teile.",
       "punktIds": [
-        "buero-2",
-        "werkstatt-2-1",
-        "montage-2-1"
+        "hd-werkstatt-2-1",
+        "hd-buero-3",
+        "hd-montage-1-1",
+        "hd-montage-2-1"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Montage",
+          "aussage": "Fehlt ein Teil, fahren wir zurück – der halbe Vormittag ist weg."
+        },
+        {
+          "bereich": "Werkstatt",
+          "aussage": "Ich suche Material, Entnahmen trägt keiner aus."
+        },
+        {
+          "bereich": "Büro",
+          "aussage": "Ich bestelle eilig, weil mir keiner sagt, dass etwas ausgeht."
+        }
+      ],
+      "unterschied": null
+    },
+    {
+      "id": "f3",
+      "kurzname": "Auftragsstatus",
+      "aufgabe": "Niemand muss anrufen, um zu wissen, wo ein Auftrag steht.",
+      "problem": "Einsatzplan und Stunden liegen nicht digital vor. Das Büro ruft auf der Baustelle an, Stunden kommen erst freitags, Rechnungen gehen spät raus.",
+      "punktIds": [
+        "hd-buero-1",
+        "hd-buero-2",
+        "hd-montage-1-2"
       ],
       "sichtweisen": [
         {
           "bereich": "Büro",
-          "aussage": "Ich erfahre oft erst vom Materialbedarf, wenn etwas fehlt, und bestelle dann eilig."
-        },
-        {
-          "bereich": "Werkstatt",
-          "aussage": "Uns fehlen beim Start Kleinteile oder Profile, dann müssen wir umplanen."
+          "aussage": "Kunden fragen, wann wir kommen – ich weiß es nicht und rufe an."
         },
         {
           "bereich": "Montage",
-          "aussage": "Uns fehlen vor Ort Schrauben oder Anker, dann fährt einer zurück."
+          "aussage": "Ich werde auf der Baustelle ständig angerufen und verliere den Faden."
         }
       ],
-      "unterschied": "Das Büro erlebt späte Bestellungen, die Werkstatt einen gestörten Start und die Montage fehlende Teile erst vor Ort.",
-      "ersterSchritt": "Büro, Werkstatt und Montage prüfen vier Wochen bei ausgewählten Aufträgen Material vor Einplanung und Abfahrt anhand vorhandener Unterlagen.",
-      "ansaetze": [
+      "unterschied": null
+    },
+    {
+      "id": "f4",
+      "kurzname": "Wissensweitergabe",
+      "aufgabe": "Erfahrungswissen bleibt im Betrieb, und Auszubildende bekommen schnell Antworten.",
+      "problem": "Erfahrene werden ständig gefragt und kommen kaum zum Arbeiten. Wer neu ist, wartet lieber, als dauernd zu fragen. Festgehalten ist nichts.",
+      "punktIds": [
+        "hd-werkstatt-3-1",
+        "hd-werkstatt-4-1"
+      ],
+      "sichtweisen": [
         {
-          "art": "prozess",
-          "text": "Büro und Werkstatt prüfen vor der Einplanung gemeinsam den Materialbedarf anhand der vorhandenen Auftragsunterlagen.",
-          "warum": "Bedarf kommt bisher oft erst an, wenn Material schon fehlt.",
-          "wasFehlt": "Wann stehen Materialbedarf und Lieferzeiten für einen Auftrag fest?",
-          "herkunft": "nichtGeprueft",
-          "wissenId": null
-        },
-        {
-          "art": "prozess",
-          "text": "Werkstatt und Montage stellen Schrauben und Anker vor der Abfahrt auftragsweise zusammen und prüfen gemeinsam die Vollständigkeit.",
-          "warum": "Fehlende Kleinteile lösen Rückfahrten von der Baustelle aus.",
-          "wasFehlt": "Welche vorhandenen Unterlagen nennen die benötigten Schrauben und Anker?",
-          "herkunft": "nichtGeprueft",
-          "wissenId": null
+          "bereich": "Werkstatt",
+          "aussage": "Die Jungen fragen mich alles, aufgeschrieben ist davon nichts."
         }
-      ]
+      ],
+      "unterschied": "Die Erfahrenen fühlen sich unterbrochen, die Neuen trauen sich nicht zu fragen."
+    },
+    {
+      "id": "f5",
+      "kurzname": "Serienarbeit",
+      "aufgabe": "Gleichförmige Serienteile binden keine Fachkraft mehr ganze Tage.",
+      "problem": "Pfosten und Geländerstäbe werden wie Einzelstücke von Hand geschweißt. Das ermüdet und fehlt für Sonderanfertigungen.",
+      "punktIds": [
+        "hd-werkstatt-2-2"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Werkstatt",
+          "aussage": "Pfosten schweißen ist immer derselbe Handgriff, oft einen ganzen Tag."
+        }
+      ],
+      "unterschied": null
+    },
+    {
+      "id": "f6",
+      "kurzname": "Schweres Tragen",
+      "aufgabe": "Schwere Bauteile kommen ohne Rückenschmerzen an ihren Platz.",
+      "problem": "Treppenwangen und Geländerfelder werden ohne Hilfsmittel über Baustelle und Treppenhaus getragen.",
+      "punktIds": [
+        "hd-montage-2-2"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Montage",
+          "aussage": "Wir tragen Wangen und Geländerfelder oft bis in den dritten Stock."
+        }
+      ],
+      "unterschied": null
     }
   ],
   "staerken": [
-    "Der Betrieb hat genug Arbeit und ein erfahrenes Team.",
     "In der Werkstatt hilft jeder jedem.",
     "Die Montagetrupps sind eingespielt."
-  ],
-  "offeneFragen": [
-    "Wer legt verbindlich fest, welche Zeichnung gilt?",
-    "Welche vorhandenen Unterlagen reichen für die Materialprüfung vor Fertigung und Montage?",
-    "Wer bestätigt mit dem Kunden den Montagetermin vor der Abfahrt?"
   ]
 }

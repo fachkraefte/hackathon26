@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="Rubik, Arial, sans-serif" role="img" aria-label="Übergabe-Karte Haus am Elbufer: wo Informationen zwischen Bereichen verloren gehen">
+  <rect width="820" height="470" fill="#F6F8FA"/>
+  <defs>
+    <marker id="pg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#15263E" fill-opacity="0.35"/></marker>
+    <marker id="po" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#F08119"/></marker>
+    <marker id="pr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D9480F"/></marker>
+  </defs>
+
+  <!-- Nachtdienst -> Pflegefachkräfte: Übergabe, Bruchstelle -->
+  <line x1="152" y1="120" x2="270" y2="120" stroke="#D9480F" stroke-width="8" marker-end="url(#pr)"/>
+  <!-- Pflegefachkräfte <-> Pflegehilfskräfte: Doku und Sprache, Bruchstelle -->
+  <line x1="330" y1="172" x2="330" y2="262" stroke="#D9480F" stroke-width="8" marker-end="url(#pr)"/>
+  <line x1="330" y1="262" x2="330" y2="180" stroke="#D9480F" stroke-width="8" marker-end="url(#pr)"/>
+  <!-- Pflegehilfskräfte -> Hauswirtschaft: Material, Reibung -->
+  <line x1="278" y1="320" x2="160" y2="320" stroke="#F08119" stroke-width="5" marker-end="url(#po)"/>
+  <!-- Wohnbereichsleitung -> Pflegefachkräfte: Ausfall, Reibung -->
+  <line x1="508" y1="120" x2="392" y2="120" stroke="#F08119" stroke-width="5" marker-end="url(#po)"/>
+  <!-- Angehörige -> Verwaltung: Anrufe, läuft -->
+  <line x1="688" y1="320" x2="622" y2="320" stroke="#15263E" stroke-opacity="0.35" stroke-width="2" marker-end="url(#pg)"/>
+  <!-- Verwaltung -> Pflegefachkräfte: Anrufe durchgestellt, Reibung -->
+  <line x1="526" y1="285" x2="378" y2="158" stroke="#F08119" stroke-width="5" marker-end="url(#po)"/>
+  <!-- Betreuung -> Angehörige: kommt nicht an -->
+  <line x1="740" y1="172" x2="740" y2="262" stroke="#15263E" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#pg)"/>
+
+  <g font-size="13" font-weight="500" fill="#15263E" text-anchor="middle">
+    <circle cx="100" cy="120" r="50" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="100" y="125">Nachtdienst</text>
+    <circle cx="330" cy="120" r="52" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="330" y="117">Pflege-</text><text x="330" y="133">fachkräfte</text>
+    <circle cx="560" cy="120" r="52" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="560" y="117">Wohnbereichs-</text><text x="560" y="133">leitung</text>
+    <circle cx="740" cy="120" r="50" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="740" y="125">Betreuung</text>
+    <circle cx="100" cy="320" r="52" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="100" y="317">Hauswirt-</text><text x="100" y="333">schaft</text>
+    <circle cx="330" cy="320" r="52" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="330" y="317">Pflege-</text><text x="330" y="333">hilfskräfte</text>
+    <circle cx="570" cy="320" r="50" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="570" y="325">Verwaltung</text>
+    <circle cx="740" cy="320" r="50" fill="#FFFFFF" stroke="#15263E" stroke-opacity="0.25" stroke-dasharray="4 3"/>
+    <text x="740" y="325">Angehörige</text>
+  </g>
+
+  <g font-size="11.5" fill="#15263E">
+    <text x="211" y="100" text-anchor="middle" font-weight="600">Übergabe</text>
+    <text x="211" y="150" text-anchor="middle" fill-opacity="0.7">3 Stimmen</text>
+    <text x="344" y="210" font-weight="600">Doku, Sprache</text>
+    <text x="344" y="226" fill-opacity="0.7">4 Stimmen</text>
+    <text x="219" y="303" text-anchor="middle">Wäsche, Material</text>
+    <text x="219" y="345" text-anchor="middle" fill-opacity="0.7">3 Stimmen</text>
+    <text x="450" y="100" text-anchor="middle">Ausfall, Einspringen</text>
+    <text x="450" y="150" text-anchor="middle" fill-opacity="0.7">3 Stimmen</text>
+    <text x="470" y="270" text-anchor="end">Anrufe</text>
+    <text x="470" y="286" text-anchor="end" fill-opacity="0.7">2 Stimmen</text>
+    <text x="728" y="210" text-anchor="end" fill-opacity="0.7">Schöne Momente</text>
+    <text x="728" y="224" text-anchor="end" fill-opacity="0.7">kommen nicht an</text>
+  </g>
+
+  <g font-size="11.5" fill="#15263E" transform="translate(40,420)">
+    <line x1="0" y1="6" x2="26" y2="6" stroke="#15263E" stroke-opacity="0.35" stroke-width="2"/>
+    <text x="34" y="10">läuft</text>
+    <line x1="90" y1="6" x2="116" y2="6" stroke="#F08119" stroke-width="5"/>
+    <text x="124" y="10">Reibung</text>
+    <line x1="200" y1="6" x2="226" y2="6" stroke="#D9480F" stroke-width="8"/>
+    <text x="234" y="10">Bruchstelle</text>
+    <text x="330" y="10" fill-opacity="0.7">Linienstärke = Zahl der Stimmen · gezeigt werden Bereiche, keine Personen</text>
+  </g>
+</svg>

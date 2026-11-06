@@ -1,5 +1,8 @@
 "use client";
 
+// Befragung v3 (KONZEPT_V3 §4): Bereich → Aufgaben des Bereichs → je Thema erzählen →
+// Spiegelung, höchstens eine Rückfrage → Regler (wie oft, wie lange, wie sehr bremst es) und
+// Übergabe (von/an) → bestätigen → Mitsprache → Rückmeldung nach Datenlage.
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { Link } from "@/i18n/navigation";
@@ -12,9 +15,12 @@ import styles from "./gespraech.module.css";
 
 const MAX_THEMEN = 3;
 const MAX_RUECKFRAGEN = 2; // im ganzen Gespräch, höchstens eine je Geschichte
+const EIGENER = ""; // Auswahlwert für „eigener Bereich“ (von/an = null)
+
+type Stufe = 1 | 2 | 3 | 4 | 5;
 
 type Geschichte = {
-  zeitfresser: string;
+  aufgabe: string;
   text: string;
   verstaendnis?: Verstaendnis;
   rueckfrageOffen: boolean;
@@ -22,44 +28,51 @@ type Geschichte = {
   antwort?: string;
   haeufigkeit: Haeufigkeit;
   minuten: number;
-  vonKi: { haeufigkeit: boolean; minuten: boolean };
+  bremst: Stufe;
+  von: string | null;
+  an: string | null;
+  vonKi: { haeufigkeit: boolean; minuten: boolean; uebergabe: boolean };
 };
 
 type Ergebnis = Awaited<ReturnType<typeof sendeBeitrag>>;
-
 type Phase = "start" | "themen" | "erzaehlen" | "verstanden" | "abschluss" | "karte" | "fertig";
 
 type Props = {
-  id: string;
+  code: string;
   betrieb: string;
-  leitung: string;
-  frage: string;
+  anrede: "du" | "sie";
+  ziel: string;
+  deadline: string;
   bereiche: string[];
-  zeitfresser: string[];
-  besprechungAm?: string;
+  extern: string[];
+  chips: Record<string, string[]>;
 };
 
 export function Gespraech(props: Props) {
-  const t = useTranslations("Mitmachen");
+  const tRoh = useTranslations("Befragung");
   const tb = useTranslations("Begriffe");
+  // Jeder Text bekommt die Anrede mit; Texte ohne Anrede ignorieren sie.
+  const t = (schluessel: Parameters<typeof tRoh>[0], werte: Record<string, string | number> = {}) =>
+    tRoh(schluessel, { anrede: props.anrede, ...werte });
   const [laedt, starte] = useTransition();
   const [fehler, setFehler] = useState<string | null>(null);
 
   const [phase, setPhase] = useState<Phase>("start");
   const [bereich, setBereich] = useState<string | null>(null);
-  const [rolleZeigen, setRolleZeigen] = useState(false);
   const [gewaehlt, setGewaehlt] = useState<string[]>([]);
   const [eigenes, setEigenes] = useState("");
   const [geschichten, setGeschichten] = useState<Geschichte[]>([]);
   const [index, setIndex] = useState(0);
   const [rueckfragen, setRueckfragen] = useState(0);
-  const [bremst, setBremst] = useState<1 | 2 | 3 | 4 | 5>(3);
+  const [mitsprache, setMitsprache] = useState<Stufe>(3);
   const [gutLaeuft, setGutLaeuft] = useState("");
   const [bearbeiten, setBearbeiten] = useState<number | null>(null);
   const [ergebnis, setErgebnis] = useState<Ergebnis | null>(null);
 
   const aktuell = geschichten[index];
   const istLeitung = bereich === "Leitung";
+  const aufgaben = bereich ? (props.chips[bereich] ?? []) : [];
+  const ziele = [...props.bereiche, ...props.extern].filter((x) => x !== bereich);
 
   function aendere(i: number, aenderung: Partial<Geschichte>) {
     setGeschichten((alt) => alt.map((g, j) => (j === i ? { ...g, ...aenderung } : g)));
@@ -68,13 +81,16 @@ export function Gespraech(props: Props) {
   function themenBestaetigen() {
     const liste = [...gewaehlt, ...(eigenes.trim() ? [eigenes.trim()] : [])].slice(0, MAX_THEMEN);
     setGeschichten(
-      liste.map((z) => ({
-        zeitfresser: z,
+      liste.map((aufgabe) => ({
+        aufgabe,
         text: "",
         rueckfrageOffen: false,
         haeufigkeit: "woechentlich",
         minuten: 15,
-        vonKi: { haeufigkeit: false, minuten: false },
+        bremst: 3,
+        von: null,
+        an: null,
+        vonKi: { haeufigkeit: false, minuten: false, uebergabe: false },
       })),
     );
     setIndex(0);
@@ -87,22 +103,26 @@ export function Gespraech(props: Props) {
     starte(async () => {
       try {
         const antwort = await verstehe({
-          id: props.id,
+          code: props.code,
           bereich: bereich ?? "",
-          zeitfresser: g.zeitfresser,
+          aufgabe: g.aufgabe,
           geschichte: text,
           rueckfrageErlaubt,
         });
         const v = antwort.daten;
+        const uebergabe = v.von !== null || v.an !== null;
         aendere(i, {
           verstaendnis: { ...v, spiegelung: v.spiegelung || t("spiegelungErsatz") },
           rueckfrageOffen: Boolean(v.rueckfrage),
           // Vorbelegen nur, wenn die KI etwas herausgehört hat – sonst bleibt der Wert der Person.
           haeufigkeit: v.haeufigkeit ?? g.haeufigkeit,
           minuten: v.minuten !== null ? naechsteStufe(v.minuten) : g.minuten,
+          von: uebergabe ? v.von : g.von,
+          an: uebergabe ? v.an : g.an,
           vonKi: {
             haeufigkeit: v.haeufigkeit !== null || g.vonKi.haeufigkeit,
             minuten: v.minuten !== null || g.vonKi.minuten,
+            uebergabe: uebergabe || g.vonKi.uebergabe,
           },
         });
         if (v.rueckfrage) setRueckfragen((n) => n + 1);
@@ -135,17 +155,19 @@ export function Gespraech(props: Props) {
 
   // Punkte entstehen aus den verstandenen Geschichten; punktQuelle merkt sich die Herkunft für Korrekturen.
   const punktQuelle = geschichten.flatMap((g, i) => (g.verstaendnis ? [i] : []));
-  const punkte: Punkt[] = punktQuelle.map((gi, i) => {
+  const punkte: Omit<Punkt, "id">[] = punktQuelle.map((gi) => {
     const g = geschichten[gi];
     return {
-      id: `entwurf-${i}`,
-      zeitfresser: g.zeitfresser,
-      titel: g.verstaendnis?.titel ?? g.zeitfresser,
+      zeitfresser: g.aufgabe,
+      titel: g.verstaendnis?.titel ?? g.aufgabe,
       aussage: g.verstaendnis?.aussage ?? g.text,
       haeufigkeit: g.haeufigkeit,
       minuten: g.minuten,
       beteiligt: g.verstaendnis?.beteiligt ?? [],
       folge: g.verstaendnis?.folge ?? undefined,
+      bremst: g.bremst,
+      von: g.von,
+      an: g.an,
     };
   });
 
@@ -161,16 +183,15 @@ export function Gespraech(props: Props) {
     setPhase("fertig");
     starte(async () => {
       try {
-        const antwort = await sendeBeitrag({
-          bestandsaufnahmeId: props.id,
-          bereich,
-          istLeitung,
-          rolleZeigen: istLeitung || rolleZeigen,
-          punkte,
-          bremst,
-          gutLaeuft: gutLaeuft.trim() || undefined,
-        });
-        setErgebnis(antwort);
+        setErgebnis(
+          await sendeBeitrag({
+            code: props.code,
+            bereich,
+            punkte,
+            mitsprache,
+            gutLaeuft: gutLaeuft.trim() || undefined,
+          }),
+        );
       } catch (e) {
         setFehler(e instanceof Error ? e.message : String(e));
         setPhase("karte");
@@ -183,6 +204,7 @@ export function Gespraech(props: Props) {
     phase === "erzaehlen" || phase === "verstanden"
       ? (2 + (index + (phase === "verstanden" ? 0.6 : 0.2)) / Math.max(geschichten.length, 1)) / 5
       : schritte.indexOf(phase) / 5;
+  const ersteSpiegelung = geschichten.find((g) => g.verstaendnis?.spiegelung)?.verstaendnis?.spiegelung;
 
   return (
     <div className={styles.gespraech}>
@@ -193,9 +215,10 @@ export function Gespraech(props: Props) {
       {phase === "start" && (
         <section className={styles.schritt}>
           <p className="ueberzeile">{props.betrieb}</p>
-          <h1>{t("startTitel", { leitung: props.leitung })}</h1>
-          <blockquote className={styles.frage}>„{props.frage}“</blockquote>
-          <p className={styles.gross}>{t("startText")}</p>
+          <h1>{t("startTitel")}</h1>
+          <p className={styles.gross}>{t("einfuehrung", { betrieb: props.betrieb, ziel: props.ziel })}</p>
+          <p className={styles.deadline}>{t("deadline", { deadline: props.deadline })}</p>
+          <p className="leise">{t("dauer")}</p>
           <p className={styles.frageKlein}>{t("bereichFrage")}</p>
           <div className="chips">
             {props.bereiche.map((b) => (
@@ -204,12 +227,6 @@ export function Gespraech(props: Props) {
               </button>
             ))}
           </div>
-          {bereich && !istLeitung && (
-            <label className={styles.zustimmung}>
-              <input type="checkbox" checked={rolleZeigen} onChange={(e) => setRolleZeigen(e.target.checked)} />
-              <span>{t("zustimmung")}</span>
-            </label>
-          )}
           <p className={`leise klein ${styles.schutz}`}>{istLeitung ? t("schutzLeitung") : t("schutz")}</p>
           <button type="button" className="button" disabled={!bereich} onClick={() => setPhase("themen")}>
             {t("los")}
@@ -219,10 +236,11 @@ export function Gespraech(props: Props) {
 
       {phase === "themen" && (
         <section className={styles.schritt}>
+          <p className="ueberzeile">{bereich}</p>
           <h1>{t("themenTitel")}</h1>
           <p className="leise">{t("themenText", { max: MAX_THEMEN })}</p>
           <div className={styles.themen}>
-            {props.zeitfresser.map((z) => {
+            {aufgaben.map((z) => {
               const an = gewaehlt.includes(z);
               const voll = !an && gewaehlt.length + (eigenes.trim() ? 1 : 0) >= MAX_THEMEN;
               return (
@@ -239,14 +257,19 @@ export function Gespraech(props: Props) {
               );
             })}
           </div>
-          <input
-            type="text"
-            value={eigenes}
-            placeholder={t("eigenesPlatzhalter")}
-            onChange={(e) => setEigenes(e.target.value)}
-            disabled={!eigenes && gewaehlt.length >= MAX_THEMEN}
-          />
+          <label className={styles.eigenes}>
+            <input
+              type="text"
+              value={eigenes}
+              maxLength={80}
+              placeholder={t("eigenesPlatzhalter")}
+              onChange={(e) => setEigenes(e.target.value)}
+              disabled={!eigenes && gewaehlt.length >= MAX_THEMEN}
+            />
+            {eigenes.trim() && <span className="leise klein">{t("eigenesHinweis")}</span>}
+          </label>
           <Knoepfe
+            t={t}
             zurueck={() => setPhase("start")}
             weiter={themenBestaetigen}
             gesperrt={gewaehlt.length === 0 && !eigenes.trim()}
@@ -257,7 +280,7 @@ export function Gespraech(props: Props) {
       {phase === "erzaehlen" && aktuell && (
         <section className={styles.schritt} key={`e-${index}`}>
           <p className="ueberzeile">{t("themaVon", { nr: index + 1, gesamt: geschichten.length })}</p>
-          <h1>{aktuell.zeitfresser}</h1>
+          <h1>{aktuell.aufgabe}</h1>
           <div className={styles.ki}>{t("erzaehlFrage")}</div>
           <TextMitSprache
             wert={aktuell.text}
@@ -267,6 +290,7 @@ export function Gespraech(props: Props) {
           />
           {fehler && <p className={styles.fehler}>{fehler}</p>}
           <Knoepfe
+            t={t}
             zurueck={() => (index === 0 ? setPhase("themen") : (setIndex(index - 1), setPhase("verstanden")))}
             weiter={() => fragKi(index, aktuell.text, rueckfragen < MAX_RUECKFRAGEN)}
             gesperrt={aktuell.text.trim().length < 3 || laedt}
@@ -324,14 +348,43 @@ export function Gespraech(props: Props) {
                 beschriftung={(m) => (m >= 60 ? t("stunden", { h: formatStunden(m / 60) }) : t("minuten", { m }))}
                 hinweis={aktuell.vonKi.minuten ? t("herausgehoert") : undefined}
               />
-              <p className={styles.live}>
-                {t("liveZeit", { h: formatStunden(stundenProWoche(aktuell) * 4.33) })}
-              </p>
-              <Knoepfe
-                zurueck={() => setPhase("erzaehlen")}
-                weiter={weiterNachGeschichte}
-                zurueckText={t("nochmalErzaehlen")}
+              <StufenRegler
+                titel={t("bremst")}
+                stufen={[1, 2, 3, 4, 5] as const}
+                wert={aktuell.bremst}
+                setzeWert={(w) => aendere(index, { bremst: w })}
+                beschriftung={(w) => tb(`bremst.${w}`)}
               />
+              <div className={styles.uebergabe}>
+                <p className={styles.frageKlein}>
+                  {t("uebergabe")} {aktuell.vonKi.uebergabe && <span className={styles.hinweisKi}>{t("herausgehoert")}</span>}
+                </p>
+                <div className={styles.uebergabeZeile}>
+                  <label>
+                    <span className="leise klein">{t("von")}</span>
+                    <select
+                      value={aktuell.von ?? EIGENER}
+                      onChange={(e) => aendere(index, { von: e.target.value || null, vonKi: { ...aktuell.vonKi, uebergabe: false } })}
+                    >
+                      <option value={EIGENER}>{t("eigenerBereich")}</option>
+                      {ziele.map((z) => <option key={z} value={z}>{z}</option>)}
+                    </select>
+                  </label>
+                  <span aria-hidden className={styles.pfeil}>→</span>
+                  <label>
+                    <span className="leise klein">{t("an")}</span>
+                    <select
+                      value={aktuell.an ?? EIGENER}
+                      onChange={(e) => aendere(index, { an: e.target.value || null, vonKi: { ...aktuell.vonKi, uebergabe: false } })}
+                    >
+                      <option value={EIGENER}>{t("eigenerBereich")}</option>
+                      {ziele.map((z) => <option key={z} value={z}>{z}</option>)}
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <p className={styles.live}>{t("liveZeit", { h: formatStunden(stundenProWoche(aktuell) * 4.33) })}</p>
+              <Knoepfe t={t} zurueck={() => setPhase("erzaehlen")} weiter={weiterNachGeschichte} zurueckText={t("nochmalErzaehlen")} />
             </div>
           )}
           {fehler && <p className={styles.fehler}>{fehler}</p>}
@@ -342,17 +395,17 @@ export function Gespraech(props: Props) {
         <section className={styles.schritt}>
           <h1>{t("abschlussTitel")}</h1>
           <StufenRegler
-            titel={t("bremstFrage")}
+            titel={t("mitsprache")}
             stufen={[1, 2, 3, 4, 5] as const}
-            wert={bremst}
-            setzeWert={setBremst}
-            beschriftung={(w) => tb(`bremst.${w}`)}
+            wert={mitsprache}
+            setzeWert={setMitsprache}
+            beschriftung={(w) => tb(`mitsprache.${w}`)}
           />
           <label className="feld">
             <span>{t("gutFrage")}</span>
             <input type="text" value={gutLaeuft} placeholder={t("gutPlatzhalter")} onChange={(e) => setGutLaeuft(e.target.value)} />
           </label>
-          <Knoepfe zurueck={() => setPhase("verstanden")} weiter={() => setPhase("karte")} />
+          <Knoepfe t={t} zurueck={() => setPhase("verstanden")} weiter={() => setPhase("karte")} />
         </section>
       )}
 
@@ -362,18 +415,11 @@ export function Gespraech(props: Props) {
           <h1>{t("karteTitel")}</h1>
           <div className={styles.karte}>
             {punkte.map((p, i) => (
-              <article key={p.id} className={styles.punkt}>
+              <article key={i} className={styles.punkt}>
                 {bearbeiten === i ? (
                   <>
-                    <input
-                      type="text"
-                      value={p.titel}
-                      onChange={(e) => aendereVerstaendnis(i, { titel: e.target.value })}
-                    />
-                    <textarea
-                      value={p.aussage}
-                      onChange={(e) => aendereVerstaendnis(i, { aussage: e.target.value })}
-                    />
+                    <input type="text" value={p.titel} onChange={(e) => aendereVerstaendnis(i, { titel: e.target.value })} />
+                    <textarea value={p.aussage} onChange={(e) => aendereVerstaendnis(i, { aussage: e.target.value })} />
                     <button type="button" className="button button--tuerkis" onClick={() => setBearbeiten(null)}>
                       {t("uebernehmen")}
                     </button>
@@ -396,12 +442,7 @@ export function Gespraech(props: Props) {
             ))}
           </div>
           {fehler && <p className={styles.fehler}>{fehler}</p>}
-          <Knoepfe
-            zurueck={() => setPhase("abschluss")}
-            weiter={absenden}
-            gesperrt={bearbeiten !== null}
-            weiterText={t("stimmtSo")}
-          />
+          <Knoepfe t={t} zurueck={() => setPhase("abschluss")} weiter={absenden} gesperrt={bearbeiten !== null} weiterText={t("stimmtSo")} />
         </section>
       )}
 
@@ -419,36 +460,39 @@ export function Gespraech(props: Props) {
           ) : (
             <>
               <p className="ueberzeile">{t("fertigUeberzeile")}</p>
-              <h1>{t("fertigTitel")}</h1>
-              {ergebnis.faeden.length > 0 && (
+              {/* Satz 1: individuell – die Spiegelung der eigenen Geschichte */}
+              {ersteSpiegelung && <h1 className={styles.spiegelungTitel}>{ersteSpiegelung}</h1>}
+              {/* Satz 2: nach Datenlage */}
+              {ergebnis.erste ? (
+                <p className={styles.gross}>{t("ersteStimme")}</p>
+              ) : (
                 <div className={styles.nichtAllein}>
-                  <p className={styles.nichtAlleinTitel}>{t("nichtAllein")}</p>
+                  <p className={styles.nichtAlleinTitel}>
+                    {ergebnis.faeden.some((f) => f.andere > 0) ? t("nichtAllein") : t("neuNotiert")}
+                  </p>
                   {ergebnis.faeden.map((f) => (
                     <div key={f.aufgabe} className={styles.fadenTreffer}>
-                      {f.andere > 0 && (
-                        <p className={styles.andere}>
-                          {t("andere", { anzahl: f.andere })}
-                          {f.bereiche.length > 0 && ` ${t("ausBereichen", { bereiche: f.bereiche.join(", ") })}`}
-                        </p>
-                      )}
+                      <p className={styles.andere}>
+                        {f.andere > 0 ? (
+                          <>
+                            {t("andere", { anzahl: f.andere })}
+                            {f.bereiche.length > 0 && ` ${t("ausBereichen", { bereiche: f.bereiche.join(", ") })}`}
+                          </>
+                        ) : (
+                          t("bisherAllein")
+                        )}
+                      </p>
                       <p className={styles.aufgabe}>{f.aufgabe}</p>
-                      <p className={styles.euro}>{t("kostetBetrieb", { euro: formatEuro(f.euroJahr) })}</p>
+                      {f.euroJahr > 0 && <p className={styles.euro}>{t("kostetBetrieb", { euro: formatEuro(f.euroJahr) })}</p>}
                     </div>
                   ))}
                 </div>
               )}
-              <p className={styles.meineZeit}>
-                {t("meineZeit", { h: formatStunden(ergebnis.meineStundenWoche * 4.33) })}
-              </p>
               <div className="karte">
-                <h2 className={styles.kleinTitel}>{t("wasPassiert")}</h2>
-                <p>
-                  {props.besprechungAm
-                    ? t("besprechung", { datum: new Date(props.besprechungAm).toLocaleDateString("de-DE", { day: "numeric", month: "long" }) })
-                    : t("besprechungOhneDatum")}
-                </p>
-                <Link className="button button--tuerkis" href={`/ergebnis/${props.id}`}>
-                  {t("zumBild")}
+                <p className="leise">{t("teilgenommen", { n: ergebnis.teilgenommen, gesamt: ergebnis.mitarbeitende })}</p>
+                <p><strong>{t("besprechung", { deadline: props.deadline })}</strong></p>
+                <Link className="button button--tuerkis" href={`/analyse/${props.code}`}>
+                  {t("zurAnalyse")}
                 </Link>
               </div>
               {ergebnis.ausDemo && <p className="leise klein">{t("demoHinweis")}</p>}
@@ -459,7 +503,6 @@ export function Gespraech(props: Props) {
       )}
     </div>
   );
-
 }
 
 function naechsteStufe(minuten: number) {
@@ -469,19 +512,20 @@ function naechsteStufe(minuten: number) {
 }
 
 function Knoepfe({
+  t,
   zurueck,
   weiter,
   gesperrt = false,
   weiterText,
   zurueckText,
 }: {
+  t: (schluessel: "zurueck" | "weiter") => string;
   zurueck: () => void;
   weiter: () => void;
   gesperrt?: boolean;
   weiterText?: string;
   zurueckText?: string;
 }) {
-  const t = useTranslations("Mitmachen");
   return (
     <div className={styles.knoepfe}>
       <button type="button" className="button button--ghost" onClick={zurueck}>{zurueckText ?? t("zurueck")}</button>

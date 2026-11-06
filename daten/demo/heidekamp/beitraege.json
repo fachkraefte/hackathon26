@@ -1,72 +1,347 @@
 [
   {
-    "id": "sandra", "bestandsaufnahmeId": "heidekamp", "bereich": "Leitung", "istLeitung": true, "rolleZeigen": true, "fiktiv": true, "bremst": 4,
-    "gutLaeuft": "Wir haben genug Arbeit und ein erfahrenes Team.",
+    "id": "hd-sandra",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Leitung",
+    "istLeitung": true,
+    "rolleZeigen": true,
+    "fiktiv": true,
+    "mitsprache": 4,
     "punkte": [
-      { "id": "sandra-1", "zeitfresser": "Rückfragen und Telefonate", "titel": "Aufträge brauchen mehr Abstimmung als geplant",
-        "aussage": "Viele Aufträge brauchen mehr Abstimmung als geplant. Ob das an der Planung, an Änderungen oder an fehlenden Informationen liegt, ist unklar.",
-        "haeufigkeit": "mehrmalsProWoche", "minuten": 30, "beteiligt": ["Büro", "Werkstatt"], "folge": "Termine verschieben sich" }
+      {
+        "id": "hd-sandra-1",
+        "zeitfresser": "Kundenänderungen",
+        "titel": "Kundenänderungen erreichen die Technik spät",
+        "aussage": "Kunden ändern am Telefon. Ich leite es per Sprachnachricht an die Technik weiter, oft erst abends.",
+        "haeufigkeit": "mehrmalsProWoche",
+        "minuten": 15,
+        "beteiligt": [
+          "Technik"
+        ],
+        "bremst": 3,
+        "von": "Leitung",
+        "an": "Technik"
+      }
     ]
   },
   {
-    "id": "buero", "bestandsaufnahmeId": "heidekamp", "bereich": "Büro", "istLeitung": false, "rolleZeigen": true, "fiktiv": true, "bremst": 4,
+    "id": "hd-technik",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Technik",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
     "punkte": [
-      { "id": "buero-1", "zeitfresser": "Änderungen kommen spät an", "titel": "Änderungen laufen über viele Wege",
-        "aussage": "Kunden schicken Änderungen per Mail oder rufen an. Ich gebe sie telefonisch oder über einzelne Kollegen an die Werkstatt weiter und weiß nicht sicher, ob sie angekommen sind.",
-        "haeufigkeit": "mehrmalsProWoche", "minuten": 20, "beteiligt": ["Werkstatt", "Kunde"], "folge": "Rückfragen aus der Werkstatt" },
-      { "id": "buero-2", "zeitfresser": "Fehlendes Material", "titel": "Materialbedarf wird kurzfristig gemeldet",
-        "aussage": "Materialbedarf kommt oft erst, wenn etwas fehlt. Dann bestelle ich als Eilbestellung.",
-        "haeufigkeit": "woechentlich", "minuten": 30, "beteiligt": ["Werkstatt"], "folge": "Eilbestellungen und Wartezeit" }
+      {
+        "id": "hd-technik-1",
+        "zeitfresser": "Zeichnung ändern",
+        "titel": "Dieselbe Zeichnung mehrfach ändern",
+        "aussage": "Ich zeichne dieselbe Treppe teils dreimal um. Ob die neue Version in der Werkstatt hängt, weiß ich nicht.",
+        "haeufigkeit": "mehrmalsProWoche",
+        "minuten": 30,
+        "beteiligt": [
+          "Leitung",
+          "Werkstatt"
+        ],
+        "bremst": 4,
+        "von": "Technik",
+        "an": "Werkstatt"
+      }
     ]
   },
   {
-    "id": "werkstatt-1", "bestandsaufnahmeId": "heidekamp", "bereich": "Werkstatt", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 3,
+    "id": "hd-werkstatt-1",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Werkstatt",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hd-werkstatt-1-1",
+        "zeitfresser": "Zeichnung klären",
+        "titel": "Nach alter Zeichnung gebaut",
+        "aussage": "Ich habe ein Geländer mitgebaut, das dann neu musste, weil eine neuere Zeichnung galt.",
+        "haeufigkeit": "monatlich",
+        "minuten": 240,
+        "beteiligt": [
+          "Technik"
+        ],
+        "bremst": 5,
+        "von": "Technik",
+        "an": "Werkstatt"
+      }
+    ]
+  },
+  {
+    "id": "hd-werkstatt-2",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Werkstatt",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hd-werkstatt-2-1",
+        "zeitfresser": "Material suchen",
+        "titel": "Material suchen im Lager",
+        "aussage": "Ich suche Material im Lager. Was entnommen wurde, trägt keiner aus.",
+        "haeufigkeit": "taeglich",
+        "minuten": 20,
+        "beteiligt": [
+          "Werkstatt"
+        ],
+        "bremst": 4,
+        "von": null,
+        "an": null
+      },
+      {
+        "id": "hd-werkstatt-2-2",
+        "zeitfresser": "Serienteile schweißen",
+        "titel": "Serienteile von Hand schweißen",
+        "aussage": "Pfosten und Geländerstäbe schweißen ist immer derselbe Handgriff, oft einen ganzen Tag pro Woche.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 0,
+        "beteiligt": [],
+        "bremst": 4,
+        "von": null,
+        "an": null
+      }
+    ]
+  },
+  {
+    "id": "hd-werkstatt-3",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Werkstatt",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 1,
     "gutLaeuft": "In der Werkstatt hilft jeder jedem.",
     "punkte": [
-      { "id": "werkstatt-1-1", "zeitfresser": "Unklarer Zeichnungsstand", "titel": "Vor dem Start unklar, welche Zeichnung gilt",
-        "aussage": "Bevor wir anfangen, telefonieren wir oft herum, welche Zeichnung die aktuelle ist.",
-        "haeufigkeit": "mehrmalsProWoche", "minuten": 20, "beteiligt": ["Büro", "Leitung"], "folge": "Die Fertigung startet später" }
+      {
+        "id": "hd-werkstatt-3-1",
+        "zeitfresser": "Azubis anleiten",
+        "titel": "Ständig gefragt, nichts festgehalten",
+        "aussage": "Die Jungen fragen mich alles. Ich komme kaum zum Arbeiten, und aufgeschrieben ist davon nichts.",
+        "haeufigkeit": "taeglich",
+        "minuten": 30,
+        "beteiligt": [
+          "Werkstatt"
+        ],
+        "bremst": 3,
+        "von": null,
+        "an": null
+      }
     ]
   },
   {
-    "id": "werkstatt-2", "bestandsaufnahmeId": "heidekamp", "bereich": "Werkstatt", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 4,
+    "id": "hd-werkstatt-4",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Werkstatt",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
     "punkte": [
-      { "id": "werkstatt-2-1", "zeitfresser": "Fehlendes Material", "titel": "Material fehlt beim Fertigungsstart",
-        "aussage": "Beim Start eines Auftrags fehlen oft Kleinteile oder Profile. Dann muss umgeplant werden.",
-        "haeufigkeit": "woechentlich", "minuten": 45, "beteiligt": ["Büro"], "folge": "Umplanen und Leerlauf" }
+      {
+        "id": "hd-werkstatt-4-1",
+        "zeitfresser": "Azubis anleiten",
+        "titel": "Warten auf Antworten",
+        "aussage": "Ich trau mich nicht, dauernd zu fragen. Dann warte ich, bis jemand Zeit hat.",
+        "haeufigkeit": "taeglich",
+        "minuten": 20,
+        "beteiligt": [
+          "Werkstatt"
+        ],
+        "bremst": 3,
+        "von": null,
+        "an": null
+      }
     ]
   },
   {
-    "id": "werkstatt-3", "bestandsaufnahmeId": "heidekamp", "bereich": "Werkstatt", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 3,
+    "id": "hd-buero",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Büro",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
     "punkte": [
-      { "id": "werkstatt-3-1", "zeitfresser": "Nacharbeit", "titel": "Nacharbeit nach geänderter Zeichnung",
-        "aussage": "Ein Geländer wurde nach der alten Zeichnung gebaut. Die Änderung kam erst danach in der Werkstatt an.",
-        "haeufigkeit": "monatlich", "minuten": 240, "beteiligt": ["Büro", "Montage"], "folge": "Ein halber Tag Nacharbeit" }
+      {
+        "id": "hd-buero-1",
+        "zeitfresser": "Kundenanrufe",
+        "titel": "Kunden fragen nach dem Termin",
+        "aussage": "Kunden fragen, wann wir kommen. Ich weiß es nicht und rufe auf der Baustelle an.",
+        "haeufigkeit": "mehrmalsTaeglich",
+        "minuten": 10,
+        "beteiligt": [
+          "Montage"
+        ],
+        "bremst": 3,
+        "von": "Montage",
+        "an": "Büro"
+      },
+      {
+        "id": "hd-buero-2",
+        "zeitfresser": "Stunden erfassen",
+        "titel": "Stundenzettel kommen spät",
+        "aussage": "Stundenzettel kommen freitags. Ich tippe ab und frage nach, die Rechnung geht spät raus.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 120,
+        "beteiligt": [
+          "Montage"
+        ],
+        "bremst": 4,
+        "von": "Montage",
+        "an": "Büro"
+      },
+      {
+        "id": "hd-buero-3",
+        "zeitfresser": "Material bestellen",
+        "titel": "Eilbestellungen",
+        "aussage": "Ich bestelle eilig, weil mir keiner sagt, dass etwas ausgeht.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 45,
+        "beteiligt": [
+          "Werkstatt"
+        ],
+        "bremst": 3,
+        "von": "Werkstatt",
+        "an": "Büro"
+      }
     ]
   },
   {
-    "id": "montage-1", "bestandsaufnahmeId": "heidekamp", "bereich": "Montage", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 4,
-    "gutLaeuft": "Unsere Montagetrupps sind eingespielt.",
+    "id": "hd-montage-1",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Montage",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 3,
+    "gutLaeuft": "Unsere Trupps sind eingespielt.",
     "punkte": [
-      { "id": "montage-1-1", "zeitfresser": "Nacharbeit", "titel": "Teile passen auf der Baustelle nicht",
-        "aussage": "Auf der Baustelle passt ein Teil nicht, weil es nach einem älteren Stand gefertigt wurde. Wir passen vor Ort an.",
-        "haeufigkeit": "mehrmalsImMonat", "minuten": 90, "beteiligt": ["Werkstatt"], "folge": "Nacharbeit vor Ort, der Kunde wartet" }
+      {
+        "id": "hd-montage-1-1",
+        "zeitfresser": "Laden und Packen",
+        "titel": "Teil fehlt auf der Baustelle",
+        "aussage": "Auf der Baustelle fehlt ein Teil. Wir fahren zurück, das sind drei Stunden.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 180,
+        "beteiligt": [
+          "Werkstatt"
+        ],
+        "bremst": 5,
+        "von": "Werkstatt",
+        "an": "Montage"
+      },
+      {
+        "id": "hd-montage-1-2",
+        "zeitfresser": "Montage",
+        "titel": "Ständige Anrufe auf der Baustelle",
+        "aussage": "Ich werde auf der Baustelle ständig angerufen und verliere den Faden.",
+        "haeufigkeit": "taeglich",
+        "minuten": 25,
+        "beteiligt": [
+          "Büro"
+        ],
+        "bremst": 3,
+        "von": "Büro",
+        "an": "Montage"
+      }
     ]
   },
   {
-    "id": "montage-2", "bestandsaufnahmeId": "heidekamp", "bereich": "Montage", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 3,
+    "id": "hd-montage-2",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Montage",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
     "punkte": [
-      { "id": "montage-2-1", "zeitfresser": "Fehlendes Material", "titel": "Kleinteile fehlen auf der Baustelle",
-        "aussage": "Auf der Baustelle fehlen Schrauben oder Anker. Dann fährt einer zurück in die Werkstatt.",
-        "haeufigkeit": "mehrmalsImMonat", "minuten": 90, "beteiligt": ["Werkstatt"], "folge": "Fahrt zurück in die Werkstatt" }
+      {
+        "id": "hd-montage-2-1",
+        "zeitfresser": "Laden und Packen",
+        "titel": "Zurückfahren wegen fehlender Teile",
+        "aussage": "Fehlt etwas, fahren wir beide zurück. Der halbe Vormittag ist weg.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 180,
+        "beteiligt": [
+          "Werkstatt"
+        ],
+        "bremst": 4,
+        "von": "Werkstatt",
+        "an": "Montage"
+      },
+      {
+        "id": "hd-montage-2-2",
+        "zeitfresser": "Tragen auf der Baustelle",
+        "titel": "Schweres Tragen",
+        "aussage": "Treppenwangen und Geländerfelder tragen wir über Baustelle und Treppenhaus, oft in den dritten Stock.",
+        "haeufigkeit": "taeglich",
+        "minuten": 0,
+        "beteiligt": [],
+        "bremst": 4,
+        "von": null,
+        "an": null
+      }
     ]
   },
   {
-    "id": "montage-3", "bestandsaufnahmeId": "heidekamp", "bereich": "Montage", "istLeitung": false, "rolleZeigen": false, "fiktiv": true, "bremst": 2,
+    "id": "hd-montage-3",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Montage",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
     "punkte": [
-      { "id": "montage-3-1", "zeitfresser": "Warten auf Rückmeldung", "titel": "Kunde weiß nicht, dass die Montage kommt",
-        "aussage": "Manchmal weiß der Kunde nicht, dass wir kommen, und wir warten vor Ort.",
-        "haeufigkeit": "monatlich", "minuten": 45, "beteiligt": ["Büro", "Kunde"], "folge": "Warten vor Ort" }
+      {
+        "id": "hd-montage-3-1",
+        "zeitfresser": "Nacharbeit vor Ort",
+        "titel": "Maß passt vor Ort nicht",
+        "aussage": "Vor Ort passt ein Maß nicht. Wir kürzen und schweißen nach.",
+        "haeufigkeit": "mehrmalsImMonat",
+        "minuten": 120,
+        "beteiligt": [
+          "Werkstatt",
+          "Technik"
+        ],
+        "bremst": 4,
+        "von": "Werkstatt",
+        "an": "Montage"
+      }
+    ]
+  },
+  {
+    "id": "hd-montage-4",
+    "bestandsaufnahmeId": "HEIDE1",
+    "bereich": "Montage",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hd-montage-4-1",
+        "zeitfresser": "Nacharbeit vor Ort",
+        "titel": "Warten bei Nacharbeit",
+        "aussage": "Wenn das Maß nicht stimmt, stehe ich daneben und halte, bis nachgeschweißt ist.",
+        "haeufigkeit": "mehrmalsImMonat",
+        "minuten": 120,
+        "beteiligt": [
+          "Werkstatt"
+        ],
+        "bremst": 4,
+        "von": "Werkstatt",
+        "an": "Montage"
+      }
     ]
   }
 ]

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 430" font-family="Rubik, Arial, sans-serif" role="img" aria-label="Übergabe-Karte Metallbau Heidekamp: wo Informationen zwischen Bereichen verloren gehen">
+  <rect width="800" height="430" fill="#F6F8FA"/>
+  <defs>
+    <marker id="pfeil-grau" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#15263E" fill-opacity="0.35"/></marker>
+    <marker id="pfeil-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#F08119"/></marker>
+    <marker id="pfeil-rot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#D9480F"/></marker>
+  </defs>
+
+  <!-- Kanten -->
+  <!-- Kunde -> Leitung: läuft -->
+  <line x1="112" y1="140" x2="188" y2="140" stroke="#15263E" stroke-opacity="0.35" stroke-width="2" marker-end="url(#pfeil-grau)"/>
+  <!-- Leitung -> Technik: Reibung, 2 Stimmen -->
+  <line x1="272" y1="140" x2="348" y2="140" stroke="#F08119" stroke-width="5" marker-end="url(#pfeil-orange)"/>
+  <!-- Technik -> Werkstatt: Bruchstelle, 4 Stimmen -->
+  <line x1="432" y1="140" x2="496" y2="140" stroke="#D9480F" stroke-width="9" marker-end="url(#pfeil-rot)"/>
+  <!-- Werkstatt -> Montage: Bruchstelle, 3 Stimmen -->
+  <line x1="592" y1="140" x2="658" y2="140" stroke="#D9480F" stroke-width="9" marker-end="url(#pfeil-rot)"/>
+  <!-- Montage <-> Büro: Bruchstelle, 3 Stimmen -->
+  <path d="M700,180 Q690,300 500,330" fill="none" stroke="#D9480F" stroke-width="7" marker-end="url(#pfeil-rot)"/>
+  <!-- Werkstatt <-> Büro: Reibung, 2 Stimmen -->
+  <line x1="550" y1="182" x2="470" y2="296" stroke="#F08119" stroke-width="5" marker-end="url(#pfeil-orange)"/>
+  <!-- Kunde -> Büro: läuft (Statusanrufe) -->
+  <path d="M80,180 Q120,330 368,335" fill="none" stroke="#15263E" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#pfeil-grau)"/>
+  <!-- Werkstatt intern: Erfahrene -> Azubis, 2 Stimmen -->
+  <path d="M525,105 C500,40 600,40 575,105" fill="none" stroke="#F08119" stroke-width="5" marker-end="url(#pfeil-orange)"/>
+
+  <!-- Knoten -->
+  <g font-size="14" font-weight="500" fill="#15263E" text-anchor="middle">
+    <circle cx="70" cy="140" r="40" fill="#FFFFFF" stroke="#15263E" stroke-opacity="0.25" stroke-dasharray="4 3"/>
+    <text x="70" y="145">Kunde</text>
+    <circle cx="230" cy="140" r="40" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="230" y="145">Leitung</text>
+    <circle cx="390" cy="140" r="40" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="390" y="145">Technik</text>
+    <circle cx="550" cy="140" r="40" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="550" y="145">Werkstatt</text>
+    <circle cx="710" cy="140" r="40" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="710" y="145">Montage</text>
+    <circle cx="430" cy="330" r="40" fill="#FFFFFF" stroke="#15263E" stroke-width="2"/>
+    <text x="430" y="335">Büro</text>
+  </g>
+
+  <!-- Beschriftungen der Kanten -->
+  <g font-size="11.5" fill="#15263E">
+    <text x="310" y="180" text-anchor="middle">Änderungen</text>
+    <text x="310" y="194" text-anchor="middle" fill-opacity="0.7">2 Stimmen</text>
+    <text x="470" y="180" text-anchor="middle" font-weight="600">Version unklar</text>
+    <text x="470" y="194" text-anchor="middle" fill-opacity="0.7">4 Stimmen</text>
+    <text x="630" y="180" text-anchor="middle" font-weight="600">Teile, Maße</text>
+    <text x="630" y="194" text-anchor="middle" fill-opacity="0.7">4 Stimmen</text>
+    <text x="550" y="34" text-anchor="middle">Erfahrene → Azubis · 2 Stimmen</text>
+    <text x="668" y="282" font-weight="600">Status, Stunden</text>
+    <text x="668" y="296" fill-opacity="0.7">3 Stimmen</text>
+    <text x="520" y="250">Material</text>
+    <text x="520" y="264" fill-opacity="0.7">2 Stimmen</text>
+    <text x="190" y="352" fill-opacity="0.7">„Wann kommt ihr?“</text>
+  </g>
+
+  <!-- Legende -->
+  <g font-size="11.5" fill="#15263E" transform="translate(40,392)">
+    <line x1="0" y1="6" x2="26" y2="6" stroke="#15263E" stroke-opacity="0.35" stroke-width="2"/>
+    <text x="34" y="10">läuft</text>
+    <line x1="90" y1="6" x2="116" y2="6" stroke="#F08119" stroke-width="5"/>
+    <text x="124" y="10">Reibung</text>
+    <line x1="200" y1="6" x2="226" y2="6" stroke="#D9480F" stroke-width="8"/>
+    <text x="234" y="10">Bruchstelle</text>
+    <text x="330" y="10" fill-opacity="0.7">Linienstärke = Zahl der Stimmen · gezeigt werden Bereiche, keine Personen</text>
+  </g>
+</svg>

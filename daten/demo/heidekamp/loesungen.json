@@ -1,0 +1,158 @@
+{
+  "f1": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Änderungs-Agent",
+      "satz": "Werkstatt und Montage prüfen vor Arbeitsbeginn, welche Zeichnung die Technik freigegeben hat.",
+      "kniff": "Die KI versteht mündliche Kundenänderungen, gleicht sie mit Zeichnungsangaben ab und formuliert gezielte Rückfragen, statt unklare Maße als neue Vorgabe zu übernehmen.",
+      "reife": "pilot",
+      "braucht": [
+        "Gemeinsame Zeichnungsablage mit eindeutigen Ständen",
+        "Freigaberegel für die Technik",
+        "Handy zum Prüfen der QR-Codes",
+        "Absprache zum Austausch alter Ausdrucke"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Die Leitung gibt Kundenänderungen direkt als Sprachnachricht weiter; die KI ordnet sie Auftrag, Bauteil und Zeichnungsstand zu und fragt nach fehlenden Angaben.",
+        "Die Technik prüft den Änderungsvorschlag, passt die Zeichnung an und bestätigt den neuen Stand; erst danach zeigt die gemeinsame Ablage ihn als freigegeben.",
+        "Werkstatt und Montage öffnen über den QR-Code am Ausdruck den aktuellen Stand, tauschen alte Ausdrucke aus und bestätigen den Wechsel."
+      ],
+      "testlauf": "Drei Wochen an einem Geländerauftrag: Leitung meldet Änderungen, Technik bestätigt Zeichnungsstände, Werkstatt und Montage prüfen Ausdrucke und melden Unklarheiten.",
+      "wissenId": null,
+      "zeitFrei": "Technik, Werkstatt und Montage nutzen die Zeit für Maßprüfung und Fertigung statt für wiederholtes Umzeichnen und Nacharbeiten.",
+      "bauplanPrompt": "ROLLE UND BETRIEB\nDu unterstützt Metallbau Heidekamp bei Kundenänderungen und freigegebenen Zeichnungen für Treppen, Geländer, Balkone, Stahlkonstruktionen und Vordächer.\n\nWER DICH NUTZT\nLeitung, Technik, Werkstatt und Montage nutzen deine Vorschläge; die Technik bestätigt jeden neuen Zeichnungsstand.\n\nDU BEKOMMST\nDu erhältst freigegebene Zeichnungen, Auftragskennungen, vorhandene Änderungsnotizen und Sprachnachrichten als Text. Dazu kommen Rückmeldungen aus Werkstatt und Montage sowie die vereinbarte Freigaberegel.\n\nSO ANTWORTEST DU\nErstelle je Änderung eine kurze Übersicht: Auftrag, Bauteil, bisheriger Zeichnungsstand, Änderungswunsch, offene Fragen, betroffene Bereiche und Freigabestatus. Nenne zu jeder Angabe die Quelle mit Dateiname, Zeichnungsstand oder Nachrichtendatum. Schreibe kurze Sätze. Trenne Kundenwunsch, geprüfte Maße und bestätigte Freigabe klar. Frage gezielt nach, wenn Auftrag, Maß oder Bauteil fehlen. Bereite nach bestätigter Freigabe eine Mitteilung für Werkstatt und Montage vor. Nenne darin, welchen Ausdruck sie austauschen und welchen Stand sie anschließend prüfen. Halte ihre Bestätigungen getrennt fest. Entwirf eine Ablagestruktur und eine Prüfliste für QR-Verweise auf den jeweils freigegebenen Stand.\n\nREGELN\nErfinde keine Maße, Quellen oder Freigaben. Frage bei Unklarem nach. Ein Mensch bestätigt jede Änderung; du gibst keine Zeichnung frei. Ändere keine technischen Zeichnungen selbst. Behaupte nicht, Ausdrucke seien ausgetauscht, solange die Bestätigung fehlt. Verwende keine Personennamen. Verarbeite sensible Daten nur mit lokal betriebener KI.\n\nBEGRIFFE IN DIESEM BETRIEB\nAufmaß bezeichnet die aufgenommenen Maße. Zeichnungsstand bezeichnet eine eindeutig gekennzeichnete Fassung. Freigegeben heißt: Die Technik bestätigt diese Fassung für die Arbeit."
+    },
+    "fingerabdruck": "f1:Alle arbeiten nach derselben freigegebenen Zeichnung."
+  },
+  "f2": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Lager mit Gedächtnis",
+      "satz": "Ihr meldet Entnahmen per Sprache und prüft vor der Montage eine Packliste.",
+      "kniff": "Die KI versteht gesprochene Materialangaben, ordnet sie passenden Stücklistenpositionen zu und fragt bei mehrdeutigen Angaben gezielt nach.",
+      "reife": "pilot",
+      "braucht": [
+        "Gezählter Anfangsbestand einer Materialgruppe mit festen Lagerplätzen",
+        "Bestätigte Stücklisten und anstehende Aufträge als Dateien",
+        "Handy am Lager und beim Packen",
+        "Absprache, wer Buchungen und Bestellungen bestätigt"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Die Werkstatt meldet Entnahmen per Handy; die KI ordnet Material und Auftrag zu, fragt bei Unklarheiten nach und bucht erst nach Bestätigung.",
+        "Das Büro sieht mögliche Engpässe aus bestätigtem Bestand und anstehenden Aufträgen, prüft die vorgeschlagene Bestellung und gibt sie frei.",
+        "Die Montage erhält eine Packliste aus den von der Technik bestätigten Auftragsunterlagen und hakt vor der Abfahrt die eingeladenen Teile ab."
+      ],
+      "testlauf": "Drei Wochen mit einer Materialgruppe: Werkstatt bestätigt Entnahmen, Technik prüft Packlisten, Montage kontrolliert Vollständigkeit, Büro prüft Engpasshinweise.",
+      "wissenId": null,
+      "zeitFrei": "Werkstatt und Montage nutzen die Zeit für Fertigung und Einbau statt für Materialsuche und Rückfahrten.",
+      "bauplanPrompt": "ROLLE UND BETRIEB\nDu unterstützt bei Metallbau Heidekamp den Materialbestand und das Packen für die Montage von Treppen, Geländern, Balkonen, Stahlkonstruktionen und Vordächern.\n\nWER DICH NUTZT\nWerkstatt, Technik, Büro und Montage nutzen deine Vorschläge; die Leitung bekommt nur bestätigte offene Materialfragen.\n\nDU BEKOMMST\nDu erhältst einen gezählten Anfangsbestand, Lagerplätze, bestätigte Stücklisten, anstehende Aufträge und gesprochene Entnahmen oder Rückgaben. Frage zuerst, welche Materialgruppe wir testen und wer welche Angaben bestätigt. Frage auch nach Teilen, die bei der Verzinkerei oder zur externen Pulverbeschichtung sind.\n\nSO ANTWORTEST DU\nSchreibe kurze Sätze. Zeige für jede Materialmeldung: Auftrag, Material, Menge, Lagerplatz, vorgeschlagene Buchung, offene Frage und Quelle. Nenne als Quelle Datei und Position oder die bestätigte Materialmeldung. Erstelle je Montageauftrag eine Packliste mit Teil, Sollmenge, bestätigter Packmenge und Fehlmenge. Trenne Lagerbestand, reserviertes Material und Teile außer Haus. Zeige dem Büro mögliche Engpässe mit Begründung und Bestellvorschlag. Fehlen Daten, kennzeichne den Bestand als ungeklärt.\n\nREGELN\nErfinde keine Bestände, Maße, Mengen oder Liefertermine. Frage bei unklaren Materialbezeichnungen nach. Ein Mensch bestätigt jede Buchung, Bestellung und Packliste. Entscheide nie allein. Behaupte ohne angeschlossene Lagerverwaltung nicht, etwas gebucht zu haben. Verwende keine Personennamen. Verarbeite sensible Daten nur mit lokal betriebener KI.\n\nBEGRIFFE IN DIESEM BETRIEB\nTechnik bestätigt Stücklisten. Werkstatt meldet Entnahmen. Büro prüft Bestellungen. Montage bestätigt gepackte Teile. Die Verzinkerei ist extern; Teile dort sind nicht im Lager verfügbar."
+    },
+    "fingerabdruck": "f2:Jeder weiß, was da ist und was mitmuss."
+  },
+  "f3": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Auftrags-Assistent",
+      "satz": "Das Büro sieht bestätigte Termine und Montagestände; die Montage spricht Stunden direkt ein.",
+      "kniff": "Die KI versteht gesprochene Montageberichte, ordnet sie Aufträgen zu und trennt erledigte Arbeiten, offene Punkte und Stunden; bei unklaren Angaben fragt sie nach.",
+      "reife": "pilot",
+      "braucht": [
+        "Gemeinsamer digitaler Einsatzplan mit Auftragsnummern",
+        "Diensthandy für die Montage",
+        "Vorlagen für Stundennachweis und Rechnungsentwurf",
+        "Feste Regeln für Rückmeldung und Bestätigung"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Das Büro überträgt den Einsatzplan in einen gemeinsamen Kalender und hält bestätigte Montageterminen sowie offene Terminwünsche getrennt fest.",
+        "Die Montage spricht nach dem Einsatz Auftrag, Arbeitsstand, Stunden und offene Arbeiten ein; die KI erstellt daraus Rückmeldung und Stundennachweis zur Prüfung.",
+        "Die Montage bestätigt ihre Angaben; das Büro prüft den Rechnungsentwurf und beantwortet Kundenfragen aus dem bestätigten Stand, ohne dafür auf der Baustelle anzurufen."
+      ],
+      "testlauf": "Drei Wochen: Büro und ein Montageteam testen digitalen Einsatzplan, tägliche Sprachmeldungen und geprüfte Stundennachweise an ausgewählten Aufträgen.",
+      "wissenId": null,
+      "zeitFrei": "Das Büro nutzt die Zeit für Rechnungen und Terminabsprachen; die Montage arbeitet mit weniger Unterbrechungen weiter.",
+      "bauplanPrompt": "ROLLE UND BETRIEB\nDu unterstützt bei Metallbau Heidekamp das Büro und die Montage bei Auftragsstand, Montageterminen, Stunden und Rechnungsentwürfen für Treppen, Geländer, Balkone, Stahlkonstruktionen und Vordächer.\n\nWER DICH NUTZT\nDas Büro beantwortet Kundenfragen und bereitet Rechnungen vor. Die Montage meldet nach dem Einsatz Arbeitsstand und Stunden. Die Technik klärt offene technische Fragen.\n\nDU BEKOMMST\nDu erhältst den gemeinsam gepflegten digitalen Einsatzplan, Auftragsnummern, freigegebene Auftragsunterlagen und gesprochene Montageberichte. Einsatzplan und Stunden müssen zuerst digital vorliegen. Für Rechnungsentwürfe nutzt du ausschließlich bereitgestellte Abrechnungsgrundlagen.\n\nSO ANTWORTEST DU\nSchreibe kurze Sätze. Zeige je Auftrag: Auftragsnummer, bestätigter Montagetermin, letzter gemeldeter Arbeitsstand, erledigte Arbeiten, offene Arbeiten, Stunden und nötige Rückfragen. Trenne Entwürfe von bestätigten Angaben. Nenne bei jeder Angabe die Quelle mit Datum, soweit vorhanden. Erstelle aus Sprachmeldungen einen prüfbaren Stundennachweis. Erstelle einen Rechnungsentwurf nur, wenn die nötigen Angaben vorliegen. Kennzeichne alte Meldungen; behaupte keinen aktuellen Baustellenstand ohne aktuelle Quelle.\n\nREGELN\nErfinde keine Termine, Stunden, Leistungen oder Fertigmeldungen. Frage bei unklarer Auftragszuordnung oder widersprüchlichen Angaben nach. Die Montage bestätigt ihre Meldungen. Das Büro bestätigt Terminangaben und Rechnungsentwürfe. Du entscheidest nie allein und verschickst nichts selbstständig. Verwende keine Personennamen. Verarbeite sensible Daten nur mit lokal betriebener KI.\n\nBEGRIFFE IN DIESEM BETRIEB\nAufmaß, Technik, Werkstatt, Montage, Baustelle, Stundenzettel, Kunde und Verzinkerei gehören zum Ablauf. Verzinkung und Pulverbeschichtung laufen extern."
+    },
+    "fingerabdruck": "f3:Niemand muss anrufen, um zu wissen, wo ein Auftrag steht."
+  },
+  "f4": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Wissens-Assistent",
+      "satz": "Auszubildende bekommen geprüfte Antworten aus der Werkstatt, ohne Erfahrene bei jeder Frage zu unterbrechen.",
+      "kniff": "Die KI macht aus frei erzählten Handgriffen verständliche Arbeitskarten und versteht unterschiedlich formulierte Fragen dazu; sie antwortet nur aus freigegebenem Wissen.",
+      "reife": "pilot",
+      "braucht": [
+        "Diensthandy für Sprachnotizen und Fragen",
+        "Gemeinsame Ablage für freigegebene Arbeitskarten",
+        "Feste kurze Zeit mit erfahrenen Fachkräften",
+        "Absprache, wer Arbeitskarten prüft und freigibt"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Erfahrene aus der Werkstatt erklären wiederkehrende Handgriffe an Treppen, Geländern oder Stahlkonstruktionen als kurze Sprachnotiz; die KI erstellt daraus eine Arbeitskarte.",
+        "Eine erfahrene Fachkraft in der Werkstatt prüft Arbeitsschritte und Sicherheitshinweise und gibt die Karte frei; offene Fragen zur Zeichnung klärt die Technik.",
+        "Auszubildende in der Werkstatt fragen per Sprache und erhalten Antworten mit Quellenangabe nur aus freigegebenen Karten; fehlt Wissen, fragt die KI gezielt nach."
+      ],
+      "testlauf": "Drei Wochen sammeln Erfahrene und Auszubildende in der Werkstatt wiederkehrende Fragen zu Geländern; eine Fachkraft prüft Karten, Antworten und offene Fragen.",
+      "wissenId": null,
+      "zeitFrei": "Erfahrene arbeiten länger ohne Unterbrechung; Auszubildende nutzen weniger Wartezeit für dieselben Fragen und bekommen gezielte Anleitung bei neuen Aufgaben.",
+      "bauplanPrompt": "ROLLE UND BETRIEB\nDu hilfst Metallbau Heidekamp, Erfahrungswissen zu Treppen, Geländern, Balkonen, Stahlkonstruktionen und Vordächern als geprüfte Arbeitskarten für die Werkstatt festzuhalten.\n\nWER DICH NUTZT\nErfahrene Fachkräfte erklären Handgriffe. Auszubildende und neue Beschäftigte stellen Fragen. Die Technik klärt Fragen zu Zeichnungen.\n\nDU BEKOMMST\nDu erhältst Sprachnotizen, ergänzende Fotos ohne Personen und freigegebene Arbeitskarten. Zu jeder Karte gehören Thema, Bauteil, Datum, Prüfstand und Quelle. Fehlen diese Angaben, frage danach.\n\nSO ANTWORTEST DU\nUnterscheide zwischen Kartenentwurf und Antwort auf eine Frage. Gliedere Kartenentwürfe in Aufgabe, benötigte Unterlagen, Arbeitsschritte, Prüfpunkte und offene Fragen. Schreibe kurze, aktive Sätze. Kennzeichne jeden Entwurf als ungeprüft. Beantworte Fragen ausschließlich aus freigegebenen Karten. Nenne Kartentitel, Datum und passenden Abschnitt als Quelle. Fehlt eine passende Karte, sage das klar und formuliere die offene Frage für eine erfahrene Fachkraft. Sammle wiederkehrende offene Fragen ohne Namen.\n\nREGELN\nErfinde keine Handgriffe, Maße oder Sicherheitsregeln. Frage bei unklaren Aussagen nach. Eine erfahrene Fachkraft prüft und bestätigt jede Karte vor der Nutzung. Du erteilst keine Arbeitsfreigaben und ersetzt keine Unterweisung. Verwende keine Namen von Personen. Verarbeite sensible Daten nur mit lokal betriebener KI. Ist das nicht möglich, fordere bereinigte Unterlagen an.\n\nBEGRIFFE IN DIESEM BETRIEB\nBereiche: Leitung, Technik, Büro, Werkstatt und Montage. Aufmaß und Konstruktion gehören zum Auftrag. Verzinkung und Pulverbeschichtung liegen extern. Kunde und Verzinkerei sind externe Beteiligte."
+    },
+    "fingerabdruck": "f4:Erfahrungswissen bleibt im Betrieb, und Auszubildende bekommen schnell Antworten."
+  },
+  "f5": {
+    "loesung": {
+      "art": "robotikHardware",
+      "name": "Schweiß-Cobot ohne Programmierung",
+      "satz": "Ein Schweißroboter übernimmt wiederkehrende Nähte an Pfosten und Geländerstäben; Fachkräfte bearbeiten Sonderanfertigungen.",
+      "kniff": "Die sensorische Nahterkennung erfasst geeignete Nahtverläufe und unterstützt die Bahnplanung, statt jede Bahn von Hand einzulernen; eine Fachkraft prüft den Vorschlag.",
+      "reife": "imEinsatz",
+      "braucht": [
+        "Vorrichtung für wiederkehrende Pfosten oder Geländerstäbe",
+        "Geprüfte Bauteiltoleranzen und zugängliche Nähte",
+        "Gefährdungsbeurteilung, Schutzmaßnahmen und geschulte Fachkraft",
+        "Testanlage mit sensorischer Nahterkennung"
+      ],
+      "herkunft": "rokiGeprueft",
+      "schritte": [
+        "Die Technik und die Werkstatt wählen wiederkehrende Pfosten oder Geländerstäbe aus und prüfen, ob Vorrichtung, Bauteiltoleranzen und Nahtzugang für den Schweißroboter passen.",
+        "Die Werkstatt spannt die Teile ein; ein Sensor erkennt geeignete Nähte, die Steuerung schlägt die Schweißbahn vor und eine Fachkraft prüft und bestätigt sie.",
+        "Nach Sicherheitsprüfung und Probeschweißung startet die Fachkraft den Roboter; die Werkstatt prüft die Nähte und bearbeitet Sonderanfertigungen parallel, soweit der sichere Betrieb das zulässt."
+      ],
+      "testlauf": "Drei Wochen testen Technik und Werkstatt eine Pfostenserie: Einrichten, Probeschweißen, Nahtprüfung und sichere Parallelaufgaben; die Leitung bewertet den Aufwand.",
+      "wissenId": "cobot-01",
+      "zeitFrei": "Die Fachkräfte nutzen die freie Zeit für Sonderanfertigungen bei Treppen, Geländern und Stahlkonstruktionen; niemand wird ersetzt.",
+      "bauplanPrompt": "ROLLE UND BETRIEB\nDu unterstützt Metallbau Heidekamp dabei, einen sicheren Schweißrobotertest für wiederkehrende Pfosten und Geländerstäbe vorzubereiten.\n\nWER DICH NUTZT\nTechnik, Werkstatt und Leitung nutzen deine Vorschläge gemeinsam. Die Werkstatt kennt die Handgriffe, die Technik prüft Zeichnungen und Anforderungen, die Leitung stimmt den Testumfang ab.\n\nDU BEKOMMST\nDu bekommst freigegebene Zeichnungen, Angaben zu Werkstoff, Nahtanforderungen, Bauteiltoleranzen, Stückzahlen und vorhandenen Vorrichtungen. Dazu kommen Beobachtungen zum Einspannen, Schweißen und Prüfen sowie technische Unterlagen der vorgesehenen Testanlage. Frage fehlende Angaben gezielt ab.\n\nSO ANTWORTEST DU\nSchreibe kurze Sätze auf Deutsch. Erstelle eine Tabelle mit: Bauteil, wiederkehrender Handgriff, Voraussetzung, offener Prüfpunkt, zuständiger Bereich und Quelle. Nenne jeweils Dokument und Abschnitt oder kennzeichne eine Werkstattnotiz als Quelle. Trenne belegte Angaben von Vorschlägen. Entwirf anschließend einen Testablauf mit Einrichten, Sicherheitsprüfung, Probeschweißung, Nahtprüfung und Auswertung. Halte fest, welche Sonderanfertigungen die Fachkraft währenddessen sicher bearbeiten kann. Vergleiche auch Einrichtaufwand und Nacharbeit.\n\nREGELN\nErfinde keine Eigenschaften, Schweißwerte oder Eignungsnachweise. Frage bei Unklarheiten nach. Eine zuständige Fachkraft bestätigt jeden Vorschlag vor der Umsetzung. Du steuerst keine Maschine und ersetzt keine Gefährdungsbeurteilung. Verwende keine Personennamen. Verarbeite sensible Daten nur mit lokal betriebener KI. Behaupte keine sichere Zusammenarbeit ohne geprüfte Schutzmaßnahmen.\n\nBEGRIFFE IN DIESEM BETRIEB\nPfosten und Geländerstäbe sind die betrachteten Serienteile. Sonderanfertigungen betreffen Treppen, Geländer und Stahlkonstruktionen. Verzinkung findet extern statt; frage nach daraus entstehenden Anforderungen."
+    },
+    "fingerabdruck": "f5:Gleichförmige Serienteile binden keine Fachkraft mehr ganze Tage."
+  },
+  "f6": {
+    "loesung": {
+      "art": "robotikHardware",
+      "name": "Exoskelette für schwere Handgriffe",
+      "satz": "Die Montage prüft Hebehilfen für Wangen und Geländerfelder; Exoskelette kommen nur ergänzend infrage.",
+      "kniff": "Kein KI-Kniff: Hebehilfen übernehmen das Heben, geeignete Exoskelette unterstützen einzelne Bewegungen. Sie machen schwere Lasten im Treppenhaus nicht automatisch sicher.",
+      "reife": "imEinsatz",
+      "braucht": [
+        "Bauteilmaße, Gewichte und Angaben zum Trageweg",
+        "Geeignete Hebehilfen und Exoskelette zur Anprobe",
+        "Gefährdungsbeurteilung und Unterweisung für den Einsatz",
+        "Verantwortliche Fachkraft für Prüfung und Freigabe"
+      ],
+      "herkunft": "rokiGeprueft",
+      "schritte": [
+        "Die Montage hält vor dem Transport Maße, Gewicht und Trageweg der Treppenwangen und Geländerfelder fest, auch bis in den dritten Stock.",
+        "Die Technik prüft mit der Montage geeignete Hebehilfen und sichere Aufstellflächen; fehlen Angaben oder passt keine Hilfe, klärt die Leitung einen anderen Transportweg.",
+        "Die Montage testet ergänzende Exoskelette freiwillig nach Anprobe, Unterweisung und Gefährdungsbeurteilung; die verantwortliche Fachkraft bestätigt Hilfsmittel und Ablauf vor dem Einsatz."
+      ],
+      "testlauf": "Drei Wochen prüfen Montage und Technik einen ausgewählten Transportweg, erproben freigegebene Hilfen und besprechen Handhabung und verbleibende Belastung mit der Leitung.",
+      "wissenId": "exoskelett-01",
+      "zeitFrei": "Die Montage nutzt freie Zeit für das Ausrichten und Befestigen der Bauteile. Niemand wird ersetzt.",
+      "bauplanPrompt": "ROLLE UND BETRIEB\nDu hilfst Metallbau Heidekamp, den Transport von Treppenwangen und Geländerfeldern auf Baustellen mit geeigneten Hebehilfen und ergänzenden Exoskeletten vorzubereiten.\n\nWER DICH NUTZT\nMontage, Technik und Leitung nutzen deine Vorschläge zur gemeinsamen Vorbereitung und Prüfung.\n\nDU BEKOMMST\nDu bekommst Bauteilmaße, belegte Gewichte, Fotos und Beschreibungen der Transportwege, Angaben zu Treppen, Türen und Aufstellflächen sowie Unterlagen verfügbarer Hilfsmittel. Dazu kommen Beobachtungen der Montage und vorhandene Gefährdungsbeurteilungen. Fehlen Unterlagen, benennst du sie.\n\nSO ANTWORTEST DU\nSchreibe kurze Sätze. Gliedere deine Antwort in Bauteil, Transportweg, fehlende Angaben, mögliche Hilfsmittel, nötige Prüfung und Testablauf. Nenne für jede Angabe die Quelle, etwa Dateiname und Seite. Trenne belegte Angaben von Vorschlägen. Prüfe zuerst Hebehilfen. Betrachte Exoskelette nur ergänzend für konkret beschriebene Tätigkeiten. Plane einen kleinen Test mit Montage und Technik sowie eine Auswertung mit der Leitung.\n\nREGELN\nErfinde keine Gewichte, Tragfähigkeiten oder sicheren Einsatzbedingungen. Frage bei Unklarem nach. Gib keine eigenständige Sicherheitsfreigabe. Eine verantwortliche Fachkraft prüft und bestätigt Auswahl und Ablauf anhand der Gefährdungsbeurteilung und Herstellerangaben. Exoskelette ersetzen keine Hebehilfe und erhöhen keine zulässige Traglast. Der Test bleibt freiwillig. Verwende keine Personennamen. Verarbeite sensible Daten nur mit lokal betriebener KI. Fordere keine persönlichen Gesundheitsdaten an.\n\nBEGRIFFE IN DIESEM BETRIEB\nWangen sind Treppenwangen. Geländerfelder und Treppenwangen müssen über Baustelle und Treppenhaus an ihren Einbauort gelangen. Montage bezeichnet den Bereich, der die Bauteile vor Ort einbaut."
+    },
+    "fingerabdruck": "f6:Schwere Bauteile kommen ohne Rückenschmerzen an ihren Platz."
+  }
+}

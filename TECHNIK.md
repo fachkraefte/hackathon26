@@ -22,16 +22,18 @@ Handy/Browser ──► Next.js auf Vercel (Seiten + API-Routen) ──► Model
 
 ---
 
-## 2. Seiten, Sprache, Gestaltung
+## 2. Seiten, Sprache, Gestaltung (Workflow v3, KONZEPT_V3.md)
 
 | Pfad (Deutsch) | Wer | Inhalt |
 |---|---|---|
-| `/de` | alle | Einstieg: die drei Momente, Demo zurücksetzen |
-| `/de/start` | Leitung | ① Starten: Frage, Ziel, Bereiche, Stundensatz → Einladung |
-| `/de/mitmachen/[id]` | jede Person | ② Erzählen: Chips, Erzählung mit Spiegelung, Regler, „So habe ich dich verstanden“, „Du bist nicht allein“ |
-| `/de/ergebnis/[id]` | alle | ③ Verstehen: Problemfäden, Kosten, Ansätze, erster Schritt, Präsentationsmodus |
+| `/de` | alle | Startseite: zwei Einstiege (Projekt anlegen · Code eingeben), Live-Übergabe-Karte des Demo-Betriebs, drei Schritte, Beispiele, Demo zurücksetzen |
+| `/de/anlegen` | Leitung | Eckdaten, Bereiche mit Stundensatz-Spanne, Deadline, Website, Anrede → KI bereitet Chips und Rückfragen vor → Code und Einladung |
+| `/de/zugang` | Beschäftigte | Code eingeben (`?ziel=analyse` führt zur Analyse) |
+| `/de/befragung/[code]` | jede Person | Bereich → Aufgaben-Chips des Bereichs + „Etwas anderes …“ → Erzählen → Spiegelung, ≤ 1 Rückfrage → Regler (wie oft, wie lange, wie sehr bremst es) und Übergabe von/an → bestätigen → Mitsprache → Rückmeldung nach Datenlage |
+| `/de/analyse/[code]` | alle mit Code | Kernzahl, Übergabe-Karte, Top 3, Mitsprache; zweiter Blick: alle Felder mit Sichtweisen, Profil, Stärken |
+| `/de/loesungen/[code]` | alle mit Code | Karte mit Umschalter heute / mit Lösungen, Kacheln, Details mit Bauplan-Prompt, ein Szenario-Regler, erste Schritte |
 
-Texte der Oberfläche stehen in `messages/de.json`, `messages/en.json` hat dieselben Schlüssel (Übersetzung folgt). Die Oberfläche duzt (Demo-Betrieb hat „Du“ gewählt); eine Sie-Variante fehlt noch. Einsprechen nutzt die Spracherkennung des Browsers (`app/[locale]/_komponenten/eingabe.tsx`), ohne neue Abhängigkeit; der Text ist vor dem Absenden korrigierbar. Gestaltung nach `DESIGN.md`.
+Texte der Oberfläche stehen in `messages/de.json`, `messages/en.json` hat dieselben Schlüssel (Übersetzung folgt). Die Befragung gibt es in Du und Sie (ICU `select` auf `anrede`). Einsprechen nutzt die Spracherkennung des Browsers (`app/[locale]/_komponenten/eingabe.tsx`), ohne neue Abhängigkeit. Gestaltung nach `DESIGN.md`. Übergabe-Karte und Profil sind SVG aus `lib/karte.ts` bzw. `_komponenten/profil.tsx`, ohne Diagramm-Bibliothek.
 
 ---
 
@@ -41,9 +43,12 @@ Alle Aufrufe auf dem Server über `lib/ki/model.ts`, Prompts in `lib/ki/prompts.
 
 | Schritt | Eingabe | Ausgabe | Hinweise |
 |---|---|---|---|
-| **① Zeitfresser** | Betrieb, Frage und Ziel der Leitung | 8 Chips à 2–4 Wörter | Situationen, keine Technik |
-| **② Verstehen** | Bereich, gewählter Zeitfresser, Erzählung | `Verstaendnis`: Spiegelung (1 Satz), Titel, neutrale Aussage, herausgehörte Häufigkeit und Minuten (oder null), Beteiligte, Folge, höchstens eine Rückfrage mit Chips | Rückfrage nur, wenn unklar ist, was passiert oder wer beteiligt ist; nie nach Häufigkeit/Zeit; höchstens 1 je Thema, 2 je Gespräch |
-| **③ Zusammenführen** | alle bestätigten Punkte (Bereiche bereits anonymisiert), „Was läuft gut“, Wissensauszug | `Gesamtbild`: 2–4 Fäden mit Punkt-IDs, Sichtweisen, Unterschied, Ansätzen, erstem Schritt; Stärken; offene Fragen | Code bereinigt: nur echte Punkt-IDs, jeder Punkt in höchstens einem Faden, „von ROKI geprüft“ nur mit gültiger `wissenId`, Ablauf-Ansatz zuerst. Zahlen rechnet `lib/rechnen.ts`. Ergebnis wird zwischengespeichert und nur bei neuen Beiträgen neu erzeugt (`lib/gesamtbild.ts`). |
+| **① Vorbereiten** | Eckdaten, Bereiche, Ziel, Text der Website (Server liest sie, `lib/website.ts`) | `Profil`: Kurzbeschreibung, Externe, Aufgaben-Chips und Rückfragen je Bereich | einmal beim Anlegen; Leitung kann Chips ändern |
+| **② Verstehen** | Bereich, gewählte Aufgabe, Erzählung, Rückfragen-Vorrat | `Verstaendnis`: Spiegelung (1 Satz), Titel, neutrale Aussage, herausgehörte Häufigkeit und Minuten (oder null), Beteiligte, Folge, Übergabe von/an, höchstens eine Rückfrage mit Chips | Rückfrage nur, wenn unklar ist, was passiert oder wer beteiligt ist; nie nach Häufigkeit/Zeit; höchstens 1 je Thema, 2 je Gespräch |
+| **③ Zusammenführen** | alle bestätigten Punkte (Bereiche bereits anonymisiert), „Was läuft gut“ | `Gesamtbild`: 1–5 Fäden mit Kurzname, Aufgabe, Problem, Punkt-IDs, Sichtweisen, Unterschied; Stärken | Nur Probleme, keine Lösungen. Code bereinigt: nur echte Punkt-IDs, jeder Punkt in höchstens einem Faden. Zahlen rechnet `lib/rechnen.ts`. Läuft **einmal** (erstes Bild). Danach wird nur noch ergänzt, siehe ③b. |
+| **③b Ergänzen** | neue Punkte, bestehende Fäden mit Beispielen | Zuordnung je Punkt mit kurzer Ursache (`low`, ≈ 3 s); was nirgends passt, wird nach Ursache zu neuen Fäden gruppiert (zweiter Aufruf, ≈ 10 s) | Bestehende Fäden behalten ID, Aufgabe und Reihenfolge; neue bekommen die nächste freie ID (bis 6). Punkte, die nicht zugeordnet werden konnten, bleiben offen und werden beim nächsten Abruf erneut versucht. Steuerung in `lib/gesamtbild.ts`. |
+
+| **④ Lösung** | ein Faden, seine Stimmen, Muster-Katalog (`wissen/loesungsmuster.json`) | `Loesung`: Name, Satz, 3 Schritte, Was es braucht, KI-Kniff, Wofür die Zeit frei wird, Art, Reife, Testlauf, Bauplan-Prompt | je Faden parallel, `medium`, ≈ 20 s; im Hintergrund nach jedem Beitrag (`after`), Rückfall auf der Lösungsseite. Name, Reife und Herkunft kommen aus dem Muster, „von ROKI geprüft“ nur mit `wissenId`. Gilt, solange Faden-ID und Aufgabe gleich bleiben (`lib/loesungen.ts`). |
 
 **Gemeinsame Regeln für alle Prompts:** einfache, ruhige Sprache · nichts erfinden · keine Namen, Schuldzuweisungen neutral · keine Gesundheitsdaten Dritter · keine Einsparungen oder ROI · nur JSON.
 
@@ -53,13 +58,16 @@ Alle Aufrufe auf dem Server über `lib/ki/model.ts`, Prompts in `lib/ki/prompts.
 
 Maßgeblich ist `lib/typen.ts` (zod-Schemas, daraus die TypeScript-Typen). Kurzfassung:
 
-- `Bestandsaufnahme`: Betrieb, Leitung, Anrede, Frage, Ziel, Stundensatz, Arbeitswochen, Bereiche, Mindestanzahl, Zeitfresser-Chips, Besprechungstermin
-- `Beitrag`: Bereich, istLeitung, Zustimmung zur Nennung des Bereichs, 1–3 `Punkt`e, Stimmungswert „bremst“ (1–5), „Was läuft gut“
-- `Punkt`: Zeitfresser, Titel, neutrale Aussage, Häufigkeit (Reglerstufe), Minuten pro Mal (eigene Zeit), Beteiligte, Folge
+- `Bestandsaufnahme`: ID = Code, Betrieb (inkl. Website), Anrede, Ziel, Deadline, `Bereich`[] mit Stundensatz-Spanne, Arbeitswochen, Mindestanzahl, `Profil`
+- `Profil`: Kurzbeschreibung, Externe, Chips und Rückfragen je Bereich
+- `Beitrag`: Bereich, istLeitung, 1–3 `Punkt`e, Mitsprache (1–5), „Was läuft gut“
+- `Punkt`: gewählte Aufgabe, Titel, neutrale Aussage, Häufigkeit, Minuten (eigene Zeit), Beteiligte, Folge, bremst (1–5), von/an
 - `Verstaendnis`: KI-Antwort auf eine Erzählung (siehe Schritt ②)
-- `Gesamtbild`: `Faden`[] (Aufgabe, Problem, Punkt-IDs, Sichtweisen, Unterschied, `Ansatz`[], erster Schritt), Stärken, offene Fragen
-- `Beschluss`: Faden, verantwortliche Rolle, Datum
-- `WissensEintrag`: wie bisher (Abschnitt 5)
+- `Gesamtbild`: `Faden`[] (Kurzname, Aufgabe, Problem, Punkt-IDs, Sichtweisen, Unterschied), Stärken
+- `Loesung` je Faden (Schritt ④), gespeichert mit Fingerabdruck
+- `LoesungsMuster`, `WissensEintrag`: Wissensbasis in `wissen/`
+
+Euro rechnet `lib/rechnen.ts` mit der Mitte der Spanne des Bereichs, in dem die Person arbeitet.
 
 ---
 
@@ -121,10 +129,9 @@ Maßgeblich ist `lib/typen.ts` (zod-Schemas, daraus die TypeScript-Typen). Kurzf
 
 ## 7. Demo-Modus
 
-- Ohne `OPENAI_API_KEY`, bei Fehler oder Zeitüberschreitung (20 Sekunden) greift er automatisch und wird in der Oberfläche angezeigt.
-- ① nutzt die gespeicherten Zeitfresser-Chips, ② übernimmt die Erzählung ohne Spiegelung, ③ zeigt `daten/demo/heidekamp/gesamtbild.json` und hängt neue Punkte an den Faden mit demselben Zeitfresser.
-- Startdaten: `daten/demo/heidekamp/bestandsaufnahme.json` und `beitraege.json` (acht fiktive Beiträge), dazu das geprüfte Gesamtbild. Sie werden beim ersten Aufruf in Supabase angelegt; „Demo zurücksetzen“ auf der Startseite stellt den Ausgangszustand her.
-- Das gespeicherte Gesamtbild vor dem Pitch von einem Menschen lesen lassen.
+- Ohne `OPENAI_API_KEY`, bei Fehler oder Zeitüberschreitung greift er automatisch und wird angezeigt.
+- ① liefert allgemeine Chips je Bereich, ② übernimmt die Erzählung ohne Spiegelung, ③ zeigt das gespeicherte Gesamtbild, ④ zeigt die gespeicherten Lösungen.
+- Startdaten (Code `HEIDE1`): `daten/demo/heidekamp/` – Bestandsaufnahme, 11 Beiträge aus `fallstudien/01_metallbau_heidekamp.md` (ohne Werkstattleitung, die live erzählt), geprüftes Gesamtbild (6 Fäden) und geprüfte Lösungen. „Demo zurücksetzen“ auf der Startseite stellt sie her, ohne KI-Aufruf.
 
 ---
 
@@ -139,20 +146,24 @@ Maßgeblich ist `lib/typen.ts` (zod-Schemas, daraus die TypeScript-Typen). Kurzf
 ## 9. Ordnerstruktur
 
 ```
-app/[locale]/           Seiten: start, mitmachen/[id], ergebnis/[id]
-app/[locale]/_komponenten/  Eingabe mit Sprache, Regler, Kennzeichnungen
+app/[locale]/           Seiten: Startseite, anlegen, zugang, befragung/[code], analyse/[code], loesungen/[code]
+app/[locale]/_komponenten/  Eingabe mit Sprache, Regler, Übergabe-Karte, Profil, Kennzeichnungen
 messages/               Texte der Oberfläche (de.json zuerst, en.json mit gleichen Schlüsseln)
 lib/ki/                 Modell-Schnittstelle, Prompts, KI-Schritte, JSON-Prüfung
 lib/aktionen.ts         Server Actions (Eingaben mit zod geprüft)
-lib/gesamtbild.ts       Zusammenführen mit Zwischenspeicher
+lib/gesamtbild.ts       Zusammenführen einmal, danach stabil ergänzen
+lib/loesungen.ts        Lösungen je Faden (Hintergrund)
+lib/karte.ts            Übergabe-Karte aus von/an
+lib/analyse.ts          Zahlen für Analyse und Lösungen
+lib/website.ts          Website-Text beim Anlegen lesen
 lib/rechnen.ts          Stunden und €
 lib/anonym.ts           Bereichsnamen schützen
 lib/speicher.ts         Speicherung in Supabase (Rückfall: Speicher im Server)
 supabase/migrations/    Datenbankschema
 lib/supabase/           Zugriff auf die Datenbank (nur Server)
 lib/typen.ts            Datenformate (zod)
-wissen/                 roki-wissensauszug.json
-daten/demo/heidekamp/   Startdaten und gespeichertes Gesamtbild
+wissen/                 roki-wissensauszug.json, loesungsmuster.json
+daten/demo/heidekamp/   Startdaten, geprüftes Gesamtbild und geprüfte Lösungen (Code HEIDE1)
 ```
 
 ---

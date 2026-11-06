@@ -1,8 +1,8 @@
 # Projekt: KI-gestützte Bestandsaufnahme für KMU
 
-**Arbeitstitel:** noch offen
+**Name:** ROKIO (Robotik und KI)
 **Rahmen:** 48-Stunden-AI-Hackathon an der Leuphana Universität Lüneburg, im Rahmen von ROKI – Robotik und KI für die Fachkräftesicherung nutzen (Süderelbe AG)
-**Stand:** 05.11.2026 · Version 4 (Workflow v2)
+**Stand:** 05.11.2026 · Version 5 (Workflow v3 in Arbeit, siehe `fallstudien/`)
 **Diese Datei ist maßgeblich.** Wenn eine andere Datei widerspricht, gilt `PROJEKT.md`.
 
 | Datei | Wofür |
@@ -56,21 +56,25 @@ Diese Punkte gelten für jede Entscheidung – Design, Prompts, Texte, Pitch.
 
 1. **Beschäftigte bekommen eine Stimme.** Die Leitung legt an, der Inhalt kommt von unten. Erst die Zusammenführung macht Probleme an Schnittstellen sichtbar.
 2. **Aufgabe vor Technik.** Wir fragen nach Tätigkeiten, Belastungen und Übergaben – nicht nach Wunschtechnologien. Während der Abfrage schlägt die KI keine Technik vor.
-3. **Vier Lösungsarten, gleichwertig.** Prozess/Absprache · Software/Automatisierung · KI-Assistenz · Robotik/Hardware. „Hier hilft keine Technik, sondern eine klare Absprache“ ist ein gültiges Ergebnis.
-4. **Ehrlich statt begeistert.** Jeder Vorschlag zeigt Reifegrad und Herkunft. Keine erfundenen Einsparungen, keine Erfolgsversprechen.
+3. **KI- und Robotik-Lösungen im Vordergrund, konkret für diesen Betrieb.** Jede Lösung wird als Ablauf im Betrieb beschrieben („Die Leitung spricht beim Kunden ein … die Werkstatt sieht …“), nicht als Technikbegriff. Lösungsarten: Software/Automatisierung · KI-Assistenz · Robotik/Hardware. Nötige Absprachen (z. B. „eine Person gibt Zeichnungen frei“) stehen als **Voraussetzung** in einer Zeile dabei. „Hier hilft keine Technik“ bleibt ein gültiges Ergebnis, wenn es zutrifft. Zu jeder Lösung gibt es einen kopierbaren **Bauplan-Prompt**, zugeschnitten aus den Daten der Befragung (geändert am 05.11.2026).
+4. **Ehrlich statt begeistert.** Jeder Vorschlag zeigt Reifegrad, Herkunft und einen ersten Testlauf. Einsparungen nur als gekennzeichnetes **Szenario** mit sichtbarer Annahme, die das Team per Regler ändert. Keine Amortisation, kein ROI, keine Erfolgsversprechen.
 5. **Der Mensch entscheidet.** Jede Person prüft ihre Aufgabenkarte. Zielwerte und Maßnahmen beschließt das Team.
 6. **Vertrauen durch Schutz.** Antworten sind anonym, Namen und Schuldzuweisungen werden entfernt, Ergebnisse erscheinen erst ab einer Mindestanzahl pro Gruppe. Die Leitung sieht keine Einzelantworten. Langfristig läuft die KI lokal.
 7. **Alle sehen dasselbe.** Gesamtbild, Profil und Fahrplan sehen alle Beteiligten – nicht nur die Leitung.
 8. **Mitmachen ohne Schreibtisch.** Handy statt PC, höchstens 10 Minuten, einfache Sprache; perspektivisch Sprachnachricht und mehrere Sprachen.
 9. **ROKI als Lotse.** Das Ergebnis ersetzt keine Beratung, sondern ist Grundlage für das Gespräch mit ROKI. Die App nennt keine Firmen oder Anbieter, die nicht aus geprüften ROKI-Quellen stammen.
 
-Sprache und Ton folgen [`ROKI_SPRACHE_UND_TONALITAET.md`](ROKI_SPRACHE_UND_TONALITAET.md): praxisnah, verständlich, realistisch, bodenständiges Deutsch, keine Werbesprache. Ansprache standardmäßig „Sie“; der Betrieb kann beim Anlegen „Du“ wählen.
+Sprache und Ton folgen [`ROKI_SPRACHE_UND_TONALITAET.md`](ROKI_SPRACHE_UND_TONALITAET.md): praxisnah, verständlich, realistisch, bodenständiges Deutsch, keine Werbesprache, keine Metaphern als Feldnamen. Die Leitung legt beim Anlegen „Sie“ oder „Du“ fest; alle Texte für die Beschäftigten folgen dieser Wahl.
+
+**So einfach wie möglich, so tief wie nötig.** Jede Ergebnisseite hat einen ersten Blick (in 30 Sekunden erfasst: Man fühlt sich gesehen) und einen zweiten Blick (Tiefe für alle, die mehr wissen wollen).
 
 **Sprache der App:** Deutsch ist Standard. Englisch folgt später über den vorhandenen Sprachumschalter. **Gestaltung:** vorerst nach dem ROKI-Design ([`DESIGN.md`](DESIGN.md)).
 
 ---
 
 ## 5. Ablauf in der App (Workflow v2)
+
+> **Abgelöst durch Workflow v3** (gebaut, siehe [`KONZEPT_V3.md`](KONZEPT_V3.md) und `TECHNIK.md` §2): Startseite mit zwei Einstiegen, Anlegen mit KI-Vorbereitung, Befragung mit Code, Analyse mit Übergabe-Karte, Lösungen mit Bauplan-Prompt. Die Tabelle unten beschreibt Workflow v2 und bleibt zur Nachvollziehbarkeit.
 
 Drei Momente statt vieler Schritte. Begründung und Durchlauf mit den Personas: [`KONZEPT_WORKFLOW.md`](KONZEPT_WORKFLOW.md).
 
@@ -100,9 +104,9 @@ Die Antworten der Leitung sind nie anonym. Kleine Bereiche werden schon **vor** 
 - € pro Jahr = Stunden pro Woche × interner Stundensatz × Arbeitswochen (Demo: 46). Stundensatz ist auf der Ergebnisseite verschiebbar.
 - Das sind die **Kosten des Problems**, keine Einsparungen und kein ROI (Abschnitt 9).
 
-### Stimmungswert statt Profildiagramm
+### Handlungsfeld-Profil (bottom-up)
 
-Das Profildiagramm mit sechs Dimensionen entfällt (entschieden am 05.11.2026). Stattdessen eine Frage „Wie sehr bremst dich das im Alltag?“ (1 = kaum bis 5 = sehr stark), als Durchschnitt je Bereich.
+Die Achsen sind die Handlungsfelder, die **aus den Antworten** entstehen – nicht vorgegeben von der Leitung. Der Wert je Achse ist der Durchschnitt des Reglers „Wie sehr bremst dich das?“ (1 = kaum bis 5 = sehr stark) über alle Stimmen in diesem Feld, gerechnet im Code. Dafür wird der Regler je Thema statt einmal je Beitrag abgefragt; es gibt keine zusätzlichen Fragen. Dazu kommt eine feste Frage in jedem Betrieb: „Meine Vorschläge kommen an, und es passiert etwas.“ (Mitsprache). Die Einschätzung der Leitung wird nicht abgefragt (entschieden 05.11.2026).
 
 ---
 
@@ -133,67 +137,66 @@ Das Profildiagramm mit sechs Dimensionen entfällt (entschieden am 05.11.2026). 
 - **„Was rechnet sich?“** Laut den Recherchen fehlen für die meisten Systeme unabhängige Kosten- und Wirtschaftlichkeitsdaten; Herstellerpreise sind nur Beispiele. Deshalb:
   - **Ja:** die Kosten des *Problems* in Stunden pro Woche, aus den Angaben der Beschäftigten. Auf Wunsch rechnet die Leitung mit einem eigenen Stundensatz in Euro um.
   - **Ja:** Aufwand grob einordnen und sagen, was zu prüfen ist.
-  - **Nein:** berechnete Einsparungen, Amortisationszeiten oder ROI für eine Lösung.
+  - **Ja, als Szenario:** „Wenn dieser Zeitverlust um X % sinkt: ≈ Y € im Jahr“. Die Annahme X steht sichtbar daneben und ist per Regler änderbar (entschieden 05.11.2026).
+  - **Getrennt ausweisen:** verlorene Zeit (Suchen, Klären, Nacharbeiten – wird abgebaut) und Routinezeit (z. B. Serienschweißen – wird an Maschine oder KI verlagert).
+  - **Nein:** Amortisationszeiten oder ROI für eine Lösung.
 
 ---
 
-## 10. Umfang im Hackathon
+## 10. Umfang im Hackathon (Workflow v3)
 
 | | Inhalt |
 |---|---|
-| **Muss (Live-Demo)** | Starten · Erzählen mit KI-Spiegelung, vorbelegten Reglern und Korrektur · Verstehen mit Problemfäden, Kosten in €, erstem Schritt und Präsentationsmodus – für Metallbau Heidekamp (Personas Marco und Sandra) |
-| **Simuliert** | Login und Einladungen (Links ohne Konto) · acht Beiträge als fiktive Testdaten (`daten/demo/heidekamp/`) |
-| **Kann (wenn Zeit bleibt)** | zweiter Demo-Betrieb · Sie-Anrede · Export als PDF · Puls nach 4–6 Wochen („Ist es besser geworden?“) |
-| **Nicht im Hackathon** | lokale KI · echte Nutzerverwaltung · Anbindung an die ROKI-Plattform · englische Texte (der Umschalter ist schon da, die Übersetzung folgt später) · Teilen mit ROKI |
+| **Muss (Live-Demo)** | Startseite mit zwei Einstiegen (Projekt anlegen · Zur Befragung mit Code) und „Aktuelle Analyse“ · Anlegen mit Eckdaten, Bereichen, Stundensatz-Spannen, Deadline, Website, Anrede · Befragung mit Code: kurze Einführung, Bereich, betriebsspezifische Aufgaben-Chips, eigene Geschichte (Text oder Sprache), Rückfragen aus der Geschichte, Regler · persönliche Rückmeldung · Analyse (live, nur Probleme) mit Übergabe-Karte · Lösungsseite mit Umschalter heute / mit Lösungen und Bauplan-Prompt je Lösung – für Metallbau Heidekamp |
+| **Muss (Qualität)** | **Freie Eingaben funktionieren.** Wer in der Demo etwas anderes erzählt als die vorbereiteten Stimmen, bekommt eine passende Rückfrage, eine passende Rückmeldung und landet im richtigen oder einem neuen Handlungsfeld. Kein Durchklicken vorbereiteter Antworten. |
+| **Simuliert** | Login (Code ohne Konto) · vorbereitete Beiträge aus der Fallstudie (alle außer dem Werkstattleiter) als fiktive Testdaten |
+| **Kann (wenn Zeit bleibt)** | Handlungsfeld-Profil · zweiter und dritter Demo-Betrieb (Pflege, Mensa) · Export als PDF · Nachbefragung nach 4–6 Wochen |
+| **Nicht im Hackathon** | lokale KI · Nutzerverwaltung · Mitbestimmungs- und Datenschutzprüfung (Hinweis im Pitch: datenschutzkonform mit lokaler KI) · Anbindung an die ROKI-Plattform · englische Texte · Teilen mit ROKI |
+
+**Regel für echte Betriebe (nicht für die Demo):** In kleinen Betrieben erscheint die Analyse erst ab 5 Beiträgen und aktualisiert sich in Schüben. Kleine Bereiche werden beim Anlegen zusammengelegt.
+
+**Was ROKIO verspricht und was nicht:** ROKIO macht Abläufe besser. Es ist kein Werkzeug zur Konfliktlösung. Die Zusage an die Beschäftigten ist die Ergebnisbesprechung zur Deadline, die beim Anlegen festgelegt wird. Jede Lösung sagt, wofür die frei werdende Zeit genutzt wird.
 
 **Fertig ist das Projekt, wenn:**
-- die Live-Demo vom Erzählen bis zum Beschluss ohne Eingriff durchläuft,
-- sie auch ohne Internet bzw. bei API-Ausfall mit gespeicherten Ergebnissen läuft (Demo-Modus, siehe [`TECHNIK.md`](TECHNIK.md)),
-- jeder Vorschlag Reifegrad und Herkunft zeigt,
+- die Live-Demo vom Anlegen bis zum Bauplan-Prompt ohne Eingriff durchläuft – auch mit spontan eingegebenem Text,
+- sie bei API-Ausfall mit gespeicherten Ergebnissen weiterläuft (Demo-Modus, siehe [`TECHNIK.md`](TECHNIK.md)),
+- jede Lösung Reife, Herkunft, „Was es braucht“ und den KI-Kniff zeigt,
 - der Pitch zweimal komplett geprobt ist.
 
 ---
 
-## 11. Plan für 48 Stunden
+## 11. Arbeitspakete (Workflow v3)
 
-Zeiten relativ zum Start (S). Personen tragen sich in die Arbeitspakete ein.
-
-| Zeit | Ziel | Prüfpunkt |
+| Paket | Inhalt | Prüfpunkt |
 |---|---|---|
-| S+0 bis S+4 | Arbeitspakete verteilen, Next.js-Gerüst (steht schon), API-Zugang, Supabase-Projekt anlegen, Datenformate aus `TECHNIK.md` festziehen | alle können lokal starten |
-| S+4 bis S+16 | Einzelabfrage mit Nachfragen und Aufgabenkarte; Wissensauszug; Testdaten Metallbau | eine Person kann die Abfrage komplett durchlaufen |
-| S+16 bis S+28 | Einordnung, Gesamtbild, Profildiagramm | Gesamtbild aus Testdaten erscheint |
-| S+28 bis S+36 | Fahrplan, Besprechungsvorlage, Gestaltung nach ROKI-Design | kompletter Durchlauf möglich |
-| S+36 bis S+40 | Demo-Modus mit gespeicherten Ergebnissen, Fehler beheben | **Funktionsstopp bei S+40** |
-| S+40 bis S+48 | Pitch fertigstellen, zwei Proben, Puffer | Abgabe |
-
-| Arbeitspaket | Inhalt | Wer |
-|---|---|---|
-| A – Oberfläche | Seiten, Handy-Ansicht, Profildiagramm, ROKI-Design | offen |
-| B – KI-Schritte | Prompts, Datenformate, Schnittstelle zum Modell, Demo-Modus | offen |
-| C – Wissen und Inhalte | Wissensauszug aus den Recherchen und der Branchen-Problemanalyse, Leitfragen, Testdaten | offen |
-| D – Pitch | Geschichte, Folien, Demo-Drehbuch, Proben | offen |
+| A – Startseite | Überzeugende Startseite für ROKIO, zwei Einstiege plus „Aktuelle Analyse“ | versteht man in 10 Sekunden |
+| B – Anlegen | Eckdaten, Bereiche mit Spannen, Deadline, Website, Anrede; KI erstellt Betriebsprofil, Chips, Rückfragen-Vorrat; Code und Link | Heidekamp in 2 Minuten angelegt |
+| C – Befragung | Code, Einführung, Bereich, Chips inkl. „Etwas anderes …“, Geschichte, Rückfragen, Regler, Rückmeldung | freier Text führt zu passender Rückfrage |
+| D – Analyse | Handlungsfelder mit festen IDs, Übergabe-Karte, Kernzahl, Sichtweisen | neue Stimme ändert die Analyse in wenigen Sekunden, Namen bleiben stabil |
+| E – Lösungen | KI-Lösungen je Feld (Ablauf, Was es braucht, KI-Kniff, Reife, Herkunft), Bauplan-Prompt, Umschalter auf der Karte | Lösungen liegen vorberechnet bereit |
+| F – Pitch | Drehbuch, Folien, zwei Proben | |
 
 ---
 
 ## 12. Pitch und Live-Demo
 
 **Aufbau des Pitches:**
-1. **Problem:** Betriebe wissen nicht, wo sie anfangen sollen – und die, die die Arbeit machen, werden selten gefragt.
-2. **Lösung:** Bestandsaufnahme von unten, mit KI zusammengeführt, mit ehrlichem Fahrplan.
+1. **Problem:** Betriebe suchen Fachkräfte – und verlieren gleichzeitig Zeit an Übergaben, die niemand allein sieht. Die, die die Arbeit machen, werden selten gefragt.
+2. **Lösung:** ROKIO hört allen zu, macht die Bruchstellen sichtbar und zeigt konkrete KI- und Robotik-Lösungen für genau diesen Betrieb – bis zum fertigen Bauplan.
 3. **Live-Demo** (unten).
-4. **Was uns unterscheidet:** viele Stimmen statt einer · Aufgabe vor Technik · ehrlich gekennzeichnete Vorschläge · alle sehen dasselbe Ergebnis.
+4. **Was uns unterscheidet:** viele Stimmen statt einer · systemische Ursachen statt Schuld · Lösungen als Ablauf im Betrieb, ehrlich gekennzeichnet · Bauplan-Prompt aus den eigenen Daten.
 5. **Warum ROKI:** schließt die Lücke zwischen Wissen und Beratung; Baustein für den geplanten KI-Assistenten.
-6. **Ausblick:** lokale KI, Anbindung an die ROKI-Wissensplattform, regionale Muster aus geteilten Ergebnissen.
+6. **Ausblick:** lokale KI (datenschutzkonform), Anbindung an die ROKI-Wissensplattform, regionale Muster aus geteilten Ergebnissen.
 
-**Drehbuch der Live-Demo (Metallbau Heidekamp, Personas aus [`ROwAI_Personas_Metallbau.md`](ROwAI_Personas_Metallbau.md)):**
-1. Sandra (Geschäftsführerin) hat in zwei Minuten gestartet: „Unsere Aufträge brauchen zu viel Abstimmung.“ Acht Beiträge liegen vor (Testdaten).
-2. **Live am Handy:** Marco (Werkstattleiter) tippt „Unklarer Zeichnungsstand“ an und spricht ein: „Heute hatten wir wieder zwei Zeichnungsstände.“ ROwAI spiegelt in einem Satz und hat „mehrmals pro Woche“ schon herausgehört. Er korrigiert seine Karte → *Der Mensch entscheidet.*
-3. **„Du bist nicht allein“:** Büro, Montage und Leitung beschreiben dieselbe Stelle – das Thema kostet den Betrieb einen fünfstelligen Betrag im Jahr.
-4. **Gemeinsames Bild:** Ein Faden, vier Sichtweisen, eine gemeinsame Aufgabe. Stundensatz verschieben, die Zahl folgt.
-5. **Erster Schritt:** ein kleiner Prüfauftrag statt einer Anschaffung – im Termin mit Rolle und Datum beschlossen. Präsentationsmodus für die Besprechung und das Gespräch mit ROKI.
+**Drehbuch der Live-Demo** (Metallbau Heidekamp, Fallstudie: [`fallstudien/01_metallbau_heidekamp.md`](fallstudien/01_metallbau_heidekamp.md)):
+1. **Anlegen:** Sandra legt Heidekamp an – Bereiche, Spannen, Deadline. ROKIO schlägt aus der Website betriebsspezifische Aufgaben vor. Die Beiträge der anderen liegen schon vor.
+2. **Live am Handy:** Marco gibt den Code ein, wählt „Zeichnung klären“ und erzählt frei. ROKIO fragt genau einmal sinnvoll nach und belegt die Regler vor.
+3. **„Du bist nicht allein“:** persönliche Rückmeldung – Leitung, Technik und Montage beschreiben dasselbe.
+4. **Analyse:** Kernzahl („über eine halbe Stelle pro Woche“), Übergabe-Karte mit den Bruchstellen.
+5. **Wow:** Umschalter „mit Lösungen“ – die Linien werden türkis, an jeder steht eine KI-Lösung. Ein Klick: Änderungs-Agent mit „Was es braucht“ und KI-Kniff.
+6. **Bauplan-Prompt:** kopieren, in einen KI-Assistenten einfügen, Lenas Frage stellen – die Antwort kommt mit Quelle.
 
-Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe – und das hat der Betrieb von seinen eigenen Leuten erfahren. Assistenztechnik und Robotik kommen dort ins Spiel, wo die Belastung körperlich ist oder sich Handgriffe ständig wiederholen.
+**Die Pointe:** Die Probleme kommen aus dem Team, die KI macht die Lösung greifbar – zugeschnitten auf genau diesen Betrieb, bis zum Bauplan. Robotik kommt dort ins Spiel, wo Arbeit körperlich ist oder sich ständig wiederholt.
 
 ---
 
@@ -217,20 +220,22 @@ Die Pointe: Der erste Schritt ist kein Roboter, sondern eine bessere Übergabe �
 **Entschieden:**
 - Web-App in Next.js
 - Die Leitung legt an, Inhalt kommt von unten
-- Vier gleichwertige Lösungsarten, nicht nur Robotik
+- Projektname **ROKIO** (05.11.2026)
+- KI- und Robotik-Lösungen im Vordergrund, Absprachen als Voraussetzung; Bauplan-Prompt für jede Lösung (05.11.2026)
+- Einsparungen nur als gekennzeichnetes Szenario mit änderbarer Annahme, kein ROI (05.11.2026)
+- Fallstudien als Grundlage für Workflow v3: Metallbau, Pflege, Mensa (05.11.2026)
 - Demo mit Cloud-KI und nur fiktiven Daten; Ziel ist lokale KI
 - Workflow v2: drei Momente (Starten, Erzählen, Verstehen), Formular und KI-Gespräch gemischt (05.11.2026)
-- Statt Profildiagramm ein Stimmungswert „Wie sehr bremst das?“
+- Handlungsfeld-Profil bottom-up: Achsen aus den Antworten, Werte aus dem Regler „Wie sehr bremst dich das?“ je Thema, plus Mitsprache-Frage; keine Einschätzung der Leitung (05.11.2026)
 - Kosten der Probleme in € pro Jahr über den internen Stundensatz der Leitung
 - KI: OpenAI (`lib/ki/model.ts`, Modell über `OPENAI_MODEL`)
 - Demo-Fall: Personas Marco und Sandra im Betrieb Metallbau Heidekamp
 - Supabase-Schema: `bestandsaufnahmen`, `beitraege`, `gesamtbilder`, `beschluesse`, nur Server-Zugriff (05.11.2026)
-- Ergebnis ist eine Vorlage für eine Unternehmensbesprechung
+- Ergebnis auf drei Seiten: persönliche Rückmeldung → Analyse (live, nur Probleme) → Lösungen; die Präsentation für die Besprechung kommt zuletzt
 - Fünf fiktive Demo-Betriebe, keine echten Firmennamen; Live-Demo mit Metallbau Heidekamp
 - Speicherung über die Demo hinaus: Supabase. Der Server-Client ist angebunden. Tabellen folgen, sobald das Schema festliegt.
 
 **Offen:**
-- [ ] Name des Projekts
 - [ ] Bewertungskriterien der Jury, Länge des Pitches, Abgabeformat
 - [ ] Teamgröße und Verteilung der Arbeitspakete
 - [ ] Mindestanzahl Antworten pro Gruppe (Demo: 3)

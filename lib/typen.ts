@@ -1,4 +1,4 @@
-// Datenformate für Workflow v2 (KONZEPT_WORKFLOW.md) als zod-Schemas.
+// Datenformate für ROKIO v3 (KONZEPT_V3.md) als zod-Schemas.
 // Jedes Schema prüft Daten zur Laufzeit (KI-Ausgaben, Formulareingaben, Demo-Daten)
 // und liefert über z.infer gleichzeitig den TypeScript-Typ.
 import { z } from "zod";
@@ -39,26 +39,41 @@ export type Haeufigkeit = z.infer<typeof Haeufigkeit>;
 /** Minuten pro Vorfall, Stufen des Schiebereglers. */
 export const minutenStufen = [5, 10, 15, 30, 45, 60, 90, 120, 180, 240] as const;
 
-// ---------- ① Starten (Leitung) ----------
+// ---------- ① Anlegen (Leitung) ----------
+/** Bereich mit grober Stundensatz-Spanne (Arbeitgeberkosten pro Stunde, keine Einzellöhne). */
+export const Bereich = z.object({
+  name: z.string().min(1).max(40),
+  satzVon: z.number().positive(),
+  satzBis: z.number().positive(),
+});
+export type Bereich = z.infer<typeof Bereich>;
+
+/** Was die KI beim Anlegen einmal vorbereitet; die Leitung kann es korrigieren. */
+export const Profil = z.object({
+  kurz: z.string(), // Kurzbeschreibung des Betriebs, 1–2 Sätze
+  extern: z.array(z.string()).max(4), // externe Beteiligte, z. B. Kunde, Gäste, Angehörige
+  chips: z.record(z.string(), z.array(z.string()).max(8)), // Aufgaben-Chips je Bereich
+  rueckfragen: z.record(z.string(), z.array(z.string()).max(6)), // Vorrat an Rückfragen je Bereich
+});
+export type Profil = z.infer<typeof Profil>;
+
 export const Bestandsaufnahme = z.object({
-  id: z.string(),
+  id: z.string(), // zugleich der Code, den die Beschäftigten eingeben
   betrieb: z.object({
     name: z.string(),
     branche: Branche,
     mitarbeitende: z.number().int().positive(),
     leistungen: z.string(),
+    website: z.string().nullable(),
     fiktiv: z.boolean(),
   }),
-  leitung: z.object({ vorname: z.string(), rolle: z.string() }),
   anrede: z.enum(["du", "sie"]),
-  frage: z.string().min(5), // „Was soll besser werden?“
-  ziel: z.string(), // „Was wäre in drei Monaten ein Erfolg?“
-  stundensatz: z.number().positive(), // € pro Stunde, intern, von der Leitung gesetzt
+  ziel: z.string().min(5), // ein Satz der Leitung: was besser werden soll
+  deadline: z.string(), // „wann und wo“ der Ergebnisbesprechung
+  bereiche: z.array(Bereich).min(1),
   arbeitswochen: z.number().int().positive(), // für die Umrechnung auf ein Jahr
-  bereiche: z.array(z.string()).min(1),
   mindestanzahl: z.number().int().positive(),
-  zeitfresser: z.array(z.string()), // Chips für die Beschäftigten, von der KI vorgeschlagen
-  besprechungAm: z.string().optional(),
+  profil: Profil.nullable(),
 });
 export type Bestandsaufnahme = z.infer<typeof Bestandsaufnahme>;
 
@@ -73,6 +88,9 @@ export const Punkt = z.object({
   minuten: z.number().int().nonnegative(), // eigene Zeit pro Vorfall
   beteiligt: z.array(z.string()), // Bereiche oder Rollen, nie Namen
   folge: z.string().optional(),
+  bremst: z.number().int().min(1).max(5), // „Wie sehr bremst dich das?“ 1 = kaum, 5 = sehr stark
+  von: z.string().nullable(), // Übergabe: von welchem Bereich/Externen kommt das Problem (null = eigener Bereich)
+  an: z.string().nullable(), // an welchen Bereich geht es weiter (null = eigener Bereich)
 });
 export type Punkt = z.infer<typeof Punkt>;
 
@@ -83,7 +101,7 @@ export const Beitrag = z.object({
   istLeitung: z.boolean(),
   rolleZeigen: z.boolean(), // Zustimmung, mit Bereich genannt zu werden, auch wenn die Gruppe klein ist
   punkte: z.array(Punkt).min(1).max(3),
-  bremst: z.number().int().min(1).max(5), // 1 = kaum, 5 = sehr stark
+  mitsprache: z.number().int().min(1).max(5).nullable(), // „Meine Vorschläge kommen an, und es passiert etwas.“
   gutLaeuft: z.string().optional(),
   fiktiv: z.boolean(),
 });
@@ -98,49 +116,68 @@ export const Verstaendnis = z.object({
   minuten: z.number().int().nonnegative().nullable(),
   beteiligt: z.array(z.string()),
   folge: z.string().nullable(),
+  von: z.string().nullable(), // Vorschlag für die Übergabe (Bereich oder Externe), Person kann korrigieren
+  an: z.string().nullable(),
   rueckfrage: z
     .object({ frage: z.string(), chips: z.array(z.string()).max(4) })
     .nullable(),
 });
 export type Verstaendnis = z.infer<typeof Verstaendnis>;
 
-// ---------- ③ Verstehen (alle) ----------
-export const Ansatz = z.object({
-  art: Loesungsart,
-  text: z.string(),
-  warum: z.string(),
-  wasFehlt: z.string(), // was für eine Bewertung noch geklärt werden muss
-  herkunft: Herkunft,
-  wissenId: z.string().nullable(),
-});
-export type Ansatz = z.infer<typeof Ansatz>;
-
+// ---------- ③ Analyse (alle) ----------
 export const Faden = z.object({
-  id: z.string(),
+  id: z.string(), // bleibt stabil, solange die Bestandsaufnahme läuft
+  kurzname: z.string(), // 1–3 Wörter für Übergabe-Karte und Profil, z. B. „Zeichnungsstand“
   aufgabe: z.string(), // gemeinsame Aufgabe, positiv formuliert
   problem: z.string(), // was passiert, wo, mit welchen Folgen
   punktIds: z.array(z.string()).min(1), // welche Punkte dazugehören – Stunden rechnet der Code
   sichtweisen: z.array(z.object({ bereich: z.string(), aussage: z.string() })).min(1),
   unterschied: z.string().nullable(), // wo die Sichtweisen auseinandergehen
-  ansaetze: z.array(Ansatz).min(1),
-  ersterSchritt: z.string(),
 });
 export type Faden = z.infer<typeof Faden>;
 
 export const Gesamtbild = z.object({
-  faeden: z.array(Faden).min(1).max(4),
+  // Erste Zusammenführung bildet 2–4 Fäden; neue Themen kommen später als eigene Fäden dazu.
+  faeden: z.array(Faden).min(1).max(6),
   staerken: z.array(z.string()),
-  offeneFragen: z.array(z.string()),
 });
 export type Gesamtbild = z.infer<typeof Gesamtbild>;
 
-export const Beschluss = z.object({
-  fadenId: z.string(),
-  aufgabe: z.string(), // Kopie: Faden-IDs können sich beim Neu-Zusammenführen ändern
-  verantwortlich: z.string(),
-  bis: z.string(),
+// ---------- ④ Lösungen ----------
+export const Loesung = z.object({
+  name: z.string(), // z. B. „Änderungs-Agent“
+  satz: z.string(), // ein Satz, was sich ändert
+  schritte: z.array(z.string()).length(3), // So läuft es – konkret in diesem Betrieb
+  braucht: z.array(z.string()).min(1).max(5), // Daten, Geräte, Absprachen
+  kniff: z.string(), // Der KI-Kniff
+  zeitFrei: z.string(), // Wofür die Zeit frei wird
+  art: Loesungsart,
+  reife: Reifegrad,
+  herkunft: Herkunft,
+  wissenId: z.string().nullable(),
+  testlauf: z.string(),
+  bauplanPrompt: z.string(),
 });
-export type Beschluss = z.infer<typeof Beschluss>;
+export type Loesung = z.infer<typeof Loesung>;
+
+/** Lösung je Faden; der Fingerabdruck zeigt, für welchen Stand des Fadens sie berechnet wurde. */
+export const LoesungEintrag = z.object({ fingerabdruck: z.string(), loesung: Loesung });
+export type LoesungEintrag = z.infer<typeof LoesungEintrag>;
+
+// ---------- Lösungsmuster (wissen/loesungsmuster.json) ----------
+/** Bewährtes Muster aus den Fallstudien; die KI passt es an den Betrieb an, statt frei zu erfinden. */
+export const LoesungsMuster = z.object({
+  id: z.string(),
+  name: z.string(),
+  passtZu: z.array(z.string()),
+  art: Loesungsart,
+  reife: Reifegrad,
+  wissenId: z.string().nullable(), // nur dann „von ROKI geprüft“
+  kern: z.string(),
+  kniff: z.string(),
+  braucht: z.array(z.string()),
+});
+export type LoesungsMuster = z.infer<typeof LoesungsMuster>;
 
 // ---------- Wissensauszug ----------
 export const WissensEintrag = z.object({

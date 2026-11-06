@@ -3,22 +3,45 @@
     "id": "cobot-01",
     "loesung": "Kollaborativer Roboter (Cobot)",
     "art": "robotikHardware",
-    "branchen": ["produktionHandwerk", "logistik"],
-    "typischeAufgaben": ["Schweißen", "Maschinenbeschickung", "Montage", "Pick-and-Place"],
+    "branchen": [
+      "produktionHandwerk",
+      "logistik"
+    ],
+    "typischeAufgaben": [
+      "Schweißen",
+      "Maschinenbeschickung",
+      "Montage",
+      "Pick-and-Place"
+    ],
     "reifegrad": "imEinsatz",
     "grenzen": [
       "Hardwarepreis ist nur ein Teil der Gesamtkosten; Programmierung und Integration können einen großen Teil ausmachen",
       "'Kollaborativ' heißt nicht automatisch ohne Schutzeinrichtung – die konkrete Anwendung braucht eine Risikobeurteilung",
       "Wirtschaftlichkeit hängt stärker von Gesamtprozess und Integration ab als vom Arm allein"
     ],
-    "quelle": { "datei": "ROKI_Recherche_Robotertypen_geprueft.md", "abschnitt": "2 Kurzfazit; 3.3; 4 Sektormatrix" }
+    "quelle": {
+      "datei": "ROKI_Recherche_Robotertypen_geprueft.md",
+      "abschnitt": "2 Kurzfazit; 3.3; 4 Sektormatrix"
+    }
   },
   {
     "id": "exoskelett-01",
     "loesung": "Exoskelette und körpergetragene Assistenzsysteme",
     "art": "robotikHardware",
-    "branchen": ["produktionHandwerk", "logistik", "gesundheitPflege", "facilityManagement"],
-    "typischeAufgaben": ["Überkopfarbeiten", "Heben und Tragen", "Montage", "Logistik", "Pflege", "Bau- und Handwerksarbeiten"],
+    "branchen": [
+      "produktionHandwerk",
+      "logistik",
+      "gesundheitPflege",
+      "facilityManagement"
+    ],
+    "typischeAufgaben": [
+      "Überkopfarbeiten",
+      "Heben und Tragen",
+      "Montage",
+      "Logistik",
+      "Pflege",
+      "Bau- und Handwerksarbeiten"
+    ],
     "reifegrad": "imEinsatz",
     "grenzen": [
       "Individuelle Passform und Auswahl nach konkreter Tätigkeit nötig",
@@ -26,20 +49,83 @@
       "Akzeptanz und Tragekomfort entscheiden mit; der Nutzen muss tätigkeitsspezifisch geprüft werden",
       "Keine belastbare neutrale Preisstatistik gefunden"
     ],
-    "quelle": { "datei": "ROKI_Recherche_Robotertypen_geprueft.md", "abschnitt": "3.13" }
+    "quelle": {
+      "datei": "ROKI_Recherche_Robotertypen_geprueft.md",
+      "abschnitt": "3.13"
+    }
   },
   {
     "id": "reinigung-01",
     "loesung": "Professioneller Reinigungsroboter",
     "art": "robotikHardware",
-    "branchen": ["facilityManagement", "gesundheitPflege", "gastronomie", "logistik"],
-    "typischeAufgaben": ["Bodenreinigung großer Flächen", "Scheuersaugen"],
+    "branchen": [
+      "facilityManagement",
+      "gesundheitPflege",
+      "gastronomie",
+      "logistik"
+    ],
+    "typischeAufgaben": [
+      "Bodenreinigung großer Flächen",
+      "Scheuersaugen"
+    ],
     "reifegrad": "imEinsatz",
     "grenzen": [
       "Gut bei größeren, regelmäßig zu reinigenden Flächen; weniger bei kleinen, verwinkelten oder oft umgestellten Flächen",
       "Braucht geeignete Boden- und Türsituationen sowie Lade- und Servicepunkte",
       "Schwer zugängliche Bereiche müssen weiter von Hand gereinigt werden"
     ],
-    "quelle": { "datei": "ROKI_Recherche_Robotertypen_geprueft.md", "abschnitt": "2 Kurzfazit; 3.7" }
+    "quelle": {
+      "datei": "ROKI_Recherche_Robotertypen_geprueft.md",
+      "abschnitt": "2 Kurzfazit; 3.7"
+    }
+  },
+  {
+    "id": "transport-01",
+    "loesung": "Transportroboter für Wäsche, Essen und Material",
+    "art": "robotikHardware",
+    "branchen": [
+      "gesundheitPflege",
+      "logistik",
+      "gastronomie"
+    ],
+    "typischeAufgaben": [
+      "Wäschetransport",
+      "Material- und Essenstransport",
+      "wiederkehrende Wege zwischen festen Punkten"
+    ],
+    "reifegrad": "imEinsatz",
+    "grenzen": [
+      "Aufzüge, Türen, Übergabepunkte und Hygiene entscheiden über den Nutzen",
+      "Störungen und Priorisierung müssen geregelt sein",
+      "Herstellerangaben zu eingesparter Zeit sind keine unabhängigen Wirksamkeitsnachweise",
+      "Vor dem Pilot Wege messen und tatsächlich eingesparte Personalzeit erfassen"
+    ],
+    "quelle": {
+      "datei": "ROKI_Recherche_Roboter_in_der_Pflege_2026-08-18_geprueft.md",
+      "abschnitt": "2 Kurzfazit; 3.3"
+    }
+  },
+  {
+    "id": "service-01",
+    "loesung": "Service- und Transportroboter in Gastronomie und Speisesaal",
+    "art": "robotikHardware",
+    "branchen": [
+      "gastronomie"
+    ],
+    "typischeAufgaben": [
+      "Speisen- und Getränketransport",
+      "Abräumen",
+      "Tablettwagen sammeln"
+    ],
+    "reifegrad": "imEinsatz",
+    "grenzen": [
+      "Braucht breite, ebene Wege und verlässliche Navigation",
+      "Klare Übergabe an Personal oder Gäste, Hygiene- und Reinigungsprozesse",
+      "Nutzen stark prozessabhängig; keine belastbaren herstellerunabhängigen Preise"
+    ],
+    "quelle": {
+      "datei": "ROKI_Recherche_Robotertypen_geprueft.md",
+      "abschnitt": "3.8"
+    }
   }
 ]

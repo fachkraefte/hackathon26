@@ -1,87 +1,139 @@
 "use server";
 
 // Server Actions: öffentliche Endpunkte, deshalb wird jede Eingabe mit zod geprüft.
+import { after } from "next/server";
 import { z } from "zod";
 import { bereichsLabel } from "./anonym";
 import { nimmBeitragAuf } from "./gesamtbild";
-import { schlageZeitfresserVor, versteheGeschichte } from "./ki/schritte";
-import { euroProJahr, fadenZahlen, stundenProWoche } from "./rechnen";
-import {
-  aktualisiereBestandsaufnahme,
-  demoZuruecksetzen,
-  holeBestandsaufnahme,
-  speichereBeitrag,
-  speichereBeschluss,
-} from "./speicher";
-import { Beitrag, Beschluss, Punkt } from "./typen";
+import { bereiteVor, versteheGeschichte } from "./ki/schritte";
+import { ergaenzeLoesungen } from "./loesungen";
+import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
+import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, speichereBeitrag } from "./speicher";
+import { Beitrag, Bereich, Branche, Profil, Punkt, type Bestandsaufnahme } from "./typen";
+import { leseWebsite } from "./website";
 
-async function bestandsaufnahmeOderFehler(id: string) {
-  const b = await holeBestandsaufnahme(id);
-  if (!b) throw new Error(`Bestandsaufnahme ${id} gibt es nicht.`);
+async function bestandsaufnahmeOderFehler(code: string) {
+  const b = await holeBestandsaufnahme(code.trim().toUpperCase());
+  if (!b) throw new Error(`Code ${code} gibt es nicht.`);
   return b;
 }
 
-// ---------- ① Starten ----------
-const StartEingabe = z.object({
-  id: z.string(),
-  frage: z.string().trim().min(10).max(800),
-  ziel: z.string().trim().max(400),
-  stundensatz: z.number().min(10).max(200),
-  bereiche: z.array(z.string().trim().min(1).max(40)).min(1).max(10),
-  anrede: z.enum(["du", "sie"]),
-});
-
-export async function starteBestandsaufnahme(eingabe: z.input<typeof StartEingabe>) {
-  const daten = StartEingabe.parse(eingabe);
-  const alt = await bestandsaufnahmeOderFehler(daten.id);
-  const neu = { ...alt, ...daten };
-  const vorschlag = await schlageZeitfresserVor(neu);
-  await aktualisiereBestandsaufnahme({ ...neu, zeitfresser: vorschlag.daten });
-  return { zeitfresser: vorschlag.daten, ausDemo: vorschlag.ausDemo };
+// Code: 6 Zeichen ohne Verwechslungsgefahr (kein 0/O, 1/I/L).
+const ZEICHEN = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+async function neuerCode() {
+  for (let versuch = 0; versuch < 10; versuch++) {
+    const code = Array.from(crypto.getRandomValues(new Uint8Array(6)), (x) => ZEICHEN[x % ZEICHEN.length]).join("");
+    if (!(await holeBestandsaufnahme(code))) return code;
+  }
+  throw new Error("Kein freier Code gefunden.");
 }
 
-// ---------- ② Erzählen ----------
+// ---------- Zugang ----------
+/** Prüft einen Code und gibt die Schreibweise zurück, unter der er gespeichert ist. */
+export async function pruefeCode(code: string) {
+  const sauber = z.string().trim().min(4).max(12).parse(code).toUpperCase();
+  return (await holeBestandsaufnahme(sauber)) ? sauber : null;
+}
+
+// ---------- ① Anlegen ----------
+const AnlegenEingabe = z.object({
+  name: z.string().trim().min(2).max(80),
+  branche: Branche,
+  mitarbeitende: z.number().int().min(2).max(500),
+  website: z.string().trim().max(200).nullable(),
+  leistungen: z.string().trim().min(5).max(400),
+  ziel: z.string().trim().min(5).max(300),
+  anrede: z.enum(["du", "sie"]),
+  deadline: z.string().trim().min(3).max(120),
+  bereiche: z.array(Bereich).min(1).max(10),
+});
+
+export async function legeAn(eingabe: z.input<typeof AnlegenEingabe>) {
+  const d = AnlegenEingabe.parse(eingabe);
+  const b: Bestandsaufnahme = {
+    id: await neuerCode(),
+    betrieb: {
+      name: d.name,
+      branche: d.branche,
+      mitarbeitende: d.mitarbeitende,
+      leistungen: d.leistungen,
+      website: d.website || null,
+      fiktiv: false,
+    },
+    anrede: d.anrede,
+    ziel: d.ziel,
+    deadline: d.deadline,
+    bereiche: d.bereiche.map((x) => ({ ...x, satzBis: Math.max(x.satzVon, x.satzBis) })),
+    arbeitswochen: 46,
+    mindestanzahl: 3,
+    profil: null,
+  };
+  const websiteText = await leseWebsite(b.betrieb.website);
+  const vorbereitung = await bereiteVor(b, websiteText);
+  await aktualisiereBestandsaufnahme({ ...b, profil: vorbereitung.daten });
+  return { code: b.id, profil: vorbereitung.daten, websiteGelesen: websiteText !== null, ausDemo: vorbereitung.ausDemo };
+}
+
+/** Die Leitung korrigiert die vorbereiteten Chips. */
+export async function speichereProfil(code: string, profil: z.input<typeof Profil>) {
+  const b = await bestandsaufnahmeOderFehler(code);
+  await aktualisiereBestandsaufnahme({ ...b, profil: Profil.parse(profil) });
+}
+
+// ---------- ② Befragung ----------
 const VerstehenEingabe = z.object({
-  id: z.string(),
+  code: z.string(),
   bereich: z.string().max(40),
-  zeitfresser: z.string().max(80),
+  aufgabe: z.string().max(80),
   geschichte: z.string().trim().min(3).max(2000),
   rueckfrageErlaubt: z.boolean(),
 });
 
 export async function verstehe(eingabe: z.input<typeof VerstehenEingabe>) {
   const daten = VerstehenEingabe.parse(eingabe);
-  const b = await bestandsaufnahmeOderFehler(daten.id);
+  const b = await bestandsaufnahmeOderFehler(daten.code);
   return versteheGeschichte(b, daten);
 }
 
-const BeitragEingabe = Beitrag.omit({ id: true, fiktiv: true }).extend({
-  punkte: z.array(Punkt).min(1).max(3),
+const BeitragEingabe = z.object({
+  code: z.string(),
+  bereich: z.string().max(40),
+  punkte: z.array(Punkt.omit({ id: true })).min(1).max(3),
+  mitsprache: z.number().int().min(1).max(5).nullable(),
+  gutLaeuft: z.string().trim().max(300).optional(),
 });
 
 export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
   const daten = BeitragEingabe.parse(eingabe);
-  const b = await bestandsaufnahmeOderFehler(daten.bestandsaufnahmeId);
+  const b = await bestandsaufnahmeOderFehler(daten.code);
   const id = `live-${crypto.randomUUID().slice(0, 8)}`;
-  const beitrag: Beitrag = {
-    ...daten,
+  const beitrag: Beitrag = Beitrag.parse({
     id,
-    fiktiv: false,
+    bestandsaufnahmeId: b.id,
+    bereich: daten.bereich,
+    istLeitung: daten.bereich === "Leitung",
+    rolleZeigen: false,
     punkte: daten.punkte.map((p, i) => ({ ...p, id: `${id}-${i + 1}` })),
-  };
+    mitsprache: daten.mitsprache,
+    gutLaeuft: daten.gutLaeuft || undefined,
+    fiktiv: false,
+  });
   await speichereBeitrag(beitrag);
 
-  const ergebnis = await nimmBeitragAuf(b.id, beitrag);
+  const ergebnis = await nimmBeitragAuf(b.id);
   if (!ergebnis) throw new Error("Gesamtbild nicht verfügbar.");
+  // Lösungen für neue Handlungsfelder nach der Antwort im Hintergrund vorbereiten.
+  after(() => ergaenzeLoesungen(b.id).then(() => undefined, (e: unknown) => console.error("Lösungen im Hintergrund:", e)));
   const meineIds = new Set(beitrag.punkte.map((p) => p.id));
   const meinLabel = bereichsLabel(beitrag, ergebnis.beitraege, b);
   const meineStunden = beitrag.punkte.reduce((s, p) => s + stundenProWoche(p), 0);
 
   const faeden = ergebnis.bild.faeden
-    .filter((f) => f.punktIds.some((id) => meineIds.has(id)))
+    .filter((f) => f.punktIds.some((pid) => meineIds.has(pid)))
     .map((f) => {
       const zahlen = fadenZahlen(f, ergebnis.beitraege, ergebnis.bestandsaufnahme);
       return {
+        kurzname: f.kurzname,
         aufgabe: f.aufgabe,
         andere: Math.max(zahlen.personen - 1, 0),
         bereiche: [...new Set(f.sichtweisen.map((s) => s.bereich).filter((x) => x !== meinLabel))],
@@ -92,15 +144,18 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
   return {
     faeden,
     meineStundenWoche: meineStunden,
-    meineEuroJahr: euroProJahr(meineStunden, b),
+    meineEuroJahr: euroProJahr(meineStunden, satzFuer(b, beitrag.bereich), b),
+    teilgenommen: ergebnis.beitraege.length,
+    mitarbeitende: b.betrieb.mitarbeitende,
+    erste: ergebnis.beitraege.length === 1,
     ausDemo: ergebnis.ausDemo,
   };
 }
 
-// ---------- ③ Verstehen ----------
-export async function beschliesse(id: string, eingabe: z.input<typeof Beschluss>) {
-  await bestandsaufnahmeOderFehler(id);
-  await speichereBeschluss(id, Beschluss.parse(eingabe));
+/** Für die Rückmeldung „x von y haben teilgenommen“, ohne Inhalte preiszugeben. */
+export async function teilnahme(code: string) {
+  const b = await bestandsaufnahmeOderFehler(code);
+  return { teilgenommen: (await holeBeitraege(b.id)).length, mitarbeitende: b.betrieb.mitarbeitende };
 }
 
 export async function setzeDemoZurueck() {

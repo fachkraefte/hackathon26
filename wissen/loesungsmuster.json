@@ -1,0 +1,345 @@
+[
+  {
+    "id": "aenderungs-agent",
+    "name": "Änderungs-Agent",
+    "passtZu": [
+      "Zeichnungsstand",
+      "Änderungen",
+      "Versionen",
+      "Freigaben",
+      "Aufmaß",
+      "Planänderungen"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Änderungen werden einmal eingesprochen oder als Mail weitergeleitet; die KI ordnet sie Auftrag und Position zu, eine Person gibt frei, alte Stände werden überall als ungültig markiert (z. B. per QR-Code auf Ausdrucken).",
+    "kniff": "Aus einem beiläufigen Satz am Telefon wird ein eindeutiger Änderungsauftrag mit alten und neuen Werten.",
+    "braucht": [
+      "gemeinsamer Ablageort für Unterlagen",
+      "eine Person, die freigibt",
+      "Bildschirm oder Tablet am Arbeitsplatz"
+    ]
+  },
+  {
+    "id": "lager-gedaechtnis",
+    "name": "Lager mit Gedächtnis",
+    "passtZu": [
+      "Material",
+      "Lager",
+      "Bestand",
+      "Packen",
+      "fehlende Teile",
+      "Bestellung"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Entnahmen per Sprache oder Foto buchen; die KI kennt die anstehenden Aufträge, meldet Engpässe vorab, schlägt Bestellungen vor und prüft per Foto, ob alles eingeladen ist.",
+    "kniff": "Niemand füllt Formulare aus; die KI versteht gesprochene Arbeitssprache und leitet aus Aufträgen ab, was gebraucht wird.",
+    "braucht": [
+      "Stücklisten oder Auftragslisten als Datei",
+      "Handy oder Tablet am Lager",
+      "feste Lagerplätze",
+      "Startinventur einer Materialgruppe"
+    ]
+  },
+  {
+    "id": "auftrags-assistent",
+    "name": "Auftrags-Assistent",
+    "passtZu": [
+      "Auftragsstatus",
+      "Kundenanrufe",
+      "Termine",
+      "Stundenzettel",
+      "Rechnung",
+      "Rückmeldung"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Ein Sprachassistent beantwortet Statusfragen aus dem Einsatzplan; Teams sprechen Berichte und Stunden ein, daraus entstehen Nachweis und Rechnungsentwurf am selben Tag.",
+    "kniff": "Routinefragen und Neues werden getrennt; nur Neues landet beim Menschen.",
+    "braucht": [
+      "digitaler Einsatzplan (gemeinsamer Kalender reicht)",
+      "Weiterleitung der Telefonnummer",
+      "Vorlage für Berichte"
+    ]
+  },
+  {
+    "id": "wissens-assistent",
+    "name": "Wissens-Assistent",
+    "passtZu": [
+      "Wissensweitergabe",
+      "Einarbeitung",
+      "Azubis",
+      "Erfahrungswissen",
+      "Nachfragen"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Erfahrene erklären beim Arbeiten in kurzen Sprach- oder Videonotizen; die KI macht daraus geprüfte Schritt-für-Schritt-Karten; Neue fragen per Sprache und bekommen Antworten nur aus freigegebenen Karten, mit Quelle.",
+    "kniff": "Aus fünf Minuten Erzählen wird eine saubere Arbeitskarte, ohne dass jemand ein Handbuch schreibt.",
+    "braucht": [
+      "Handy mit Halterung",
+      "feste Zeit für die Erfahrenen",
+      "KI-Assistent mit Projektablage"
+    ]
+  },
+  {
+    "id": "schweiss-cobot",
+    "name": "Schweiß-Cobot ohne Programmierung",
+    "passtZu": [
+      "Serienteile",
+      "Schweißen",
+      "gleichförmige Arbeit",
+      "Routine in der Werkstatt"
+    ],
+    "art": "robotikHardware",
+    "reife": "imEinsatz",
+    "wissenId": "cobot-01",
+    "kern": "Serienteile werden in eine Vorrichtung gelegt; ein Sensor erkennt die Naht und plant die Roboterbahn; die Fachkraft arbeitet parallel an Sonderanfertigungen.",
+    "kniff": "Die Nahterkennung plant die Bahn selbst – damit lohnt sich der Cobot auch für kleine Stückzahlen.",
+    "braucht": [
+      "Vorrichtung für Serienteile",
+      "gleichbleibende Bauteiltoleranzen",
+      "Risikobeurteilung",
+      "Miet- oder Testtag"
+    ]
+  },
+  {
+    "id": "exoskelett",
+    "name": "Exoskelette für schwere Handgriffe",
+    "passtZu": [
+      "Tragen",
+      "Heben",
+      "Überkopfarbeit",
+      "Transfers",
+      "körperliche Belastung",
+      "Rücken"
+    ],
+    "art": "robotikHardware",
+    "reife": "imEinsatz",
+    "wissenId": "exoskelett-01",
+    "kern": "Für einzelne belastende Tätigkeiten werden Exoskelette freiwillig und nach Anprobe getestet; dazu Hebehilfen, wo sie passen.",
+    "kniff": "Kein KI-Kniff – die Entlastung ist körperlich; ROKIO zeigt, bei welchen Tätigkeiten die Stimmen die Belastung nennen.",
+    "braucht": [
+      "Auswahl nach Tätigkeit und Körpermaß",
+      "Gefährdungsbeurteilung",
+      "Schulung",
+      "Testphase im Team"
+    ]
+  },
+  {
+    "id": "uebergabe-assistent",
+    "name": "Übergabe-Assistent, mehrsprachig",
+    "passtZu": [
+      "Schichtübergabe",
+      "Übergabe",
+      "Sprache",
+      "Abkürzungen",
+      "Informationsverlust zwischen Schichten"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Die abgebende Schicht spricht Beobachtungen ein; die KI ordnet sie nach festen Punkten, fragt nach Offenem und stellt die Übergabe in der Sprache jeder Person bereit – Abkürzungen ausgeschrieben.",
+    "kniff": "Die KI übersetzt nicht nur Sprachen, sondern Fachkürzel in Klartext und Beiläufiges in Struktur.",
+    "braucht": [
+      "Diensthandy je Bereich",
+      "feste Übergabestruktur",
+      "lokal betriebene KI bei sensiblen Daten",
+      "Regel, wer bestätigt"
+    ]
+  },
+  {
+    "id": "sprechen-statt-schreiben",
+    "name": "Sprechen statt Schreiben",
+    "passtZu": [
+      "Dokumentation",
+      "Doppelt erfassen",
+      "Berichte",
+      "Papier und Software",
+      "Nachweise"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Wer etwas beobachtet oder erledigt, spricht es ein; die KI macht daraus einen Eintrag im richtigen Format; die verantwortliche Person prüft und zeichnet ab.",
+    "kniff": "Die Beobachtung kommt in den Worten derer an, die sie gemacht haben – niemand schreibt ab.",
+    "braucht": [
+      "digitale Dokumentation",
+      "Zugänge mit passender Rolle",
+      "Regel, wer abzeichnet",
+      "lokal betriebene KI bei sensiblen Daten"
+    ]
+  },
+  {
+    "id": "transport-mit-bedarfsmeldung",
+    "name": "Transportroboter mit Bedarfsmeldung",
+    "passtZu": [
+      "Wege",
+      "Wäsche",
+      "Material holen",
+      "Transporte",
+      "Laufwege"
+    ],
+    "art": "robotikHardware",
+    "reife": "imEinsatz",
+    "wissenId": "transport-01",
+    "kern": "Bedarf wird per Sprache oder Foto gemeldet; die KI bündelt Meldungen und plant Touren; ein Transportroboter fährt wiederkehrende Wege zwischen festen Punkten.",
+    "kniff": "Der Trick ist das Bedarfssignal: Die liefernde Stelle weiß vorher, was gebraucht wird; der Roboter erledigt die Wege, die bleiben.",
+    "braucht": [
+      "Aufzüge und Türen, die der Roboter nutzen kann",
+      "feste Übergabepunkte",
+      "Hygieneplan",
+      "Messung der heutigen Wege"
+    ]
+  },
+  {
+    "id": "einspring-assistent",
+    "name": "Einspring-Assistent",
+    "passtZu": [
+      "Dienstplan",
+      "Ausfall",
+      "Einspringen",
+      "Schichtplanung",
+      "Krankmeldung"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Alle hinterlegen Wünsche; bei Ausfall schlägt die KI passende Personen nach Wunsch, Ruhezeit und Qualifikation vor und fragt sie nacheinander per Nachricht an.",
+    "kniff": "Die Wünsche der Beschäftigten werden Teil der Planung statt ihr Störfaktor.",
+    "braucht": [
+      "digitale Dienstplanung",
+      "Regeln für Ruhezeiten und Qualifikation",
+      "Zustimmung des Teams zu den Spielregeln"
+    ]
+  },
+  {
+    "id": "angehoerigen-bruecke",
+    "name": "Angehörigen- und Kunden-Brücke",
+    "passtZu": [
+      "Angehörige",
+      "Kundenfragen",
+      "Anrufe unterbrechen",
+      "Rückfragen von außen"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Regelmäßige kurze Berichte entstehen aus vorhandenen Notizen und werden von der zuständigen Person freigegeben; ein Telefonassistent beantwortet Routinefragen und vereinbart Rückrufe.",
+    "kniff": "Aus nüchternen Notizen wird ein verständlicher, persönlicher Bericht – Anrufe werden seltener.",
+    "braucht": [
+      "Einwilligungen",
+      "Freigaberegel",
+      "feste Rückrufzeiten"
+    ]
+  },
+  {
+    "id": "mengen-prognose",
+    "name": "Mengen-Prognose mit Nachkoch-Signal",
+    "passtZu": [
+      "Mengenplanung",
+      "Abfall",
+      "zu viel oder zu wenig",
+      "Ausverkauft",
+      "Prognose"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Die KI schätzt Mengen aus Verkaufsdaten, Kalender, Wetter und Ereignissen; produziert wird in Wellen, und während des Betriebs meldet sie, wann nachproduziert werden soll.",
+    "kniff": "Die KI verbindet Signale, die heute niemand gleichzeitig im Blick hat.",
+    "braucht": [
+      "Verkaufs- oder Kassendaten als Export",
+      "Kalender mit Ereignissen",
+      "Bildschirm in der Küche",
+      "Absprache, ab wann nachproduziert wird"
+    ]
+  },
+  {
+    "id": "rezeptur-waechter",
+    "name": "Rezeptur-Wächter",
+    "passtZu": [
+      "Allergene",
+      "Zutaten",
+      "Produkttausch",
+      "Kennzeichnung",
+      "Speiseplan"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Beim Wareneingang wird das Etikett eines Ersatzprodukts fotografiert; die KI vergleicht Zutaten mit der Rezeptur, markiert betroffene Gerichte und aktualisiert Aushang und App nach Bestätigung.",
+    "kniff": "Die KI liest Etiketten und versteht Zutatenlisten – eine Pflicht wird zum Ablauf, der von selbst Alarm schlägt.",
+    "braucht": [
+      "Rezepturen digital",
+      "Handy am Wareneingang",
+      "eine Person, die bestätigt"
+    ]
+  },
+  {
+    "id": "schicht-briefing",
+    "name": "Schicht-Briefing in jeder Sprache",
+    "passtZu": [
+      "Einarbeitung",
+      "Aushilfen",
+      "wechselnde Teams",
+      "Sprache",
+      "jeden Tag dasselbe erklären"
+    ],
+    "art": "kiAssistenz",
+    "reife": "pilot",
+    "wissenId": null,
+    "kern": "Jeden Tag erzeugt die KI aus Plan und Unterlagen ein Briefing von drei Minuten mit Fotos – in der Sprache jeder Person; Neue bekommen zusätzlich einen Rundgang als Bildfolge.",
+    "kniff": "Das Briefing schreibt sich jeden Tag selbst, aus Daten, die es ohnehin gibt.",
+    "braucht": [
+      "Tagesplan digital",
+      "Fotos der wichtigsten Arbeitsschritte",
+      "Gruppe oder App für die Schicht"
+    ]
+  },
+  {
+    "id": "reinigungsroboter",
+    "name": "Reinigungsroboter",
+    "passtZu": [
+      "Reinigung",
+      "große Flächen",
+      "Böden",
+      "nach Betriebsschluss"
+    ],
+    "art": "robotikHardware",
+    "reife": "imEinsatz",
+    "wissenId": "reinigung-01",
+    "kern": "Große, regelmäßig zu reinigende Flächen übernimmt ein Reinigungsroboter; Ecken und Sonderflächen bleiben Handarbeit.",
+    "kniff": "Kein KI-Kniff im engeren Sinn – die Maschine übernimmt eine Routine, die Zeit für anderes frei macht.",
+    "braucht": [
+      "geeignete Böden und Türen",
+      "Lade- und Servicepunkt",
+      "Reinigungsplan für den Rest"
+    ]
+  },
+  {
+    "id": "serviceroboter",
+    "name": "Serviceroboter im Speisesaal",
+    "passtZu": [
+      "Tablettwagen",
+      "Abräumen",
+      "Laufwege im Speisesaal",
+      "Geschirr zurückbringen"
+    ],
+    "art": "robotikHardware",
+    "reife": "imEinsatz",
+    "wissenId": "service-01",
+    "kern": "Ein Serviceroboter sammelt Tablettwagen und fährt Geschirr zur Rückgabe; das Personal übergibt an festen Punkten.",
+    "kniff": "Kein KI-Kniff im engeren Sinn – feste, häufige Wege gehen an die Maschine.",
+    "braucht": [
+      "breite, ebene Wege",
+      "feste Übergabepunkte",
+      "Hygiene- und Reinigungsplan"
+    ]
+  }
+]
