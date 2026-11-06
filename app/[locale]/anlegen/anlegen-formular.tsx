@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { legeAn, speichereProfil } from "@/lib/aktionen";
 import { branchen, type Bereich, type Branche, type Profil } from "@/lib/typen";
 import styles from "./anlegen.module.css";
+import { Denkt } from "../ich/[code]/app";
 
 /** Startvorschläge je Branche – frei änderbar. Spanne: Arbeitgeberkosten €/Std., grob. */
 const VORSCHLAG: Record<Branche, Bereich[]> = {
@@ -225,7 +226,11 @@ export function AnlegenFormular() {
       <button type="button" className="button" disabled={!vollstaendig || laedt} onClick={absenden}>
         {laedt ? t("bereitetVor") : t("anlegen")}
       </button>
-      {laedt && <p className={styles.laedt}>{t("lernt")}</p>}
+      {laedt && (
+        <div className={styles.laedtBlock}>
+          <Denkt text={t("lernt")} />
+        </div>
+      )}
       {fehler && <p className={styles.fehler}>{fehler}</p>}
     </section>
   );

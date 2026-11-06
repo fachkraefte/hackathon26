@@ -174,3 +174,115 @@
     grid-column: 1 / -1;
   }
 }
+
+/* ---------- Neuer Stil: Papier und Tinte, schmale Schrift ---------- */
+.formular {
+  --tinte: #141824;
+  --papier: #f3efe6;
+  --gelb: #f1e64b;
+  color: var(--tinte);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+.formular :global(.ueberzeile) {
+  color: #5a5f6b;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.formular .kopf h1 {
+  font-size: clamp(2.75rem, 8vw, 4.5rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.formular .block legend,
+.formular .h2 {
+  font-size: 1.5rem;
+  font-stretch: 70%;
+  font-weight: 800;
+}
+
+.formular input,
+.formular select,
+.formular textarea {
+  border: 2px solid rgba(20, 24, 36, 0.25);
+  border-radius: 12px;
+}
+
+.formular input:focus,
+.formular select:focus,
+.formular textarea:focus {
+  border-color: var(--tinte);
+  outline: none;
+}
+
+.formular :global(.button) {
+  border-radius: 999px;
+  background: var(--tinte);
+  color: var(--papier);
+  font-weight: 800;
+}
+
+.formular :global(.button--ghost) {
+  box-shadow: inset 0 0 0 2px var(--tinte);
+  background: none;
+  color: var(--tinte);
+}
+
+.formular :global(.button--tuerkis) {
+  background: var(--gelb);
+  color: var(--tinte);
+}
+
+.formular .code strong {
+  background: var(--gelb);
+}
+
+.laedtBlock {
+  --tinte: #141824;
+  --papier: #f3efe6;
+  --gruen: #2e9e57;
+  --gelb: #f1e64b;
+  display: flex;
+  min-height: 18rem;
+  border-radius: 22px;
+  background: var(--tinte);
+  color: var(--papier);
+}
+
+/* Blöcke ohne weiße Karte mit Schatten: Linie oben, Papier statt Weiß. */
+.formular :global(.karte) {
+  padding: 1.5rem 0 0.5rem;
+  border-top: 2px solid var(--tinte);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.formular :global(.chip) {
+  border: 2px solid var(--tinte);
+  background: none;
+  color: var(--tinte);
+  font-weight: 600;
+}
+
+.formular :global(.chip[aria-pressed="true"]),
+.formular :global(.chip[data-gewaehlt="true"]) {
+  border-color: var(--gelb);
+  background: var(--gelb);
+}
+
+.formular .einladung {
+  border: 2px dashed rgba(20, 24, 36, 0.3);
+  background: none;
+}
+
+.formular :global(.auswahl[aria-pressed="true"]) {
+  border-color: var(--tinte);
+  background: var(--tinte);
+  color: var(--papier);
+}

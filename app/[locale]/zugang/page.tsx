@@ -13,8 +13,8 @@ export default async function ZugangSeite(props: PageProps<"/[locale]/zugang">) 
   const analyse = ziel === "analyse";
   return (
     <main className="seite seite--schmal">
-      <section style={{ display: "grid", gap: "1rem", paddingTop: "1rem" }}>
-        <h1 style={{ margin: 0 }}>{t(analyse ? "titelAnalyse" : "titel")}</h1>
+      <section style={{ display: "grid", gap: "1rem", paddingTop: "1.5rem", fontFamily: "var(--font-archivo), system-ui, sans-serif" }}>
+        <h1 style={{ margin: 0, fontSize: "clamp(2.75rem, 9vw, 4.5rem)", fontStretch: "62%", fontWeight: 900, lineHeight: 0.95 }}>{t(analyse ? "titelAnalyse" : "titel")}</h1>
         <p className="leise" style={{ margin: 0 }}>{t(analyse ? "textAnalyse" : "text")}</p>
         <CodeFeld ziel={analyse ? "analyse" : "feed"} />
       </section>

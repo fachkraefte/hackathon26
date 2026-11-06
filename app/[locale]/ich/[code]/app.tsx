@@ -401,7 +401,7 @@ type Erkenner = {
 };
 type Entwurf = Awaited<ReturnType<typeof erzaehle>>;
 
-function Melden({ betriebId, anrede, bereich, fertig }: Props & { bereich: string; fertig: () => void }) {
+function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich: string; fertig: () => void }) {
   const t = useTranslations("Feed");
   const [text, setText] = useState("");
   const [hoert, setHoert] = useState(false);
@@ -465,6 +465,7 @@ function Melden({ betriebId, anrede, bereich, fertig }: Props & { bereich: strin
       setErgebnis(
         await gibFrei({
           code: betriebId,
+          sitzung: code,
           bereich,
           probleme: gewaehlt.map((p) => ({
             text: p.text,

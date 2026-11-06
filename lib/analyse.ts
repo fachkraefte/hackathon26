@@ -3,6 +3,7 @@
 import { holeGesamtbild } from "./gesamtbild";
 import { baueKarte } from "./karte";
 import { fadenZahlen } from "./rechnen";
+import { personenAnzahl } from "./speicher";
 
 export async function analyseDaten(code: string) {
   const ergebnis = await holeGesamtbild(code.toUpperCase());
@@ -35,7 +36,7 @@ export async function analyseDaten(code: string) {
     code: b.id,
     betrieb: b.betrieb.name,
     deadline: b.deadline,
-    teilgenommen: beitraege.length,
+    teilgenommen: personenAnzahl(beitraege),
     mitarbeitende: b.betrieb.mitarbeitende,
     summe: {
       stunden: faeden.reduce((s, f) => s + f.stunden, 0),

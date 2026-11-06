@@ -1,5 +1,6 @@
 // Zahlen rechnet der Code, nicht die KI. Grundlage sind nur die Angaben der Beschäftigten.
 // Regel gegen Doppelzählung: Jede Person gibt nur ihre eigene Zeit an.
+import { personVon } from "./feed-regeln";
 import type { Beitrag, Bestandsaufnahme, Faden, Haeufigkeit, Punkt } from "./typen";
 
 /** Vorfälle pro Woche je Stufe. Die Werte stehen sichtbar an den Reglern. */
@@ -55,7 +56,7 @@ export function fadenZahlen(
       stunden += h;
       euro += euroProJahr(h, satzFuer(b, beitrag.bereich), b);
       bremsWerte.push(punkt.bremst);
-      personen.add(beitrag.id);
+      personen.add(personVon(beitrag.id));
       bereiche.add(beitrag.bereich);
     }
   }

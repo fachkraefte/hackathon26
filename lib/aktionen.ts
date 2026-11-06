@@ -10,7 +10,7 @@ import { erzeugeStartKarten, ladeDemoKarten } from "./feed";
 import { erzeugeZugaenge } from "./zugang";
 import { ergaenzeLoesungen } from "./loesungen";
 import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
-import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, speichereBeitrag } from "./speicher";
+import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, personenAnzahl, speichereBeitrag } from "./speicher";
 import { Beitrag, Bereich, Branche, Profil, Punkt, type Bestandsaufnahme } from "./typen";
 import { leseWebsite } from "./website";
 
@@ -106,12 +106,14 @@ const BeitragEingabe = z.object({
   punkte: z.array(Punkt.omit({ id: true })).min(1).max(3),
   mitsprache: z.number().int().min(1).max(5).nullable(),
   gutLaeuft: z.string().trim().max(300).optional(),
+  // Meldung aus der persönlichen App: zählt zur selben Person wie ihre Feed-Stimmen.
+  id: z.string().regex(/^feed-[A-Z0-9]{6,12}-m[a-z0-9]{6,10}$/).optional(),
 });
 
 export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
   const daten = BeitragEingabe.parse(eingabe);
   const b = await bestandsaufnahmeOderFehler(daten.code);
-  const id = `live-${crypto.randomUUID().slice(0, 8)}`;
+  const id = daten.id ?? `live-${crypto.randomUUID().slice(0, 8)}`;
   const beitrag: Beitrag = Beitrag.parse({
     id,
     bestandsaufnahmeId: b.id,
@@ -152,9 +154,9 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
     faeden,
     meineStundenWoche: meineStunden,
     meineEuroJahr: euroProJahr(meineStunden, satzFuer(b, beitrag.bereich), b),
-    teilgenommen: ergebnis.beitraege.length,
+    teilgenommen: personenAnzahl(ergebnis.beitraege),
     mitarbeitende: b.betrieb.mitarbeitende,
-    erste: ergebnis.beitraege.length === 1,
+    erste: personenAnzahl(ergebnis.beitraege) === 1,
     ausDemo: ergebnis.ausDemo,
   };
 }
@@ -162,7 +164,7 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
 /** Für die Rückmeldung „x von y haben teilgenommen“, ohne Inhalte preiszugeben. */
 export async function teilnahme(code: string) {
   const b = await bestandsaufnahmeOderFehler(code);
-  return { teilgenommen: (await holeBeitraege(b.id)).length, mitarbeitende: b.betrieb.mitarbeitende };
+  return { teilgenommen: personenAnzahl(await holeBeitraege(b.id)), mitarbeitende: b.betrieb.mitarbeitende };
 }
 
 export async function setzeDemoZurueck() {
