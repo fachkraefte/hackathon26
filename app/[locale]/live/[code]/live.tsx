@@ -3,7 +3,7 @@
 // Beamer-Ansicht (Jury-Modus): Graph und Zahlen wachsen mit jedem Swipe mit. Lädt alle 2 Sekunden neu.
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { liveDaten } from "@/lib/feed-aktionen";
+import { liveDaten, ordneZu } from "@/lib/feed-aktionen";
 import { formatEuro, formatStunden } from "@/lib/rechnen";
 import { UebergabeKarte } from "../../_komponenten/uebergabe-karte";
 import styles from "./live.module.css";
@@ -29,9 +29,17 @@ export function Live({ code, start, adresse }: { code: string; start: Daten; adr
         return frisch;
       });
     }, 2000);
+    // Die Beamer-Ansicht sorgt dafür, dass neue Stimmen zügig zugeordnet werden (alle 25 s, höchstens ein Aufruf zugleich).
+    let laeuft = false;
+    const zuordnen = window.setInterval(() => {
+      if (laeuft) return;
+      laeuft = true;
+      ordneZu(code).finally(() => (laeuft = false));
+    }, 25_000);
     return () => {
       aktiv = false;
       window.clearInterval(takt);
+      window.clearInterval(zuordnen);
     };
   }, [code]);
 

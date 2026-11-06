@@ -22,6 +22,7 @@ import { betriebZuLeitungsCode, erzeugeZugaenge, holeZugang, setzeBereichFuer } 
 import { Haeufigkeit } from "./typen";
 
 const Code = z.string().trim().toUpperCase().min(3).max(12);
+const zuordnungZuletzt: Map<string, number> = ((globalThis as typeof globalThis & { __rokioZuordnung?: Map<string, number> }).__rokioZuordnung ??= new Map());
 
 const Sitzung = z.string().regex(/^[a-z0-9]{6,16}$/i);
 const BereichName = z.string().min(1).max(40);
@@ -39,8 +40,13 @@ export async function ladeFeed(code: string, bereich: string, beantwortet: strin
 
 export async function geste(eingabe: { code: string; sitzung: string; bereich: string; karteId: string; richtung: Richtung }) {
   const b = await betrieb(eingabe.code);
-  // Startkarten haben noch kein Handlungsfeld: die KI-Zuordnung im Hintergrund anstoßen, damit Überblick und Befund live mitwachsen.
-  after(() => holeGesamtbild(b.id).then(() => undefined, (e: unknown) => console.error("Zuordnung im Hintergrund:", e)));
+  // Startkarten haben noch kein Handlungsfeld: die KI-Zuordnung im Hintergrund anstoßen, damit Überblick und Befund live
+  // mitwachsen – gedrosselt auf höchstens einmal alle 20 s je Projekt (40 Leute wischen gleichzeitig = kein KI-Sturm).
+  const zuletzt = zuordnungZuletzt.get(b.id) ?? 0;
+  if (Date.now() - zuletzt > 20_000) {
+    zuordnungZuletzt.set(b.id, Date.now());
+    after(() => holeGesamtbild(b.id).then(() => undefined, (e: unknown) => console.error("Zuordnung im Hintergrund:", e)));
+  }
   return verarbeiteGeste(b, {
     sitzung: Sitzung.parse(eingabe.sitzung),
     bereich: BereichName.parse(eingabe.bereich),
@@ -221,4 +227,12 @@ export async function gibLobFrei(eingabe: { code: string; bereich: string; text:
     typ: "lob",
   });
   return { anzahl: (await holeLob(b.id)).length };
+}
+
+/** Beamer-Ansicht: neue Meldungen/Startkarten-Stimmen regelmäßig der KI zur Zuordnung geben (eine Stelle statt vieler). */
+export async function ordneZu(code: string) {
+  const c = Code.parse(code);
+  zuordnungZuletzt.set(c, Date.now());
+  await holeGesamtbild(c);
+  return true;
 }
