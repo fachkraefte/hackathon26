@@ -115,159 +115,19 @@
   color: var(--leise);
 }
 
-/* Handy mit einer echten Feed-Karte – wischt sich selbst als Beispiel. */
+/* Handy: bedienbare Simulation des Feeds. */
 .handy {
   justify-self: center;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: min(100%, 20rem);
-  aspect-ratio: 9 / 18.5;
-  padding: 1rem 0.75rem 1rem;
-  border: 10px solid var(--tinte);
-  border-radius: 2.75rem;
-  background: var(--tinte);
-  color: var(--papier);
-  text-decoration: none;
-  transform: rotate(3deg);
-}
-
-.handyBalken {
-  display: flex;
-  gap: 3px;
-  padding: 0.75rem 0.25rem 0;
-}
-
-.handyBalken span {
-  flex: 1;
-  height: 3px;
-  border-radius: 2px;
-  background: rgba(243, 239, 230, 0.25);
-}
-
-.handyBalken span:nth-child(-n + 3) {
-  background: var(--papier);
-}
-
-.handyOben {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 0.25rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
-.handyKarte {
-  position: relative;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  padding: 1rem;
-  overflow: hidden;
-  border-radius: 1.25rem;
-  background:
-    repeating-linear-gradient(0deg, rgba(243, 239, 230, 0.05) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(90deg, rgba(243, 239, 230, 0.05) 0 1px, transparent 1px 28px),
-    #232a3b;
-  animation: wisch 5s ease-in-out infinite;
-}
-
-.handyStempel {
-  position: absolute;
-  top: 1.5rem;
-  left: 1rem;
-  padding: 0.125rem 0.5rem;
-  border: 3px solid var(--gruen);
-  border-radius: 8px;
-  color: var(--gruen);
-  font-size: 1.5rem;
-  font-stretch: 70%;
-  font-weight: 900;
-  text-transform: uppercase;
-  transform: rotate(-12deg);
-  animation: stempel 5s ease-in-out infinite;
-}
-
-.handyZitat {
-  font-size: 1.75rem;
-  font-stretch: 70%;
-  font-weight: 800;
-  line-height: 1.02;
-}
-
-.handyQuelle {
-  color: rgba(243, 239, 230, 0.62);
-  font-size: 0.75rem;
-}
-
-.handyKnoepfe {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  width: min(100%, 21rem);
 }
 
-.handyNein,
-.handyJa {
-  padding: 0.625rem 0.25rem;
-  border-radius: 999px;
+.simHinweis {
+  margin: 0;
+  color: var(--leise);
   font-size: 0.875rem;
-  font-weight: 700;
   text-align: center;
-  white-space: nowrap;
-}
-
-.handyNein {
-  border: 2px solid rgba(243, 239, 230, 0.4);
-}
-
-.handyJa {
-  background: var(--gruen);
-  color: #fff;
-}
-
-@keyframes wisch {
-  0%,
-  35% {
-    transform: none;
-    box-shadow: none;
-  }
-  55%,
-  70% {
-    transform: translateX(18px) rotate(4deg);
-    box-shadow: inset 0 0 0 3px var(--gruen);
-  }
-  85%,
-  100% {
-    transform: none;
-    box-shadow: none;
-  }
-}
-
-@keyframes stempel {
-  0%,
-  35% {
-    opacity: 0;
-  }
-  55%,
-  70% {
-    opacity: 1;
-  }
-  85%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .handyKarte,
-  .handyStempel {
-    animation: none;
-  }
-  .handyStempel {
-    opacity: 1;
-  }
 }
 
 /* ---------- Dunkler Block: Schleife und Gesten ---------- */
@@ -528,7 +388,6 @@
   }
 
   .handy {
-    width: min(100%, 17rem);
-    transform: none;
+    width: min(100%, 20rem);
   }
 }

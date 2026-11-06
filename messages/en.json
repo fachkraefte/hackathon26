@@ -21,10 +21,6 @@
     "demoProbieren": "Try the demo feed",
     "liveAnsehen": "Live picture for the projector",
     "analyseAnsehen": "Current analysis",
-    "handyKarte": "We built a railing from the old drawing.",
-    "handyQuelle": "from a report · Engineering → Workshop",
-    "handyBereich": "Workshop",
-    "handyZaehler": "3 of 8",
     "kennIch": "Know it",
     "nichtBeiUns": "Don't know it",
     "schleifeTitel": "One tells, everyone swipes.",
@@ -78,7 +74,14 @@
     "ehrlich": "The demo uses fictional companies. Maturity and origin are shown for every solution.",
     "zuruecksetzen": "Reset demo",
     "zurueckgesetzt": "Demo has been reset",
-    "zuruecksetzenFehler": "Reset failed: {grund}"
+    "zuruecksetzenFehler": "Reset failed: {grund}",
+    "simBereich": "Workshop",
+    "simZaehler": "{n} of {gesamt}",
+    "simEnde": "This is how ROKIO feels.",
+    "simEndeText": "Three cards, a few seconds. In the real feed every gesture counts as a voice.",
+    "simEcht": "Try it for real",
+    "simNochmal": "Again",
+    "simHinweis": "Simulation – swipe the card. Nothing is saved."
   },
   "Eingabe": {
     "sprechen": "Speak",
