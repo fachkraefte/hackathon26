@@ -18,7 +18,9 @@ function uebergabeFuer(d: Daten, fadenId: string) {
 }
 
 export function AnalyseAnsicht({ daten: d }: { daten: Daten }) {
-  const { formatStunden, formatEuro } = zahlenFormat(useLocale());
+  const locale = useLocale();
+  const { formatStunden, formatEuro } = zahlenFormat(locale);
+  const zitat = (x: string) => (locale === "en" ? `“${x}”` : `„${x}“`);
   const t = useTranslations("Befund");
   const ta = useTranslations("Analyse");
   const faeden = d.faeden.filter((f) => f.personen > 0).sort((a, b) => b.stunden - a.stunden || b.personen - a.personen);
@@ -80,7 +82,7 @@ export function AnalyseAnsicht({ daten: d }: { daten: Daten }) {
                   <p className={styles.sichtTitel}>{t("sichtweisen")}</p>
                   {f.sichtweisen.map((s) => (
                     <blockquote key={s.bereich + s.aussage}>
-                      <span>{s.bereich}</span>„{s.aussage}“
+                      <span>{s.bereich}</span>{zitat(s.aussage)}
                     </blockquote>
                   ))}
                   {f.unterschied && <p className={styles.unterschied}>{f.unterschied}</p>}

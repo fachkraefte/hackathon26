@@ -126,7 +126,7 @@ export default async function Startseite() {
           {BEISPIELE.map((b) => (
             <li key={b}>
               <span className={styles.branche}>{t(`beispiel.${b}.branche`)}</span>
-              <span className={styles.stimme}>„{t(`beispiel.${b}.stimme`)}“</span>
+              <span className={styles.stimme}>{locale === "en" ? `“${t(`beispiel.${b}.stimme`)}”` : `„${t(`beispiel.${b}.stimme`)}“`}</span>
               <span className={styles.loesung}>{t(`beispiel.${b}.loesung`)}</span>
             </li>
           ))}
