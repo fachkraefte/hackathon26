@@ -15,7 +15,7 @@
   "Home": {
     "titel": "Your people know where things get stuck.",
     "einleitung": "ROKIO turns that into a feed: swipe cards instead of filling in forms. It shows at which handovers time is lost – and which AI or robotics solution helps exactly there.",
-    "codeFrage": "Got a code from the notice board?",
+    "codeFrage": "Code from your management?",
     "anlegen": "Create a project",
     "fuerLeitung": "For management:",
     "demoProbieren": "Try the demo feed",
@@ -78,10 +78,12 @@
     "simBereich": "Workshop",
     "simZaehler": "{n} of {gesamt}",
     "simEnde": "This is how ROKIO feels.",
-    "simEndeText": "Three cards, a few seconds. In the real feed every gesture counts as a voice.",
+    "simEndeText": "Join for real: enter the code from your management – or set up your own project.",
     "simEcht": "Try it for real",
     "simNochmal": "Again",
-    "simHinweis": "Simulation – swipe the card. Nothing is saved."
+    "simHinweis": "Simulation – swipe the card. Nothing is saved.",
+    "simCode": "Enter code",
+    "simAnlegen": "Set up a project"
   },
   "Eingabe": {
     "sprechen": "Speak",
@@ -164,15 +166,15 @@
     "bereichNeu": "Additional department",
     "hinzufuegen": "Add",
     "blockDeadline": "3 · Results meeting",
-    "deadline": "When and where will you discuss the results with everyone?",
+    "deadline": "Results meeting (optional)",
     "deadlinePlatzhalter": "e.g. Thu, 3 December, 7:30 am in the workshop",
-    "deadlineHinweis": "Every person sees this in the survey. It is your commitment that something will happen with the answers.",
+    "deadlineHinweis": "If there is a date, everyone sees it. ROKIO is an open channel – a date is not required.",
     "anlegen": "Set up project",
     "bereitetVor": "One moment …",
     "lernt": "ROKIO is getting to know your business and preparing the questions …",
     "fertigUeberzeile": "Done",
-    "fertigTitel": "Your team is ready to go",
-    "code": "Management code (for analysis and solutions):",
+    "fertigTitel": "Your project is set up",
+    "code": "Team code:",
     "chipsTitel": "Tasks your team can tap",
     "chipsMitWebsite": "Prepared from your details and your website. Tap to remove, add your own.",
     "chipsOhneWebsite": "Prepared from your details. Tap to remove, add your own.",
@@ -180,13 +182,17 @@
     "chipNeu": "Custom task",
     "chipsSpeichern": "Save changes",
     "teilenTitel": "Invitation to your team",
-    "einladung_du": "Hi all, we want to know where things get stuck at {betrieb} – from you, not from the top. Everyone gets a personal code on a slip (draw it from the box – nobody knows who has which).\n\n{link}\n\nWe'll discuss the results together: {deadline}.",
-    "einladung_sie": "Hello, we would like to know where things get stuck at {betrieb} – from you, not from the top. Everyone gets a personal code on a slip (draw it from the box – nobody knows who has which).\n\n{link}\n\nWe will discuss the results together: {deadline}.",
+    "einladung_du": "Hi all, we want to know where things get stuck at {betrieb} – from you, not from the top. Anonymous, on your phone, any time:\n\n{link}\nCode: {code}",
+    "einladung_sie": "Hello, we would like to know where things get stuck at {betrieb} – from you, not from the top. Anonymous, on your phone, any time:\n\n{link}\nCode: {code}",
     "whatsapp": "Share via WhatsApp",
     "kopieren": "Copy text",
     "kopiert": "Copied ✓",
-    "selbst": "Open code document",
-    "zurAnalyse": "To the analysis"
+    "selbst": "Try it yourself",
+    "zurAnalyse": "To the analysis",
+    "leitungCode": "Your management code",
+    "leitungCodeText": "Please note it down – private, do not share. Use it to reach your dashboard any time: share the team code, print the QR poster, findings, solutions and roadmap.",
+    "zumDashboard": "Go to dashboard",
+    "einladungTermin": "We will discuss the results together: {deadline}."
   },
   "Befragung": {
     "seitentitel": "Survey – ROKIO",
@@ -251,7 +257,7 @@
   "Zugang": {
     "seitentitel": "To the survey – ROKIO",
     "titel": "To the survey",
-    "text": "You receive the code from your management, for example by WhatsApp or notice board.",
+    "text": "You get the code from your management – via link, QR code or poster. As management, enter your management code here.",
     "titelAnalyse": "Go to analysis",
     "textAnalyse": "Your management received the code when creating the project. The analysis shows the combined picture, never individual answers.",
     "code": "Code",
@@ -329,7 +335,8 @@
     "testenWir": "Let's test it",
     "testetSchon": "Being tested",
     "testenHinweis": "The team sees it in the feed as “What came of it”.",
-    "planKnopf": "Roadmap as PDF"
+    "planKnopf": "Roadmap as PDF",
+    "rokiOhne": "Basis for the results meeting and for ROKI – for funding, integrators and training."
   },
   "Feed": {
     "seitentitel": "Feed – ROKIO",
@@ -431,7 +438,16 @@
     "ueberblickTitel": "{n} problems reported",
     "ueberblickText": "What employees have reported so far – sorted by voices. Solutions are discussed together.",
     "ueberblickStimmen": "{n, plural, one {# voice} other {# voices}}",
-    "ueberblickGut": "What works well"
+    "ueberblickGut": "What works well",
+    "codeUnbekannt": "This code does not exist.",
+    "codeNochmal": "Enter the code again",
+    "oeffnet": "Opening your space …",
+    "fertigHeute": "Done for today",
+    "nichtsMehr": "Nothing more to do today.",
+    "nichtsMehrText": "Thanks for taking part. New cards arrive when others report something – just check back.",
+    "doch": "Report something after all",
+    "ueberblickFehler": "The overview is not reachable right now.",
+    "nochmal": "Try again"
   },
   "Live": {
     "titel": "Live",
@@ -440,15 +456,6 @@
     "imJahr": "per year",
     "mitswipen": "Swipe along: code {code}",
     "felder": "Where it gets stuck"
-  },
-  "Codes": {
-    "seitentitel": "Codes – ROKIO",
-    "titel": "Personal codes · {betrieb}",
-    "anleitung": "Cut out, put in a box, everyone draws a slip. Nobody notes who has which code – that keeps it anonymous.",
-    "drucken": "Print",
-    "dein": "Your personal code",
-    "so": "Open: {adresse} → enter code",
-    "anzahl": "{n} codes – one per person"
   },
   "Befund": {
     "ueber": "Findings · {betrieb}",
@@ -504,6 +511,34 @@
     "hinweiseTitel": "Notes",
     "h1": "Hours and euros are employees' estimates (each person only their own time), converted with hourly-rate ranges – no promise.",
     "h2": "Maturity and origin are stated for every solution. In real use the AI runs locally.",
-    "h3": "Technical systems that can record behaviour or performance require co-determination (§ 87 (1) no. 6 BetrVG). Contact for funding, integrators and training: ROKI."
+    "h3": "Technical systems that can record behaviour or performance require co-determination (§ 87 (1) no. 6 BetrVG). Contact for funding, integrators and training: ROKI.",
+    "standOhne": "As of today · {stimmen} of {von} employees took part",
+    "s1TextOhne": "Set a date with everyone. Show the findings, agree on the order of problems together. The works council takes part."
+  },
+  "Leitung": {
+    "seitentitel": "Dashboard – ROKIO",
+    "ueber": "Management dashboard",
+    "privat": "Your management code: {code} – private, do not share. Use it to come back here any time.",
+    "aushangTitel": "Where do we get stuck? Say it anonymously.",
+    "aushangText": "Scan the QR code or open {adresse}. Anonymous, any time.",
+    "teilenTitel": "Share the team code",
+    "teilenText": "One code for everyone in the company. No account, nobody is recorded by name.",
+    "einladungDu": "Hi all, we want to know where things get stuck at {betrieb} – from you, not from the top. Anonymous, on your phone, any time:\n\n{link}\nCode: {code}",
+    "einladungSie": "Hello, we would like to know where things get stuck at {betrieb} – from you, not from the top. Anonymous, on your phone, any time:\n\n{link}\nCode: {code}",
+    "einladungTermin": "We will discuss the results together: {deadline}.",
+    "whatsapp": "Share via WhatsApp",
+    "textKopieren": "Copy text",
+    "linkKopieren": "Copy link",
+    "kopiert": "Copied ✓",
+    "drucken": "Print poster with QR code",
+    "standTitel": "Status",
+    "mitgemacht": "of {von} took part",
+    "stunden": "hrs per week lost",
+    "probleme": "problems reported",
+    "stimmen": "{n, plural, one {# voice} other {# voices}}",
+    "befund": "See findings",
+    "loesungen": "Solutions",
+    "fahrplan": "Roadmap as PDF",
+    "live": "Live picture for the projector"
   }
 }

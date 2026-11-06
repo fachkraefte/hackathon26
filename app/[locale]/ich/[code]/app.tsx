@@ -116,6 +116,7 @@ function KartenTab({ code, betriebId, anrede, bereich, vorab, zuMelden }: Props 
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>(start.length ? { art: "karten" } : { art: "laedt" });
   const [fehler, setFehler] = useState(false);
+  const [erledigt, setErledigt] = useState(false);
 
   useEffect(() => {
     // Schon beantwortete Karten (nur im Browser gemerkt) herausnehmen; erst wenn nichts übrig ist, nachladen.
@@ -171,6 +172,21 @@ function KartenTab({ code, betriebId, anrede, bereich, vorab, zuMelden }: Props 
 
   if (phase.art === "laedt") return <Denkt text={fehler ? t("fehler") : t("laedtKarten")} />;
 
+  if (erledigt) {
+    return (
+      <section className={styles.ende}>
+        <p className={styles.betrieb}>{bereich}</p>
+        <h1 className={styles.gross}>{t("nichtsMehr")}</h1>
+        <p className={styles.einleitung}>{t("nichtsMehrText")}</p>
+        <div className={styles.daumen}>
+          <button type="button" className={styles.leiseKnopf} onClick={zuMelden}>
+            {t("doch")}
+          </button>
+        </div>
+      </section>
+    );
+  }
+
   if (phase.art === "ende" || !karte) {
     return (
       <section className={styles.ende}>
@@ -181,6 +197,9 @@ function KartenTab({ code, betriebId, anrede, bereich, vorab, zuMelden }: Props 
         <div className={styles.daumen}>
           <button type="button" className={styles.halten} onClick={zuMelden}>
             <span className={styles.punkt} aria-hidden /> {t("etwasMelden")}
+          </button>
+          <button type="button" className={styles.leiseKnopf} onClick={() => setErledigt(true)}>
+            {t("fertigHeute")} ✓
           </button>
         </div>
       </section>
@@ -197,7 +216,7 @@ function KartenTab({ code, betriebId, anrede, bereich, vorab, zuMelden }: Props 
       {karte.art === "aussage" ? (
         <AussageKarte key={karte.id} karte={karte} aktiv={phase.art === "karten"} onAntwort={antworte} onHalten={zuMelden} />
       ) : karte.art === "meme" ? (
-        <MemeKarte key={karte.id} karte={karte} aktiv={phase.art === "karten"} onAntwort={antworte} />
+        <AussageKarte key={karte.id} karte={karte} aktiv={phase.art === "karten"} onAntwort={antworte} onHalten={zuMelden} />
       ) : (
         <WirkungsKarte key={karte.id} karte={karte} onWeiter={() => antworte("kenn")} />
       )}
@@ -222,7 +241,7 @@ export function AussageKarte({
   onAntwort,
   onHalten,
 }: {
-  karte: Extract<FeedKarte, { art: "aussage" }>;
+  karte: Extract<FeedKarte, { art: "aussage" | "meme" }>;
   aktiv: boolean;
   onAntwort: (r: Richtung) => void;
   onHalten?: () => void;
@@ -269,9 +288,11 @@ export function AussageKarte({
   return (
     <div className={styles.kartenFlaeche}>
       <article
-        className={styles.karte}
+        className={karte.art === "meme" ? `${styles.karte} ${styles.meme}` : styles.karte}
         style={
-          karte.bild
+          karte.art === "meme" && karte.bild
+            ? { ...stil, backgroundImage: `url(${karte.bild})`, backgroundSize: "cover", backgroundPosition: "center" }
+            : karte.bild
             ? {
                 ...stil,
                 backgroundImage: `linear-gradient(180deg, rgba(20,24,36,0.1) 0%, rgba(20,24,36,0.55) 45%, rgba(20,24,36,0.96) 100%), url(${karte.bild})`,
@@ -321,16 +342,25 @@ export function AussageKarte({
           setZiehen({ x: 0, y: 0, aktiv: false });
         }}
       >
-        {karte.kurzname && <span className={styles.hintergrundWort} aria-hidden>{karte.kurzname}</span>}
+        {karte.kurzname && karte.art !== "meme" && <span className={styles.hintergrundWort} aria-hidden>{karte.kurzname}</span>}
         {richtung && (
           <span className={styles.stempel} data-richtung={richtung} style={{ opacity: weg ? 1 : staerke }}>
             {richtung === "kenn" ? t("stempelKenn") : richtung === "nicht" ? t("stempelNicht") : t("stempelStaendig")}
           </span>
         )}
-        <p className={styles.uebergabe}>{uebergabe}</p>
-        <h2 className={styles.problem}>{karte.text}</h2>
-        {karte.kontext && <p className={styles.kontext}>{karte.kontext}</p>}
-        <p className={styles.quelle}>{istStartKarte(karte.id) ? t("startKarte") : t("ausMeldung")}</p>
+        {karte.art === "meme" ? (
+          <>
+            <p className={styles.memeText}>{karte.text}</p>
+            <p className={styles.memeQuelle}>{t("memeQuelle")}</p>
+          </>
+        ) : (
+          <>
+            <p className={styles.uebergabe}>{uebergabe}</p>
+            <h2 className={styles.problem}>{karte.text}</h2>
+            {karte.kontext && <p className={styles.kontext}>{karte.kontext}</p>}
+            <p className={styles.quelle}>{istStartKarte(karte.id) ? t("startKarte") : t("ausMeldung")}</p>
+          </>
+        )}
       </article>
       <div className={styles.knoepfe}>
         <button type="button" className={styles.nein} onClick={() => entscheide("nicht")} disabled={!aktiv}>
@@ -341,34 +371,6 @@ export function AussageKarte({
         </button>
         <button type="button" className={styles.ja} onClick={() => entscheide("kenn")} disabled={!aktiv}>
           {t("kennIch")} ♥
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function MemeKarte({
-  karte,
-  aktiv,
-  onAntwort,
-}: {
-  karte: Extract<FeedKarte, { art: "meme" }>;
-  aktiv: boolean;
-  onAntwort: (r: Richtung) => void;
-}) {
-  const t = useTranslations("Feed");
-  return (
-    <div className={styles.kartenFlaeche}>
-      <article className={`${styles.karte} ${styles.meme}`} style={{ backgroundImage: `url(${karte.bild})` }}>
-        <p className={styles.memeText}>{karte.text}</p>
-        <p className={styles.memeQuelle}>{t("memeQuelle")}</p>
-      </article>
-      <div className={styles.knoepfe}>
-        <button type="button" className={styles.nein} onClick={() => onAntwort("kenn")} disabled={!aktiv}>
-          😂 {t("genauSo")}
-        </button>
-        <button type="button" className={styles.gelb} onClick={() => onAntwort("staendig")} disabled={!aktiv}>
-          😐 {t("weilWahr")}
         </button>
       </div>
     </div>
@@ -741,9 +743,30 @@ function Chips<T extends string | number>({
 function BildTab({ betriebId }: { betriebId: string }) {
   const t = useTranslations("Feed");
   const [d, setD] = useState<Awaited<ReturnType<typeof liveDaten>> | null>(null);
+  const [fehler, setFehler] = useState(false);
+  const [versuch, setVersuch] = useState(0);
   useEffect(() => {
-    liveDaten(betriebId).then(setD, () => undefined);
-  }, [betriebId]);
+    let aktiv = true;
+    liveDaten(betriebId).then(
+      (x) => aktiv && (x ? setD(x) : setFehler(true)),
+      () => aktiv && setFehler(true),
+    );
+    return () => {
+      aktiv = false;
+    };
+  }, [betriebId, versuch]);
+  if (fehler && !d) {
+    return (
+      <section className={styles.ende}>
+        <h1 className={styles.gross}>{t("ueberblickFehler")}</h1>
+        <div className={styles.daumen}>
+          <button type="button" className={styles.leiseKnopf} onClick={() => (setFehler(false), setVersuch((v) => v + 1))}>
+            {t("nochmal")}
+          </button>
+        </div>
+      </section>
+    );
+  }
   if (!d) return <Denkt text={t("laedtBild")} />;
   return (
     <section className={styles.erzaehlen}>

@@ -80,7 +80,7 @@ export function AnlegenFormular() {
   const [neuerBereich, setNeuerBereich] = useState("");
   const [laedt, starte] = useTransition();
   const [fehler, setFehler] = useState<string | null>(null);
-  const [fertig, setFertig] = useState<{ code: string; profil: Profil; websiteGelesen: boolean; ausDemo: boolean } | null>(null);
+  const [fertig, setFertig] = useState<{ code: string; leitungCode: string; profil: Profil; websiteGelesen: boolean; ausDemo: boolean } | null>(null);
 
   function beispielEinsetzen() {
     setName(BEISPIEL.name);
@@ -98,7 +98,7 @@ export function AnlegenFormular() {
     setBereiche(bereiche.map((b, j) => (j === i ? { ...b, [feld]: wert } : b)));
   }
 
-  const vollstaendig = name.trim().length >= 2 && leistungen.trim().length >= 5 && ziel.trim().length >= 5 && deadline.trim().length >= 3 && bereiche.length > 0;
+  const vollstaendig = name.trim().length >= 2 && leistungen.trim().length >= 5 && ziel.trim().length >= 5 && bereiche.length > 0;
 
   function absenden() {
     setFehler(null);
@@ -238,6 +238,7 @@ export function AnlegenFormular() {
 
 function Fertig(props: {
   code: string;
+  leitungCode: string;
   profil: Profil;
   websiteGelesen: boolean;
   ausDemo: boolean;
@@ -252,8 +253,10 @@ function Fertig(props: {
   const [speichert, starte] = useTransition();
   const [kopiert, setKopiert] = useState(false);
   const herkunft = useSyncExternalStore(nichts, () => window.location.origin, () => "");
-  const link = `${herkunft}/de/zugang`;
-  const einladung = t(`einladung_${props.anrede}`, { betrieb: props.betrieb, deadline: props.deadline, link, code: props.code });
+  const link = `${herkunft}/de/feed/${props.code}`;
+  const einladung =
+    t(`einladung_${props.anrede}`, { betrieb: props.betrieb, link, code: props.code }) +
+    (props.deadline.trim() ? `\n\n${t("einladungTermin", { deadline: props.deadline })}` : "");
 
   function aendere(bereich: string, liste: string[]) {
     setChips({ ...chips, [bereich]: liste });
@@ -268,6 +271,13 @@ function Fertig(props: {
         <p className={styles.code}>
           <span className="leise">{t("code")}</span> <strong>{props.code}</strong>
         </p>
+      </div>
+
+      <div className={styles.leitungBox}>
+        <p className={styles.leitungTitel}>{t("leitungCode")}</p>
+        <p className={styles.leitungWert}>{props.leitungCode}</p>
+        <p>{t("leitungCodeText")}</p>
+        <Link className="button" href={`/leitung/${props.leitungCode}`}>{t("zumDashboard")} →</Link>
       </div>
 
       <div className={`karte ${styles.block}`}>
@@ -329,7 +339,7 @@ function Fertig(props: {
       </div>
 
       <div className={styles.knoepfe}>
-        <Link className="button" href={`/codes/${props.code}`}>{t("selbst")}</Link>
+        <Link className="button button--ghost" href={`/feed/${props.code}`}>{t("selbst")}</Link>
         <Link className="button button--ghost" href={`/analyse/${props.code}`}>{t("zurAnalyse")}</Link>
       </div>
     </section>

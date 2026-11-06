@@ -97,6 +97,17 @@ async function ergaenze(
   return { schluessel, bild: bild ?? vorhanden.bild, ausDemo: vorhanden.ausDemo, loesungen: vorhanden.loesungen };
 }
 
+/**
+ * Schnell lesen (Überblick, Live-Bild): das gespeicherte Bild plus Feed-Stimmen, ohne auf die KI zu warten.
+ * Neue, noch nicht zugeordnete Meldungen erscheinen, sobald die nächste volle Berechnung gelaufen ist.
+ */
+export async function holeGesamtbildSchnell(id: string) {
+  const [bestandsaufnahme, beitraege, vorhanden] = await Promise.all([holeBestandsaufnahme(id), holeBeitraege(id), holeGesamtbildEintrag(id)]);
+  if (!bestandsaufnahme) return null;
+  if (!vorhanden) return holeGesamtbild(id);
+  return { ...mitFeedStimmen(vorhanden, beitraege), bestandsaufnahme, beitraege };
+}
+
 /** Nach einem neuen Beitrag: Bild ergänzen (bestehende Fäden bleiben stabil). */
 export async function nimmBeitragAuf(id: string) {
   return holeGesamtbild(id);

@@ -217,7 +217,7 @@ export function Gespraech(props: Props) {
           <p className="ueberzeile">{props.betrieb}</p>
           <h1>{t("startTitel")}</h1>
           <p className={styles.gross}>{t("einfuehrung", { betrieb: props.betrieb, ziel: props.ziel })}</p>
-          <p className={styles.deadline}>{t("deadline", { deadline: props.deadline })}</p>
+          {props.deadline && <p className={styles.deadline}>{t("deadline", { deadline: props.deadline })}</p>}
           <p className="leise">{t("dauer")}</p>
           <p className={styles.frageKlein}>{t("bereichFrage")}</p>
           <div className="chips">
@@ -490,7 +490,7 @@ export function Gespraech(props: Props) {
               )}
               <div className="karte">
                 <p className="leise">{t("teilgenommen", { n: ergebnis.teilgenommen, gesamt: ergebnis.mitarbeitende })}</p>
-                <p><strong>{t("besprechung", { deadline: props.deadline })}</strong></p>
+                {props.deadline && <p><strong>{t("besprechung", { deadline: props.deadline })}</strong></p>}
                 <Link className="button button--tuerkis" href={`/analyse/${props.code}`}>
                   {t("zurAnalyse")}
                 </Link>

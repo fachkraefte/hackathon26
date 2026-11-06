@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { pruefeCode } from "@/lib/aktionen";
-import { oeffne } from "@/lib/feed-aktionen";
+import { oeffneMitGedaechtnis } from "./oeffnen";
 
 /** Code-Eingabe, auch auf der Startseite verwendet. */
 export function CodeFeld({ ziel }: { ziel: "befragung" | "analyse" | "feed" }) {
@@ -22,9 +22,9 @@ export function CodeFeld({ ziel }: { ziel: "befragung" | "analyse" | "feed" }) {
         setFalsch(false);
         starte(async () => {
           if (ziel === "feed") {
-            // Persönlicher Code → eigener Bereich (Demo-Betriebscode erzeugt einen Demo-Code).
-            const r = await oeffne(code).catch(() => null);
-            if (r && "pfad" in r) router.push(r.pfad);
+            // Ein Feld für alles: Team-Code → anonyme App (dieses Gerät merkt sich seine Sitzung), Leitungs-Code → Dashboard.
+            const r = await oeffneMitGedaechtnis(code);
+            if (r) router.push(r);
             else setFalsch(true);
             return;
           }

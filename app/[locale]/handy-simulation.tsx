@@ -4,6 +4,7 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
+import { CodeFeld } from "./zugang/code-feld";
 import type { FeedKarte, Resonanz, Richtung } from "@/lib/feed";
 import feedStyles from "./feed/[code]/feed.module.css";
 import { AussageKarte, ResonanzSchirm } from "./ich/[code]/app";
@@ -11,7 +12,7 @@ import styles from "./page.module.css";
 
 type Sim = { karte: Extract<FeedKarte, { art: "aussage" }>; resonanz: Resonanz };
 
-export function HandySimulation({ karten, demoPfad }: { karten: Sim[]; demoPfad: string }) {
+export function HandySimulation({ karten }: { karten: Sim[]; demoPfad?: string }) {
   const t = useTranslations("Home");
   const [index, setIndex] = useState(0);
   const [antwort, setAntwort] = useState<Richtung | null>(null);
@@ -52,7 +53,11 @@ export function HandySimulation({ karten, demoPfad }: { karten: Sim[]; demoPfad:
           <div className={feedStyles.simEnde}>
             <p className={feedStyles.simEndeTitel}>{t("simEnde")}</p>
             <p className={feedStyles.leise}>{t("simEndeText")}</p>
-            <Link href={demoPfad} className={feedStyles.simEcht}>{t("simEcht")} →</Link>
+            <div className={feedStyles.simCode}>
+              <p className={feedStyles.frage}>{t("simCode")}</p>
+              <CodeFeld ziel="feed" />
+            </div>
+            <Link href="/anlegen" className={feedStyles.simEcht}>{t("simAnlegen")} →</Link>
             <button
               type="button"
               className={feedStyles.simNochmal}

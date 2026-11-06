@@ -180,7 +180,7 @@ export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: An
             <li key={f.id}><strong>{loesungen[f.id].name}:</strong> {loesungen[f.id].testlauf}</li>
           ))}
         </ul>
-        <p className="leise">{t("roki", { deadline: daten.deadline })}</p>
+        <p className="leise">{daten.deadline ? t("roki", { deadline: daten.deadline }) : t("rokiOhne")}</p>
         <p>
           <Link className={styles.planKnopf} href={`/plan/${daten.code}`}>{t("planKnopf")} ↓</Link>
         </p>

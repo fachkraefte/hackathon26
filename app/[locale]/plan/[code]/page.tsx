@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { analyseDaten } from "@/lib/analyse";
 import { ergaenzeLoesungen } from "@/lib/loesungen";
 import { formatEuro, formatStunden } from "@/lib/rechnen";
-import { Drucken } from "../../codes/[code]/drucken";
+import { Drucken } from "../../_komponenten/drucken";
 import styles from "./plan.module.css";
 
 export const dynamic = "force-dynamic";
@@ -36,7 +36,7 @@ export default async function PlanSeite(props: PageProps<"/[locale]/plan/[code]"
       <header className={styles.kopf}>
         <p className={styles.marke}>ROKIO · {t("fahrplan")}</p>
         <h1>{d.betrieb}</h1>
-        <p>{t("stand", { stimmen: d.teilgenommen, von: d.mitarbeitende, deadline: d.deadline })}</p>
+        <p>{d.deadline ? t("stand", { stimmen: d.teilgenommen, von: d.mitarbeitende, deadline: d.deadline }) : t("standOhne", { stimmen: d.teilgenommen, von: d.mitarbeitende })}</p>
       </header>
 
       <section>
@@ -79,7 +79,7 @@ export default async function PlanSeite(props: PageProps<"/[locale]/plan/[code]"
         <h2>3 · {t("vorgehenTitel")}</h2>
         <ol className={styles.schritte}>
           <li>
-            <strong>{t("s1Titel")}</strong> {t("s1Text", { deadline: d.deadline })}
+            <strong>{t("s1Titel")}</strong> {d.deadline ? t("s1Text", { deadline: d.deadline }) : t("s1TextOhne")}
           </li>
           <li>
             <strong>{t("s2Titel")}</strong> {t("s2Text")}
