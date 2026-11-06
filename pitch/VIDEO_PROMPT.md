@@ -1,5 +1,7 @@
 # Pitch-Video ROKIO – Verlaufsplan & Prompt
 
+> **Maßgeblich ist der englische Prompt in [`video-prompt.txt`](video-prompt.txt) (v3).** Der deutsche Prompt unten ist überholt; Verlaufsplan, Aufnahmeliste und Shotlist gelten weiter (Sprachspur jetzt Englisch).
+
 **Stand:** 06.11.2026 · Länge **2:30** · 16:9, 1920×1080, 30 fps · Teil von [`PITCH_SETUP.md`](PITCH_SETUP.md) (Block B, 1:15–3:45)
 
 **Aufgabe des Videos:** die Jury vom Hocker hauen – und in 150 Sekunden die ganze Anwendung erlebbar machen: Projekt anlegen → melden → alle bestätigen → Befund → Lösung & Fahrplan → wie sich die Kultur verändert. Danach übernimmt der Saal (Live-Interaktion).

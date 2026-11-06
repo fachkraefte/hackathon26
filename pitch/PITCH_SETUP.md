@@ -3,7 +3,7 @@
 **Stand:** 06.11.2026 · Leuphana AI Hackathon, Corporate Track (Partner: ROKI / Süderelbe AG)
 **Rahmen:** 8 Min. Pitch inkl. Live-Demo · 3 Min. Fragen · 1 Min. Wechsel · Bewertung: 4 Kriterien × 1–5, gleich gewichtet
 **Grundlagen:** Präsentation „Der Klo-Test“, `pitch-guideline.md`, Checkliste Corporate Track, `PROJEKT.md`
-**Video:** Verlaufsplan und Prompt in [`VIDEO_PROMPT.md`](VIDEO_PROMPT.md)
+**Video:** Prompt (Englisch, final) in [`video-prompt.txt`](video-prompt.txt) · Verlaufsplan/Shotlist in [`VIDEO_PROMPT.md`](VIDEO_PROMPT.md) · **Deck:** [`ROKIO-pitch-8min.pptx`](ROKIO-pitch-8min.pptx)
 
 ---
 
@@ -23,123 +23,51 @@
 
 ---
 
-## 2. Ablauf auf einen Blick (8:00)
+## 2. Ablauf auf einen Blick (8:00) · Deck `ROKIO-pitch-8min.pptx`
 
-| Zeit | Block | Wer | Was das Publikum sieht | Ziel (Checkliste) |
-|---|---|---|---|---|
-| 0:00–1:05 | **A · Vision & Problem** | Sprecherin A | Folien 1–4 | Opening mit Bild/Person, eine Zahl, Partner-Problem |
-| 1:05–1:15 | **Übergang Mensch → Video** | A + Technik | Handy hoch → Match-Cut | Sog |
-| 1:15–3:45 | **B · Pitch-Video** (2:30) | Technik | Video | Lösung, Nutzen, Vision greifbar |
-| 3:45–5:25 | **C · Live: Der Saal macht mit** | Moderation B + Technik + Bühne D | QR, Handys, Live-Graph | **Funktionierender Kern live** |
-| 5:25–7:05 | **D · Unter der Haube & Pilot** | Sprecherin A (oder C) | Folien 6–7 | KI wo/warum/womit, getestet mit Zahlen, Grenzen, Pilot |
-| 7:05–8:00 | **E · Ausblick & Schluss** | Sprecherin A | Folie 8 | Vision zurück ins Große, nächster Schritt für ROKI |
+**Pitch-Sprache: Englisch.** Der vollständige Sprechtext steht als **Sprechernotiz auf jeder Folie** (maßgeblich). Sarah präsentiert; ein Teammitglied bedient Laptop und Live-Ansicht.
 
-Puffer: Block C hat 15 s Luft (Antworten trudeln ein). Wenn die Zeit drückt, kürzt Block D, nicht Block C.
+| Zeit | Folie | Inhalt | Wirkung |
+|---|---|---|---|
+| 0:00–0:20 | 01 Do you hear complaints over coffee? | Handzeichen-Frage | Einstieg mit Problem, nicht mit Team |
+| 0:20–0:55 | 02 From friction to flow | **Vision:** „Imagine a workplace where everyone likes to work … Sounds utopian?“ | Versprechen zuerst |
+| 0:55–1:15 | 03 10 % | Gallup → „In a company of fifty: five.“ | die eine Zahl |
+| 1:15–1:25 | 04 Frustration → participation | Wendepunkt | |
+| 1:25–1:50 | 05 Logo | **Logo baut sich auf**: Glied 1 Problem → Glied 2 Team erkennt es → Glied 3 nächster Schritt → Schriftzug; ROKIs „Where do we start?“ | Partnerproblem |
+| 1:50–2:05 | 06 Low barriers / toilet test | Sarah hält Handy hoch: „This is Marco. Workshop, 6:40 a.m.“ | **Match-Cut ins Video** |
+| 2:05–4:35 | 07 Video | Pitch-Video 2:30 (Prompt: `video-prompt.txt`), endet auf „Your turn.“ | Emotion + ganze Anwendung |
+| 4:35–5:55 | 08 Your turn (QR) | QR → `https://hackathon26-nu.vercel.app/de` → Code **FTFZVT** → Rolle wählen → wischen; Beamer: `…/de/live/FTFZVT`; Teammitglied meldet live per Sprache | **Kernfunktion live** |
+| 5:55–7:00 | 09 Live, not a mock-up (neu) | KI wo/warum/womit · getestete Zahlen · ehrliche Grenzen | Bewertung „Solution & AI“ |
+| 7:00–7:45 | 10 Next coffee break | Ask an ROKI: drei Metallbau-KMU, 4 Wochen Pilot, Betriebsrat ab Tag 1 · „Give them a reason to say it.“ | nächster Schritt für den Partner |
 
----
+15 s Puffer bis 8:00. Wenn es knapp wird, kürzt Folie 09, nicht die Interaktion.
 
-## 3. Regiebuch mit Sprechtext
+**Übergänge:** sanftes Überblenden auf allen Folien. Folie 05: Logo-Animation läuft automatisch (~3,5 s). Folie 06 → 07: Match-Cut (Handy im Saal = erstes Videobild). Folie 07 → 08: letztes Videobild „Your turn.“ friert 2 s ein → Klick → QR-Folie mit „Your turn.“
 
-Sprechtempo gerechnet mit ~130 Wörtern/Minute. **Fett** = Betonung, `[ ]` = Regie.
+## 3. Was im Deck geändert wurde (gegenüber eurer Fassung)
 
-### A · Vision & Problem (0:00–1:05) · Folien 1–4
+- Reihenfolge: „Low barriers“ steht jetzt **vor** dem Video, damit das Video mit „Your turn.“ direkt auf die QR-Folie übergibt.
+- Folie 05: Logo in vier Teile zerlegt, baut sich Glied für Glied auf (Wipe), danach Schriftzug und Satz.
+- Folie 07: Video-Platz (Video einfügen: Einfügen → Video → Dieses Gerät, Start automatisch, Vollbild).
+- Folie 09 neu: „Live, not a mock-up“ – erfüllt die Checklisten-Punkte KI-Einsatz, Testzahl, Grenzen.
+- Seitenzahlen 01–10 fortlaufend, Überblenden auf allen Folien.
+- Sprechernotizen für 8 Minuten neu (vorher 6 Minuten, teils doppelt kopiert). Korrigiert: Der QR-Code führt auf die Startseite `/de` (per Dekodierung geprüft), dort Code FTFZVT = Projekt AI-Hackathon mit Rollen statt „Werkstatt“.
+- QR-Code und Link unverändert.
 
-**Folie 1 – schwarz, nur ein Satz in großer Schrift: „Stellt euch vor …“**
-> „Stellt euch einen Betrieb vor, in dem **Fehler am Montag** auf den Tisch kommen – und nicht am Freitag in der Kaffeeküche landen.
-> In dem der Azubi sagt: ‚Das Lager stimmt nicht mit dem System‘ – und die Chefin sagt: **‚Danke, dass du’s gesagt hast.‘**
-> In dem man nicht nur hört, was schiefläuft, sondern auch, **was richtig gut läuft.** Ein Betrieb, in dem man gerne arbeitet.“
+## 4. Rollen
 
-**Folie 2 – „Klingt utopisch?“ → Zahl baut sich auf: 50 Figuren, 45 werden grau, 5 bleiben orange**
-> „Klingt utopisch? In einem Betrieb mit 50 Leuten sind laut Gallup gerade mal **fünf** mit Herz dabei. Fünfundvierzig machen Dienst nach Vorschrift.“
-> `[Pause, 1 Sekunde]`
-
-**Folie 3 – zwei Fotos nebeneinander: Kaffeemaschine | Besprechungsraum**
-> „Dabei wissen die Leute ganz genau, wo es hakt. An der Kaffeemaschine wird über alles geredet. **Im Meeting: Schweigen.**“
-
-**Folie 4 – Partner-Zitat (ROKI): „Wo fange ich an? Was rechnet sich?“**
-> „Genau das hören die Berater von ROKI jeden Tag von Betrieben in Harburg, Lüneburg und Stade: **‚Wo fange ich an?‘** Die Antwort steht nicht in einer Studie. Sie steckt in den Köpfen der eigenen Leute.“
->
-> `[Partner-Problem in den Worten des Partners – vor dem Pitch mit dem Challenge-Brief abgleichen und ggf. Wortlaut übernehmen.]`
-
-### Übergang Mensch → Video (1:05–1:15) · der Match-Cut
-
-`[A zieht das Handy aus der Tasche und hält es hoch, Display zum Publikum. Auf dem Handy läuft ROKIO mit der Karte „Geänderte Zeichnungen kommen nicht rechtzeitig in der Werkstatt an.“]`
-> „Das ist **Marco**. Werkstatt, 6:40 Uhr. Er hat genau **30 Sekunden**, bevor die Schicht losgeht.“
-
-`[Licht runter, Technik startet das Video. Erstes Bild des Videos = exakt dieses Handy-Display, groß. Das Handy in der Hand „wird“ zur Leinwand.]`
-
-### B · Pitch-Video (1:15–3:45)
-
-Läuft komplett durch, mit eigener Sprachspur (gleiche Stimme wie A, damit der Übergang nahtlos ist). Inhalt: [`VIDEO_PROMPT.md`](VIDEO_PROMPT.md).
-
-**Übergang Video → Mensch:** Das letzte Bild des Videos ist ein Handy-Display mit dem Text **„Jetzt ihr.“** und einem QR-Code. Technik schaltet ohne Schwarzbild auf **Folie 5**, die dasselbe Layout hat – mit dem **echten** QR-Code. Für das Publikum geht das Video einfach weiter, nur jetzt mit ihnen.
-
-### C · Live: Der Saal macht mit (3:45–5:25) · Folie 5 + Live-Ansicht
-
-**Folie 5 – links QR-Code (Team-Code FTFZVT), rechts Beamer-Ansicht `…/de/live/FTFZVT`** (geteilter Bildschirm oder zwei Tabs, siehe Technik)
-
-**Moderation B:**
-> „Ihr seid jetzt ein Betrieb: der **AI-Hackathon**. Handy raus, QR-Code scannen. Wählt eure Rolle – Tutor, Corporate Track, Open Track, Organisation oder wissenschaftliche Begleitung. Und dann: wischen. Rechts heißt ‚kenn ich‘, links ‚kenn ich nicht‘.“
-> `[~40 Sekunden laufen lassen. B kommentiert den Live-Graphen auf dem Beamer:]`
-> „Seht ihr die Linie zwischen **Tutor und Open Track**? Die wird gerade dicker. Das seid ihr.“
-
-**Bühne D (Teammitglied mit Handy, Mikro an das Handy halten):** hält den roten Knopf und erzählt live eine echte Beobachtung aus diesen zwei Tagen.
-> Vorschlag – **nur verwenden, wenn es stimmt:** „Im Hörsaal fällt das WLAN aus, sobald alle gleichzeitig deployen. Und außerdem wusste niemand, wo die Adapter liegen.“
-> `[ROKIO zerlegt das live in zwei Probleme – B zeigt es kurz auf dem Beamer oder liest es vor.]`
-
-**Moderation B – die Pointe:**
-> „Ihr habt gerade in unter einer Minute **[Zahl vom Beamer ablesen] Stimmen** abgegeben. Mit einem Fragebogen wären es fünf Minuten gewesen – und die Hälfte hätte abgebrochen.“
-> `[Nicht abwarten, bis alle fertig sind. Bei 5:25 weiter.]`
-
-### D · Unter der Haube & Pilot (5:25–7:05) · Folien 6–7
-
-**Folie 6 – „Was dahinter steckt“ (drei Spalten: KI · Getestet · Ehrlich)**
-> „Was ihr gerade gesehen habt, läuft **live**, nicht als Klickdummy.
-> **Wo KI arbeitet:** Sie zerlegt eine Erzählung in einzelne Probleme, macht daraus eine anonyme Karte, die andere Bereiche verstehen, ordnet zu und schlägt Lösungen aus einem geprüften Musterkatalog vor. Sprachmodell von OpenAI auf unserem Server, jede Antwort wird gegen ein festes Format geprüft.
-> **Was wir getestet haben:** Ein Projekt steht in **rund 10 Sekunden**. Die erste Karte erscheint **sofort**. Unsere Testmeldungen wurden – nach zwei behobenen Formatfehlern – **5 von 5** korrekt in Einzelprobleme zerlegt.
-> **Was noch nicht gut ist:** Die Zuordnung neuer Meldungen dauert 20 bis 40 Sekunden. Die Spracheingabe im Chrome-Browser schickt Audio an Google – im echten Einsatz muss das lokal laufen. Und alle Stunden sind Schätzungen der Beschäftigten, keine Messung.“
-
-**Folie 7 – „Pilot mit ROKI“ (Zeitstrahl 4 Wochen)**
-> „Der Nutzen für ROKI: Betriebe kommen **vorbereitet** ins Erstgespräch – mit einem Befund aus dem ganzen Team und einem Fahrplan, statt mit ‚Wir müssten mal was mit KI machen‘.
-> Ein erster Pilot: **drei ROKI-Betriebe, vier Wochen.** Was wir brauchen: die Leitung, die einen Code teilt, den **Betriebsrat von Anfang an**, und 30 Minuten Ergebnisbesprechung. Bewusst weggelassen haben wir: Ranglisten, Uhrzeiten, Namen – und jede Renditeversprechung.“
-
-### E · Ausblick & Schluss (7:05–8:00) · Folie 8
-
-**Folie 8 – Zoom raus: eine Karte → ein Betrieb → eine Region (Karte Harburg, Lüneburg, Stade)**
-> „Heute ist ROKIO eine Karte auf einem Handy. Morgen ist es der **dauerhafte Kanal**, über den ein Betrieb hört, was seine Leute längst wissen. Und übermorgen sieht ROKI – anonym und freiwillig geteilt – **welche Übergaben in der ganzen Region** Zeit fressen und wo Robotik wirklich hilft.
-> **Unsere Bitte an ROKI:** Gebt uns drei Betriebe für den Pilot im Dezember.
-> Damit die Kaffeemaschine wieder ein Ort für gute Gespräche ist –
-> `[Pause]`
-> und die Probleme dort gelöst werden, wo sie hingehören. **Eure Leute wissen, wo es hakt. Gebt ihnen einen Grund, es zu sagen.**“
-
----
-
-## 4. Folienplan (8 Folien + Video)
-
-Stil wie die App: Papier `#F3EFE6`, Tinte `#141824`, Logo-Orange `#C66E2C`; Signalfarben nur als Signal (Grün `#2E9E57` = kenn ich, Rot `#D6402F` = Bruchstelle, Gelb `#F1E64B` = es passiert etwas). Schrift Archivo schmal (Überschriften), wenige Wörter pro Folie, keine Aufzählungsfolien.
-
-| # | Inhalt | Visual |
-|---|---|---|
-| 1 | „Stellt euch vor …“ | Schwarz, ein Satz, Wort für Wort eingeblendet |
-| 2 | „Klingt utopisch?“ + **5 von 50** | 50 Figuren-Icons, 45 werden grau · Quelle klein: Gallup Engagement Index 2025 |
-| 3 | Kaffeemaschine vs. Meeting | zwei Fotos, links laut (Sprechblasen), rechts leer |
-| 4 | „Wo fange ich an?“ | Zitat ROKI groß, Logo ROKI klein |
-| – | **Video (2:30)** | — |
-| 5 | **„Jetzt ihr.“** | QR-Code groß (Team-Code **FTFZVT**) + Kurzlink `hackathon26-nu.vercel.app/de/feed/FTFZVT` · rechts Platz für die Live-Ansicht |
-| 6 | Was dahinter steckt | drei Spalten: KI (wo/warum/womit) · Getestet (3 Zahlen) · Ehrlich (2 Grenzen) |
-| 7 | Pilot mit ROKI | Zeitstrahl Woche 1–4 + „Was wir brauchen“ (3 Punkte) |
-| 8 | Ausblick | Zoom: Karte → Betrieb → Region; Schlusssatz; Kontakt/QR zum Dashboard der Demo |
-
-Backup-Folien (nur für Fragen): Reserve-Zahlen Gallup · Datenschutz/Mitbestimmung · Architektur · Kosten · Bauplan-Prompt-Beispiel.
-
----
+| Rolle | Wer |
+|---|---|
+| Präsentation, Vision, Sprachspur im Video | **Sarah** |
+| Laptop: Folien, Video, Umschalten auf Live-Ansicht, Plan B | _eintragen_ |
+| Live-Meldung per Sprache in Folie 08 (echte Beobachtung) | _eintragen_ (oder Sarah) |
 
 ## 5. Die Interaktion im Detail (Block C)
 
 | | |
 |---|---|
 | Projekt | **AI-Hackathon** · Team-Code **FTFZVT** · Leitungs-Code **EUCQ4CE9KR** (nur Team) |
-| Einstieg fürs Publikum | QR-Code auf Folie 5 → `https://hackathon26-nu.vercel.app/de/feed/FTFZVT` |
+| Einstieg fürs Publikum | QR-Code auf Folie 08 → `https://hackathon26-nu.vercel.app/de` → Code **FTFZVT** eingeben |
 | Rollen | Tutor · Teilnehmende Corporate Track · Teilnehmende Open Track · Organisation · Wissenschaftliche Begleitung |
 | Karten | 3 Startkarten (Beispiele) + alles, was bis zum Pitch gemeldet wird |
 | Beamer | `https://hackathon26-nu.vercel.app/de/live/FTFZVT` – Graph, Stunden, Stimmen, alle 2 s neu; ordnet neue Stimmen alle 25 s zu |
