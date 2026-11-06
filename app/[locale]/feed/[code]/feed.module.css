@@ -1,0 +1,535 @@
+/* Feed: Vollbild, mobil zuerst (390 px), Daumenzone unten.
+   Farbe nur als Signal: Grün = kenn ich, Rot = nicht bei uns, Blau = ständig, Gelb = es passiert etwas. */
+.buehne {
+  --tinte: #141824;
+  --papier: #f3efe6;
+  --gruen: #2e9e57;
+  --rot: #d6402f;
+  --blau: #2f6fdb;
+  --gelb: #f1e64b;
+  --leise: rgba(243, 239, 230, 0.62);
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--tinte);
+  color: var(--papier);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.buehne[data-phase="start"],
+.buehne[data-phase="ende"],
+.buehne[data-phase="erzaehlen"] {
+  touch-action: auto;
+  user-select: auto;
+  -webkit-user-select: auto;
+  overflow-y: auto;
+}
+
+.gross {
+  margin: 0;
+  font-size: clamp(2.75rem, 13vw, 4.5rem);
+  font-stretch: 62%;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.betrieb {
+  margin: 0;
+  color: var(--leise);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.einleitung {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.35;
+}
+
+.leise {
+  margin: 0;
+  color: var(--leise);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.fehler {
+  margin: 0;
+  color: #ffb4a8;
+}
+
+/* ---------- Start ---------- */
+.start,
+.ende,
+.erzaehlen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: min(100%, 30rem);
+  margin: 0 auto;
+  padding: max(2rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.hausordnung {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.hausordnung li::before {
+  content: "✓ ";
+  color: var(--gelb);
+}
+
+.daumen {
+  display: grid;
+  gap: 0.875rem;
+  margin-top: auto;
+}
+
+.frage {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.bereiche {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+}
+
+.bereich,
+.chip {
+  min-height: 3.5rem;
+  padding: 0.75rem;
+  border: 2px solid rgba(243, 239, 230, 0.35);
+  border-radius: 14px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.bereich:active,
+.bereich[data-gewaehlt="true"],
+.chip[data-gewaehlt="true"] {
+  border-color: var(--gelb);
+  background: var(--gelb);
+  color: var(--tinte);
+}
+
+.leiseLink {
+  color: var(--leise);
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+/* ---------- Karten ---------- */
+.fortschritt {
+  display: flex;
+  gap: 4px;
+  padding: max(0.75rem, env(safe-area-inset-top)) 1rem 0;
+}
+
+.fortschritt span {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(243, 239, 230, 0.25);
+}
+
+.fortschritt span[data-voll="true"],
+.fortschritt span[data-jetzt="true"] {
+  background: var(--papier);
+}
+
+.oben {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0.5rem 1rem 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.kartenFlaeche {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(100%, 30rem);
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0.75rem 0.875rem max(1rem, env(safe-area-inset-bottom));
+}
+
+.karte {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  min-height: 0;
+  padding: 1.5rem 1.25rem;
+  overflow: hidden;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(20, 24, 36, 0) 30%, rgba(20, 24, 36, 0.85) 100%),
+    repeating-linear-gradient(0deg, rgba(243, 239, 230, 0.05) 0 1px, transparent 1px 44px),
+    repeating-linear-gradient(90deg, rgba(243, 239, 230, 0.05) 0 1px, transparent 1px 44px),
+    #232a3b;
+  cursor: grab;
+  will-change: transform;
+}
+
+.karte[data-richtung="kenn"] {
+  box-shadow: inset 0 0 0 3px var(--gruen);
+}
+
+.karte[data-richtung="nicht"] {
+  box-shadow: inset 0 0 0 3px var(--rot);
+}
+
+.karte[data-richtung="staendig"] {
+  box-shadow: inset 0 0 0 3px var(--blau);
+}
+
+.hintergrundWort {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  color: transparent;
+  font-size: clamp(3rem, 16vw, 5.5rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+  -webkit-text-stroke: 1.5px rgba(243, 239, 230, 0.16);
+  hyphens: auto;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+}
+
+.zitat {
+  margin: 0;
+  font-size: clamp(2rem, 9.5vw, 2.75rem);
+  font-stretch: 70%;
+  font-weight: 800;
+  line-height: 1.02;
+}
+
+.quelle {
+  margin: 0;
+  color: var(--leise);
+  font-size: 0.9375rem;
+}
+
+.stempel {
+  position: absolute;
+  top: 2.5rem;
+  padding: 0.25rem 0.75rem;
+  border: 4px solid currentColor;
+  border-radius: 10px;
+  font-size: 2.25rem;
+  font-stretch: 70%;
+  font-weight: 900;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.stempel[data-richtung="kenn"] {
+  left: 1.25rem;
+  color: var(--gruen);
+  transform: rotate(-12deg);
+}
+
+.stempel[data-richtung="nicht"] {
+  right: 1.25rem;
+  color: var(--rot);
+  transform: rotate(12deg);
+}
+
+.stempel[data-richtung="staendig"] {
+  left: 50%;
+  color: #6f9cf0;
+  transform: translateX(-50%);
+}
+
+.knoepfe {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.625rem;
+}
+
+.knoepfe:has(> :nth-child(2):last-child) {
+  grid-template-columns: 1fr 1fr;
+}
+
+.nein,
+.ja,
+.oft,
+.gelb {
+  min-height: 3.5rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nein {
+  border: 2px solid rgba(243, 239, 230, 0.4);
+  background: rgba(243, 239, 230, 0.08);
+  color: var(--papier);
+}
+
+.ja {
+  background: var(--gruen);
+  color: #fff;
+}
+
+.oft {
+  width: 3.5rem;
+  padding: 0;
+  background: var(--blau);
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.gelb {
+  background: var(--gelb);
+  color: var(--tinte);
+}
+
+.ja:disabled,
+.nein:disabled,
+.oft:disabled {
+  opacity: 0.5;
+}
+
+.haltenLeise,
+.halten {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  border: 0;
+  background: none;
+  color: var(--leise);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.halten {
+  min-height: 3.5rem;
+  border-radius: 999px;
+  background: var(--papier);
+  color: var(--tinte);
+  font-size: 1.125rem;
+}
+
+.punkt {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--rot);
+}
+
+/* ---------- Was daraus wurde ---------- */
+.wirkung {
+  justify-content: center;
+  background: var(--tinte);
+  box-shadow: inset 0 0 0 2px rgba(241, 230, 75, 0.5);
+  cursor: default;
+}
+
+.wirkungUeber {
+  margin: 0;
+  color: var(--gelb);
+  font-weight: 700;
+}
+
+.wirkungTitel {
+  margin: 0;
+  font-size: clamp(2.25rem, 10vw, 3rem);
+  font-stretch: 62%;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.wirkungSatz {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+/* ---------- Resonanz ---------- */
+.resonanz {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  border: 0;
+  background: var(--gruen);
+  color: #0d1a12;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  animation: rein 0.2s ease-out;
+}
+
+.resonanz[data-richtung="staendig"] {
+  background: var(--blau);
+  color: #fff;
+}
+
+.resonanz[data-richtung="nicht"] {
+  background: var(--tinte);
+  color: var(--papier);
+}
+
+.resonanzUeber {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.resonanzZahl {
+  font-size: clamp(4.5rem, 24vw, 7rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.resonanzZeile {
+  max-width: 22rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.resonanzFuss {
+  margin-top: 2rem;
+  font-size: 0.9375rem;
+  opacity: 0.75;
+}
+
+@keyframes rein {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+/* ---------- Erzählen ---------- */
+.textfeld {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid rgba(243, 239, 230, 0.3);
+  border-radius: 14px;
+  background: rgba(243, 239, 230, 0.06);
+  color: var(--papier);
+  font: inherit;
+  font-size: 1.125rem;
+  resize: none;
+}
+
+.aufnahme {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--papier);
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.aufnahmeKreis {
+  display: grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  background: var(--rot);
+  color: #fff;
+  font-size: 1.25rem;
+  box-shadow: 0 0 0 0 rgba(214, 64, 47, 0.5);
+}
+
+.aufnahme[data-hoert="true"] .aufnahmeKreis {
+  animation: puls 1.2s infinite;
+}
+
+@keyframes puls {
+  to {
+    box-shadow: 0 0 0 18px rgba(214, 64, 47, 0);
+  }
+}
+
+.vorschau {
+  margin: 0;
+  padding: 1.25rem;
+  border-radius: 18px;
+  background: #232a3b;
+  font-size: 2rem;
+  font-stretch: 70%;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.chipsBlock {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.chip {
+  min-height: 3rem;
+  font-size: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .karte,
+  .resonanz {
+    transition: none !important;
+    animation: none;
+  }
+}

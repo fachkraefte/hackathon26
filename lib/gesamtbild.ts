@@ -7,6 +7,7 @@ import {
   holeBeitraege,
   holeBestandsaufnahme,
   holeGesamtbildEintrag,
+  fadenAusFeedPunkt,
   laufend as laufendeAufrufe,
   schluesselFuer,
   speichereGesamtbildEintrag,
@@ -25,7 +26,7 @@ export async function holeGesamtbild(id: string) {
   // Ein Ersatzbild aus dem Demo-Modus gilt nur, solange die KI nicht verfügbar ist.
   const ersatzErsetzen = vorhanden?.ausDemo && kiVerfuegbar();
   if (vorhanden && !ersatzErsetzen && fehlende.size === 0 && vorhanden.schluessel === schluessel) {
-    return { ...vorhanden, bestandsaufnahme, beitraege };
+    return { ...mitFeedStimmen(vorhanden, beitraege), bestandsaufnahme, beitraege };
   }
 
   const laufendSchluessel = `${id}#${schluessel}`;
@@ -49,13 +50,30 @@ export async function holeGesamtbild(id: string) {
     laufendeAufrufe.set(laufendSchluessel, laufend);
   }
   const eintrag = await laufend;
-  return { ...eintrag, bestandsaufnahme, beitraege };
+  return { ...mitFeedStimmen(eintrag, beitraege), bestandsaufnahme, beitraege };
 }
 
 /** Punkte aus Beiträgen, die noch in keinem Faden stehen. */
 function offenePunkte(eintrag: GesamtbildEintrag, beitraege: Beitrag[]) {
   const imBild = new Set(eintrag.bild.faeden.flatMap((f) => f.punktIds));
-  return new Set(beitraege.flatMap((b) => b.punkte.map((p) => p.id)).filter((pid) => !imBild.has(pid)));
+  return new Set(
+    beitraege.flatMap((b) => b.punkte.map((p) => p.id)).filter((pid) => !imBild.has(pid) && !fadenAusFeedPunkt(pid)),
+  );
+}
+
+/** Feed-Stimmen ohne KI ihrem Handlungsfeld zuordnen (die Karte kennt es schon). */
+function mitFeedStimmen(eintrag: GesamtbildEintrag, beitraege: Beitrag[]): GesamtbildEintrag {
+  const zuFaden = new Map<string, string[]>();
+  for (const pid of beitraege.flatMap((b) => b.punkte.map((p) => p.id))) {
+    const fid = fadenAusFeedPunkt(pid);
+    if (fid) zuFaden.set(fid, [...(zuFaden.get(fid) ?? []), pid]);
+  }
+  if (zuFaden.size === 0) return eintrag;
+  const faeden = eintrag.bild.faeden.map((f) => {
+    const neu = (zuFaden.get(f.id) ?? []).filter((pid) => !f.punktIds.includes(pid));
+    return neu.length ? { ...f, punktIds: [...f.punktIds, ...neu] } : f;
+  });
+  return { ...eintrag, bild: { ...eintrag.bild, faeden } };
 }
 
 async function zusammenfuehren(

@@ -16,8 +16,14 @@ export type GesamtbildEintrag = {
 };
 
 /** Fingerabdruck der Beiträge: ändert er sich, muss das Gesamtbild neu entstehen. */
+/** Beiträge aus dem Feed: ID „feed-<sitzung>“, Punkt-ID „feed-<sitzung>~<fadenId>“. */
+export const istFeedBeitrag = (id: string) => id.startsWith("feed-");
+export const fadenAusFeedPunkt = (punktId: string) => (punktId.startsWith("feed-") ? punktId.split("~")[1] ?? null : null);
+
 export function schluesselFuer(beitraege: Beitrag[]) {
+  // Feed-Stimmen hängen fest an ihrem Handlungsfeld (lib/feed.ts) und lösen kein neues Zusammenführen aus.
   return beitraege
+    .filter((b) => !istFeedBeitrag(b.id))
     .flatMap((b) => b.punkte.map((p) => `${b.id}:${p.id}:${p.titel}:${p.aussage}`))
     .sort()
     .join("|");
@@ -247,6 +253,15 @@ export async function speichereBeitrag(beitrag: Beitrag) {
     return;
   }
   fehler("Beitrag speichern", (await db().from("beitraege").upsert(beitragInZeile(beitrag))).error);
+}
+
+export async function loescheBeitrag(bestandsaufnahmeId: string, beitragId: string) {
+  if (!supabaseKonfiguriert()) {
+    const s = imServer();
+    s.beitraege.set(bestandsaufnahmeId, (s.beitraege.get(bestandsaufnahmeId) ?? []).filter((b) => b.id !== beitragId));
+    return;
+  }
+  fehler("Beitrag löschen", (await db().from("beitraege").delete().eq("id", beitragId)).error);
 }
 
 export async function holeGesamtbildEintrag(id: string): Promise<GesamtbildEintrag | null> {

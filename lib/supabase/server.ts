@@ -67,6 +67,26 @@ type BeschlussRow = {
   erstellt_am: string;
 };
 
+type KarteRow = {
+  id: string;
+  bestandsaufnahme_id: string;
+  faden_id: string | null;
+  text: string;
+  bereich: string;
+  von: string | null;
+  an: string | null;
+  typ: string;
+  frei: boolean;
+};
+
+type ReaktionRow = {
+  sitzung: string;
+  karte_id: string;
+  bestandsaufnahme_id: string;
+  bereich: string;
+  richtung: string;
+};
+
 /** Tabellen aus supabase/migrations/ (v2 + v3, von Hand gepflegt). */
 export type Database = {
   public: {
@@ -79,6 +99,8 @@ export type Database = {
       beitraege: Tabelle<BeitragRow, "id" | "bestandsaufnahme_id" | "bereich" | "punkte" | "bremst">;
       gesamtbilder: Tabelle<GesamtbildRow, "bestandsaufnahme_id" | "schluessel" | "bild">;
       beschluesse: Tabelle<BeschlussRow, "bestandsaufnahme_id" | "faden_id" | "aufgabe" | "verantwortlich" | "bis">;
+      karten: Tabelle<KarteRow, "id" | "bestandsaufnahme_id" | "text" | "bereich">;
+      reaktionen: Tabelle<ReaktionRow, "sitzung" | "karte_id" | "bestandsaufnahme_id" | "bereich" | "richtung">;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

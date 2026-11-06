@@ -6,6 +6,7 @@ import { z } from "zod";
 import { bereichsLabel } from "./anonym";
 import { nimmBeitragAuf } from "./gesamtbild";
 import { bereiteVor, versteheGeschichte } from "./ki/schritte";
+import { ladeDemoKarten } from "./feed";
 import { ergaenzeLoesungen } from "./loesungen";
 import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
 import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, speichereBeitrag } from "./speicher";
@@ -160,4 +161,5 @@ export async function teilnahme(code: string) {
 
 export async function setzeDemoZurueck() {
   await demoZuruecksetzen();
+  await ladeDemoKarten();
 }
