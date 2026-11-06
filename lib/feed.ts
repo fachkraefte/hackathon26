@@ -1,15 +1,15 @@
 // Feed (Klo-Test): Karten, Gesten, Resonanz.
 // Jede Geste schreibt in die vorhandenen Felder: eine Feed-Sitzung ist ein Beitrag, jede bestätigte Karte ein Punkt
-// mit Übergabe (von → an), Häufigkeit aus der Geste (kenn ich = mehrmals im Monat, ständig = mehrmals pro Woche) und Minuten = Median der echten Schätzungen im Handlungsfeld.
+// mit Übergabe (von → an) und der typischen Schätzung im Handlungsfeld (ständig = eine Häufigkeitsstufe höher) und Minuten = Median der echten Schätzungen im Handlungsfeld.
 import { z } from "zod";
 import demoKartenJson from "@/daten/demo/heidekamp/karten.json";
 import { demoBeitraege, demoGesamtbild, DEMO_ID } from "./daten";
 import { holeGesamtbild } from "./gesamtbild";
 import { fragJson, kiVerfuegbar } from "./ki/json";
-import { fadenZahlen } from "./rechnen";
+import { fadenZahlen, stundenProWoche } from "./rechnen";
 import { holeBeitraege, istFeedBeitrag, loescheBeitrag, personVon, speichereBeitrag } from "./speicher";
 import { createSupabaseServerClient, supabaseKonfiguriert } from "./supabase/server";
-import { Beitrag, type Bestandsaufnahme, type Haeufigkeit } from "./typen";
+import { Beitrag, haeufigkeiten, type Bestandsaufnahme, type Haeufigkeit } from "./typen";
 
 export const Richtung = z.enum(["kenn", "staendig", "nicht"]);
 export type Richtung = z.infer<typeof Richtung>;
@@ -22,11 +22,13 @@ export type Karte = {
   bereich: string;
   von: string | null;
   an: string | null;
-  typ: "aussage" | "meme";
+  typ: "aussage" | "meme" | "lob";
+  bild: string | null; // Hintergrundbild (Demo-Karten, Memes); eigene Meldungen ohne Bild
 };
 
 export type FeedKarte =
   | (Karte & { art: "aussage"; kurzname: string | null })
+  | (Karte & { art: "meme"; kurzname: string | null })
   | { art: "wirkung"; id: string; fadenId: string; loesung: string; satz: string; kurzname: string; stimmen: number; von: string; an: string };
 
 export type Resonanz = { kennen: number; gesamt: number; bereiche: string[]; sichtbar: boolean };
@@ -41,6 +43,8 @@ type ReaktionZeile = { sitzung: string; karteId: string; code: string; bereich: 
 const imServer = () => (g.__rokioFeed ??= { karten: demoKarten(), reaktionen: [] });
 const db = () => createSupabaseServerClient();
 
+const holeAlleKarten = (code: string) => holeKarten(code);
+
 export async function holeKarten(code: string): Promise<Karte[]> {
   if (!supabaseKonfiguriert()) return imServer().karten;
   const { data, error } = await db().from("karten").select("*").eq("bestandsaufnahme_id", code).eq("frei", true);
@@ -53,7 +57,8 @@ export async function holeKarten(code: string): Promise<Karte[]> {
     bereich: k.bereich,
     von: k.von,
     an: k.an,
-    typ: k.typ === "meme" ? "meme" : "aussage",
+    typ: k.typ === "meme" ? "meme" : k.typ === "lob" ? "lob" : "aussage",
+    bild: k.bild,
   }));
 }
 
@@ -72,6 +77,7 @@ export async function speichereKarte(code: string, k: Karte) {
     von: k.von,
     an: k.an,
     typ: k.typ,
+    bild: k.bild,
   });
   if (error) throw new Error(`Karte speichern: ${error.message}`);
 }
@@ -107,14 +113,14 @@ async function speichereReaktion(r: ReaktionZeile) {
 
 /** Startkarten der Demo: die Sichtweisen aus dem Gesamtbild – schon anonym und in der Sprache des Betriebs. */
 export function demoKarten(): Karte[] {
-  return demoGesamtbild.faeden.flatMap((f) =>
+  return demoGesamtbild.faeden.flatMap((f): Karte[] =>
     f.sichtweisen.map((s, i) => {
       // Übergabe der Karte: die des passenden Demo-Punkts aus diesem Bereich.
       const punkt = demoBeitraege
         .filter((b) => b.bereich === s.bereich)
         .flatMap((b) => b.punkte)
         .find((p) => f.punktIds.includes(p.id));
-      const neu = (demoKartenJson as unknown as Record<string, { text: string; kontext: string }[]>)[f.id]?.[i];
+      const neu = (demoKartenJson as unknown as Record<string, { text: string; kontext: string; bild?: string }[]>)[f.id]?.[i];
       return {
         id: `${DEMO_ID}-${f.id}-${i + 1}`,
         fadenId: f.id,
@@ -124,9 +130,26 @@ export function demoKarten(): Karte[] {
         von: punkt?.von ?? null,
         an: punkt?.an ?? null,
         typ: "aussage" as const,
+        bild: neu?.bild ?? null,
       };
     }),
-  );
+  ).concat(demoMemes());
+}
+
+/** Memes der Demo: eigene Bilder, Witz über Zustände – nie über Personen oder Bereiche. */
+function demoMemes(): Karte[] {
+  const memes = (demoKartenJson as unknown as { memes: { fadenId: string; text: string; bild: string }[] }).memes;
+  return memes.map((m, i) => ({
+    id: `${DEMO_ID}-meme-${i + 1}`,
+    fadenId: m.fadenId,
+    text: m.text,
+    kontext: null,
+    bereich: demoGesamtbild.faeden.find((f) => f.id === m.fadenId)?.sichtweisen[0]?.bereich ?? "Werkstatt",
+    von: null,
+    an: null,
+    typ: "meme" as const,
+    bild: m.bild,
+  }));
 }
 
 export async function ladeDemoKarten() {
@@ -136,7 +159,7 @@ export async function ladeDemoKarten() {
   }
   const { error } = await db()
     .from("karten")
-    .insert(demoKarten().map((k) => ({ id: k.id, bestandsaufnahme_id: DEMO_ID, faden_id: k.fadenId, text: k.text, kontext: k.kontext, bereich: k.bereich, von: k.von, an: k.an, typ: k.typ })));
+    .insert(demoKarten().map((k) => ({ id: k.id, bestandsaufnahme_id: DEMO_ID, faden_id: k.fadenId, text: k.text, kontext: k.kontext, bereich: k.bereich, von: k.von, an: k.an, typ: k.typ, bild: k.bild })));
   if (error) throw new Error(`Demo-Karten: ${error.message}`);
 }
 
@@ -158,8 +181,10 @@ async function holeBeitraegeAnzahl(code: string) {
 
 // ---------- Feed zusammenstellen ----------
 /** Bis zu 10 Karten für eine Person: erst Übergaben, die ihren Bereich berühren, dann der eigene Bereich, dann der Rest. */
-export async function stelleFeedZusammen(code: string, bereich: string, beantwortet: string[]): Promise<FeedKarte[]> {
-  const [karten, ergebnis] = await Promise.all([holeKarten(code), holeGesamtbildSicher(code)]);
+export async function stelleFeedZusammen(code: string, bereich: string, beantwortet: string[], max = MAX_KARTEN): Promise<FeedKarte[]> {
+  const [alle, ergebnis] = await Promise.all([holeKarten(code), holeGesamtbildSicher(code)]);
+  const karten = alle.filter((k) => k.typ === "aussage");
+  const memes = alle.filter((k) => k.typ === "meme" && !beantwortet.includes(k.id));
   const kurzname = new Map((ergebnis?.bild.faeden ?? []).map((f) => [f.id, f.kurzname]));
   const schon = new Set(beantwortet);
   const rang = (k: Karte) => {
@@ -169,12 +194,19 @@ export async function stelleFeedZusammen(code: string, bereich: string, beantwor
     return 2;
   };
   // Je Handlungsfeld zuerst eine Karte, damit der Feed abwechslungsreich bleibt.
-  const offen = karten.filter((k) => !schon.has(k.id)).sort((a, b) => rang(a) - rang(b) || zufall(a.id) - zufall(b.id));
+  const offen = karten
+    .filter((k) => !schon.has(k.id))
+    .sort((a, b) => rang(a) - rang(b) || Number(Boolean(b.bild)) - Number(Boolean(a.bild)) || zufall(a.id) - zufall(b.id));
   const gesehen = new Set<string>();
   const erste = offen.filter((k) => (gesehen.has(k.fadenId ?? k.id) ? false : (gesehen.add(k.fadenId ?? k.id), true)));
   const reihe: FeedKarte[] = [...erste, ...offen.filter((k) => !erste.includes(k))]
-    .slice(0, MAX_KARTEN)
+    .slice(0, max)
     .map((k) => ({ ...k, art: "aussage" as const, kurzname: k.fadenId ? (kurzname.get(k.fadenId) ?? null) : null }));
+  // 1–2 Memes pro Runde: an dritter und fünfter Stelle, für ein bisschen Unterhaltung.
+  const memeKarten = [...memes].sort((a, b) => zufall(a.id + bereich) - zufall(b.id + bereich));
+  for (const [i, m] of memeKarten.slice(0, 2).entries()) {
+    reihe.splice(Math.min(2 + i * 2, reihe.length), 0, { ...m, art: "meme", kurzname: m.fadenId ? (kurzname.get(m.fadenId) ?? null) : null });
+  }
 
   // „Was daraus wurde“: Lösungen, die die Leitung testet – an dritter Stelle.
   if (!ergebnis) return reihe;
@@ -201,8 +233,8 @@ export async function stelleFeedZusammen(code: string, bereich: string, beantwor
         an: k?.an ?? "",
       };
     });
-  if (wirkung.length) reihe.splice(Math.min(2, reihe.length), 0, ...wirkung.slice(0, 1));
-  return reihe.slice(0, MAX_KARTEN);
+  if (wirkung.length) reihe.splice(Math.min(1, reihe.length), 0, ...wirkung.slice(0, 1));
+  return reihe.slice(0, max);
 }
 
 /** Stabile Pseudo-Zufallsreihenfolge je Karte (gleiche Karten, gleiche Reihenfolge – kein Speichern nötig). */
@@ -213,8 +245,6 @@ function zufall(s: string) {
 }
 
 // ---------- Geste verarbeiten ----------
-// Bewusst vorsichtig: ein Daumen soll die Stunden nicht aufblähen. Genauer wird es, wenn jemand selbst erzählt.
-const HAEUFIGKEIT: Record<Exclude<Richtung, "nicht">, Haeufigkeit> = { kenn: "mehrmalsImMonat", staendig: "mehrmalsProWoche" };
 const BREMST: Record<Exclude<Richtung, "nicht">, number> = { kenn: 3, staendig: 4 };
 
 export async function verarbeiteGeste(
@@ -230,15 +260,23 @@ export async function verarbeiteGeste(
   // Den Beitrag dieser Sitzung aus allen ihren Reaktionen neu aufbauen (eine Person = ein Beitrag).
   const [reaktionen, vorher] = await Promise.all([holeReaktionen(code), holeGesamtbildSicher(code)]);
   const echte = (vorher?.beitraege ?? []).filter((x) => !istFeedBeitrag(x.id));
-  const median = (fadenId: string | null) => {
+  // Wert einer Bestätigung: die typische Schätzung (Häufigkeit UND Minuten) im Handlungsfeld – bevorzugt aus dem
+  // eigenen Bereich, sonst der untere Median nach Stunden. „Ständig“ = eine Häufigkeitsstufe höher. So ergibt ein Daumen
+  // nie mehr Zeit, als Kolleginnen und Kollegen selbst geschätzt haben. Ohne Zeitangabe im Feld (z. B. Belastung): 0.
+  const typisch = (fadenId: string | null): { haeufigkeit: Haeufigkeit; minuten: number } => {
     const f = vorher?.bild.faeden.find((x) => x.id === fadenId);
-    const werte = echte
-      .flatMap((x) => x.punkte)
-      .filter((p) => f?.punktIds.includes(p.id) && !p.id.startsWith("feed-") && p.minuten > 0)
-      .map((p) => p.minuten)
-      .sort((x, y) => x - y);
-    return werte.length ? werte[Math.floor(werte.length / 2)] : 15;
+    if (!f) return { haeufigkeit: "mehrmalsImMonat", minuten: 15 }; // Startkarte ohne Handlungsfeld: vorsichtig
+    const schaetzungen = echte.flatMap((x) =>
+      x.punkte
+        .filter((p) => f.punktIds.includes(p.id) && !p.id.startsWith("feed-") && p.minuten > 0)
+        .map((p) => ({ bereich: x.bereich, haeufigkeit: p.haeufigkeit, minuten: p.minuten, h: stundenProWoche(p) })),
+    );
+    const eigene = schaetzungen.filter((s) => s.bereich === eingabe.bereich);
+    const liste = (eigene.length ? eigene : schaetzungen).sort((a, b) => a.h - b.h);
+    const m = liste[Math.floor((liste.length - 1) / 2)];
+    return m ? { haeufigkeit: m.haeufigkeit, minuten: m.minuten } : { haeufigkeit: "mehrmalsImMonat", minuten: 0 };
   };
+  const hoeher = (h: Haeufigkeit): Haeufigkeit => haeufigkeiten[Math.min(haeufigkeiten.indexOf(h) + 1, haeufigkeiten.length - 1)];
   const beitragId = `feed-${eingabe.sitzung}`;
   const kurz = new Map((vorher?.bild.faeden ?? []).map((f) => [f.id, f.kurzname]));
   const punkte = reaktionen
@@ -253,8 +291,8 @@ export async function verarbeiteGeste(
         zeitfresser: name,
         titel: name,
         aussage: k.text,
-        haeufigkeit: HAEUFIGKEIT[r.richtung],
-        minuten: median(k.fadenId),
+        haeufigkeit: r.richtung === "staendig" ? hoeher(typisch(k.fadenId).haeufigkeit) : typisch(k.fadenId).haeufigkeit,
+        minuten: typisch(k.fadenId).minuten,
         beteiligt: [],
         bremst: BREMST[r.richtung],
         von: k.von ?? k.bereich,
@@ -416,10 +454,43 @@ export async function erzeugeStartKarten(b: Bestandsaufnahme, websiteText: strin
       fadenId: null,
       text: k.text.replace(/^[„"]|[“"]$/g, ""),
       kontext: k.kontext || null,
+      bild: null,
       bereich: k.bereich,
       von: gueltig(k.von),
       an: gueltig(k.an),
       typ: "aussage",
     });
   }
+}
+
+// ---------- Was gut läuft: positive Meldungen ----------
+const LobText = z.object({ text: z.string().min(3).max(140) });
+
+/** Positive Meldung → ein anonymer Satz „Was gut läuft“ (Typ lob). Zählt nicht als Problem. */
+export async function lobAusMeldung(b: Bestandsaufnahme, bereich: string, geschichte: string): Promise<string> {
+  if (!kiVerfuegbar()) return geschichte.slice(0, 140);
+  try {
+    const { text } = await fragJson(
+      LobText,
+      [
+        {
+          role: "system",
+          content:
+            `Eine beschäftigte Person aus dem Bereich ${bereich} von ${b.betrieb.name} nennt etwas, das gut läuft.\n` +
+            "Mach daraus EINEN sachlichen Satz, höchstens 14 Wörter, der für alle Bereiche verständlich ist: was läuft gut, wo. " +
+            "Keine Namen, keine Details, an denen man Personen erkennt, keine Metaphern. Auf Deutsch.\n" +
+            'Antwort als JSON: {"text": "…"}',
+        },
+        { role: "user", content: geschichte },
+      ],
+      { reasoningEffort: "low" },
+    );
+    return text.replace(/^[„"]|[“"]$/g, "");
+  } catch {
+    return geschichte.slice(0, 140);
+  }
+}
+
+export async function holeLob(code: string): Promise<string[]> {
+  return (await holeAlleKarten(code)).filter((k) => k.typ === "lob").map((k) => k.text);
 }

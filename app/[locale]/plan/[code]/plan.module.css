@@ -1,0 +1,129 @@
+.plan {
+  width: min(100% - 2rem, 50rem);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+  color: #141824;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+.knopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  background: #f1e64b;
+}
+
+.knopf p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.kopf {
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #141824;
+}
+
+.marke {
+  margin: 0;
+  font-weight: 800;
+}
+
+.kopf h1 {
+  margin: 0.25rem 0;
+  font-size: 3rem;
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.kopf p {
+  margin: 0;
+}
+
+.plan section {
+  margin-top: 2rem;
+  break-inside: avoid-page;
+}
+
+.plan h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+  font-stretch: 70%;
+  font-weight: 800;
+}
+
+.kern {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.tabelle {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabelle th,
+.tabelle td {
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  border-bottom: 1px solid rgba(20, 24, 36, 0.2);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabelle th:nth-child(n + 2),
+.tabelle td:nth-child(n + 2) {
+  width: 6rem;
+  text-align: right;
+}
+
+.schritte {
+  display: grid;
+  gap: 0.625rem;
+  padding-left: 1.25rem;
+}
+
+.loesung {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(20, 24, 36, 0.2);
+  break-inside: avoid;
+}
+
+.loesung h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+}
+
+.loesung h3 span {
+  color: #5a5f6b;
+  font-weight: 600;
+}
+
+.loesung p {
+  margin: 0.25rem 0;
+}
+
+.einordnung {
+  color: #5a5f6b;
+  font-size: 0.875rem;
+}
+
+.hinweise {
+  color: #5a5f6b;
+  font-size: 0.9375rem;
+}
+
+@media print {
+  .knopf {
+    display: none;
+  }
+
+  .plan {
+    width: 100%;
+    padding: 0;
+  }
+}

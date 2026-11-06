@@ -328,7 +328,8 @@
     "zurAnalyse": "Zur Analyse",
     "testenWir": "Testen wir",
     "testetSchon": "Wird getestet",
-    "testenHinweis": "Das Team sieht es im Feed als „Was daraus wurde“."
+    "testenHinweis": "Das Team sieht es im Feed als „Was daraus wurde“.",
+    "planKnopf": "Fahrplan als PDF"
   },
   "Feed": {
     "seitentitel": "Feed – ROKIO",
@@ -412,7 +413,25 @@
     "bildZahl": "{h} Std. pro Woche",
     "bildText": "gehen an diesen Stellen verloren – nie Einzelne, immer Abläufe.",
     "befundZahl": "{n} Stimmen · {h} Std./Woche",
-    "bildGanz": "Ganze Analyse ansehen"
+    "bildGanz": "Ganze Analyse ansehen",
+    "memeQuelle": "ROKIO, frei nach euren Meldungen",
+    "genauSo": "Genau so",
+    "weilWahr": "Nicht lustig, weil wahr",
+    "navUeberblick": "Überblick",
+    "modusLabel": "Was möchtest du melden?",
+    "modusHakt": "Was hakt",
+    "modusGut": "Was gut läuft",
+    "gutTitel": "Was läuft gut?",
+    "gutText": "Knopf halten und erzählen – was klappt bei euch, was soll so bleiben?",
+    "gutVorschau": "So erscheint es unter „Was gut läuft“",
+    "gutDenkt": "Wird gespeichert …",
+    "gutDanke": "Danke!",
+    "gutLandet": "Das landet im gemeinsamen Bild unter „Was gut läuft“.",
+    "ueberblickUeber": "Überblick · {n} Stimmen",
+    "ueberblickTitel": "{n} Probleme gemeldet",
+    "ueberblickText": "Was die Beschäftigten bisher gemeldet haben – sortiert nach Stimmen. Lösungen bespricht ihr gemeinsam.",
+    "ueberblickStimmen": "{n, plural, one {# Stimme} other {# Stimmen}}",
+    "ueberblickGut": "Was gut läuft"
   },
   "Live": {
     "titel": "Live",
@@ -434,7 +453,7 @@
   "Befund": {
     "ueber": "Befund · {betrieb}",
     "satz": "<z>{h} Stunden pro Woche</z> gehen an {n} Stellen verloren.",
-    "unter": "≈ {euro} im Jahr · aus {stimmen} von {von} Stimmen · jede Person zählt nur ihre eigene Zeit",
+    "unter": "≈ {euro} im Jahr · {stimmen} von {von} Beschäftigten haben mitgemacht · jede Person zählt nur ihre eigene Zeit",
     "problemeTitel": "Die Probleme, nach verlorener Zeit",
     "innerhalb": "innerhalb {bereich}",
     "stimmen": "{n, plural, one {# Stimme} other {# Stimmen}}",
@@ -456,6 +475,35 @@
     "staerkenTitel": "Was gut läuft",
     "weiterText": "Das ist der Befund. Was sich ändern lässt – mit KI und Robotik, für genau diese Probleme –, steht auf der nächsten Seite.",
     "weiterKnopf": "Lösungen ansehen",
-    "ohneZeit": "ohne Zeitangabe"
+    "ohneZeit": "Belastung, ohne Zeitangabe"
+  },
+  "Plan": {
+    "seitentitel": "Fahrplan – ROKIO",
+    "pdf": "Als PDF speichern",
+    "pdfHinweis": "Im Druckdialog „Als PDF sichern“ wählen.",
+    "fahrplan": "Fahrplan",
+    "stand": "Stand heute · {stimmen} von {von} Beschäftigten haben mitgemacht · Besprechung: {deadline}",
+    "befundTitel": "Befund in Kürze",
+    "kern": "{h} Stunden pro Woche gehen an {n} Stellen verloren – ≈ {euro} im Jahr.",
+    "problem": "Problem",
+    "stimmen": "Stimmen",
+    "stdWoche": "Std./Woche",
+    "gutTitel": "Was gut läuft – beibehalten",
+    "vorgehenTitel": "So geht es weiter",
+    "s1Titel": "Woche 1 – Ergebnis mit allen besprechen.",
+    "s1Text": "Termin: {deadline}. Befund zeigen, Reihenfolge der Probleme gemeinsam bestätigen. Der Betriebsrat ist dabei.",
+    "s2Titel": "Woche 2 – Verantwortliche festlegen.",
+    "s2Text": "Je Problem ein kleines Team aus den Bereichen der betroffenen Übergabe. Ziel und Messgröße für den Testlauf vereinbaren.",
+    "testTitel": "Woche {woche} – Testlauf {name}.",
+    "s4Titel": "Danach – Wirkung prüfen.",
+    "s4Text": "Der ROKIO-Feed läuft weiter: Im Monatsbild zeigt sich, ob die Stimmen zu diesem Problem weniger werden. Erst dann den nächsten Schritt angehen.",
+    "loesungenTitel": "Lösungen im Detail",
+    "soLaeuftEs": "So läuft es:",
+    "braucht": "Was es braucht:",
+    "zeitFrei": "Wofür die Zeit frei wird:",
+    "hinweiseTitel": "Hinweise",
+    "h1": "Stunden und Euro sind Schätzungen der Beschäftigten (jede Person nur ihre eigene Zeit), umgerechnet mit Stundensatz-Spannen – keine Zusage.",
+    "h2": "Reife und Herkunft stehen an jeder Lösung. Im echten Einsatz läuft die KI lokal.",
+    "h3": "Technische Einrichtungen, die Verhalten oder Leistung erfassen können, sind mitbestimmungspflichtig (§ 87 Abs. 1 Nr. 6 BetrVG). Ansprechpartner für Förderung, Integratoren und Bildung: ROKI."
   }
 }

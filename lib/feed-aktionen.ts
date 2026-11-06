@@ -6,6 +6,8 @@ import { z } from "zod";
 import { sendeBeitrag } from "./aktionen";
 import { analyseDaten } from "./analyse";
 import {
+  holeLob,
+  lobAusMeldung,
   resonanzFuer,
   Richtung,
   speichereKarte,
@@ -110,6 +112,7 @@ export async function gibFrei(eingabe: z.input<typeof Freigabe>) {
       fadenId: faden?.id ?? null,
       text: p.text,
       kontext: p.kontext || null,
+      bild: null,
       bereich: d.bereich,
       von: p.von,
       an: p.an,
@@ -133,6 +136,20 @@ export async function liveDaten(code: string) {
     euro: d.summe.euro,
     stimmen: d.teilgenommen,
     faeden: d.faeden.slice(0, 4).map((f) => ({ kurzname: f.kurzname, personen: f.personen, stunden: f.stunden })),
+    // Überblick in der App: alle gemeldeten Probleme, verständlich – ohne Lösungen.
+    alle: [...d.faeden]
+      .filter((f) => f.personen > 0)
+      .sort((a, b) => b.personen - a.personen || b.stunden - a.stunden)
+      .map((f) => {
+        const k = d.karte.kanten.filter((x) => x.fadenIds.includes(f.id)).sort((a, b) => b.stimmen - a.stimmen)[0];
+        return {
+          kurzname: f.kurzname,
+          problem: f.problem,
+          personen: f.personen,
+          uebergabe: k ? (k.von === k.an ? k.von : `${k.von} → ${k.an}`) : null,
+        };
+      }),
+    gut: [...d.lob, ...d.staerken],
   };
 }
 
@@ -168,4 +185,29 @@ export async function waehleBereich(code: string, bereich: string) {
   const b = await betrieb(z.betriebId);
   if (!b.bereiche.some((x) => x.name === bereich)) throw new Error("Bereich unbekannt.");
   await setzeBereichFuer(z.code, bereich);
+}
+
+// ---------- Was gut läuft ----------
+/** Positive Meldung: Die KI macht einen anonymen Satz daraus. Gespeichert wird erst nach Freigabe. */
+export async function erzaehleGut(eingabe: { code: string; bereich: string; geschichte: string }) {
+  const b = await betrieb(eingabe.code);
+  const bereich = BereichName.parse(eingabe.bereich);
+  const geschichte = z.string().trim().min(3).max(2000).parse(eingabe.geschichte);
+  return { text: await lobAusMeldung(b, bereich, geschichte) };
+}
+
+export async function gibLobFrei(eingabe: { code: string; bereich: string; text: string }) {
+  const b = await betrieb(eingabe.code);
+  await speichereKarte(b.id, {
+    id: `${b.id}-l-${crypto.randomUUID().slice(0, 8)}`,
+    fadenId: null,
+    text: z.string().trim().min(3).max(160).parse(eingabe.text),
+    kontext: null,
+    bild: null,
+    bereich: BereichName.parse(eingabe.bereich),
+    von: null,
+    an: null,
+    typ: "lob",
+  });
+  return { anzahl: (await holeLob(b.id)).length };
 }

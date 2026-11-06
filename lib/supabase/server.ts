@@ -73,6 +73,7 @@ type KarteRow = {
   faden_id: string | null;
   text: string;
   kontext: string | null;
+  bild: string | null;
   bereich: string;
   von: string | null;
   an: string | null;

@@ -92,3 +92,38 @@
 .hinweis {
   flex-basis: 100%;
 }
+
+/* Linien zeichnen sich nacheinander – die Bruchstellen entstehen vor den Augen. */
+.zeichnen .linie {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: zeichnen 0.9s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.22s);
+}
+
+.zeichnen .kantenText {
+  opacity: 0;
+  animation: einblenden 0.4s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.22s + 0.7s);
+}
+
+@keyframes zeichnen {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes einblenden {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zeichnen .linie,
+  .zeichnen .kantenText {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}

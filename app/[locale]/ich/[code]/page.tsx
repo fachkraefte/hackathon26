@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { stelleFeedZusammen } from "@/lib/feed";
 import { holeBestandsaufnahme } from "@/lib/speicher";
 import { holeZugang } from "@/lib/zugang";
 import { PersoenlicheApp } from "./app";
@@ -18,8 +19,15 @@ export default async function IchSeite(props: PageProps<"/[locale]/ich/[code]">)
   if (!z) notFound();
   const b = await holeBestandsaufnahme(z.betriebId);
   if (!b) notFound();
+  // Karten vorab je Bereich (mehr als 5, der Browser nimmt beantwortete heraus) – die erste Karte steht sofort.
+  const bereiche = b.bereiche.map((x) => x.name);
+  const liste = z.bereich ? [z.bereich] : bereiche;
+  const vorab = Object.fromEntries(
+    await Promise.all(liste.map(async (x) => [x, await stelleFeedZusammen(b.id, x, [], 12).catch(() => [])] as const)),
+  );
   return (
     <PersoenlicheApp
+      vorab={vorab}
       code={z.code}
       betriebId={b.id}
       betrieb={b.betrieb.name}

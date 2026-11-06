@@ -7,12 +7,20 @@ import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import type { FeedKarte, Problem, Resonanz, Richtung } from "@/lib/feed";
-import { erzaehle, geste, gibFrei, ladeFeed, liveDaten, waehleBereich } from "@/lib/feed-aktionen";
+import { erzaehle, erzaehleGut, geste, gibFrei, gibLobFrei, ladeFeed, liveDaten, waehleBereich } from "@/lib/feed-aktionen";
 import { istStartKarte } from "@/lib/feed-regeln";
-import { formatStunden } from "@/lib/rechnen";
 import styles from "../../feed/[code]/feed.module.css";
 
-type Props = { code: string; betriebId: string; betrieb: string; anrede: "du" | "sie"; bereiche: string[]; bereich: string | null };
+type Props = {
+  code: string;
+  betriebId: string;
+  betrieb: string;
+  anrede: "du" | "sie";
+  bereiche: string[];
+  bereich: string | null;
+  /** Vom Server vorbereitete Karten je Bereich – die erste Karte steht sofort, ohne Laden. */
+  vorab: Record<string, FeedKarte[]>;
+};
 type Tab = "karten" | "melden" | "bild";
 const SCHWELLE_PX = 90;
 
@@ -89,7 +97,7 @@ export function PersoenlicheApp(props: Props) {
         </button>
         <button type="button" data-aktiv={tab === "bild"} onClick={() => setTab("bild")}>
           <span aria-hidden>◎</span>
-          {t("navBild")}
+          {t("navUeberblick")}
         </button>
       </nav>
     </div>
@@ -99,16 +107,29 @@ export function PersoenlicheApp(props: Props) {
 // ---------- Karten ----------
 type Phase = { art: "laedt" } | { art: "karten" } | { art: "resonanz"; richtung: Richtung; resonanz: Resonanz | null } | { art: "ende" };
 
-function KartenTab({ code, betriebId, anrede, bereich, zuMelden }: Props & { bereich: string; zuMelden: () => void }) {
+const PRO_RUNDE = 5;
+
+function KartenTab({ code, betriebId, anrede, bereich, vorab, zuMelden }: Props & { bereich: string; zuMelden: () => void }) {
   const t = useTranslations("Feed");
-  const [karten, setKarten] = useState<FeedKarte[]>([]);
+  const start = vorab[bereich] ?? [];
+  const [karten, setKarten] = useState<FeedKarte[]>(() => start.slice(0, PRO_RUNDE));
   const [index, setIndex] = useState(0);
-  const [phase, setPhase] = useState<Phase>({ art: "laedt" });
+  const [phase, setPhase] = useState<Phase>(start.length ? { art: "karten" } : { art: "laedt" });
   const [fehler, setFehler] = useState(false);
 
   useEffect(() => {
+    // Schon beantwortete Karten (nur im Browser gemerkt) herausnehmen; erst wenn nichts übrig ist, nachladen.
+    const schon = new Set(liesBeantwortet(code));
+    const rest = start.filter((k) => !schon.has(k.id));
+    if (start.length && rest.length === start.length) return;
+    if (rest.length) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setKarten(rest.slice(0, PRO_RUNDE));
+      setPhase({ art: "karten" });
+      return;
+    }
     let aktiv = true;
-    ladeFeed(betriebId, bereich, liesBeantwortet(code))
+    ladeFeed(betriebId, bereich, [...schon])
       .then((k) => {
         if (!aktiv) return;
         setKarten(k);
@@ -118,6 +139,7 @@ function KartenTab({ code, betriebId, anrede, bereich, zuMelden }: Props & { ber
     return () => {
       aktiv = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code, betriebId, bereich]);
 
   const karte = karten[index];
@@ -174,6 +196,8 @@ function KartenTab({ code, betriebId, anrede, bereich, zuMelden }: Props & { ber
       </p>
       {karte.art === "aussage" ? (
         <AussageKarte key={karte.id} karte={karte} aktiv={phase.art === "karten"} onAntwort={antworte} onHalten={zuMelden} />
+      ) : karte.art === "meme" ? (
+        <MemeKarte key={karte.id} karte={karte} aktiv={phase.art === "karten"} onAntwort={antworte} />
       ) : (
         <WirkungsKarte key={karte.id} karte={karte} onWeiter={() => antworte("kenn")} />
       )}
@@ -246,7 +270,16 @@ export function AussageKarte({
     <div className={styles.kartenFlaeche}>
       <article
         className={styles.karte}
-        style={stil}
+        style={
+          karte.bild
+            ? {
+                ...stil,
+                backgroundImage: `linear-gradient(180deg, rgba(20,24,36,0.1) 0%, rgba(20,24,36,0.55) 45%, rgba(20,24,36,0.96) 100%), url(${karte.bild})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : stil
+        }
         data-richtung={richtung ?? undefined}
         onPointerDown={(e) => {
           if (!aktiv) return;
@@ -308,6 +341,34 @@ export function AussageKarte({
         </button>
         <button type="button" className={styles.ja} onClick={() => entscheide("kenn")} disabled={!aktiv}>
           {t("kennIch")} ♥
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function MemeKarte({
+  karte,
+  aktiv,
+  onAntwort,
+}: {
+  karte: Extract<FeedKarte, { art: "meme" }>;
+  aktiv: boolean;
+  onAntwort: (r: Richtung) => void;
+}) {
+  const t = useTranslations("Feed");
+  return (
+    <div className={styles.kartenFlaeche}>
+      <article className={`${styles.karte} ${styles.meme}`} style={{ backgroundImage: `url(${karte.bild})` }}>
+        <p className={styles.memeText}>{karte.text}</p>
+        <p className={styles.memeQuelle}>{t("memeQuelle")}</p>
+      </article>
+      <div className={styles.knoepfe}>
+        <button type="button" className={styles.nein} onClick={() => onAntwort("kenn")} disabled={!aktiv}>
+          😂 {t("genauSo")}
+        </button>
+        <button type="button" className={styles.gelb} onClick={() => onAntwort("staendig")} disabled={!aktiv}>
+          😐 {t("weilWahr")}
         </button>
       </div>
     </div>
@@ -412,6 +473,9 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
   const [minuten, setMinuten] = useState<number | null>(null);
   const [ergebnis, setErgebnis] = useState<Awaited<ReturnType<typeof gibFrei>> | null>(null);
   const [fehler, setFehler] = useState(false);
+  const [modus, setModus] = useState<"hakt" | "gut">("hakt");
+  const [lob, setLob] = useState<string | null>(null);
+  const [lobFertig, setLobFertig] = useState(false);
   const erkenner = useRef<Erkenner | null>(null);
   const uhr = useRef<number | null>(null);
   const [zeit, setZeit] = useState(0);
@@ -445,6 +509,11 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
     setDenkt(t("denkt"));
     setFehler(false);
     try {
+      if (modus === "gut") {
+        setLob((await erzaehleGut({ code: betriebId, bereich, geschichte: text })).text);
+        setDenkt(null);
+        return;
+      }
       const e = await erzaehle({ code: betriebId, bereich, geschichte: text });
       setEntwurf(e);
       setAktiv(e.probleme.map(() => true));
@@ -485,6 +554,8 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
   }
 
   function neu() {
+    setLob(null);
+    setLobFertig(false);
     setText("");
     setEntwurf(null);
     setErgebnis(null);
@@ -493,6 +564,49 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
   }
 
   if (denkt) return <Denkt text={denkt} />;
+
+  if (lobFertig) {
+    return (
+      <button type="button" className={styles.resonanz} data-richtung="kenn" onClick={() => (neu(), fertig())}>
+        <span className={styles.resonanzUeber}>{t("gutDanke")}</span>
+        <span className={styles.resonanzZahl}>👍</span>
+        <span className={styles.resonanzZeile}>{t("gutLandet")}</span>
+        <span className={styles.resonanzFuss}>{t("weiter")} →</span>
+      </button>
+    );
+  }
+
+  if (lob) {
+    return (
+      <section className={styles.erzaehlen}>
+        <p className={styles.betrieb}>{t("gutVorschau")}</p>
+        <div className={`${styles.vorschau} ${styles.vorschauGut}`}>
+          <span className={styles.vorschauText}>{lob}</span>
+        </div>
+        <p className={styles.leiseKlein}>{t("keineNamen")}</p>
+        {fehler && <p className={styles.fehler}>{t("fehler")}</p>}
+        <div className={styles.knoepfe}>
+          <button type="button" className={styles.nein} onClick={neu}>{t("verwerfen")}</button>
+          <button
+            type="button"
+            className={styles.ja}
+            onClick={async () => {
+              setDenkt(t("gutDenkt"));
+              try {
+                await gibLobFrei({ code: betriebId, bereich, text: lob });
+                setLobFertig(true);
+              } catch {
+                setFehler(true);
+              }
+              setDenkt(null);
+            }}
+          >
+            {t("freigeben")}
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   if (ergebnis) {
     const sichtbar = ergebnis.ergebnisse.find((e) => e.resonanz.sichtbar);
@@ -561,8 +675,12 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
   return (
     <section className={styles.erzaehlen}>
       <p className={styles.betrieb}>{t("meldenUeber", { bereich })}</p>
-      <h1 className={styles.gross}>{t("erzaehlenTitel", { anrede })}</h1>
-      <p className={styles.leise}>{t("erzaehlenText", { anrede })}</p>
+      <div className={styles.modusWahl} role="group" aria-label={t("modusLabel")}>
+        <button type="button" aria-pressed={modus === "hakt"} onClick={() => setModus("hakt")}>{t("modusHakt")}</button>
+        <button type="button" aria-pressed={modus === "gut"} data-gut onClick={() => setModus("gut")}>{t("modusGut")}</button>
+      </div>
+      <h1 className={styles.gross}>{modus === "gut" ? t("gutTitel") : t("erzaehlenTitel", { anrede })}</h1>
+      <p className={styles.leise}>{modus === "gut" ? t("gutText") : t("erzaehlenText", { anrede })}</p>
       <textarea className={styles.textfeld} value={text} onChange={(e) => setText(e.target.value)} placeholder={t("tippen")} rows={3} maxLength={2000} />
       {fehler && <p className={styles.fehler}>{t("fehler")}</p>}
       <div className={styles.daumen}>
@@ -627,23 +745,37 @@ function BildTab({ betriebId }: { betriebId: string }) {
     liveDaten(betriebId).then(setD, () => undefined);
   }, [betriebId]);
   if (!d) return <Denkt text={t("laedtBild")} />;
-  const max = Math.max(...d.faeden.map((f) => f.stunden), 1);
   return (
     <section className={styles.erzaehlen}>
-      <p className={styles.betrieb}>{t("bildUeber", { n: d.stimmen })}</p>
-      <h1 className={styles.gross}>{t("bildZahl", { h: formatStunden(d.stunden) })}</h1>
-      <p className={styles.leise}>{t("bildText")}</p>
-      <ol className={styles.befunde}>
-        {d.faeden.map((f) => (
+      <p className={styles.betrieb}>{t("ueberblickUeber", { n: d.stimmen })}</p>
+      <h1 className={styles.gross}>{t("ueberblickTitel", { n: d.alle.length })}</h1>
+      <p className={styles.leise}>{t("ueberblickText")}</p>
+      <ol className={styles.gemeldet}>
+        {d.alle.map((f, i) => (
           <li key={f.kurzname}>
-            <span className={styles.befundName}>{f.kurzname}</span>
-            <span className={styles.befundBalken} style={{ width: `${Math.max(8, (f.stunden / max) * 100)}%` }} />
-            <span className={styles.befundZahl}>
-              {t("befundZahl", { n: f.personen, h: formatStunden(f.stunden) })}
-            </span>
+            <span className={styles.gemeldetNr}>{i + 1}</span>
+            <div className={styles.gemeldetText}>
+              <span className={styles.befundName}>{f.kurzname}</span>
+              <span className={styles.gemeldetSatz}>{f.problem}</span>
+              <span className={styles.gemeldetMeta}>
+                {f.uebergabe && <span className={styles.gemeldetChip}>{f.uebergabe}</span>}
+                <span className={styles.gemeldetPunkte} aria-hidden>
+                  {Array.from({ length: Math.min(f.personen, 10) }, (_, j) => <span key={j} />)}
+                </span>
+                {t("ueberblickStimmen", { n: f.personen })}
+              </span>
+            </div>
           </li>
         ))}
       </ol>
+      {d.gut.length > 0 && (
+        <div className={styles.gutBlock}>
+          <p className={styles.frage}>{t("ueberblickGut")}</p>
+          <ul>
+            {d.gut.slice(0, 5).map((g) => <li key={g}>{g}</li>)}
+          </ul>
+        </div>
+      )}
       <Link href={`/analyse/${betriebId}`} className={styles.leiseLink}>{t("bildGanz")} →</Link>
     </section>
   );

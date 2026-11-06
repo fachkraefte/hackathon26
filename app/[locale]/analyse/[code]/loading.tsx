@@ -1,10 +1,7 @@
 import { getTranslations } from "next-intl/server";
+import { Laden } from "../../_komponenten/laden";
 
-export default async function Laden() {
+export default async function AnalyseLaedt() {
   const t = await getTranslations("Analyse");
-  return (
-    <main className="seite seite--schmal">
-      <p className="leise" style={{ paddingTop: "3rem", textAlign: "center" }}>{t("laedt")}</p>
-    </main>
-  );
+  return <Laden text={t("laedt")} />;
 }

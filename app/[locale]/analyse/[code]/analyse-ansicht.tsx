@@ -40,7 +40,7 @@ export function AnalyseAnsicht({ daten: d }: { daten: Daten }) {
         <h1 className={styles.satz}>
           {t.rich("satz", {
             h: formatStunden(d.summe.stunden),
-            n: faeden.length,
+            n: faeden.filter((f) => f.stunden > 0).length,
             z: (c) => <span className={styles.markiert}>{c}</span>,
           })}
         </h1>
@@ -126,6 +126,7 @@ export function AnalyseAnsicht({ daten: d }: { daten: Daten }) {
         <p className={styles.leise}>{t("karteText")}</p>
         <div className={styles.karte}>
           <UebergabeKarte
+            zeichnen
             karte={d.karte}
             beschriftung={{
               stimmen: (n) => ta("stimmen", { n }),
@@ -141,11 +142,11 @@ export function AnalyseAnsicht({ daten: d }: { daten: Daten }) {
         </div>
       </section>
 
-      {d.staerken.length > 0 && (
+      {d.staerken.length + d.lob.length > 0 && (
         <section>
           <h2 className={styles.h2}>{t("staerkenTitel")}</h2>
           <ul className={styles.staerken}>
-            {d.staerken.map((s) => <li key={s}>{s}</li>)}
+            {[...d.lob, ...d.staerken].map((s) => <li key={s}>{s}</li>)}
           </ul>
         </section>
       )}
