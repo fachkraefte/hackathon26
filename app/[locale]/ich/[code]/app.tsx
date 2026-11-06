@@ -192,7 +192,7 @@ function KartenTab({ code, betriebId, anrede, bereich, vorab, zuMelden }: Props 
       <section className={styles.ende}>
         <p className={styles.betrieb}>{bereich}</p>
         <h1 className={styles.gross}>{karten.length ? t("endeTitel") : t("leerTitel")}</h1>
-        <p className={styles.einleitung}>{karten.length ? t("endeText5", { anrede }) : t("leer")}</p>
+        <p className={styles.einleitung}>{karten.length ? t("endeText5", { anrede, n: karten.length }) : t("leer")}</p>
         <p className={styles.leise}>{t("endeLeitung")}</p>
         <div className={styles.daumen}>
           <button type="button" className={styles.halten} onClick={zuMelden}>
