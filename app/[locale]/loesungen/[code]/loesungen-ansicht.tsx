@@ -37,9 +37,9 @@ export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: An
   return (
     <div className={styles.loesungen}>
       <header className={styles.kopf}>
-        <p className="ueberzeile">{daten.betrieb} · {t("ueberzeile")}</p>
+        <p className={styles.ueber}>{t("ueberzeile")} · {daten.betrieb}</p>
         <h1>{t("titel")}</h1>
-        <p className="leise">{t("einleitung")}</p>
+        <p className={styles.einleitung}>{t("einleitung")}</p>
       </header>
 
       {/* ---------- Erster Blick ---------- */}
@@ -140,7 +140,7 @@ export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: An
                 <div className={styles.testen}>
                   <button
                     type="button"
-                    className={testet.includes(f.id) ? "button button--tuerkis" : "button"}
+                    className={styles.testenKnopf}
                     aria-pressed={testet.includes(f.id)}
                     onClick={() => {
                       const an = !testet.includes(f.id);
@@ -157,7 +157,7 @@ export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: An
                     <h3>{t("bauplan")}</h3>
                     <button
                       type="button"
-                      className="button button--tuerkis"
+                      className={styles.kopieren}
                       onClick={() => navigator.clipboard.writeText(l.bauplanPrompt).then(() => setKopiert(f.id))}
                     >
                       {kopiert === f.id ? t("kopiert") : t("kopieren")}
@@ -180,7 +180,7 @@ export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: An
           ))}
         </ul>
         <p className="leise">{t("roki", { deadline: daten.deadline })}</p>
-        <Link className="button button--ghost" href={`/analyse/${daten.code}`}>← {t("zurAnalyse")}</Link>
+        <Link className={styles.zurueck} href={`/analyse/${daten.code}`}>← {t("zurAnalyse")}</Link>
       </section>
     </div>
   );
