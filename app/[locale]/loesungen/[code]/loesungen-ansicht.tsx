@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import type { AnalyseDaten } from "@/lib/analyse";
+import { setzeTest } from "@/lib/feed-aktionen";
 import { formatEuro, formatStunden } from "@/lib/rechnen";
 import type { Loesung } from "@/lib/typen";
 import { UebergabeKarte } from "../../_komponenten/uebergabe-karte";
@@ -13,13 +14,14 @@ import styles from "./loesungen.module.css";
 
 const ANNAHMEN = [20, 30, 40, 50, 60, 70] as const;
 
-export function LoesungenAnsicht({ daten, loesungen }: { daten: AnalyseDaten; loesungen: Record<string, Loesung> }) {
+export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: AnalyseDaten; loesungen: Record<string, Loesung>; testetAnfang: string[] }) {
   const t = useTranslations("Loesungen");
   const tb = useTranslations("Begriffe");
   const [modus, setModus] = useState<"heute" | "loesungen">("heute");
   const [offen, setOffen] = useState<string | null>(null);
   const [annahme, setAnnahme] = useState<(typeof ANNAHMEN)[number]>(50);
   const [kopiert, setKopiert] = useState<string | null>(null);
+  const [testet, setTestet] = useState<string[]>(testetAnfang);
 
   // Der Wow-Moment: kurz das Heute zeigen, dann auf „mit Lösungen“ umschalten.
   useEffect(() => {
@@ -135,6 +137,21 @@ export function LoesungenAnsicht({ daten, loesungen }: { daten: AnalyseDaten; lo
                   <span className={l.herkunft === "rokiGeprueft" ? styles.geprueft : undefined}>{tb(`herkunft.${l.herkunft}`)}</span>
                 </p>
                 <p><strong>{t("testlauf")}</strong> {l.testlauf}</p>
+                <div className={styles.testen}>
+                  <button
+                    type="button"
+                    className={testet.includes(f.id) ? "button button--tuerkis" : "button"}
+                    aria-pressed={testet.includes(f.id)}
+                    onClick={() => {
+                      const an = !testet.includes(f.id);
+                      setTestet(an ? [...testet, f.id] : testet.filter((x) => x !== f.id));
+                      setzeTest(daten.code, f.id, an).catch(() => setTestet(testet));
+                    }}
+                  >
+                    {testet.includes(f.id) ? `✓ ${t("testetSchon")}` : t("testenWir")}
+                  </button>
+                  <span className="leise klein">{t("testenHinweis")}</span>
+                </div>
                 <div className={styles.bauplan}>
                   <div className={styles.bauplanKopf}>
                     <h3>{t("bauplan")}</h3>

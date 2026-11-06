@@ -6,7 +6,7 @@ import { demoBeitraege, demoGesamtbild, DEMO_ID } from "./daten";
 import { holeGesamtbild } from "./gesamtbild";
 import { fragJson, kiVerfuegbar } from "./ki/json";
 import { fadenZahlen } from "./rechnen";
-import { fadenAusFeedPunkt, istFeedBeitrag, loescheBeitrag, speichereBeitrag } from "./speicher";
+import { holeBeitraege, istFeedBeitrag, loescheBeitrag, speichereBeitrag } from "./speicher";
 import { createSupabaseServerClient, supabaseKonfiguriert } from "./supabase/server";
 import { Beitrag, type Bestandsaufnahme, type Haeufigkeit } from "./typen";
 
@@ -134,12 +134,27 @@ export async function ladeDemoKarten() {
   if (error) throw new Error(`Demo-Karten: ${error.message}`);
 }
 
+/** Noch keine Beiträge (neuer Betrieb) oder KI gerade nicht erreichbar: Feed läuft trotzdem. */
+async function holeGesamtbildSicher(code: string) {
+  try {
+    const bestandsaufnahme = await holeBeitraegeAnzahl(code);
+    if (bestandsaufnahme === 0) return null;
+    return await holeGesamtbild(code);
+  } catch (e) {
+    console.error("Gesamtbild für den Feed:", e);
+    return null;
+  }
+}
+
+async function holeBeitraegeAnzahl(code: string) {
+  return (await holeBeitraege(code)).length;
+}
+
 // ---------- Feed zusammenstellen ----------
 /** Bis zu 10 Karten für eine Person: erst Übergaben, die ihren Bereich berühren, dann der eigene Bereich, dann der Rest. */
 export async function stelleFeedZusammen(code: string, bereich: string, beantwortet: string[]): Promise<FeedKarte[]> {
-  const [karten, ergebnis] = await Promise.all([holeKarten(code), holeGesamtbild(code)]);
-  if (!ergebnis) return [];
-  const kurzname = new Map(ergebnis.bild.faeden.map((f) => [f.id, f.kurzname]));
+  const [karten, ergebnis] = await Promise.all([holeKarten(code), holeGesamtbildSicher(code)]);
+  const kurzname = new Map((ergebnis?.bild.faeden ?? []).map((f) => [f.id, f.kurzname]));
   const schon = new Set(beantwortet);
   const rang = (k: Karte) => {
     const beruehrt = k.von === bereich || k.an === bereich;
@@ -156,6 +171,7 @@ export async function stelleFeedZusammen(code: string, bereich: string, beantwor
     .map((k) => ({ ...k, art: "aussage" as const, kurzname: k.fadenId ? (kurzname.get(k.fadenId) ?? null) : null }));
 
   // „Was daraus wurde“: Lösungen, die die Leitung testet – an dritter Stelle.
+  if (!ergebnis) return reihe;
   const wirkung = Object.entries(ergebnis.loesungen)
     .filter(([fid, e]) => e.testet && !schon.has(`wirkung-${fid}`))
     .map(([fid, e]): FeedKarte => {
@@ -200,28 +216,28 @@ export async function verarbeiteGeste(
   await speichereReaktion({ sitzung: eingabe.sitzung, karteId: karte.id, code, bereich: eingabe.bereich, richtung: eingabe.richtung });
 
   // Den Beitrag dieser Sitzung aus allen ihren Reaktionen neu aufbauen (eine Person = ein Beitrag).
-  const [reaktionen, vorher] = await Promise.all([holeReaktionen(code), holeGesamtbild(code)]);
-  if (!vorher) throw new Error("Gesamtbild nicht verfügbar.");
-  const echte = vorher.beitraege.filter((x) => !istFeedBeitrag(x.id));
-  const median = (fadenId: string) => {
-    const f = vorher.bild.faeden.find((x) => x.id === fadenId);
+  const [reaktionen, vorher] = await Promise.all([holeReaktionen(code), holeGesamtbildSicher(code)]);
+  const echte = (vorher?.beitraege ?? []).filter((x) => !istFeedBeitrag(x.id));
+  const median = (fadenId: string | null) => {
+    const f = vorher?.bild.faeden.find((x) => x.id === fadenId);
     const werte = echte
       .flatMap((x) => x.punkte)
-      .filter((p) => f?.punktIds.includes(p.id) && !fadenAusFeedPunkt(p.id) && p.minuten > 0)
+      .filter((p) => f?.punktIds.includes(p.id) && !p.id.startsWith("feed-") && p.minuten > 0)
       .map((p) => p.minuten)
       .sort((x, y) => x - y);
     return werte.length ? werte[Math.floor(werte.length / 2)] : 15;
   };
   const beitragId = `feed-${eingabe.sitzung}`;
-  const kurz = new Map(vorher.bild.faeden.map((f) => [f.id, f.kurzname]));
+  const kurz = new Map((vorher?.bild.faeden ?? []).map((f) => [f.id, f.kurzname]));
   const punkte = reaktionen
     .filter((r) => r.sitzung === eingabe.sitzung && r.richtung !== "nicht")
     .flatMap((r) => {
       const k = karten.find((x) => x.id === r.karteId);
-      if (!k?.fadenId || r.richtung === "nicht") return [];
-      const name = kurz.get(k.fadenId) ?? "Übergabe";
+      if (!k || r.richtung === "nicht") return [];
+      // Startkarte ohne Handlungsfeld: Punkt bleibt „offen“, die KI ordnet ihn wie eine Erzählung zu.
+      const name = (k.fadenId && kurz.get(k.fadenId)) || k.text.slice(0, 60);
       return [{
-        id: `${beitragId}~${k.fadenId}~${k.id}`,
+        id: `${beitragId}~${k.fadenId ?? ""}~${k.id}`,
         zeitfresser: name,
         titel: name,
         aussage: k.text,
@@ -255,10 +271,12 @@ export async function verarbeiteGeste(
 
 /** „7 von 11 kennen das“: Personen im Handlungsfeld gegen alle, die die Karten dazu beantwortet haben. */
 export async function resonanzFuer(code: string, karte: Karte, reaktionen?: ReaktionZeile[]): Promise<Resonanz> {
-  const [ergebnis, alle, karten] = await Promise.all([holeGesamtbild(code), reaktionen ?? holeReaktionen(code), holeKarten(code)]);
-  const f = ergebnis?.bild.faeden.find((x) => x.id === karte.fadenId);
+  const [ergebnis, alle, karten] = await Promise.all([holeGesamtbildSicher(code), reaktionen ?? holeReaktionen(code), holeKarten(code)]);
+  const f =
+    ergebnis?.bild.faeden.find((x) => x.id === karte.fadenId) ??
+    ergebnis?.bild.faeden.find((x) => x.punktIds.some((pid) => pid.endsWith(`~${karte.id}`)));
   if (!ergebnis || !f) return { kennen: 0, gesamt: 0, bereiche: [], sichtbar: false };
-  const fadenKarten = new Set(karten.filter((k) => k.fadenId === f.id).map((k) => k.id));
+  const fadenKarten = new Set(karten.filter((k) => k.fadenId === f.id || k.id === karte.id).map((k) => k.id));
   const nein = new Set(alle.filter((r) => r.richtung === "nicht" && fadenKarten.has(r.karteId)).map((r) => r.sitzung));
   const ids = new Set(f.punktIds);
   const dabei = ergebnis.beitraege.filter((x) => x.punkte.some((p) => ids.has(p.id)));
@@ -298,5 +316,60 @@ export async function karteAusGeschichte(b: Bestandsaufnahme, bereich: string, g
     return text.replace(/^[„"]|[“"]$/g, "");
   } catch {
     return null;
+  }
+}
+
+// ---------- Startkarten für einen neuen Betrieb ----------
+const StartKarten = z.object({
+  karten: z
+    .array(z.object({ text: z.string().min(3).max(140), bereich: z.string(), von: z.string().nullable(), an: z.string().nullable() }))
+    .min(3)
+    .max(12),
+});
+
+/** Die KI schreibt aus Branche, Bereichen, Aufgaben und Website typische Zustände als Karten – zum Bestätigen oder Verwerfen. */
+export async function erzeugeStartKarten(b: Bestandsaufnahme, websiteText: string | null) {
+  if (!kiVerfuegbar()) return;
+  const namen = b.bereiche.map((x) => x.name);
+  const aufgaben = Object.entries(b.profil?.chips ?? {})
+    .map(([bereich, chips]) => `${bereich}: ${chips.join(", ")}`)
+    .join("\n");
+  const { karten } = await fragJson(
+    StartKarten,
+    [
+      {
+        role: "system",
+        content:
+          "Du schreibst Startkarten für einen Feed, in dem Beschäftigte Aussagen über ihren Arbeitsalltag bestätigen (kenn ich) oder verwerfen (nicht bei uns).\n" +
+          "Jede Karte beschreibt einen typischen Zeitverlust an einer Übergabe zwischen zwei Bereichen oder innerhalb eines Bereichs – als Zustand, nie als Vorwurf an Personen.\n" +
+          "Regeln: ein Satz in Ich- oder Wir-Form aus Sicht des Bereichs, höchstens 14 Wörter, Alltagssprache der Branche, keine Metaphern, keine Namen, keine Zahlen, die du nicht kennst.\n" +
+          `Bereiche (nur diese Namen verwenden): ${namen.join(", ")}. Externe: ${(b.profil?.extern ?? []).join(", ") || "keine"}.\n` +
+          "von/an: woher kommt das, was fehlt, und wohin geht es weiter – Bereich oder Externer aus der Liste; null = innerhalb des eigenen Bereichs.\n" +
+          "Schreibe 2 Karten je Bereich, höchstens 12, verteilt auf verschiedene Übergaben.\n" +
+          'Antwort als JSON: {"karten": [{"text": "…", "bereich": "…", "von": "…"|null, "an": "…"|null}]}',
+      },
+      {
+        role: "user",
+        content:
+          `Betrieb: ${b.betrieb.name}, ${b.betrieb.branche}, ${b.betrieb.mitarbeitende} Beschäftigte.\nLeistungen: ${b.betrieb.leistungen}\n` +
+          `Ziel der Leitung: ${b.ziel}\nAufgaben je Bereich:\n${aufgaben}` +
+          (websiteText ? `\nAuszug Website:\n${websiteText.slice(0, 1500)}` : ""),
+      },
+    ],
+    { reasoningEffort: "low", timeoutMs: 60_000 },
+  );
+  const ziele = new Set([...namen, ...(b.profil?.extern ?? [])]);
+  const gueltig = (x: string | null) => (x && ziele.has(x) ? x : null);
+  for (const [i, k] of karten.entries()) {
+    if (!namen.includes(k.bereich)) continue;
+    await speichereKarte(b.id, {
+      id: `${b.id}-s${i + 1}`,
+      fadenId: null,
+      text: k.text.replace(/^[„"]|[“"]$/g, ""),
+      bereich: k.bereich,
+      von: gueltig(k.von),
+      an: gueltig(k.an),
+      typ: "aussage",
+    });
   }
 }

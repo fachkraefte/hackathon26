@@ -13,61 +13,69 @@
     "demo": "Demo · fictional data"
   },
   "Home": {
-    "ueberzeile": "ROKIO · Robotics and AI for mid-sized businesses",
-    "titel": "Your people know where things get stuck",
-    "ort": {
-      "werkstatt": "– in the workshop.",
-      "pflege": "– in care.",
-      "kueche": "– in the kitchen.",
-      "lager": "– in the warehouse."
+    "titel": "Your people know where things get stuck.",
+    "einleitung": "ROKIO turns that into a feed: swipe cards instead of filling in forms. It shows at which handovers time is lost – and which AI or robotics solution helps exactly there.",
+    "codeFrage": "Got a code from the notice board?",
+    "anlegen": "Create a project",
+    "fuerLeitung": "For management:",
+    "demoProbieren": "Try the demo feed",
+    "liveAnsehen": "Live picture for the projector",
+    "analyseAnsehen": "Current analysis",
+    "handyKarte": "We built a railing from the old drawing.",
+    "handyQuelle": "from a report · Engineering → Workshop",
+    "handyBereich": "Workshop",
+    "handyZaehler": "3 of 8",
+    "kennIch": "Know it",
+    "nichtBeiUns": "Not here",
+    "schleifeTitel": "One tells, everyone swipes.",
+    "schleifeText": "What one person reports, the AI turns into an anonymous card. The other teams confirm with one thumb. Every confirmation counts as a voice for exactly this handover.",
+    "schleifeZahl": "1 → 11",
+    "schleifeZahlText": "one story, eleven voices",
+    "gesten": {
+      "kenn": "Know it – a voice for this handover",
+      "nicht": "Not here – counts as a vote against",
+      "staendig": "Happens all the time – frequent and stressful",
+      "halten": "Press and hold – tell more, by voice or one sentence"
     },
-    "einleitung": "ROKIO asks everyone in your business on their phone in five minutes, shows at which handovers time is lost – and shows which AI and robotics solutions help exactly there. All the way to a finished blueprint.",
-    "fuerLeitung": "For management",
-    "anlegen": "Create project",
-    "fuerTeam": "For the team – enter code",
-    "analyseAnsehen": "View current analysis",
-    "beispielAnsehen": "View metalworking example",
+    "bildTitel": "Voices become a picture.",
+    "bildText": "The handover map shows where time is lost between teams – never who is to blame. Hourly-rate ranges turn “annoying” into a number.",
+    "bildZahl": "{h} hrs per week",
+    "bildZahlText": "≈ {euro} per year in the demo metalworks (fictional)",
     "karteHeute": "Today: where it gets stuck",
     "karteMitLoesungen": "With solutions",
     "stimmen": "{n} voices",
-    "karteHinweis": "Handover map of a fictional metalworking business",
-    "schritteTitel": "How ROKIO works",
-    "schritt": {
-      "anlegen": {
-        "dauer": "3 minutes",
-        "titel": "Set up",
-        "text": "Management names the areas, a rough hourly rate range and the date of the results meeting. ROKIO gets to know the business and prepares suitable questions."
-      },
-      "erzaehlen": {
-        "dauer": "5 minutes on the phone",
-        "titel": "Everyone shares",
-        "text": "Each person taps where things get stuck and describes it – also by voice. ROKIO asks a follow-up question at most once. Anonymous, no names."
-      },
-      "loesen": {
-        "dauer": "live",
-        "titel": "See and solve",
-        "text": "The analysis shows the breaking points between areas and what they cost. Then: AI and robotics solutions for exactly this business, with a blueprint for setting them up yourself."
-      }
-    },
-    "beispieleTitel": "One solution from many voices",
+    "karteHinweis": "Handover map of a fictional metalworking company",
+    "zuDenLoesungen": "See the solutions with blueprint",
+    "beispieleTitel": "One voice, one solution.",
     "beispiel": {
       "metallbau": {
-        "branche": "Metalworking · 22 employees",
+        "branche": "Metalworks",
         "stimme": "We built a railing from the old drawing.",
-        "loesung": "Change agent: A change is communicated once and is correct everywhere."
+        "loesung": "Change agent: a change is said once and is correct everywhere."
       },
       "pflege": {
-        "branche": "Care home · 100 employees",
-        "stimme": "During handover, everyone speaks quickly and uses abbreviations.",
-        "loesung": "Handover assistant: in any language, without abbreviations."
+        "branche": "Care home",
+        "stimme": "At handover everyone talks fast and in abbreviations.",
+        "loesung": "Handover assistant: in every language, without jargon."
       },
       "mensa": {
-        "branche": "Canteen · 42 employees",
-        "stimme": "Between twelve and two, the conveyor belt overflows.",
-        "loesung": "Return with vision: The dishwashing area reports what was cooked in excess."
+        "branche": "Canteen",
+        "stimme": "Between twelve and two the return belt overflows.",
+        "loesung": "Return with eyes: the dish room reports what was overcooked."
       }
     },
-    "ehrlich": "Clearly labeled: Maturity and origin are shown for every solution, “verified by ROKI” only with a source. The demo uses fictional businesses; in real use, the AI runs locally and in compliance with data protection rules.",
+    "vertrauenTitel": "Trust is the product.",
+    "vertrauenText": "People who are afraid don't swipe honestly. That's why these rules are on the first card, not in the small print.",
+    "regeln": [
+      "Management sees a topic only from three voices.",
+      "No individual answers, no names, no timestamps.",
+      "Voice becomes text, audio is not stored.",
+      "Nobody sees whether or when someone swipes.",
+      "In real use, the AI runs locally.",
+      "The works council is involved from the start (§ 87 (1) no. 6 BetrVG)."
+    ],
+    "schluss": "Give them a reason to say it.",
+    "ehrlich": "Honestly labelled: maturity and origin are shown for every solution, “checked by ROKI” only with a source. The demo uses fictional companies.",
     "zuruecksetzen": "Reset demo",
     "zurueckgesetzt": "Demo has been reset",
     "zuruecksetzenFehler": "Reset failed: {grund}"
@@ -314,7 +322,10 @@
     "kopiert": "Copied ✓",
     "ersteSchritte": "First steps",
     "roki": "Basis for discussion in the results meeting ({deadline}) and for ROKI – for funding, integrators and training programs.",
-    "zurAnalyse": "Go to analysis"
+    "zurAnalyse": "Go to analysis",
+    "testenWir": "Let's test it",
+    "testetSchon": "Being tested",
+    "testenHinweis": "The team sees it in the feed as “What came of it”."
   },
   "Feed": {
     "seitentitel": "Feed – ROKIO",
@@ -376,7 +387,8 @@
       "mehrmalsProWoche": "several times a week",
       "taeglich": "almost daily",
       "mehrmalsTaeglich": "several times a day"
-    }
+    },
+    "startKarte": "Starter card by ROKIO"
   },
   "Live": {
     "titel": "Live",

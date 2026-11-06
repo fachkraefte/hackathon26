@@ -13,61 +13,69 @@
     "demo": "Demo · fiktive Daten"
   },
   "Home": {
-    "ueberzeile": "ROKIO · Robotik und KI für den Mittelstand",
-    "titel": "Ihre Leute wissen, wo es hakt",
-    "ort": {
-      "werkstatt": "– in der Werkstatt.",
-      "pflege": "– in der Pflege.",
-      "kueche": "– in der Küche.",
-      "lager": "– im Lager."
-    },
-    "einleitung": "ROKIO fragt alle im Betrieb in fünf Minuten am Handy, macht sichtbar, an welchen Übergaben Zeit verloren geht – und zeigt, welche KI- und Robotik-Lösungen genau dort helfen. Bis zum fertigen Bauplan.",
-    "fuerLeitung": "Für die Leitung",
+    "titel": "Ihre Leute wissen, wo es hakt.",
+    "einleitung": "ROKIO macht daraus einen Feed: Karten wischen statt Formulare ausfüllen. Sichtbar wird, an welchen Übergaben Zeit verloren geht – und welche KI- und Robotik-Lösung genau dort hilft.",
+    "codeFrage": "Code vom Aushang?",
     "anlegen": "Projekt anlegen",
-    "fuerTeam": "Für das Team – Code eingeben",
-    "analyseAnsehen": "Aktuelle Analyse ansehen",
-    "beispielAnsehen": "Beispiel Metallbau ansehen",
+    "fuerLeitung": "Für die Leitung:",
+    "demoProbieren": "Demo-Feed ausprobieren",
+    "liveAnsehen": "Live-Bild für den Beamer",
+    "analyseAnsehen": "Aktuelle Analyse",
+    "handyKarte": "Wir haben ein Geländer nach der alten Zeichnung gebaut.",
+    "handyQuelle": "aus einer Meldung · Technik → Werkstatt",
+    "handyBereich": "Werkstatt",
+    "handyZaehler": "3 von 8",
+    "kennIch": "Kenn ich",
+    "nichtBeiUns": "Nicht bei uns",
+    "schleifeTitel": "Einer erzählt, alle swipen.",
+    "schleifeText": "Was eine Person meldet, macht die KI zu einer anonymen Karte. Die anderen Bereiche bestätigen mit einem Daumen. Jede Bestätigung zählt als Stimme für genau diese Übergabe.",
+    "schleifeZahl": "1 → 11",
+    "schleifeZahlText": "eine Erzählung, elf Stimmen",
+    "gesten": {
+      "kenn": "Kenn ich – eine Stimme für diese Übergabe",
+      "nicht": "Nicht bei uns – zählt als Gegenstimme",
+      "staendig": "Passiert mir ständig – häufig und belastend",
+      "halten": "Gedrückt halten – dazu erzählen, Sprache oder ein Satz"
+    },
+    "bildTitel": "Aus Stimmen wird ein Bild.",
+    "bildText": "Die Übergabe-Karte zeigt, wo zwischen Bereichen Zeit verloren geht – nie, wer schuld ist. Stundensatz-Spannen machen aus „nervt“ eine Zahl.",
+    "bildZahl": "{h} Std. pro Woche",
+    "bildZahlText": "≈ {euro} im Jahr im Demo-Metallbau (fiktiv)",
     "karteHeute": "Heute: wo es hakt",
     "karteMitLoesungen": "Mit Lösungen",
     "stimmen": "{n} Stimmen",
     "karteHinweis": "Übergabe-Karte eines fiktiven Metallbaubetriebs",
-    "schritteTitel": "So funktioniert ROKIO",
-    "schritt": {
-      "anlegen": {
-        "dauer": "3 Minuten",
-        "titel": "Anlegen",
-        "text": "Die Leitung nennt Bereiche, eine grobe Stundensatz-Spanne und den Termin der Ergebnisbesprechung. ROKIO lernt den Betrieb kennen und bereitet passende Fragen vor."
-      },
-      "erzaehlen": {
-        "dauer": "5 Minuten am Handy",
-        "titel": "Alle erzählen",
-        "text": "Jede Person tippt an, wo es hakt, und erzählt – auch per Sprache. ROKIO fragt höchstens einmal nach. Anonym, ohne Namen."
-      },
-      "loesen": {
-        "dauer": "live",
-        "titel": "Sehen und lösen",
-        "text": "Die Analyse zeigt die Bruchstellen zwischen den Bereichen und was sie kosten. Danach: KI- und Robotik-Lösungen für genau diesen Betrieb, mit Bauplan zum Selbst-Einrichten."
-      }
-    },
-    "beispieleTitel": "Aus vielen Stimmen eine Lösung",
+    "zuDenLoesungen": "Zu den Lösungen mit Bauplan",
+    "beispieleTitel": "Eine Stimme, eine Lösung.",
     "beispiel": {
       "metallbau": {
-        "branche": "Metallbau · 22 Beschäftigte",
+        "branche": "Metallbau",
         "stimme": "Wir haben ein Geländer nach der alten Zeichnung gebaut.",
         "loesung": "Änderungs-Agent: Eine Änderung wird einmal gesagt und ist überall richtig."
       },
       "pflege": {
-        "branche": "Pflegeheim · 100 Beschäftigte",
+        "branche": "Pflegeheim",
         "stimme": "In der Übergabe sprechen alle schnell und mit Abkürzungen.",
         "loesung": "Übergabe-Assistent: in jeder Sprache, ohne Kürzel."
       },
       "mensa": {
-        "branche": "Mensa · 42 Beschäftigte",
+        "branche": "Mensa",
         "stimme": "Zwischen zwölf und zwei läuft das Band über.",
         "loesung": "Rückgabe mit Augen: Die Spülküche meldet, was zu viel gekocht wurde."
       }
     },
-    "ehrlich": "Ehrlich gekennzeichnet: Reife und Herkunft stehen an jeder Lösung, „von ROKI geprüft“ nur mit Quelle. Die Demo nutzt fiktive Betriebe; im echten Einsatz läuft die KI lokal und datenschutzkonform.",
+    "vertrauenTitel": "Vertrauen ist das Produkt.",
+    "vertrauenText": "Wer Angst hat, wischt nicht ehrlich. Deshalb stehen diese Regeln auf der ersten Karte, nicht im Kleingedruckten.",
+    "regeln": [
+      "Die Leitung sieht ein Thema erst ab drei Stimmen.",
+      "Keine Einzelantworten, keine Namen, keine Uhrzeiten.",
+      "Die Stimme wird Text, das Audio wird nicht gespeichert.",
+      "Ob und wann jemand wischt, sieht niemand.",
+      "Im echten Einsatz läuft die KI lokal.",
+      "Der Betriebsrat ist von Anfang an dabei (§ 87 Abs. 1 Nr. 6 BetrVG)."
+    ],
+    "schluss": "Gebt ihnen einen Grund, es zu sagen.",
+    "ehrlich": "Ehrlich gekennzeichnet: Reife und Herkunft stehen an jeder Lösung, „von ROKI geprüft“ nur mit Quelle. Die Demo nutzt fiktive Betriebe.",
     "zuruecksetzen": "Demo zurücksetzen",
     "zurueckgesetzt": "Demo ist zurückgesetzt",
     "zuruecksetzenFehler": "Zurücksetzen fehlgeschlagen: {grund}"
@@ -314,7 +322,10 @@
     "kopiert": "Kopiert ✓",
     "ersteSchritte": "Erste Schritte",
     "roki": "Gesprächsgrundlage für die Ergebnisbesprechung ({deadline}) und für ROKI – für Förderung, Integratoren und Bildungsangebote.",
-    "zurAnalyse": "Zur Analyse"
+    "zurAnalyse": "Zur Analyse",
+    "testenWir": "Testen wir",
+    "testetSchon": "Wird getestet",
+    "testenHinweis": "Das Team sieht es im Feed als „Was daraus wurde“."
   },
   "Feed": {
     "seitentitel": "Feed – ROKIO",
@@ -376,7 +387,8 @@
       "mehrmalsProWoche": "mehrmals pro Woche",
       "taeglich": "fast täglich",
       "mehrmalsTaeglich": "mehrmals täglich"
-    }
+    },
+    "startKarte": "Startkarte von ROKIO"
   },
   "Live": {
     "titel": "Live",

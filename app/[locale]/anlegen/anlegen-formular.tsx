@@ -247,7 +247,7 @@ function Fertig(props: {
   const [speichert, starte] = useTransition();
   const [kopiert, setKopiert] = useState(false);
   const herkunft = useSyncExternalStore(nichts, () => window.location.origin, () => "");
-  const link = `${herkunft}/de/befragung/${props.code}`;
+  const link = `${herkunft}/de/feed/${props.code}`;
   const einladung = t(`einladung_${props.anrede}`, { betrieb: props.betrieb, deadline: props.deadline, link, code: props.code });
 
   function aendere(bereich: string, liste: string[]) {
@@ -324,7 +324,7 @@ function Fertig(props: {
       </div>
 
       <div className={styles.knoepfe}>
-        <Link className="button" href={`/befragung/${props.code}`}>{t("selbst")}</Link>
+        <Link className="button" href={`/feed/${props.code}`}>{t("selbst")}</Link>
         <Link className="button button--ghost" href={`/analyse/${props.code}`}>{t("zurAnalyse")}</Link>
       </div>
     </section>

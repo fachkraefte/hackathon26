@@ -19,9 +19,10 @@ export default async function LoesungenSeite(props: PageProps<"/[locale]/loesung
   const daten = await analyseDaten(code);
   if (!daten) notFound();
   const loesungen = Object.fromEntries(Object.entries(daten.loesungen).map(([id, e]) => [id, e.loesung]));
+  const testet = Object.entries(daten.loesungen).filter(([, e]) => e.testet).map(([id]) => id);
   return (
     <main className="seite">
-      <LoesungenAnsicht daten={daten} loesungen={loesungen} />
+      <LoesungenAnsicht daten={daten} loesungen={loesungen} testetAnfang={testet} />
     </main>
   );
 }

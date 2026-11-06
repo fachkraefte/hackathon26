@@ -16,7 +16,7 @@ export default async function ZugangSeite(props: PageProps<"/[locale]/zugang">) 
       <section style={{ display: "grid", gap: "1rem", paddingTop: "1rem" }}>
         <h1 style={{ margin: 0 }}>{t(analyse ? "titelAnalyse" : "titel")}</h1>
         <p className="leise" style={{ margin: 0 }}>{t(analyse ? "textAnalyse" : "text")}</p>
-        <CodeFeld ziel={analyse ? "analyse" : "befragung"} />
+        <CodeFeld ziel={analyse ? "analyse" : "feed"} />
       </section>
     </main>
   );

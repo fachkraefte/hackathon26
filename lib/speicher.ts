@@ -18,13 +18,12 @@ export type GesamtbildEintrag = {
 /** Fingerabdruck der Beiträge: ändert er sich, muss das Gesamtbild neu entstehen. */
 /** Beiträge aus dem Feed: ID „feed-<sitzung>“, Punkt-ID „feed-<sitzung>~<fadenId>“. */
 export const istFeedBeitrag = (id: string) => id.startsWith("feed-");
-export const fadenAusFeedPunkt = (punktId: string) => (punktId.startsWith("feed-") ? punktId.split("~")[1] ?? null : null);
+export const fadenAusFeedPunkt = (punktId: string) => (punktId.startsWith("feed-") ? punktId.split("~")[1] || null : null);
 
 export function schluesselFuer(beitraege: Beitrag[]) {
   // Feed-Stimmen hängen fest an ihrem Handlungsfeld (lib/feed.ts) und lösen kein neues Zusammenführen aus.
   return beitraege
-    .filter((b) => !istFeedBeitrag(b.id))
-    .flatMap((b) => b.punkte.map((p) => `${b.id}:${p.id}:${p.titel}:${p.aussage}`))
+    .flatMap((b) => b.punkte.filter((p) => !fadenAusFeedPunkt(p.id)).map((p) => `${b.id}:${p.id}:${p.titel}:${p.aussage}`))
     .sort()
     .join("|");
 }

@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import type { FeedKarte, Resonanz, Richtung } from "@/lib/feed";
+import { istStartKarte } from "@/lib/feed-regeln";
 import { erzaehle, geste, gibFrei, ladeFeed } from "@/lib/feed-aktionen";
 import styles from "./feed.module.css";
 
@@ -98,7 +99,8 @@ export function Feed({ code, betrieb, anrede, bereiche }: Props) {
   // Resonanz kurz zeigen, dann weiter (antippen geht schneller).
   useEffect(() => {
     if (phase.art !== "resonanz") return;
-    const dauer = phase.richtung === "nicht" ? 700 : phase.resonanz ? 1700 : 4000;
+    // Ohne Antwort nach 1,6 s trotzdem weiter – die Stimme ist gespeichert, die Zahl kommt beim nächsten Mal.
+    const dauer = phase.richtung === "nicht" ? 700 : phase.resonanz ? 1700 : 1600;
     const z = window.setTimeout(naechste, dauer);
     return () => window.clearTimeout(z);
   });
@@ -301,7 +303,7 @@ function AussageKarte({
         )}
         <blockquote className={styles.zitat}>„{karte.text}“</blockquote>
         <p className={styles.quelle}>
-          {t("ausMeldung")} · {uebergabe}
+          {istStartKarte(karte.id) ? t("startKarte") : t("ausMeldung")} · {uebergabe}
         </p>
       </article>
       <div className={styles.knoepfe}>
@@ -370,7 +372,7 @@ function ResonanzSchirm({
               <span className={styles.resonanzZeile}>{t("ersteStimmen", { anrede })}</span>
             </>
           ) : (
-            <span className={styles.resonanzZahl}>…</span>
+            <span className={styles.resonanzZahl}>{t("notiert")}</span>
           )}
           <span className={styles.resonanzFuss}>{t("hausordnung1")}</span>
         </>
