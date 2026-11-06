@@ -1,0 +1,74 @@
+.seite {
+  width: min(100% - 2rem, 60rem);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+.kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.kopf h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-stretch: 62%;
+  font-weight: 900;
+}
+
+.kopf p {
+  max-width: 36rem;
+  margin: 0;
+}
+
+.leise {
+  margin-top: 0.5rem !important;
+  color: #5a5f6b;
+}
+
+.zettel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zettel li {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px dashed #8a8f99;
+  break-inside: avoid;
+}
+
+.marke {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.dein {
+  font-size: 0.875rem;
+}
+
+.code {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.so {
+  color: #5a5f6b;
+  font-size: 0.75rem;
+}
+
+@media print {
+  .kopf button {
+    display: none;
+  }
+}

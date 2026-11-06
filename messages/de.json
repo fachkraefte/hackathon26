@@ -169,7 +169,7 @@
     "lernt": "ROKIO lernt Ihren Betrieb kennen und bereitet die Fragen vor …",
     "fertigUeberzeile": "Fertig",
     "fertigTitel": "Ihr Team kann loslegen",
-    "code": "Code für Ihr Team:",
+    "code": "Leitungs-Code (für Analyse und Lösungen):",
     "chipsTitel": "Aufgaben, die Ihr Team antippen kann",
     "chipsMitWebsite": "Aus Ihren Angaben und Ihrer Website vorbereitet. Tippen zum Entfernen, eigene ergänzen.",
     "chipsOhneWebsite": "Aus Ihren Angaben vorbereitet. Tippen zum Entfernen, eigene ergänzen.",
@@ -177,12 +177,12 @@
     "chipNeu": "Eigene Aufgabe",
     "chipsSpeichern": "Änderungen speichern",
     "teilenTitel": "Einladung an Ihr Team",
-    "einladung_du": "Hallo zusammen, wir wollen wissen, wo es bei {betrieb} im Alltag hakt – von euch, nicht von oben. Dauert 5 Minuten am Handy, anonym.\n\n{link}\nCode: {code}\n\nErgebnisse besprechen wir gemeinsam: {deadline}.",
-    "einladung_sie": "Guten Tag, wir möchten wissen, wo es bei {betrieb} im Alltag hakt – von Ihnen, nicht von oben. Dauert 5 Minuten am Handy, anonym.\n\n{link}\nCode: {code}\n\nDie Ergebnisse besprechen wir gemeinsam: {deadline}.",
+    "einladung_du": "Hallo zusammen, wir wollen wissen, wo es bei {betrieb} im Alltag hakt – von euch, nicht von oben. Jede Person bekommt einen eigenen Code auf einem Zettel (aus der Box ziehen – niemand weiß, wer welchen hat).\n\n{link}\n\nErgebnisse besprechen wir gemeinsam: {deadline}.",
+    "einladung_sie": "Guten Tag, wir möchten wissen, wo es bei {betrieb} im Alltag hakt – von Ihnen, nicht von oben. Jede Person bekommt einen eigenen Code auf einem Zettel (aus der Box ziehen – niemand weiß, wer welchen hat).\n\n{link}\n\nDie Ergebnisse besprechen wir gemeinsam: {deadline}.",
     "whatsapp": "Per WhatsApp teilen",
     "kopieren": "Text kopieren",
     "kopiert": "Kopiert ✓",
-    "selbst": "Selbst teilnehmen",
+    "selbst": "Code-Dokument öffnen",
     "zurAnalyse": "Zur Analyse"
   },
   "Befragung": {
@@ -418,5 +418,14 @@
     "imJahr": "im Jahr",
     "mitswipen": "Mitswipen: Code {code}",
     "felder": "Wo es hakt"
+  },
+  "Codes": {
+    "seitentitel": "Codes – ROKIO",
+    "titel": "Persönliche Codes · {betrieb}",
+    "anleitung": "Ausschneiden, in eine Box legen, jede Person zieht einen Zettel. Niemand notiert, wer welchen Code hat – so bleibt es anonym.",
+    "drucken": "Drucken",
+    "dein": "Dein persönlicher Code",
+    "so": "Öffnen: {adresse} → Code eingeben",
+    "anzahl": "{n} Codes – einer pro Person"
   }
 }

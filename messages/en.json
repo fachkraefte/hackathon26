@@ -169,7 +169,7 @@
     "lernt": "ROKIO is getting to know your business and preparing the questions …",
     "fertigUeberzeile": "Done",
     "fertigTitel": "Your team is ready to go",
-    "code": "Code for your team:",
+    "code": "Management code (for analysis and solutions):",
     "chipsTitel": "Tasks your team can tap",
     "chipsMitWebsite": "Prepared from your details and your website. Tap to remove, add your own.",
     "chipsOhneWebsite": "Prepared from your details. Tap to remove, add your own.",
@@ -177,12 +177,12 @@
     "chipNeu": "Custom task",
     "chipsSpeichern": "Save changes",
     "teilenTitel": "Invitation to your team",
-    "einladung_du": "Hi everyone, we want to know where things get stuck at {betrieb} in everyday work – from you, not from above. Takes 5 minutes on your phone, anonymous.\n\n{link}\nCode: {code}\n\nWe'll discuss the results together: {deadline}.",
-    "einladung_sie": "Hello everyone, we would like to know where things get stuck at {betrieb} in everyday work – from you, not from above. Takes 5 minutes on your phone, anonymous.\n\n{link}\nCode: {code}\n\nWe will discuss the results together: {deadline}.",
+    "einladung_du": "Hi all, we want to know where things get stuck at {betrieb} – from you, not from the top. Everyone gets a personal code on a slip (draw it from the box – nobody knows who has which).\n\n{link}\n\nWe'll discuss the results together: {deadline}.",
+    "einladung_sie": "Hello, we would like to know where things get stuck at {betrieb} – from you, not from the top. Everyone gets a personal code on a slip (draw it from the box – nobody knows who has which).\n\n{link}\n\nWe will discuss the results together: {deadline}.",
     "whatsapp": "Share via WhatsApp",
     "kopieren": "Copy text",
     "kopiert": "Copied ✓",
-    "selbst": "Participate myself",
+    "selbst": "Open code document",
     "zurAnalyse": "To the analysis"
   },
   "Befragung": {
@@ -418,5 +418,14 @@
     "imJahr": "per year",
     "mitswipen": "Swipe along: code {code}",
     "felder": "Where it gets stuck"
+  },
+  "Codes": {
+    "seitentitel": "Codes – ROKIO",
+    "titel": "Personal codes · {betrieb}",
+    "anleitung": "Cut out, put in a box, everyone draws a slip. Nobody notes who has which code – that keeps it anonymous.",
+    "drucken": "Print",
+    "dein": "Your personal code",
+    "so": "Open: {adresse} → enter code",
+    "anzahl": "{n} codes – one per person"
   }
 }
