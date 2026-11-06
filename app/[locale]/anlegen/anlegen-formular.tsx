@@ -42,6 +42,11 @@ const VORSCHLAG: Record<Branche, Bereich[]> = {
     { name: "Reinigung", satzVon: 26, satzBis: 32 },
     { name: "Büro", satzVon: 34, satzBis: 40 },
   ],
+  bildungVeranstaltung: [
+    { name: "Organisation", satzVon: 40, satzBis: 55 },
+    { name: "Lehrende", satzVon: 45, satzBis: 60 },
+    { name: "Teilnehmende", satzVon: 25, satzBis: 35 },
+  ],
 };
 
 /** Beispiel für die Vorführung (Fallstudie 1). */

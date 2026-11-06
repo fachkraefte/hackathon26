@@ -129,7 +129,8 @@
       "gastronomie": "Hospitality",
       "gesundheitPflege": "Health and Care",
       "logistik": "Logistics",
-      "facilityManagement": "Facility Management"
+      "facilityManagement": "Facility Management",
+      "bildungVeranstaltung": "Education and events"
     },
     "mitsprache": {
       "1": "strongly disagree",

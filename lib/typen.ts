@@ -10,6 +10,7 @@ export const branchen = [
   "gesundheitPflege",
   "logistik",
   "facilityManagement",
+  "bildungVeranstaltung",
 ] as const;
 export const Branche = z.enum(branchen);
 export type Branche = z.infer<typeof Branche>;
