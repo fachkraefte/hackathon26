@@ -427,5 +427,32 @@
     "dein": "Your personal code",
     "so": "Open: {adresse} → enter code",
     "anzahl": "{n} codes – one per person"
+  },
+  "Befund": {
+    "ueber": "Findings · {betrieb}",
+    "satz": "<z>{h} hours per week</z> are lost at {n} points.",
+    "unter": "≈ {euro} per year · from {stimmen} of {von} voices · everyone counts only their own time",
+    "problemeTitel": "The problems, by time lost",
+    "innerhalb": "within {bereich}",
+    "stimmen": "{n, plural, one {# voice} other {# voices}}",
+    "stdWoche": "hrs/week",
+    "sichtweisen": "How the teams see it",
+    "detailZahlen": "≈ {euro} per year · named by {bereiche, plural, one {one team} other {# teams}}",
+    "folgtTitel": "What follows",
+    "fuerTeam": "For the team",
+    "fuerLeitung": "For management",
+    "teamNichtAllein": "{n} of {gesamt} problems are named by several teams – nobody is alone with it.",
+    "teamUebergaben": "{n} of {gesamt} problems arise between teams. It is about processes, not people.",
+    "teamWeiter": "Every further voice sharpens the picture – reporting works any time.",
+    "leitungHebel": "Biggest lever: {name} – {h} hrs per week, {p} % of the time lost.",
+    "leitungTop2": "The two biggest problems account for {p} % of the time lost. Start there.",
+    "leitungKante": "Most voices concern the handover {von} → {an} ({n}).",
+    "karteTitel": "Where it gets stuck between teams",
+    "karteText": "Each line is a handover. The thicker and redder, the more voices.",
+    "karteHinweis": "Shows teams, never people.",
+    "staerkenTitel": "What works well",
+    "weiterText": "These are the findings. What can change – with AI and robotics, for exactly these problems – is on the next page.",
+    "weiterKnopf": "See solutions",
+    "ohneZeit": "no time given"
   }
 }

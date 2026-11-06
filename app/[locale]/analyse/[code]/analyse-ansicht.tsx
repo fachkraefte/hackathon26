@@ -1,161 +1,160 @@
 "use client";
 
-// Analyse (KONZEPT_V3 §5): nur Probleme. Erster Blick: Kernzahl, Übergabe-Karte, Top 3, Mitsprache.
-// Zweiter Blick: alle Handlungsfelder mit Sichtweisen, Profil, Stärken.
+// Befund: Was im Betrieb hakt – klar, visuell, ohne Lösungen (die kommen auf der nächsten Seite).
+// Alle Zahlen und Erkenntnisse rechnet der Code aus den Stimmen; die KI erfindet hier nichts.
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import type { AnalyseDaten } from "@/lib/analyse";
 import { formatEuro, formatStunden } from "@/lib/rechnen";
-import { Profil } from "../../_komponenten/profil";
 import { UebergabeKarte } from "../../_komponenten/uebergabe-karte";
-import styles from "./analyse.module.css";
+import styles from "./befund.module.css";
 
-export function AnalyseAnsicht({ daten }: { daten: Omit<AnalyseDaten, "loesungen"> }) {
-  const t = useTranslations("Analyse");
-  const [gewaehlt, setGewaehlt] = useState<number | null>(null);
-  const kante = gewaehlt !== null ? daten.karte.kanten[gewaehlt] : null;
-  const stelle = Math.round((daten.summe.stunden / 40) * 100);
+type Daten = Omit<AnalyseDaten, "loesungen">;
 
-  if (daten.faeden.length === 0) {
-    return (
-      <section className={styles.leer}>
-        <p className="ueberzeile">{daten.betrieb}</p>
-        <h1>{t("leerTitel")}</h1>
-        <p className="leise">{t("teilgenommen", { n: daten.teilgenommen, gesamt: daten.mitarbeitende })}</p>
-        <Link className="button" href={`/feed/${daten.code}`}>{t("mitmachen")}</Link>
-      </section>
-    );
-  }
+/** Stärkste Übergabe je Handlungsfeld aus der Übergabe-Karte. */
+function uebergabeFuer(d: Daten, fadenId: string) {
+  const k = d.karte.kanten.filter((x) => x.fadenIds.includes(fadenId)).sort((a, b) => b.stimmen - a.stimmen)[0];
+  return k ? { von: k.von, an: k.an, zwischen: k.von !== k.an } : null;
+}
+
+export function AnalyseAnsicht({ daten: d }: { daten: Daten }) {
+  const t = useTranslations("Befund");
+  const ta = useTranslations("Analyse");
+  const faeden = d.faeden.filter((f) => f.personen > 0).sort((a, b) => b.stunden - a.stunden || b.personen - a.personen);
+  const max = Math.max(...faeden.map((f) => f.stunden), 0.1);
+  const gesamt = d.summe.stunden || 0.1;
+
+  // ---------- Erkenntnisse aus den Zahlen ----------
+  const mitUebergabe = faeden.map((f) => ({ f, u: uebergabeFuer(d, f.id) }));
+  const zwischen = mitUebergabe.filter((x) => x.u?.zwischen).length;
+  const top2 = faeden.slice(0, 2).reduce((s, f) => s + f.stunden, 0);
+  const staerksteKante = [...d.karte.kanten].filter((k) => k.von !== k.an).sort((a, b) => b.stimmen - a.stimmen)[0];
+  const mehrereBereiche = faeden.filter((f) => f.bereiche >= 2).length;
+  const groesstes = faeden[0];
 
   return (
-    <div className={styles.analyse}>
+    <div className={styles.befund}>
+      {/* ---------- Kopf ---------- */}
       <header className={styles.kopf}>
-        <p className="ueberzeile">{daten.betrieb} · {t("ueberzeile")}</p>
-        <h1>{t("titel")}</h1>
-        <p className="leise">
-          {t("teilgenommen", { n: daten.teilgenommen, gesamt: daten.mitarbeitende })} · {t("deadline", { deadline: daten.deadline })}
+        <p className={styles.ueber}>{t("ueber", { betrieb: d.betrieb })}</p>
+        <h1 className={styles.satz}>
+          {t.rich("satz", {
+            h: formatStunden(d.summe.stunden),
+            n: faeden.length,
+            z: (c) => <span className={styles.markiert}>{c}</span>,
+          })}
+        </h1>
+        <p className={styles.unter}>
+          {t("unter", { euro: formatEuro(d.summe.euro), stimmen: d.teilgenommen, von: d.mitarbeitende })}
         </p>
       </header>
 
-      {/* ---------- Erster Blick ---------- */}
-      <section className={styles.kernzahl}>
-        <p className={styles.gross}>
-          <strong>{formatStunden(daten.summe.stunden)}</strong> {t("stundenProWoche")}
-        </p>
-        <p>
-          {t("kernzahlText", { euro: formatEuro(daten.summe.euro), anteil: stelle })}
-        </p>
-        <p className="leise klein">{t("ausSchaetzungen", { n: daten.summe.schaetzungen })}</p>
+      {/* ---------- Die Probleme ---------- */}
+      <section>
+        <h2 className={styles.h2}>{t("problemeTitel")}</h2>
+        <ol className={styles.probleme}>
+          {mitUebergabe.map(({ f, u }, i) => (
+            <li key={f.id}>
+              <details className={styles.problem}>
+                <summary>
+                  <span className={styles.rang}>{i + 1}</span>
+                  <span className={styles.problemKopf}>
+                    <span className={styles.name}>{f.kurzname}</span>
+                    <span className={styles.problemSatz}>{f.problem}</span>
+                    <span className={styles.meta}>
+                      {u && <span className={styles.chip}>{u.zwischen ? `${u.von} → ${u.an}` : t("innerhalb", { bereich: u.von })}</span>}
+                      <span className={styles.punkte} aria-label={t("stimmen", { n: f.personen })}>
+                        {Array.from({ length: Math.min(f.personen, 12) }, (_, j) => <span key={j} />)}
+                      </span>
+                      <span>{t("stimmen", { n: f.personen })}</span>
+                    </span>
+                  </span>
+                  <span className={styles.zahl}>
+                    <strong>{f.stunden > 0 ? formatStunden(f.stunden) : "–"}</strong>
+                    <span>{f.stunden > 0 ? t("stdWoche") : t("ohneZeit")}</span>
+                  </span>
+                  <span className={styles.balken} style={{ width: `${Math.max(4, (f.stunden / max) * 100)}%` }} aria-hidden />
+                </summary>
+                <div className={styles.sichtweisen}>
+                  <p className={styles.sichtTitel}>{t("sichtweisen")}</p>
+                  {f.sichtweisen.map((s) => (
+                    <blockquote key={s.bereich + s.aussage}>
+                      <span>{s.bereich}</span>„{s.aussage}“
+                    </blockquote>
+                  ))}
+                  {f.unterschied && <p className={styles.unterschied}>{f.unterschied}</p>}
+                  <p className={styles.leise}>
+                    {t("detailZahlen", { euro: formatEuro(f.euro), bereiche: f.bereiche })}
+                  </p>
+                </div>
+              </details>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <section className={styles.abschnitt}>
-        <h2>{t("karteTitel")}</h2>
-        <p className="leise">{t("karteText")}</p>
-        <UebergabeKarte
-          karte={daten.karte}
-          gewaehlt={gewaehlt}
-          waehle={setGewaehlt}
-          beschriftung={{
-            stimmen: (n) => t("stimmen", { n }),
-            legende: {
-              laeuft: t("legendeLaeuft"),
-              reibung: t("legendeReibung"),
-              bruch: t("legendeBruch"),
-              loesung: "",
-              hinweis: t("legendeHinweis"),
-            },
-          }}
-        />
-        {kante && (
-          <div className={`karte ${styles.kantenDetail}`} aria-live="polite">
-            <p className={styles.kantenKopf}>
-              {kante.von === kante.an ? t("innerhalb", { bereich: kante.von }) : `${kante.von} → ${kante.an}`} · {kante.kurznamen.join(", ")}
-            </p>
+      {/* ---------- Was daraus folgt ---------- */}
+      <section className={styles.folgt}>
+        <h2 className={styles.h2}>{t("folgtTitel")}</h2>
+        <div className={styles.spalten}>
+          <div>
+            <h3>{t("fuerTeam")}</h3>
             <ul>
-              {kante.titel.map((titel, i) => <li key={i}>{titel}</li>)}
+              <li>{t("teamNichtAllein", { n: mehrereBereiche, gesamt: faeden.length })}</li>
+              <li>{t("teamUebergaben", { n: zwischen, gesamt: faeden.length })}</li>
+              <li>{t("teamWeiter")}</li>
             </ul>
           </div>
-        )}
-      </section>
-
-      <section className={styles.abschnitt}>
-        <h2>{t("topTitel")}</h2>
-        <div className={styles.kacheln}>
-          {daten.faeden.slice(0, 3).map((f, i) => (
-            <article key={f.id} className={styles.kachel}>
-              <p className={styles.rang}>{i + 1}</p>
-              <h3>{f.kurzname}</h3>
-              <p>{f.aufgabe}</p>
-              <p className={styles.zahlen}>
-                {f.stunden > 0 ? (
-                  <>
-                    <strong>{t("proWoche", { h: formatStunden(f.stunden) })}</strong> · {formatEuro(f.euro)} {t("imJahr")}
-                  </>
-                ) : (
-                  <strong>{t("belastungOhneZeit")}</strong>
-                )}
-              </p>
-              <p className="leise klein">{t("stimmenAus", { n: f.personen, bereiche: f.bereiche })}</p>
-            </article>
-          ))}
+          <div>
+            <h3>{t("fuerLeitung")}</h3>
+            <ul>
+              {groesstes && (
+                <li>{t("leitungHebel", { name: groesstes.kurzname, h: formatStunden(groesstes.stunden), p: Math.round((groesstes.stunden / gesamt) * 100) })}</li>
+              )}
+              {faeden.length > 2 && <li>{t("leitungTop2", { p: Math.round((top2 / gesamt) * 100) })}</li>}
+              {staerksteKante && (
+                <li>{t("leitungKante", { von: staerksteKante.von, an: staerksteKante.an, n: staerksteKante.stimmen })}</li>
+              )}
+            </ul>
+          </div>
         </div>
       </section>
 
-      {daten.mitsprache !== null && (
-        <section className={`${styles.abschnitt} ${styles.mitsprache}`}>
-          <p className={styles.mitspracheZahl}>
-            {daten.mitsprache.toLocaleString("de-DE", { maximumFractionDigits: 1 })}
-            <span> / 5</span>
-          </p>
-          <div>
-            <h2>{t("mitspracheTitel")}</h2>
-            <p className="leise">„{t("mitspracheAussage")}“</p>
-          </div>
+      {/* ---------- Wo es zwischen Bereichen hakt ---------- */}
+      <section>
+        <h2 className={styles.h2}>{t("karteTitel")}</h2>
+        <p className={styles.leise}>{t("karteText")}</p>
+        <div className={styles.karte}>
+          <UebergabeKarte
+            karte={d.karte}
+            beschriftung={{
+              stimmen: (n) => ta("stimmen", { n }),
+              legende: {
+                laeuft: ta("legendeLaeuft"),
+                reibung: ta("legendeReibung"),
+                bruch: ta("legendeBruch"),
+                loesung: "",
+                hinweis: t("karteHinweis"),
+              },
+            }}
+          />
+        </div>
+      </section>
+
+      {d.staerken.length > 0 && (
+        <section>
+          <h2 className={styles.h2}>{t("staerkenTitel")}</h2>
+          <ul className={styles.staerken}>
+            {d.staerken.map((s) => <li key={s}>{s}</li>)}
+          </ul>
         </section>
       )}
 
-      {/* ---------- Zweiter Blick ---------- */}
-      <details className={styles.tiefe}>
-        <summary>{t("tiefeTitel")}</summary>
-        {daten.faeden.map((f) => (
-          <article key={f.id} className={styles.feld}>
-            <h3>
-              {f.kurzname}
-              <span className="leise klein">
-                {f.stunden > 0 ? ` · ${t("proWoche", { h: formatStunden(f.stunden) })} · ${formatEuro(f.euro)} ${t("imJahr")}` : ""}
-                {f.bremst !== null ? ` · ${t("bremstWert", { w: f.bremst.toLocaleString("de-DE", { maximumFractionDigits: 1 }) })}` : ""}
-              </span>
-            </h3>
-            <p className={styles.aufgabe}>{f.aufgabe}</p>
-            <p>{f.problem}</p>
-            <ul className={styles.stimmen}>
-              {f.sichtweisen.map((s) => (
-                <li key={s.bereich + s.aussage}>
-                  <span className={styles.bereich}>{s.bereich}</span> „{s.aussage}“
-                </li>
-              ))}
-            </ul>
-            {f.unterschied && <p className={styles.unterschied}><strong>{t("unterschied")}</strong> {f.unterschied}</p>}
-          </article>
-        ))}
-        <Profil
-          achsen={daten.faeden.filter((f) => f.bremst !== null).map((f) => ({ name: f.kurzname, wert: f.bremst ?? 0 }))}
-          legende={t("profilLegende")}
-        />
-        {daten.staerken.length > 0 && (
-          <div className={styles.staerken}>
-            <h3>{t("staerkenTitel")}</h3>
-            <ul>{daten.staerken.map((s) => <li key={s}>{s}</li>)}</ul>
-          </div>
-        )}
-      </details>
-
+      {/* ---------- Weiter ---------- */}
       <section className={styles.weiter}>
         <p>{t("weiterText")}</p>
-        <Link className="button" href={`/loesungen/${daten.code}`}>{t("weiter")} →</Link>
+        <Link href={`/loesungen/${d.code}`} className={styles.weiterKnopf}>{t("weiterKnopf")} →</Link>
       </section>
-      {daten.ausDemo && <p className="leise klein">{t("demoHinweis")}</p>}
     </div>
   );
 }
