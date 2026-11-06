@@ -1,12 +1,12 @@
-ROKIO – PITCH VIDEO · FINAL PROMPT (v3, English)
+ROKIO – PITCH VIDEO · FINAL PROMPT (v4, English – app in English)
 
 BRIEF
 Produce a motion-design video of exactly 150 seconds (16:9, 1920×1080, 30 fps) for ROKIO's live pitch at
 the Leuphana AI Hackathon. It plays on a lecture-hall projector, embedded between the presenter's slides and a
 live interaction with the audience. It must move the jury emotionally AND show the whole product clearly:
 set up a project → report an issue → everyone recognises it → findings → solution & roadmap → culture change.
-Language of voice-over, pop-ups and subtitles: ENGLISH. The app UI itself is German (it is the real product) –
-show it as is and add a short English caption where a UI text carries the story.
+Language of voice-over, pop-ups, subtitles AND the app UI: ENGLISH. Record the English version of the real app
+(the /en URLs below) – show the UI exactly as it is.
 
 WHAT ROKIO IS (context)
 A web app for small and medium-sized businesses. Employees say anonymously on their phone where work gets stuck:
@@ -40,11 +40,11 @@ BRAND & DESIGN
 - Subtitles for the full voice-over: bottom centre, paper bar with ink text, 44 px.
 
 SOURCES FOR UI RECORDINGS (real, live app – record at phone 390×844 and laptop 1440×900)
-- Set up a project: https://hackathon26-nu.vercel.app/de/anlegen ("Beispiel einsetzen" → "Projekt anlegen")
-- Dashboard with QR: https://hackathon26-nu.vercel.app/de/leitung/LTG-HEIDE1
-- Cards, report, overview: https://hackathon26-nu.vercel.app/de/feed/HEIDE1 (team "Werkstatt")
-- Findings: https://hackathon26-nu.vercel.app/de/analyse/HEIDE1
-- Solutions + "Testen wir" + roadmap: https://hackathon26-nu.vercel.app/de/loesungen/HEIDE1
+- Set up a project: https://hackathon26-nu.vercel.app/en/anlegen ("Use example (Metallbau Heidekamp)" → "Set up a project")
+- Dashboard with QR: https://hackathon26-nu.vercel.app/en/leitung/LTG-HEIDEEN
+- Cards, report, overview: https://hackathon26-nu.vercel.app/en/feed/HEIDEEN (team "Workshop")
+- Findings: https://hackathon26-nu.vercel.app/en/analyse/HEIDEEN
+- Solutions + "Let's test it" + roadmap: https://hackathon26-nu.vercel.app/en/loesungen/HEIDEEN
 Where recordings are missing, rebuild the UI faithfully in the brand style (texts exactly as below).
 
 VOICE-OVER (English, voice: Sarah – calm, warm, clear; ~200 words; music under voice −12 dB)
@@ -66,31 +66,27 @@ VOICE-OVER (English, voice: Sarah – calm, warm, clear; ~200 words; music under
 
 SCENES
 1 · 0:00–0:08 · MATCH CUT (hook)
-  First frame: full-screen phone display (paper UI, dark card) with label "Technik → Werkstatt",
-  text "Geänderte Zeichnungen kommen nicht rechtzeitig in der Werkstatt an." and context line
-  "Folge: Ein Geländer wurde nach der alten Version gebaut." – English caption: "Changed drawings don't reach
-  the workshop in time." Identical to the phone the presenter is holding up in the room.
+  First frame: full-screen phone display (paper UI, dark card with a photo of a technical drawing) with label
+  "Engineering → Workshop", text "Updated drawings do not reach Workshop in time." and context line
+  "Result: a railing was built using the old version." Identical to the phone the presenter is holding up in the room.
   Slow zoom out: hand at the workbench [REAL optional].
 2 · 0:08–0:22 · BEFORE (cool, desaturated)
   Illustration/[REAL]: a railing is cut apart; team meeting at a table – everyone looks away (hold 3 s);
   coffee machine with murmuring speech bubbles (no text). Pop-up: "Metallbau Heidekamp · fictional company".
   Music stops completely for 1 s on "Silence".
 3 · 0:22–0:40 · SET UP
-  Laptop UI "Projekt anlegen" → waiting animation (dots gather into a card) → dashboard with QR poster
-  "Wo hakt es bei uns? Sag es anonym." (caption: "Where do we get stuck? Say it anonymously.") →
+  Laptop UI "Set up a project" → waiting animation (dots gather into a card) → dashboard with QR poster
+  "Where do we get stuck? Say it anonymously." →
   the poster is stuck on the coffee machine.
   Pop-ups: "Set up in ~10 seconds" · "One code for everyone · anonymous".
 4 · 0:40–1:00 · REPORT
   Phone: thumb holds the red button, timer runs (0:07), transcript bubble fills.
-  UI: "2 einzelne Probleme erkannt" (caption: "2 separate problems found") with two cards (problem + context line),
-  thumb on "Freigeben" (caption: "Share").
+  UI: "2 separate problems found" with two cards (problem + context line), thumb on "Share".
   Pop-ups: "Audio is not stored" · "AI separates single problems".
 5 · 1:00–1:20 · ONE TELLS, EVERYONE SWIPES (tempo peak)
   Three phones side by side (labels: Installation · Engineering · Apprentice). Cards fly right on the beat,
-  green stamp "KENN ICH" (caption: "I know this"). 2 s meme (dog in a yellow hard hat, text:
-  "Ich, wenn im System steht: ‚Noch 12 da.‘" – caption: "Me, when the system says: '12 left in stock.'").
-  Then full-screen green: "6 von 6" + caption "6 out of 6 – management, engineering, workshop and installation
-  know this."
+  green stamp "KNOW IT". 2 s meme (dog in a yellow hard hat, text: "Me when the system says: “12 still in stock.”").
+  Then full-screen green: "6 of 6" + "from Management, Engineering, Workshop and Installation know this."
   Pop-ups: "One tells – everyone swipes" · "Numbers only from 3 voices".
 6 · 1:20–1:40 · FINDINGS (deliberately slow)
   Paper background. Sentence builds word by word: "23.6 hours a week are lost at 4 points."
@@ -98,16 +94,15 @@ SCENES
   engineering, office, workshop, installation; the line engineering → workshop becomes thick and red last.
   Pop-ups: "Processes, never people" · "≈ €46,500 a year – estimate".
 7 · 1:40–1:58 · SOLUTION & EFFECT
-  Toggle "Today → With solutions": lines redraw, at the red line appears "Änderungs-Agent"
-  (caption: "Change agent"). Briefly: "How it works · What it needs · AI trick". Button "Roadmap as PDF".
-  Cursor taps "Testen wir" (caption: "Let's test it") → cut to Marco's phone: vibration, card
-  "Was daraus wurde – Die Leitung testet: Änderungs-Agent." (caption: "What came of it: management is testing the
-  change agent.") Marco's illustration looks up / smiles [REAL optional].
+  Toggle "Today → With solutions": lines redraw, at the red line appears "Change Agent".
+  Briefly: "How it works · What it needs · AI trick". Button "Roadmap as PDF".
+  Cursor taps "Let's test it" → cut to Marco's phone: vibration, card "What came of it – Management is testing:
+  Change Agent." Marco's illustration looks up / smiles [REAL optional].
   Pop-ups: "Solution from a vetted pattern library" · "Roadmap for the team meeting".
 8 · 1:58–2:22 · VISION (warm) – pop-up "Scenario: how it could look"
   Time stamp counts up: "+3 months … +1 year". Same compositions as scene 2, now warm: team meeting with the
-  overview on screen, the apprentice speaks, everyone nods; card "Was gut läuft: In der Werkstatt hilft jeder jedem."
-  (caption: "What works: in the workshop, everyone helps each other."); the red line of the handover map turns grey;
+  overview on screen, the apprentice speaks, everyone nods; card "What works well: In the workshop, everyone helps
+  everyone."; the red line of the handover map turns grey;
   coffee machine with laughter.
 9 · 2:22–2:30 · HAND-OVER TO THE ROOM
   Paper background, left: large "Your turn." in ink, small ROKIO logo at the bottom. Right half stays empty –
