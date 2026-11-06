@@ -176,7 +176,13 @@ export async function stelleFeedZusammen(code: string, bereich: string, beantwor
     .filter(([fid, e]) => e.testet && !schon.has(`wirkung-${fid}`))
     .map(([fid, e]): FeedKarte => {
       const f = ergebnis.bild.faeden.find((x) => x.id === fid);
-      const k = karten.find((x) => x.fadenId === fid);
+      // Die stärkste Übergabe des Handlungsfelds: das häufigste von → an unter seinen Karten.
+      const paare = karten
+        .filter((x) => x.fadenId === fid)
+        .map((x) => ({ von: x.von ?? x.bereich, an: x.an ?? x.bereich }))
+        .filter((x) => x.von !== x.an);
+      const zaehle = (x: { von: string; an: string }) => paare.filter((y) => y.von === x.von && y.an === x.an).length;
+      const k = [...paare].sort((x, y) => zaehle(y) - zaehle(x))[0];
       return {
         art: "wirkung",
         id: `wirkung-${fid}`,
@@ -185,8 +191,8 @@ export async function stelleFeedZusammen(code: string, bereich: string, beantwor
         satz: e.loesung.satz,
         kurzname: f?.kurzname ?? "",
         stimmen: f ? fadenZahlen(f, ergebnis.beitraege, ergebnis.bestandsaufnahme).personen : 0,
-        von: k?.von ?? k?.bereich ?? "",
-        an: k?.an ?? k?.bereich ?? "",
+        von: k?.von ?? "",
+        an: k?.an ?? "",
       };
     });
   if (wirkung.length) reihe.splice(Math.min(2, reihe.length), 0, ...wirkung.slice(0, 1));

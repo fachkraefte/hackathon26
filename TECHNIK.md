@@ -1,6 +1,6 @@
 # Technik
 
-**Stand:** 05.11.2026 · Version 3 (Workflow v2)
+**Stand:** 06.11.2026 · Version 4 (Feed, Klo-Test)
 Gehört zu [`PROJEKT.md`](PROJEKT.md). Bei Widersprüchen gilt `PROJEKT.md`. Für Stack, Stil und Arbeitsweise im Code gilt zusätzlich [`AGENTS.md`](AGENTS.md). Alles hier ist ein **Vorschlag für den Hackathon** und darf vom Team angepasst werden – Änderungen bitte hier eintragen.
 
 ---
@@ -26,12 +26,18 @@ Handy/Browser ──► Next.js auf Vercel (Seiten + API-Routen) ──► Model
 
 | Pfad (Deutsch) | Wer | Inhalt |
 |---|---|---|
-| `/de` | alle | Startseite: zwei Einstiege (Projekt anlegen · Code eingeben), Live-Übergabe-Karte des Demo-Betriebs, drei Schritte, Beispiele, Demo zurücksetzen |
+| `/de` | alle | Startseite im Feed-Stil: Code eingeben (führt in den Feed), Projekt anlegen, Handy mit Beispielkarte, Gesten, Live-Übergabe-Karte, Beispiele, Hausordnung, Demo zurücksetzen |
+| `/de/feed/[code]` | jede Person | **Feed (Klo-Test):** Bereich antippen → bis zu 10 Vollbild-Karten. → kenn ich · ← nicht bei uns · ↑ ständig · gedrückt halten = dazu erzählen (Sprache oder ein Satz). Nach jeder Geste Resonanz („7 von 11 kennen das“, erst ab 3 Stimmen). Erzählen → KI macht eine anonyme Karte → Person gibt frei → Karte geht an die betroffenen Bereiche. Karte „Was daraus wurde“, sobald die Leitung eine Lösung testet |
+| `/de/live/[code]` | Beamer | Jury-Modus: Übergabe-Karte, Stunden, Euro und Stimmen, alle 2 s neu geladen |
 | `/de/anlegen` | Leitung | Eckdaten, Bereiche mit Stundensatz-Spanne, Deadline, Website, Anrede → KI bereitet Chips und Rückfragen vor → Code und Einladung |
 | `/de/zugang` | Beschäftigte | Code eingeben (`?ziel=analyse` führt zur Analyse) |
-| `/de/befragung/[code]` | jede Person | Bereich → Aufgaben-Chips des Bereichs + „Etwas anderes …“ → Erzählen → Spiegelung, ≤ 1 Rückfrage → Regler (wie oft, wie lange, wie sehr bremst es) und Übergabe von/an → bestätigen → Mitsprache → Rückmeldung nach Datenlage |
+| `/de/befragung/[code]` | jede Person | Ausführliche Befragung (bleibt erreichbar, bis der Feed trägt): Bereich → Aufgaben-Chips des Bereichs + „Etwas anderes …“ → Erzählen → Spiegelung, ≤ 1 Rückfrage → Regler (wie oft, wie lange, wie sehr bremst es) und Übergabe von/an → bestätigen → Mitsprache → Rückmeldung nach Datenlage |
 | `/de/analyse/[code]` | alle mit Code | Kernzahl, Übergabe-Karte, Top 3, Mitsprache; zweiter Blick: alle Felder mit Sichtweisen, Profil, Stärken |
-| `/de/loesungen/[code]` | alle mit Code | Karte mit Umschalter heute / mit Lösungen, Kacheln, Details mit Bauplan-Prompt, ein Szenario-Regler, erste Schritte |
+| `/de/loesungen/[code]` | alle mit Code | Karte mit Umschalter heute / mit Lösungen, Kacheln, Details mit Bauplan-Prompt und Knopf „Testen wir“, ein Szenario-Regler, erste Schritte |
+
+**Wie Gesten in die vorhandenen Felder schreiben (`lib/feed.ts`):** Eine Feed-Sitzung ist ein Beitrag (`feed-<sitzung>`), jede bestätigte Karte ein Punkt mit der Übergabe der Karte. Häufigkeit aus der Geste (kenn ich = mehrmals im Monat, ständig = mehrmals pro Woche, bewusst vorsichtig), Minuten = Median der echten Schätzungen im Handlungsfeld (sonst 15). Punkte von Karten mit Handlungsfeld hängt der Code ohne KI an (`mitFeedStimmen` in `lib/gesamtbild.ts`), deshalb wächst der Graph sofort. Karten ohne Handlungsfeld (Startkarten eines neuen Betriebs) ordnet die KI wie eine Erzählung zu. „Nicht bei uns“ steht nur in `reaktionen` und zählt als Gegenstimme in der Resonanz. Im Browser gemerkt werden nur Sitzungs-ID, Bereich und beantwortete Karten.
+
+**Karten:** Demo = die Sichtweisen aus dem geprüften Gesamtbild (schon anonym, Ich-Form). Neuer Betrieb = Startkarten, die die KI nach dem Anlegen im Hintergrund aus Branche, Bereichen, Aufgaben und Website schreibt; sie tragen sichtbar „Startkarte von ROKIO“. Neue Meldungen = KI-Karte aus der Erzählung, erst nach Freigabe durch die Person gespeichert.
 
 Texte der Oberfläche stehen in `messages/de.json`, `messages/en.json` hat dieselben Schlüssel (Übersetzung folgt). Die Befragung gibt es in Du und Sie (ICU `select` auf `anrede`). Einsprechen nutzt die Spracherkennung des Browsers (`app/[locale]/_komponenten/eingabe.tsx`), ohne neue Abhängigkeit. Gestaltung nach `DESIGN.md`. Übergabe-Karte und Profil sind SVG aus `lib/karte.ts` bzw. `_komponenten/profil.tsx`, ohne Diagramm-Bibliothek.
 
@@ -117,7 +123,9 @@ Euro rechnet `lib/rechnen.ts` mit der Mitte der Spanne des Bereichs, in dem die 
 | `bestandsaufnahmen` | Start der Leitung: Betrieb, Frage, Ziel, Stundensatz, Bereiche, Themen-Chips |
 | `beitraege` | eine Antwort je Person; Punkte als JSON (Format `Punkt` in `lib/typen.ts`) |
 | `gesamtbilder` | aktuelles gemeinsames Bild je Bestandsaufnahme als JSON, mit Fingerabdruck der Beiträge |
-| `beschluesse` | erster Schritt je Faden: Rolle, Datum, Kopie der Aufgabe |
+| `beschluesse` | (v2, nicht mehr genutzt) |
+| `karten` | Feed-Karten: Text, Bereich, von/an, Handlungsfeld (`20261106100000_feed.sql`) |
+| `reaktionen` | Geste je Sitzung und Karte – bewusst ohne Zeitstempel |
 
 - **Zugriff nur über den Server** (`lib/supabase/server.ts`, Service-Role-Key). Row Level Security ist auf allen Tabellen an, es gibt keine Policies; `anon` und `authenticated` haben keine Rechte. Einzelbeiträge erreichen nie den Browser.
 - **`lib/speicher.ts`** liest und schreibt; gelesene Zeilen werden mit zod geprüft. Ohne `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` nutzt die App den Speicher im Server (nur lokal sinnvoll).
@@ -139,7 +147,8 @@ Euro rechnet `lib/rechnen.ts` mit der Mitte der Spanne des Bereichs, in dem die 
 
 - An die Cloud-API und an Supabase gehen **nur fiktive Testdaten**. Keine echten Antworten von echten Beschäftigten.
 - API-Schlüssel nur in `.env.local` und in den Vercel-Einstellungen, nie im Repo und nie mit `NEXT_PUBLIC_`. Die Namen stehen in `.env.example`: `OPENAI_API_KEY` und `OPENAI_MODEL`.
-- Ziel für echten Einsatz: lokales Modell. Rechtliche Fragen (Datenschutz, Mitbestimmung) sind im Hackathon nicht geprüft.
+- Ziel für echten Einsatz: lokales Modell. Rechtliche Fragen (Datenschutz, Mitbestimmung) sind im Hackathon nicht geprüft. Für die Einführung im Betrieb vorgesehen: Der Betriebsrat ist zu beteiligen (§ 87 Abs. 1 Nr. 6 BetrVG).
+- Feed: keine Uhrzeiten, Nutzungsdauern oder Geräteinfos in der Datenbank; Sprache wandelt die Spracherkennung des Browsers in Text; ROKIO bekommt und speichert nur den Text, nie Audio. Achtung: Chrome nutzt dafür einen Google-Dienst – für den echten Einsatz ist eine lokale Transkription vorgesehen.
 
 ---
 
