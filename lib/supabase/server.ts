@@ -72,11 +72,18 @@ type KarteRow = {
   bestandsaufnahme_id: string;
   faden_id: string | null;
   text: string;
+  kontext: string | null;
   bereich: string;
   von: string | null;
   an: string | null;
   typ: string;
   frei: boolean;
+};
+
+type ZugangRow = {
+  code: string;
+  bestandsaufnahme_id: string;
+  bereich: string | null;
 };
 
 type ReaktionRow = {
@@ -100,6 +107,7 @@ export type Database = {
       gesamtbilder: Tabelle<GesamtbildRow, "bestandsaufnahme_id" | "schluessel" | "bild">;
       beschluesse: Tabelle<BeschlussRow, "bestandsaufnahme_id" | "faden_id" | "aufgabe" | "verantwortlich" | "bis">;
       karten: Tabelle<KarteRow, "id" | "bestandsaufnahme_id" | "text" | "bereich">;
+      zugaenge: Tabelle<ZugangRow, "code" | "bestandsaufnahme_id">;
       reaktionen: Tabelle<ReaktionRow, "sitzung" | "karte_id" | "bestandsaufnahme_id" | "bereich" | "richtung">;
     };
     Views: Record<string, never>;

@@ -1,18 +1,13 @@
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
-import { holeBestandsaufnahme } from "@/lib/speicher";
-import { Feed } from "./feed";
+import { redirect } from "@/i18n/navigation";
+import { oeffne } from "@/lib/feed-aktionen";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata() {
-  const t = await getTranslations("Feed");
-  return { title: t("seitentitel") };
-}
-
+/** QR-Code / Demo: Betriebscode eines Demo-Betriebs → neuer persönlicher Demo-Code → eigener Bereich. */
 export default async function FeedSeite(props: PageProps<"/[locale]/feed/[code]">) {
-  const { code } = await props.params;
-  const b = await holeBestandsaufnahme(code.toUpperCase());
-  if (!b) notFound();
-  return <Feed code={b.id} betrieb={b.betrieb.name} anrede={b.anrede} bereiche={b.bereiche.map((x) => x.name)} />;
+  const { code, locale } = await props.params;
+  const r = await oeffne(code).catch(() => null);
+  if (!r || !("pfad" in r)) notFound();
+  redirect({ href: r.pfad, locale: locale as "de" | "en" });
 }

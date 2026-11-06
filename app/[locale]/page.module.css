@@ -380,9 +380,10 @@
   font-weight: 500;
 }
 
-/* ---------- Beispiele ---------- */
+/* ---------- Beispiele: drei gleich gebaute Spalten ---------- */
 .beispiele {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
   margin: 0;
   padding: 0;
   border-top: 2px solid var(--tinte);
@@ -391,27 +392,33 @@
 
 .beispiele li {
   display: grid;
-  grid-template-columns: 10rem 1.3fr 1fr;
-  align-items: baseline;
-  gap: 1.5rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid rgba(20, 24, 36, 0.2);
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  padding: 1.5rem 1.5rem 0 0;
+}
+
+.beispiele li + li {
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(20, 24, 36, 0.2);
 }
 
 .branche {
   color: var(--leise);
+  font-size: 0.9375rem;
   font-weight: 700;
 }
 
 .stimme {
-  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-size: 1.75rem;
   font-stretch: 70%;
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.08;
 }
 
 .loesung {
-  font-size: 1.0625rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid rgba(20, 24, 36, 0.2);
+  font-size: 1rem;
   line-height: 1.4;
 }
 
@@ -509,9 +516,15 @@
     grid-template-columns: 1fr;
   }
 
-  .beispiele li {
+  .beispiele {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+  }
+
+  .beispiele li,
+  .beispiele li + li {
+    padding: 1.25rem 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(20, 24, 36, 0.2);
   }
 
   .handy {

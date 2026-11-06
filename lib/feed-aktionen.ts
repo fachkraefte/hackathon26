@@ -6,20 +6,21 @@ import { z } from "zod";
 import { sendeBeitrag } from "./aktionen";
 import { analyseDaten } from "./analyse";
 import {
-  karteAusGeschichte,
   resonanzFuer,
   Richtung,
   speichereKarte,
   stelleFeedZusammen,
   verarbeiteGeste,
+  zerlegeMeldung,
 } from "./feed";
 import { holeGesamtbild } from "./gesamtbild";
-import { versteheGeschichte } from "./ki/schritte";
 import { holeBestandsaufnahme, holeGesamtbildEintrag, speichereLoesungen } from "./speicher";
+import { erzeugeZugaenge, holeZugang, setzeBereichFuer } from "./zugang";
 import { Haeufigkeit } from "./typen";
 
 const Code = z.string().trim().toUpperCase().min(3).max(12);
-const Sitzung = z.string().regex(/^[a-z0-9]{6,16}$/);
+
+const Sitzung = z.string().regex(/^[a-z0-9]{6,16}$/i);
 const BereichName = z.string().min(1).max(40);
 
 async function betrieb(code: string) {
@@ -43,75 +44,80 @@ export async function geste(eingabe: { code: string; sitzung: string; bereich: s
   });
 }
 
-/** Halten und erzählen: Spiegelung und anonyme Karte parallel. Nichts wird gespeichert, bevor die Person freigibt. */
+/** Halten und erzählen: Die KI zerlegt die Meldung in einzelne Probleme. Gespeichert wird erst nach Freigabe. */
 export async function erzaehle(eingabe: { code: string; bereich: string; geschichte: string }) {
   const b = await betrieb(eingabe.code);
   const bereich = BereichName.parse(eingabe.bereich);
   const geschichte = z.string().trim().min(3).max(2000).parse(eingabe.geschichte);
-  const [verstanden, karte] = await Promise.all([
-    versteheGeschichte(b, { bereich, aufgabe: "Meldung aus dem Feed", geschichte, rueckfrageErlaubt: false }),
-    karteAusGeschichte(b, bereich, geschichte),
-  ]);
-  const v = verstanden.daten;
+  const zerlegt = await zerlegeMeldung(b, bereich, geschichte);
+  if (zerlegt) return zerlegt;
+  // KI nicht erreichbar: die Meldung selbst als ein Problem.
   return {
-    spiegelung: v.spiegelung || v.aussage,
-    karte: karte ?? v.aussage,
-    titel: v.titel,
-    aussage: v.aussage,
-    haeufigkeit: v.haeufigkeit,
-    minuten: v.minuten,
-    von: v.von,
-    an: v.an,
+    spiegelung: "",
+    probleme: [{ text: geschichte.slice(0, 160), kontext: "", titel: "Meldung", von: null, an: null, haeufigkeit: null, minuten: null }],
   };
 }
 
 const Freigabe = z.object({
   code: z.string(),
   bereich: BereichName,
-  karte: z.string().trim().min(3).max(160),
-  titel: z.string().max(120),
-  aussage: z.string().max(600),
-  haeufigkeit: Haeufigkeit,
-  minuten: z.number().int().min(1).max(480),
-  von: z.string().max(60).nullable(),
-  an: z.string().max(60).nullable(),
+  sitzung: z.string().max(40).optional(),
+  probleme: z
+    .array(
+      z.object({
+        text: z.string().trim().min(3).max(160),
+        kontext: z.string().max(140),
+        titel: z.string().max(80),
+        haeufigkeit: Haeufigkeit,
+        minuten: z.number().int().min(1).max(480),
+        von: z.string().max(60).nullable(),
+        an: z.string().max(60).nullable(),
+      }),
+    )
+    .min(1)
+    .max(3),
 });
 
-/** Freigeben: Meldung zählt als Stimme, die Karte geht an die anderen Bereiche. */
+/** Freigeben: jedes Problem zählt als Stimme und wird eine Karte für die anderen Bereiche. */
 export async function gibFrei(eingabe: z.input<typeof Freigabe>) {
   const d = Freigabe.parse(eingabe);
   const b = await betrieb(d.code);
   const antwort = await sendeBeitrag({
     code: b.id,
     bereich: d.bereich,
-    punkte: [{
-      zeitfresser: d.titel,
-      titel: d.titel,
-      aussage: d.aussage,
-      haeufigkeit: d.haeufigkeit,
-      minuten: d.minuten,
+    punkte: d.probleme.map((p) => ({
+      zeitfresser: p.titel,
+      titel: p.titel,
+      aussage: `${p.text} ${p.kontext}`.trim(),
+      haeufigkeit: p.haeufigkeit,
+      minuten: p.minuten,
       beteiligt: [],
       bremst: 3,
-      von: d.von,
-      an: d.an,
-    }],
+      von: p.von,
+      an: p.an,
+    })),
     mitsprache: null,
   });
   const bild = await holeGesamtbild(b.id);
-  const faden = bild?.bild.faeden.find((f) => f.kurzname === antwort.faeden[0]?.kurzname) ?? null;
-  const karte = {
-    id: `${b.id}-m-${crypto.randomUUID().slice(0, 8)}`,
-    fadenId: faden?.id ?? null,
-    text: d.karte,
-    bereich: d.bereich,
-    von: d.von,
-    an: d.an,
-    typ: "aussage" as const,
-  };
-  await speichereKarte(b.id, karte);
-  const resonanz = await resonanzFuer(b.id, karte);
-  const empfaenger = [...new Set([d.von, d.an].filter((x): x is string => Boolean(x) && x !== d.bereich))];
-  return { resonanz, kurzname: faden?.kurzname ?? null, empfaenger, karteId: karte.id };
+  const ergebnisse = [];
+  for (const [i, p] of d.probleme.entries()) {
+    const pid = antwort.punktIds[i];
+    const faden = bild?.bild.faeden.find((f) => f.punktIds.includes(pid)) ?? null;
+    const karte = {
+      id: `${b.id}-m-${crypto.randomUUID().slice(0, 8)}`,
+      fadenId: faden?.id ?? null,
+      text: p.text,
+      kontext: p.kontext || null,
+      bereich: d.bereich,
+      von: p.von,
+      an: p.an,
+      typ: "aussage" as const,
+    };
+    await speichereKarte(b.id, karte);
+    ergebnisse.push({ text: p.text, kurzname: faden?.kurzname ?? null, resonanz: await resonanzFuer(b.id, karte) });
+  }
+  const empfaenger = [...new Set(d.probleme.flatMap((p) => [p.von, p.an]).filter((x): x is string => Boolean(x) && x !== d.bereich))];
+  return { ergebnisse, empfaenger };
 }
 
 /** Beamer-Ansicht: Graph und Zahlen, die live mitwachsen. Nur Zusammengeführtes. */
@@ -136,4 +142,28 @@ export async function setzeTest(code: string, fadenId: string, testet: boolean) 
   if (!e || !eintrag) throw new Error("Lösung unbekannt.");
   await speichereLoesungen(b.id, { ...e.loesungen, [fadenId]: { ...eintrag, testet } });
   return testet;
+}
+
+// ---------- Persönlicher Zugang ----------
+/**
+ * Code eingeben: persönlicher Code → eigener Bereich. Betriebscode → nur bei Demo-Betrieben
+ * wird ein persönlicher Demo-Code erzeugt (Jury per QR); echte Betriebe verteilen persönliche Codes.
+ */
+export async function oeffne(code: string): Promise<{ pfad: string } | { fehler: "unbekannt" | "persoenlich" }> {
+  const c = Code.parse(code);
+  const z = await holeZugang(c);
+  if (z) return { pfad: `/ich/${z.code}` };
+  const b = await holeBestandsaufnahme(c);
+  if (!b) return { fehler: "unbekannt" };
+  if (!b.betrieb.fiktiv) return { fehler: "persoenlich" };
+  const [neu] = await erzeugeZugaenge(b.id, 1);
+  return { pfad: `/ich/${neu}` };
+}
+
+export async function waehleBereich(code: string, bereich: string) {
+  const z = await holeZugang(Code.parse(code));
+  if (!z) throw new Error("Code unbekannt.");
+  const b = await betrieb(z.betriebId);
+  if (!b.bereiche.some((x) => x.name === bereich)) throw new Error("Bereich unbekannt.");
+  await setzeBereichFuer(z.code, bereich);
 }

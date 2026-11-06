@@ -1,0 +1,27 @@
+{
+  "_hinweis": "Feed-Karten der Demo, je Sichtweise im Gesamtbild (gleiche Reihenfolge). Aus den Stimmen in fallstudien/01_metallbau_heidekamp.md umformuliert: ein konkretes Problem, für alle Bereiche verständlich, plus eine Zeile Kontext. Nichts dazuerfunden.",
+  "f1": [
+    { "text": "Kundenänderungen kommen nur per Sprachnachricht in der Technik an.", "kontext": "Kunden ändern am Telefon, weitergegeben wird abends." },
+    { "text": "Niemand weiß sicher, welche Zeichnungsversion in der Werkstatt hängt.", "kontext": "Zeichnungen werden oft mehrmals geändert." },
+    { "text": "Geänderte Zeichnungen kommen nicht rechtzeitig in der Werkstatt an.", "kontext": "Folge: Ein Geländer wurde nach der alten Version gebaut." },
+    { "text": "Auf der Baustelle passen Maße nicht zur gefertigten Ware.", "kontext": "Folge: vor Ort kürzen und nachschweißen." }
+  ],
+  "f2": [
+    { "text": "Auf der Baustelle fehlen Teile, die eingeplant waren.", "kontext": "Folge: zurückfahren, der halbe Vormittag ist weg." },
+    { "text": "Entnommenes Material wird nirgends ausgetragen.", "kontext": "Folge: Material muss gesucht werden." },
+    { "text": "Das Büro erfährt zu spät, dass Material ausgeht.", "kontext": "Folge: Eilbestellungen." }
+  ],
+  "f3": [
+    { "text": "Das Büro weiß nicht, wann die Montage beim Kunden ist.", "kontext": "Kunden fragen nach, das Büro muss herumtelefonieren." },
+    { "text": "Auf der Baustelle kommen ständig Anrufe zum Auftragsstand.", "kontext": "Folge: Die Arbeit wird immer wieder unterbrochen." }
+  ],
+  "f4": [
+    { "text": "Erfahrungswissen der Werkstatt ist nirgends aufgeschrieben.", "kontext": "Neue fragen bei jedem Schritt die Erfahrenen." }
+  ],
+  "f5": [
+    { "text": "Pfosten werden einzeln von Hand geschweißt, oft einen ganzen Tag lang.", "kontext": "Immer derselbe Handgriff." }
+  ],
+  "f6": [
+    { "text": "Wangen und Geländerfelder werden von Hand bis in obere Stockwerke getragen.", "kontext": "Oft bis in den dritten Stock." }
+  ]
+}

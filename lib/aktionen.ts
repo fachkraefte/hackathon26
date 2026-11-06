@@ -7,6 +7,7 @@ import { bereichsLabel } from "./anonym";
 import { nimmBeitragAuf } from "./gesamtbild";
 import { bereiteVor, versteheGeschichte } from "./ki/schritte";
 import { erzeugeStartKarten, ladeDemoKarten } from "./feed";
+import { erzeugeZugaenge } from "./zugang";
 import { ergaenzeLoesungen } from "./loesungen";
 import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
 import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, speichereBeitrag } from "./speicher";
@@ -73,6 +74,7 @@ export async function legeAn(eingabe: z.input<typeof AnlegenEingabe>) {
   const vorbereitung = await bereiteVor(b, websiteText);
   await aktualisiereBestandsaufnahme({ ...b, profil: vorbereitung.daten });
   // Startkarten für den Feed im Hintergrund – bis die ersten Beschäftigten den Code eingeben, liegen sie bereit.
+  await erzeugeZugaenge(b.id, b.betrieb.mitarbeitende);
   after(() => erzeugeStartKarten({ ...b, profil: vorbereitung.daten }, websiteText).catch((e: unknown) => console.error("Startkarten:", e)));
   return { code: b.id, profil: vorbereitung.daten, websiteGelesen: websiteText !== null, ausDemo: vorbereitung.ausDemo };
 }
@@ -145,6 +147,8 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
     });
 
   return {
+    beitragId: id,
+    punktIds: beitrag.punkte.map((p) => p.id),
     faeden,
     meineStundenWoche: meineStunden,
     meineEuroJahr: euroProJahr(meineStunden, satzFuer(b, beitrag.bereich), b),
