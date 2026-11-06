@@ -6,6 +6,7 @@ import { z } from "zod";
 import { bereichsLabel } from "./anonym";
 import { nimmBeitragAuf } from "./gesamtbild";
 import { bereiteVor, versteheGeschichte } from "./ki/schritte";
+import { erzeugeStartKarten, ladeDemoKarten } from "./feed";
 import { ergaenzeLoesungen } from "./loesungen";
 import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
 import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, speichereBeitrag } from "./speicher";
@@ -71,6 +72,8 @@ export async function legeAn(eingabe: z.input<typeof AnlegenEingabe>) {
   const websiteText = await leseWebsite(b.betrieb.website);
   const vorbereitung = await bereiteVor(b, websiteText);
   await aktualisiereBestandsaufnahme({ ...b, profil: vorbereitung.daten });
+  // Startkarten für den Feed im Hintergrund – bis die ersten Beschäftigten den Code eingeben, liegen sie bereit.
+  after(() => erzeugeStartKarten({ ...b, profil: vorbereitung.daten }, websiteText).catch((e: unknown) => console.error("Startkarten:", e)));
   return { code: b.id, profil: vorbereitung.daten, websiteGelesen: websiteText !== null, ausDemo: vorbereitung.ausDemo };
 }
 
@@ -160,4 +163,5 @@ export async function teilnahme(code: string) {
 
 export async function setzeDemoZurueck() {
   await demoZuruecksetzen();
+  await ladeDemoKarten();
 }

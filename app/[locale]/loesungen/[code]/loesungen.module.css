@@ -272,3 +272,10 @@
 .ersteSchritte p {
   margin: 0 0 1rem;
 }
+
+.testen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}

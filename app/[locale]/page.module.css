@@ -1,123 +1,478 @@
+/* Startseite im Feed-Stil: Papier und Tinte, schmale Schrift, Farbe nur als Signal. */
 .start {
+  --tinte: #141824;
+  --papier: #f3efe6;
+  --gruen: #2e9e57;
+  --rot: #d6402f;
+  --blau: #2f6fdb;
+  --gelb: #f1e64b;
+  --leise: #5a5f6b;
   display: grid;
-  gap: 4rem;
-  width: min(100% - 2rem, var(--seitenbreite));
+  gap: 5rem;
+  padding: 2.5rem 0 4rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(20, 24, 36, 0.05) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(90deg, rgba(20, 24, 36, 0.05) 0 1px, transparent 1px 64px),
+    var(--papier);
+  color: var(--tinte);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+.innen,
+.held {
+  width: min(100% - 2rem, 72rem);
   margin: 0 auto;
-  padding: 2rem 0 4rem;
+}
+
+.h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-stretch: 62%;
+  font-weight: 800;
+  line-height: 0.95;
+}
+
+.text {
+  max-width: 36rem;
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.45;
+}
+
+.pfeilLink {
+  color: var(--tinte);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 /* ---------- Hero ---------- */
 .held {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
   align-items: center;
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
-.heldText h1 {
-  margin: 0.5rem 0 1rem;
-  font-size: clamp(2.125rem, 5.5vw, 3.5rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-}
-
-/* Wechselnde Zeile: in der Werkstatt / Pflege / Küche / im Lager */
-.wechsel {
-  position: relative;
-  display: block;
-  height: 1.3em;
-  overflow: hidden;
-  color: var(--brand-highlight-dark);
-}
-
-.wechsel span {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  animation: wechsel 10s infinite;
-}
-
-.wechsel span:nth-child(2) {
-  animation-delay: 2.5s;
-}
-
-.wechsel span:nth-child(3) {
-  animation-delay: 5s;
-}
-
-.wechsel span:nth-child(4) {
-  animation-delay: 7.5s;
-}
-
-@keyframes wechsel {
-  0% {
-    opacity: 0;
-    transform: translateY(0.4em);
-  }
-  4%,
-  22% {
-    opacity: 1;
-    transform: none;
-  }
-  26%,
-  100% {
-    opacity: 0;
-    transform: translateY(-0.4em);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wechsel span:first-child {
-    opacity: 1;
-  }
+.titel {
+  margin: 0 0 1.25rem;
+  font-size: clamp(3.5rem, 11vw, 7.5rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.01em;
 }
 
 .einleitung {
   max-width: 34rem;
-  margin: 0 0 1.75rem;
-  font-size: 1.1875rem;
-  line-height: 1.5;
+  margin: 0 0 2rem;
+  font-size: 1.3125rem;
+  line-height: 1.45;
 }
 
-.einstiege {
+.code {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem;
-  align-items: end;
+  gap: 0.5rem;
+  max-width: 26rem;
 }
 
-.einstieg {
-  display: grid;
-  gap: 0.375rem;
-  padding: 1rem;
-  border-radius: var(--radius-card);
-  background: var(--brand-surface);
-  box-shadow: var(--shadow-soft);
-}
-
-.fuer {
+.codeFrage {
   margin: 0;
-  color: var(--text-leise);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.code input {
+  min-height: 3.25rem;
+  border: 2px solid var(--tinte);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 1.25rem;
+}
+
+.code :global(.button) {
+  min-height: 3.25rem;
+  border-radius: 12px;
+  background: var(--tinte);
+  color: var(--papier);
+}
+
+.leitung {
+  margin: 1.5rem 0 0;
+  font-size: 1.125rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+}
+
+.links a {
+  color: var(--leise);
+}
+
+/* Handy mit einer echten Feed-Karte – wischt sich selbst als Beispiel. */
+.handy {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(100%, 20rem);
+  aspect-ratio: 9 / 18.5;
+  padding: 1rem 0.75rem 1rem;
+  border: 10px solid var(--tinte);
+  border-radius: 2.75rem;
+  background: var(--tinte);
+  color: var(--papier);
+  text-decoration: none;
+  transform: rotate(3deg);
+}
+
+.handyBalken {
+  display: flex;
+  gap: 3px;
+  padding: 0.75rem 0.25rem 0;
+}
+
+.handyBalken span {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(243, 239, 230, 0.25);
+}
+
+.handyBalken span:nth-child(-n + 3) {
+  background: var(--papier);
+}
+
+.handyOben {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.25rem;
   font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
-.analyseLink {
-  margin: 1rem 0 0;
+.handyKarte {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(243, 239, 230, 0.05) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(243, 239, 230, 0.05) 0 1px, transparent 1px 28px),
+    #232a3b;
+  animation: wisch 5s ease-in-out infinite;
+}
+
+.handyStempel {
+  position: absolute;
+  top: 1.5rem;
+  left: 1rem;
+  padding: 0.125rem 0.5rem;
+  border: 3px solid var(--gruen);
+  border-radius: 8px;
+  color: var(--gruen);
+  font-size: 1.5rem;
+  font-stretch: 70%;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: rotate(-12deg);
+  animation: stempel 5s ease-in-out infinite;
+}
+
+.handyZitat {
+  font-size: 1.75rem;
+  font-stretch: 70%;
+  font-weight: 800;
+  line-height: 1.02;
+}
+
+.handyQuelle {
+  color: rgba(243, 239, 230, 0.62);
+  font-size: 0.75rem;
+}
+
+.handyKnoepfe {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.handyNein,
+.handyJa {
+  padding: 0.625rem 0.25rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.handyNein {
+  border: 2px solid rgba(243, 239, 230, 0.4);
+}
+
+.handyJa {
+  background: var(--gruen);
+  color: #fff;
+}
+
+@keyframes wisch {
+  0%,
+  35% {
+    transform: none;
+    box-shadow: none;
+  }
+  55%,
+  70% {
+    transform: translateX(18px) rotate(4deg);
+    box-shadow: inset 0 0 0 3px var(--gruen);
+  }
+  85%,
+  100% {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@keyframes stempel {
+  0%,
+  35% {
+    opacity: 0;
+  }
+  55%,
+  70% {
+    opacity: 1;
+  }
+  85%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handyKarte,
+  .handyStempel {
+    animation: none;
+  }
+  .handyStempel {
+    opacity: 1;
+  }
+}
+
+/* ---------- Dunkler Block: Schleife und Gesten ---------- */
+.dunkel {
+  padding: 4rem 0;
+  background: var(--tinte);
+  color: var(--papier);
+}
+
+.schleife {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+
+.schleifeZahl {
+  margin: 0;
+  font-size: clamp(4.5rem, 14vw, 9rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.schleifeZahl span {
+  display: block;
+  margin-top: 0.5rem;
+  color: rgba(243, 239, 230, 0.62);
+  font-size: 1.125rem;
+  font-stretch: 100%;
+  font-weight: 600;
+}
+
+.gesten {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  margin: 3rem 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(243, 239, 230, 0.2);
+  list-style: none;
+}
+
+.gesten li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(243, 239, 230, 0.2);
+  font-size: 1.1875rem;
+  font-weight: 600;
+}
+
+.gesteZeichen {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.375rem;
+}
+
+[data-geste="kenn"] .gesteZeichen {
+  background: var(--gruen);
+}
+
+[data-geste="nicht"] .gesteZeichen {
+  background: var(--rot);
+}
+
+[data-geste="staendig"] .gesteZeichen {
+  background: var(--blau);
+}
+
+[data-geste="halten"] .gesteZeichen {
+  background: var(--papier);
+  color: var(--rot);
+}
+
+/* ---------- Bild ---------- */
+.bild {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.bildText {
+  display: grid;
+  gap: 1.25rem;
+  justify-items: start;
+}
+
+.bildZahl {
+  margin: 0;
+  font-size: clamp(2.75rem, 6vw, 4rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.bildZahl span {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--leise);
+  font-size: 1rem;
+  font-stretch: 100%;
+  font-weight: 500;
+}
+
+/* ---------- Beispiele ---------- */
+.beispiele {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--tinte);
+  list-style: none;
+}
+
+.beispiele li {
+  display: grid;
+  grid-template-columns: 10rem 1.3fr 1fr;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(20, 24, 36, 0.2);
+}
+
+.branche {
+  color: var(--leise);
+  font-weight: 700;
+}
+
+.stimme {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-stretch: 70%;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.loesung {
+  font-size: 1.0625rem;
+  line-height: 1.4;
+}
+
+/* ---------- Vertrauen ---------- */
+.vertrauen {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.5rem;
+}
+
+.regeln {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border: 3px solid var(--tinte);
+  border-radius: 18px;
+  background: #faf8f3;
+  counter-reset: regel;
+  list-style: none;
+}
+
+.regeln li {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(20, 24, 36, 0.15);
+  font-size: 1.125rem;
+  font-weight: 600;
+  counter-increment: regel;
+}
+
+.regeln li:last-child {
+  border-bottom: 0;
+}
+
+.regeln li::before {
+  content: counter(regel) ". ";
+  font-weight: 800;
+}
+
+/* ---------- Schluss ---------- */
+.schluss {
+  margin: 0 0 2rem;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.ehrlich {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 44rem;
+  color: var(--leise);
   font-size: 0.9375rem;
 }
 
-.analyseLink a {
-  color: var(--brand-link);
+.ehrlich p {
+  margin: 0;
 }
 
-.heldBild {
-  position: relative;
-}
-
+/* Wird von live-karte.tsx genutzt. */
 .liveKarte {
   position: relative;
 }
@@ -130,128 +485,37 @@
   margin: 0;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  background: var(--orange-hell);
-  color: var(--brand-primary-dark);
+  background: var(--tinte);
+  color: var(--papier);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   transition: background 0.6s ease, color 0.6s ease;
 }
 
 .modus[data-modus="loesungen"] {
-  background: var(--tuerkis-hell);
-  color: var(--brand-highlight-dark);
+  background: var(--gelb);
+  color: var(--tinte);
 }
 
-/* ---------- Abschnitte ---------- */
-.abschnitt h2 {
-  margin: 0 0 1.25rem;
-  font-size: clamp(1.5rem, 3.5vw, 2rem);
-}
-
-.schritte {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.schritte li {
-  display: grid;
-  align-content: start;
-  gap: 0.375rem;
-  padding: 1.5rem;
-  border-radius: var(--radius-card);
-  background: var(--brand-surface);
-  box-shadow: var(--shadow-soft);
-}
-
-.nummer {
-  display: grid;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  background: var(--brand-text);
-  color: #fff;
-  font-weight: 700;
-}
-
-.dauer {
-  color: var(--brand-highlight-dark);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.schritte strong {
-  font-size: 1.25rem;
-}
-
-.beispiele {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-.beispiel {
-  display: grid;
-  align-content: start;
-  gap: 0.75rem;
-  padding: 1.5rem;
-  border-radius: var(--radius-card);
-  background: var(--brand-text);
-  color: #fff;
-}
-
-.beispiel p {
-  margin: 0;
-}
-
-.branche {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.stimme {
-  font-size: 1.1875rem;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.loesung {
-  color: var(--brand-highlight);
-  font-weight: 500;
-}
-
-.ehrlich {
-  display: grid;
-  gap: 0.75rem;
-  max-width: 44rem;
-  color: var(--text-leise);
-  font-size: 0.9375rem;
-}
-
-.ehrlich p {
-  margin: 0;
-}
-
-@media (max-width: 52rem) {
-  .held {
+@media (max-width: 56rem) {
+  .held,
+  .schleife,
+  .bild,
+  .vertrauen {
     grid-template-columns: 1fr;
   }
 
-  .schritte,
-  .beispiele {
+  .gesten {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 34rem) {
-  .einstiege {
+  .beispiele li {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .handy {
+    width: min(100%, 17rem);
+    transform: none;
   }
 }

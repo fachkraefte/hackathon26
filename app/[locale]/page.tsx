@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { analyseDaten } from "@/lib/analyse";
 import { DEMO_ID } from "@/lib/daten";
+import { formatEuro, formatStunden } from "@/lib/rechnen";
 import { CodeFeld } from "./zugang/code-feld";
 import { DemoZuruecksetzen } from "./demo-zuruecksetzen";
 import { LiveKarte } from "./live-karte";
@@ -10,46 +11,97 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 
 const BEISPIELE = ["metallbau", "pflege", "mensa"] as const;
-const SCHRITTE = ["anlegen", "erzaehlen", "loesen"] as const;
+const GESTEN = [
+  { key: "kenn", zeichen: "→" },
+  { key: "nicht", zeichen: "←" },
+  { key: "staendig", zeichen: "↑" },
+  { key: "halten", zeichen: "●" },
+] as const;
 
 export default async function Startseite() {
   const t = await getTranslations("Home");
   // Das echte Produktbild: Übergabe-Karte des Demo-Betriebs (fiktiv).
   const demo = await analyseDaten(DEMO_ID).catch(() => null);
   const loesungen = demo ? Object.fromEntries(Object.entries(demo.loesungen).map(([id, e]) => [id, e.loesung.name])) : {};
+  const regeln = t.raw("regeln") as string[];
 
   return (
     <main className={styles.start}>
+      {/* ---------- Hero ---------- */}
       <section className={styles.held}>
         <div className={styles.heldText}>
-          <p className="ueberzeile">{t("ueberzeile")}</p>
-          <h1>
-            {t("titel")}
-            <span className={styles.wechsel} aria-hidden>
-              {(["werkstatt", "pflege", "kueche", "lager"] as const).map((o) => (
-                <span key={o}>{t(`ort.${o}`)}</span>
-              ))}
-            </span>
-          </h1>
+          <h1 className={styles.titel}>{t("titel")}</h1>
           <p className={styles.einleitung}>{t("einleitung")}</p>
-          <div className={styles.einstiege}>
-            <div className={styles.einstieg}>
-              <p className={styles.fuer}>{t("fuerLeitung")}</p>
-              <Link className="button" href="/anlegen">{t("anlegen")}</Link>
-            </div>
-            <div className={styles.einstieg}>
-              <p className={styles.fuer}>{t("fuerTeam")}</p>
-              <CodeFeld ziel="befragung" />
-            </div>
+          <div className={styles.code}>
+            <p className={styles.codeFrage}>{t("codeFrage")}</p>
+            <CodeFeld ziel="feed" />
           </div>
-          <p className={styles.analyseLink}>
+          <p className={styles.leitung}>
+            {t("fuerLeitung")} <Link href="/anlegen" className={styles.pfeilLink}>{t("anlegen")} →</Link>
+          </p>
+          <p className={styles.links}>
+            <Link href={`/feed/${DEMO_ID}`}>{t("demoProbieren")}</Link>
+            <Link href={`/live/${DEMO_ID}`}>{t("liveAnsehen")}</Link>
             <Link href="/zugang?ziel=analyse">{t("analyseAnsehen")}</Link>
-            {" · "}
-            <Link href={`/analyse/${DEMO_ID}`}>{t("beispielAnsehen")}</Link>
           </p>
         </div>
-        {demo && (
-          <div className={styles.heldBild}>
+        <Link href={`/feed/${DEMO_ID}`} className={styles.handy} aria-label={t("demoProbieren")}>
+          <span className={styles.handyBalken} aria-hidden>
+            <span /><span /><span /><span /><span /><span /><span /><span />
+          </span>
+          <span className={styles.handyOben}>
+            <span>{t("handyBereich")}</span>
+            <span>{t("handyZaehler")}</span>
+          </span>
+          <span className={styles.handyKarte}>
+            <span className={styles.handyStempel}>{t("kennIch")}</span>
+            <span className={styles.handyZitat}>„{t("handyKarte")}“</span>
+            <span className={styles.handyQuelle}>{t("handyQuelle")}</span>
+          </span>
+          <span className={styles.handyKnoepfe}>
+            <span className={styles.handyNein}>✕ {t("nichtBeiUns")}</span>
+            <span className={styles.handyJa}>{t("kennIch")} ♥</span>
+          </span>
+        </Link>
+      </section>
+
+      {/* ---------- Einer erzählt, alle swipen ---------- */}
+      <section className={styles.dunkel}>
+        <div className={styles.innen}>
+          <div className={styles.schleife}>
+            <div>
+              <h2 className={styles.h2}>{t("schleifeTitel")}</h2>
+              <p className={styles.text}>{t("schleifeText")}</p>
+            </div>
+            <p className={styles.schleifeZahl}>
+              {t("schleifeZahl")}
+              <span>{t("schleifeZahlText")}</span>
+            </p>
+          </div>
+          <ul className={styles.gesten}>
+            {GESTEN.map((g) => (
+              <li key={g.key} data-geste={g.key}>
+                <span className={styles.gesteZeichen} aria-hidden>{g.zeichen}</span>
+                {t(`gesten.${g.key}`)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ---------- Aus Stimmen wird ein Bild ---------- */}
+      {demo && (
+        <section className={styles.innen}>
+          <div className={styles.bild}>
+            <div className={styles.bildText}>
+              <h2 className={styles.h2}>{t("bildTitel")}</h2>
+              <p className={styles.text}>{t("bildText")}</p>
+              <p className={styles.bildZahl}>
+                {t("bildZahl", { h: formatStunden(demo.summe.stunden) })}
+                <span>{t("bildZahlText", { euro: formatEuro(demo.summe.euro) })}</span>
+              </p>
+              <Link href={`/loesungen/${DEMO_ID}`} className={styles.pfeilLink}>{t("zuDenLoesungen")} →</Link>
+            </div>
             <LiveKarte
               karte={demo.karte}
               loesungen={loesungen}
@@ -61,39 +113,42 @@ export default async function Startseite() {
               }}
             />
           </div>
-        )}
-      </section>
+        </section>
+      )}
 
-      <section className={styles.abschnitt}>
-        <h2>{t("schritteTitel")}</h2>
-        <ol className={styles.schritte}>
-          {SCHRITTE.map((s, i) => (
-            <li key={s}>
-              <span className={styles.nummer}>{i + 1}</span>
-              <span className={styles.dauer}>{t(`schritt.${s}.dauer`)}</span>
-              <strong>{t(`schritt.${s}.titel`)}</strong>
-              <span className="leise">{t(`schritt.${s}.text`)}</span>
+      {/* ---------- Beispiele ---------- */}
+      <section className={styles.innen}>
+        <h2 className={styles.h2}>{t("beispieleTitel")}</h2>
+        <ul className={styles.beispiele}>
+          {BEISPIELE.map((b) => (
+            <li key={b}>
+              <span className={styles.branche}>{t(`beispiel.${b}.branche`)}</span>
+              <span className={styles.stimme}>„{t(`beispiel.${b}.stimme`)}“</span>
+              <span className={styles.loesung}>{t(`beispiel.${b}.loesung`)}</span>
             </li>
           ))}
-        </ol>
+        </ul>
       </section>
 
-      <section className={styles.abschnitt}>
-        <h2>{t("beispieleTitel")}</h2>
-        <div className={styles.beispiele}>
-          {BEISPIELE.map((b) => (
-            <article key={b} className={styles.beispiel}>
-              <p className={styles.branche}>{t(`beispiel.${b}.branche`)}</p>
-              <p className={styles.stimme}>„{t(`beispiel.${b}.stimme`)}“</p>
-              <p className={styles.loesung}>→ {t(`beispiel.${b}.loesung`)}</p>
-            </article>
-          ))}
+      {/* ---------- Vertrauen ---------- */}
+      <section className={styles.innen}>
+        <div className={styles.vertrauen}>
+          <div>
+            <h2 className={styles.h2}>{t("vertrauenTitel")}</h2>
+            <p className={styles.text}>{t("vertrauenText")}</p>
+          </div>
+          <ol className={styles.regeln}>
+            {regeln.map((r) => <li key={r}>{r}</li>)}
+          </ol>
         </div>
       </section>
 
-      <section className={styles.ehrlich}>
-        <p>{t("ehrlich")}</p>
-        <DemoZuruecksetzen />
+      <section className={styles.innen}>
+        <p className={styles.schluss}>{t("schluss")}</p>
+        <div className={styles.ehrlich}>
+          <p>{t("ehrlich")}</p>
+          <DemoZuruecksetzen />
+        </div>
       </section>
     </main>
   );

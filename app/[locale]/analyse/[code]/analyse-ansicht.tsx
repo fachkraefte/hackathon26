@@ -23,7 +23,7 @@ export function AnalyseAnsicht({ daten }: { daten: Omit<AnalyseDaten, "loesungen
         <p className="ueberzeile">{daten.betrieb}</p>
         <h1>{t("leerTitel")}</h1>
         <p className="leise">{t("teilgenommen", { n: daten.teilgenommen, gesamt: daten.mitarbeitende })}</p>
-        <Link className="button" href={`/befragung/${daten.code}`}>{t("mitmachen")}</Link>
+        <Link className="button" href={`/feed/${daten.code}`}>{t("mitmachen")}</Link>
       </section>
     );
   }

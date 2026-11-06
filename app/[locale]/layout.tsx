@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { Rubik } from "next/font/google";
+import { Archivo, Rubik } from "next/font/google";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -11,6 +11,8 @@ import styles from "./layout.module.css";
 import { LocaleSwitcher } from "./locale-switcher";
 
 const rubik = Rubik({ subsets: ["latin"], variable: "--font-rubik" });
+// Schmale Schrift mit Charakter für Feed und große Aussagen (Breiten-Achse 62–125).
+const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-archivo" });
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -43,7 +45,7 @@ export default async function LocaleLayout(props: LayoutProps<"/[locale]">) {
   const t = await getTranslations({ locale, namespace: "Kopf" });
 
   return (
-    <html lang={locale} className={rubik.variable}>
+    <html lang={locale} className={`${rubik.variable} ${archivo.variable}`}>
       <body>
         <NextIntlClientProvider>
           <header className={styles.kopf}>

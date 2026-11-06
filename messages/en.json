@@ -13,61 +13,69 @@
     "demo": "Demo · fictional data"
   },
   "Home": {
-    "ueberzeile": "ROKIO · Robotics and AI for SMEs",
-    "titel": "Your people know where it gets stuck",
-    "ort": {
-      "werkstatt": "– in the workshop.",
-      "pflege": "– in care.",
-      "kueche": "– in the kitchen.",
-      "lager": "– in the warehouse."
+    "titel": "Your people know where things get stuck.",
+    "einleitung": "ROKIO turns that into a feed: swipe cards instead of filling in forms. It shows at which handovers time is lost – and which AI or robotics solution helps exactly there.",
+    "codeFrage": "Got a code from the notice board?",
+    "anlegen": "Create a project",
+    "fuerLeitung": "For management:",
+    "demoProbieren": "Try the demo feed",
+    "liveAnsehen": "Live picture for the projector",
+    "analyseAnsehen": "Current analysis",
+    "handyKarte": "We built a railing from the old drawing.",
+    "handyQuelle": "from a report · Engineering → Workshop",
+    "handyBereich": "Workshop",
+    "handyZaehler": "3 of 8",
+    "kennIch": "Know it",
+    "nichtBeiUns": "Not here",
+    "schleifeTitel": "One tells, everyone swipes.",
+    "schleifeText": "What one person reports, the AI turns into an anonymous card. The other teams confirm with one thumb. Every confirmation counts as a voice for exactly this handover.",
+    "schleifeZahl": "1 → 11",
+    "schleifeZahlText": "one story, eleven voices",
+    "gesten": {
+      "kenn": "Know it – a voice for this handover",
+      "nicht": "Not here – counts as a vote against",
+      "staendig": "Happens all the time – frequent and stressful",
+      "halten": "Press and hold – tell more, by voice or one sentence"
     },
-    "einleitung": "ROKIO asks everyone in your business in five minutes on their phone, makes visible where handovers are losing time – and shows which AI and robotics solutions help exactly there. Right through to a ready-made blueprint.",
-    "fuerLeitung": "For management",
-    "anlegen": "Set up a project",
-    "fuerTeam": "For the team – enter code",
-    "analyseAnsehen": "View current analysis",
-    "beispielAnsehen": "View metalwork example",
+    "bildTitel": "Voices become a picture.",
+    "bildText": "The handover map shows where time is lost between teams – never who is to blame. Hourly-rate ranges turn “annoying” into a number.",
+    "bildZahl": "{h} hrs per week",
+    "bildZahlText": "≈ {euro} per year in the demo metalworks (fictional)",
     "karteHeute": "Today: where it gets stuck",
     "karteMitLoesungen": "With solutions",
     "stimmen": "{n} voices",
-    "karteHinweis": "Handover map of a fictional metalwork business",
-    "schritteTitel": "How ROKIO works",
-    "schritt": {
-      "anlegen": {
-        "dauer": "3 minutes",
-        "titel": "Set up",
-        "text": "Management names the departments, a rough hourly rate range and the date of the results meeting. ROKIO gets to know the business and prepares fitting questions."
-      },
-      "erzaehlen": {
-        "dauer": "5 minutes on the phone",
-        "titel": "Everyone shares",
-        "text": "Each person taps where it gets stuck and tells their story – including by voice. ROKIO asks at most once more. Anonymous, no names."
-      },
-      "loesen": {
-        "dauer": "live",
-        "titel": "See and solve",
-        "text": "The analysis shows the breaking points between departments and what they cost. Then: AI and robotics solutions tailored to this business, with a blueprint for self-setup."
-      }
-    },
-    "beispieleTitel": "One solution from many voices",
+    "karteHinweis": "Handover map of a fictional metalworking company",
+    "zuDenLoesungen": "See the solutions with blueprint",
+    "beispieleTitel": "One voice, one solution.",
     "beispiel": {
       "metallbau": {
-        "branche": "Metalwork · 22 employees",
+        "branche": "Metalworks",
         "stimme": "We built a railing from the old drawing.",
-        "loesung": "Change agent: A change is said once and is correct everywhere."
+        "loesung": "Change agent: a change is said once and is correct everywhere."
       },
       "pflege": {
-        "branche": "Care home · 100 employees",
-        "stimme": "During handover everyone speaks quickly and uses abbreviations.",
-        "loesung": "Handover assistant: in any language, without abbreviations."
+        "branche": "Care home",
+        "stimme": "At handover everyone talks fast and in abbreviations.",
+        "loesung": "Handover assistant: in every language, without jargon."
       },
       "mensa": {
-        "branche": "Canteen · 42 employees",
-        "stimme": "Between twelve and two the conveyor belt overflows.",
-        "loesung": "Returns with eyes: The dishroom reports what was cooked too much."
+        "branche": "Canteen",
+        "stimme": "Between twelve and two the return belt overflows.",
+        "loesung": "Return with eyes: the dish room reports what was overcooked."
       }
     },
-    "ehrlich": "Honestly labelled: maturity and source are listed on every solution, 'verified by ROKI' only with a source. The demo uses fictional businesses; in real use the AI runs locally and in compliance with data protection.",
+    "vertrauenTitel": "Trust is the product.",
+    "vertrauenText": "People who are afraid don't swipe honestly. That's why these rules are on the first card, not in the small print.",
+    "regeln": [
+      "Management sees a topic only from three voices.",
+      "No individual answers, no names, no timestamps.",
+      "Voice becomes text, audio is not stored.",
+      "Nobody sees whether or when someone swipes.",
+      "In real use, the AI runs locally.",
+      "The works council is involved from the start (§ 87 (1) no. 6 BetrVG)."
+    ],
+    "schluss": "Give them a reason to say it.",
+    "ehrlich": "Honestly labelled: maturity and origin are shown for every solution, “checked by ROKI” only with a source. The demo uses fictional companies.",
     "zuruecksetzen": "Reset demo",
     "zurueckgesetzt": "Demo has been reset",
     "zuruecksetzenFehler": "Reset failed: {grund}"
@@ -241,6 +249,8 @@
     "seitentitel": "To the survey – ROKIO",
     "titel": "To the survey",
     "text": "You receive the code from your management, for example by WhatsApp or notice board.",
+    "titelAnalyse": "Go to analysis",
+    "textAnalyse": "Your management received the code when creating the project. The analysis shows the combined picture, never individual answers.",
     "code": "Code",
     "los": "Continue",
     "falsch": "This code does not exist. Please check again."
@@ -312,6 +322,80 @@
     "kopiert": "Copied ✓",
     "ersteSchritte": "First steps",
     "roki": "Starting point for the results meeting ({deadline}) and for ROKI – for funding, integrators and training offers.",
-    "zurAnalyse": "To the analysis"
+    "zurAnalyse": "To the analysis",
+    "testenWir": "Let's test it",
+    "testetSchon": "Being tested",
+    "testenHinweis": "The team sees it in the feed as “What came of it”."
+  },
+  "Feed": {
+    "seitentitel": "Feed – ROKIO",
+    "hallo": "{anrede, select, sie {Where does {betrieb} get stuck?} other {Where does {betrieb} get stuck?}}",
+    "einleitung": "{anrede, select, sie {Up to 10 cards. Swipe what you know. Stop any time, nothing is lost.} other {Up to 10 cards. Swipe what you know. Stop any time, nothing is lost.}}",
+    "bereichFrage": "{anrede, select, sie {Where do you work?} other {Where do you work?}}",
+    "hausordnung1": "Nobody sees who.",
+    "hausordnung2": "Numbers only from 3 voices.",
+    "hausordnung3": "No timestamps, no audio.",
+    "ausfuehrlich": "Prefer the detailed survey",
+    "zaehler": "{n} of {gesamt}",
+    "ausMeldung": "from a report",
+    "nichtBeiUns": "Not here",
+    "kennIch": "Know it",
+    "staendig": "All the time",
+    "stempelKenn": "Know it",
+    "stempelNicht": "Not here",
+    "stempelStaendig": "All the time",
+    "halten": "Hold: tell more",
+    "gesten": "→ know it · ← not here · ↑ all the time",
+    "duHastGesagt": "{anrede, select, sie {You said “{wort}”} other {You said “{wort}”}}",
+    "vonGesamt": "{kennen} of {gesamt}",
+    "kennenAuch": "from {bereiche} know this.",
+    "notiert": "Noted.",
+    "ersteStimmen": "{anrede, select, sie {You are one of the first voices. From 3, everyone sees how many know it.} other {You are one of the first voices. From 3, everyone sees how many know it.}}",
+    "nichtNotiert": "Noted: not in your team.",
+    "weiter": "Next",
+    "wirkungUeber": "What came of it",
+    "wirkungTitel": "Management is testing: {loesung}.",
+    "wirkungStimmen": "Started by {n} voices on the handover {von} → {an}.",
+    "machMit": "I'm in",
+    "gespannt": "Curious",
+    "erzaehlenTitel": "{anrede, select, sie {What happened?} other {What happened?}}",
+    "erzaehlenText": "{anrede, select, sie {Hold the button and talk. Release = done. Or type briefly.} other {Hold the button and talk. Release = done. Or type briefly.}}",
+    "aufnahme": "Hold and talk",
+    "hoertZu": "Listening …",
+    "tippen": "Or type briefly …",
+    "senden": "Send",
+    "abbrechen": "Cancel",
+    "denkt": "ROKIO is turning it into a card …",
+    "soVerstanden": "Understood as",
+    "soSehenEsAndere": "How others will see it",
+    "keineNamen": "No names, no personal details.",
+    "wieOft": "How often?",
+    "wieLange": "How long each time?",
+    "freigeben": "Share",
+    "verwerfen": "Discard",
+    "gehtAn": "Your card now goes to {bereiche}.",
+    "gehtAnAlle": "Your card now goes to the others.",
+    "endeTitel": "That's it for today.",
+    "endeText": "{anrede, select, sie {{n} cards in {sek} seconds. Thank you – new ones tomorrow.} other {{n} cards in {sek} seconds. Thanks – new ones tomorrow.}}",
+    "endeLeitung": "Management only sees the shared picture, never individuals.",
+    "etwasMelden": "Report something",
+    "bildAnsehen": "See the shared picture",
+    "leer": "All answered. New cards arrive when others report something.",
+    "fehler": "Not reachable right now. Nothing is lost – try again in a moment.",
+    "oft": {
+      "woechentlich": "1–2 times a week",
+      "mehrmalsProWoche": "several times a week",
+      "taeglich": "almost daily",
+      "mehrmalsTaeglich": "several times a day"
+    },
+    "startKarte": "Starter card by ROKIO"
+  },
+  "Live": {
+    "titel": "Live",
+    "stimmen": "voices",
+    "proWoche": "hrs per week",
+    "imJahr": "per year",
+    "mitswipen": "Swipe along: code {code}",
+    "felder": "Where it gets stuck"
   }
 }

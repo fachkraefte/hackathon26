@@ -10,12 +10,13 @@ export async function generateMetadata() {
 export default async function ZugangSeite(props: PageProps<"/[locale]/zugang">) {
   const t = await getTranslations("Zugang");
   const { ziel } = await props.searchParams;
+  const analyse = ziel === "analyse";
   return (
     <main className="seite seite--schmal">
       <section style={{ display: "grid", gap: "1rem", paddingTop: "1rem" }}>
-        <h1 style={{ margin: 0 }}>{t("titel")}</h1>
-        <p className="leise" style={{ margin: 0 }}>{t("text")}</p>
-        <CodeFeld ziel={ziel === "analyse" ? "analyse" : "befragung"} />
+        <h1 style={{ margin: 0 }}>{t(analyse ? "titelAnalyse" : "titel")}</h1>
+        <p className="leise" style={{ margin: 0 }}>{t(analyse ? "textAnalyse" : "text")}</p>
+        <CodeFeld ziel={analyse ? "analyse" : "feed"} />
       </section>
     </main>
   );

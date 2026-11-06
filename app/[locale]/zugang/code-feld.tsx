@@ -6,7 +6,7 @@ import { useRouter } from "@/i18n/navigation";
 import { pruefeCode } from "@/lib/aktionen";
 
 /** Code-Eingabe, auch auf der Startseite verwendet. */
-export function CodeFeld({ ziel }: { ziel: "befragung" | "analyse" }) {
+export function CodeFeld({ ziel }: { ziel: "befragung" | "analyse" | "feed" }) {
   const t = useTranslations("Zugang");
   const router = useRouter();
   const [code, setCode] = useState("");

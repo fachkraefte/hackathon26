@@ -100,7 +100,7 @@ export const Beitrag = z.object({
   bereich: z.string(),
   istLeitung: z.boolean(),
   rolleZeigen: z.boolean(), // Zustimmung, mit Bereich genannt zu werden, auch wenn die Gruppe klein ist
-  punkte: z.array(Punkt).min(1).max(3),
+  punkte: z.array(Punkt).min(1).max(12), // Befragung: bis 3 Themen; Feed: eine Stimme je Karte
   mitsprache: z.number().int().min(1).max(5).nullable(), // „Meine Vorschläge kommen an, und es passiert etwas.“
   gutLaeuft: z.string().optional(),
   fiktiv: z.boolean(),
@@ -161,7 +161,11 @@ export const Loesung = z.object({
 export type Loesung = z.infer<typeof Loesung>;
 
 /** Lösung je Faden; der Fingerabdruck zeigt, für welchen Stand des Fadens sie berechnet wurde. */
-export const LoesungEintrag = z.object({ fingerabdruck: z.string(), loesung: Loesung });
+export const LoesungEintrag = z.object({
+  fingerabdruck: z.string(),
+  loesung: Loesung,
+  testet: z.boolean().optional(), // Leitung hat „Testen wir“ gedrückt → Karte „Was daraus wurde“ im Feed
+});
 export type LoesungEintrag = z.infer<typeof LoesungEintrag>;
 
 // ---------- Lösungsmuster (wissen/loesungsmuster.json) ----------
