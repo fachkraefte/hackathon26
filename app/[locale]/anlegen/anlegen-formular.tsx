@@ -2,7 +2,7 @@
 
 // Anlegen durch die Leitung (KONZEPT_V3 §3): Eckdaten, Bereiche mit Stundensatz-Spanne, Deadline.
 // Danach bereitet die KI Chips und Rückfragen vor; die Leitung kann Chips löschen und ergänzen.
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, useSyncExternalStore, useTransition } from "react";
 import { Link } from "@/i18n/navigation";
 import { legeAn, speichereProfil } from "@/lib/aktionen";
@@ -68,9 +68,29 @@ const BEISPIEL = {
   ],
 };
 
+/** Englische Bereichsnamen für die Vorschläge (englische Oberfläche → englisches Projekt). */
+const BEREICH_EN: Record<string, string> = {
+  Leitung: "Management", Büro: "Office", Werkstatt: "Workshop", Montage: "Installation", Technik: "Engineering",
+  Küche: "Kitchen", Ausgabe: "Serving counter", Spülküche: "Dishwashing", Pflegefachkräfte: "Registered nurses",
+  Pflegehilfskräfte: "Care assistants", Hauswirtschaft: "Housekeeping", Disposition: "Dispatch", Lager: "Warehouse",
+  Fahrdienst: "Drivers", Objektbetreuung: "Site management", Reinigung: "Cleaning", Organisation: "Organisation",
+  Lehrende: "Teachers", Teilnehmende: "Participants",
+};
+const aufEnglisch = (liste: Bereich[]) => liste.map((b) => ({ ...b, name: BEREICH_EN[b.name] ?? b.name }));
+
+/** Englisches Beispiel (gleicher fiktiver Betrieb). */
+const BEISPIEL_EN = {
+  ...BEISPIEL,
+  leistungen: "Stairs, railings and balconies, steel structures, canopies. Survey, design, fabrication and installation from one source; galvanising outsourced.",
+  ziel: "I want to know where we are making life harder for ourselves before I advertise the next job.",
+  deadline: "Thu, 3 December, 7:30 a.m. in the workshop",
+  bereiche: aufEnglisch(BEISPIEL.bereiche),
+};
+
 const nichts = () => () => {};
 
 export function AnlegenFormular() {
+  const locale = useLocale();
   const t = useTranslations("Anlegen");
   const tb = useTranslations("Begriffe");
   const [name, setName] = useState("");
@@ -81,22 +101,24 @@ export function AnlegenFormular() {
   const [ziel, setZiel] = useState("");
   const [anrede, setAnrede] = useState<"du" | "sie">("du");
   const [deadline, setDeadline] = useState("");
-  const [bereiche, setBereiche] = useState<Bereich[]>(VORSCHLAG.produktionHandwerk);
+  const vorschlag = (b: Branche) => (locale === "en" ? aufEnglisch(VORSCHLAG[b]) : VORSCHLAG[b]);
+  const beispiel = locale === "en" ? BEISPIEL_EN : BEISPIEL;
+  const [bereiche, setBereiche] = useState<Bereich[]>(() => vorschlag("produktionHandwerk"));
   const [neuerBereich, setNeuerBereich] = useState("");
   const [laedt, starte] = useTransition();
   const [fehler, setFehler] = useState<string | null>(null);
   const [fertig, setFertig] = useState<{ code: string; leitungCode: string; profil: Profil; websiteGelesen: boolean; ausDemo: boolean } | null>(null);
 
   function beispielEinsetzen() {
-    setName(BEISPIEL.name);
-    setBranche(BEISPIEL.branche);
-    setMitarbeitende(BEISPIEL.mitarbeitende);
-    setWebsite(BEISPIEL.website);
-    setLeistungen(BEISPIEL.leistungen);
-    setZiel(BEISPIEL.ziel);
-    setAnrede(BEISPIEL.anrede);
-    setDeadline(BEISPIEL.deadline);
-    setBereiche(BEISPIEL.bereiche);
+    setName(beispiel.name);
+    setBranche(beispiel.branche);
+    setMitarbeitende(beispiel.mitarbeitende);
+    setWebsite(beispiel.website);
+    setLeistungen(beispiel.leistungen);
+    setZiel(beispiel.ziel);
+    setAnrede(beispiel.anrede);
+    setDeadline(beispiel.deadline);
+    setBereiche(beispiel.bereiche);
   }
 
   function setzeSatz(i: number, feld: "satzVon" | "satzBis", wert: number) {
@@ -110,7 +132,7 @@ export function AnlegenFormular() {
     starte(async () => {
       try {
         setFertig(
-          await legeAn({ name, branche, mitarbeitende, website: website || null, leistungen, ziel, anrede, deadline, bereiche }),
+          await legeAn({ name, branche, mitarbeitende, website: website || null, leistungen, ziel, anrede, deadline, bereiche, sprache: locale === "en" ? "en" : "de" }),
         );
       } catch (e) {
         setFehler(e instanceof Error ? e.message : String(e));
@@ -145,7 +167,7 @@ export function AnlegenFormular() {
               onChange={(e) => {
                 const neu = e.target.value as Branche;
                 setBranche(neu);
-                setBereiche(VORSCHLAG[neu]);
+                setBereiche(vorschlag(neu));
               }}
             >
               {branchen.map((b) => (

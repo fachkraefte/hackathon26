@@ -1,0 +1,347 @@
+[
+  {
+    "id": "hden-sandra",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Management",
+    "istLeitung": true,
+    "rolleZeigen": true,
+    "fiktiv": true,
+    "mitsprache": 4,
+    "punkte": [
+      {
+        "id": "hden-sandra-1",
+        "zeitfresser": "Customer changes",
+        "titel": "Customer changes reach Engineering late",
+        "aussage": "Customers make changes over the phone. I pass them on to Engineering by voice message, often not until the evening.",
+        "haeufigkeit": "mehrmalsProWoche",
+        "minuten": 15,
+        "beteiligt": [
+          "Engineering"
+        ],
+        "bremst": 3,
+        "von": "Management",
+        "an": "Engineering"
+      }
+    ]
+  },
+  {
+    "id": "hden-technik",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Engineering",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-technik-1",
+        "zeitfresser": "Revising drawings",
+        "titel": "Revising the same drawing several times",
+        "aussage": "I sometimes redraw the same staircase three times. I don't know whether the latest version is up in Workshop.",
+        "haeufigkeit": "mehrmalsProWoche",
+        "minuten": 30,
+        "beteiligt": [
+          "Management",
+          "Workshop"
+        ],
+        "bremst": 4,
+        "von": "Engineering",
+        "an": "Workshop"
+      }
+    ]
+  },
+  {
+    "id": "hden-werkstatt-1",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Workshop",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-werkstatt-1-1",
+        "zeitfresser": "Checking drawings",
+        "titel": "Built from an old drawing",
+        "aussage": "I helped build a railing that then had to be remade because a newer drawing applied.",
+        "haeufigkeit": "monatlich",
+        "minuten": 240,
+        "beteiligt": [
+          "Engineering"
+        ],
+        "bremst": 5,
+        "von": "Engineering",
+        "an": "Workshop"
+      }
+    ]
+  },
+  {
+    "id": "hden-werkstatt-2",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Workshop",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-werkstatt-2-1",
+        "zeitfresser": "Looking for materials",
+        "titel": "Looking for materials in storage",
+        "aussage": "I look for materials in storage. No one records what has been taken out.",
+        "haeufigkeit": "taeglich",
+        "minuten": 20,
+        "beteiligt": [
+          "Workshop"
+        ],
+        "bremst": 4,
+        "von": null,
+        "an": null
+      },
+      {
+        "id": "hden-werkstatt-2-2",
+        "zeitfresser": "Welding repeat parts",
+        "titel": "Welding repeat parts by hand",
+        "aussage": "Welding posts and railing bars means repeating the same movement, often for a whole day each week.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 0,
+        "beteiligt": [],
+        "bremst": 4,
+        "von": null,
+        "an": null
+      }
+    ]
+  },
+  {
+    "id": "hden-werkstatt-3",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Workshop",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 1,
+    "gutLaeuft": "Everyone in Workshop helps each other.",
+    "punkte": [
+      {
+        "id": "hden-werkstatt-3-1",
+        "zeitfresser": "Guiding apprentices",
+        "titel": "Constant questions, nothing written down",
+        "aussage": "The young people ask me everything. I barely get any work done, and none of it is written down.",
+        "haeufigkeit": "taeglich",
+        "minuten": 30,
+        "beteiligt": [
+          "Workshop"
+        ],
+        "bremst": 3,
+        "von": null,
+        "an": null
+      }
+    ]
+  },
+  {
+    "id": "hden-werkstatt-4",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Workshop",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-werkstatt-4-1",
+        "zeitfresser": "Guiding apprentices",
+        "titel": "Waiting for answers",
+        "aussage": "I don't feel comfortable asking all the time. So I wait until someone has time.",
+        "haeufigkeit": "taeglich",
+        "minuten": 20,
+        "beteiligt": [
+          "Workshop"
+        ],
+        "bremst": 3,
+        "von": null,
+        "an": null
+      }
+    ]
+  },
+  {
+    "id": "hden-buero",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Office",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-buero-1",
+        "zeitfresser": "Customer calls",
+        "titel": "Customers ask when we are coming",
+        "aussage": "Customers ask when we are coming. I don't know, so I call the team on site.",
+        "haeufigkeit": "mehrmalsTaeglich",
+        "minuten": 10,
+        "beteiligt": [
+          "Installation"
+        ],
+        "bremst": 3,
+        "von": "Installation",
+        "an": "Office"
+      },
+      {
+        "id": "hden-buero-2",
+        "zeitfresser": "Recording working hours",
+        "titel": "Timesheets arrive late",
+        "aussage": "Timesheets arrive on Fridays. I type them up and follow up with questions, so the invoice goes out late.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 120,
+        "beteiligt": [
+          "Installation"
+        ],
+        "bremst": 4,
+        "von": "Installation",
+        "an": "Office"
+      },
+      {
+        "id": "hden-buero-3",
+        "zeitfresser": "Ordering materials",
+        "titel": "Urgent orders",
+        "aussage": "I place urgent orders because no one tells me when something is running out.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 45,
+        "beteiligt": [
+          "Workshop"
+        ],
+        "bremst": 3,
+        "von": "Workshop",
+        "an": "Office"
+      }
+    ]
+  },
+  {
+    "id": "hden-montage-1",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Installation",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 3,
+    "gutLaeuft": "Our crews work well together.",
+    "punkte": [
+      {
+        "id": "hden-montage-1-1",
+        "zeitfresser": "Loading and packing",
+        "titel": "A part is missing on site",
+        "aussage": "A part is missing on site. We drive back, which takes three hours.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 180,
+        "beteiligt": [
+          "Workshop"
+        ],
+        "bremst": 5,
+        "von": "Workshop",
+        "an": "Installation"
+      },
+      {
+        "id": "hden-montage-1-2",
+        "zeitfresser": "Installation",
+        "titel": "Constant calls on site",
+        "aussage": "I keep getting calls on site and lose track of what I am doing.",
+        "haeufigkeit": "taeglich",
+        "minuten": 25,
+        "beteiligt": [
+          "Office"
+        ],
+        "bremst": 3,
+        "von": "Office",
+        "an": "Installation"
+      }
+    ]
+  },
+  {
+    "id": "hden-montage-2",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Installation",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-montage-2-1",
+        "zeitfresser": "Loading and packing",
+        "titel": "Driving back for missing parts",
+        "aussage": "If something is missing, we both drive back. We lose half the morning.",
+        "haeufigkeit": "woechentlich",
+        "minuten": 180,
+        "beteiligt": [
+          "Workshop"
+        ],
+        "bremst": 4,
+        "von": "Workshop",
+        "an": "Installation"
+      },
+      {
+        "id": "hden-montage-2-2",
+        "zeitfresser": "Carrying on site",
+        "titel": "Carrying heavy items",
+        "aussage": "We carry stair stringers and railing sections across the site and up the stairs, often to the third floor.",
+        "haeufigkeit": "taeglich",
+        "minuten": 0,
+        "beteiligt": [],
+        "bremst": 4,
+        "von": null,
+        "an": null
+      }
+    ]
+  },
+  {
+    "id": "hden-montage-3",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Installation",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-montage-3-1",
+        "zeitfresser": "Rework on site",
+        "titel": "Dimensions do not fit on site",
+        "aussage": "A dimension is wrong on site. We cut the part shorter and weld it again.",
+        "haeufigkeit": "mehrmalsImMonat",
+        "minuten": 120,
+        "beteiligt": [
+          "Workshop",
+          "Engineering"
+        ],
+        "bremst": 4,
+        "von": "Workshop",
+        "an": "Installation"
+      }
+    ]
+  },
+  {
+    "id": "hden-montage-4",
+    "bestandsaufnahmeId": "HEIDEEN",
+    "bereich": "Installation",
+    "istLeitung": false,
+    "rolleZeigen": false,
+    "fiktiv": true,
+    "mitsprache": 2,
+    "punkte": [
+      {
+        "id": "hden-montage-4-1",
+        "zeitfresser": "Rework on site",
+        "titel": "Waiting during rework",
+        "aussage": "If a dimension is wrong, I stand there holding the part until the welding is done.",
+        "haeufigkeit": "mehrmalsImMonat",
+        "minuten": 120,
+        "beteiligt": [
+          "Workshop"
+        ],
+        "bremst": 4,
+        "von": "Workshop",
+        "an": "Installation"
+      }
+    ]
+  }
+]

@@ -19,8 +19,29 @@ const GRUNDREGELN = `Grundregeln:
 - Gib ausschließlich ein JSON-Objekt im verlangten Format zurück.`;
 
 /** Was jede KI über den Betrieb wissen muss. */
+/** Hängt die Sprachanweisung als letzte Systemnachricht an – sie hat Vorrang vor deutsch formulierten Anweisungen. */
+export function mitSprache<T extends { role: string; content: string }>(b: Pick<Bestandsaufnahme, "sprache">, messages: T[]): T[] {
+  if (b.sprache !== "en") return messages;
+  return [
+    ...messages,
+    {
+      role: "system",
+      content:
+        "LANGUAGE OVERRIDE: All text values that people will read (chips, questions, titles, problems, cards, summaries, solutions, prompts) MUST be written in plain, natural English – even if the instructions above say German. Keep JSON keys, ids, enum values and the given team names exactly unchanged.",
+    } as T,
+  ];
+}
+
+/** Sprache aller Texte, die Menschen lesen (Karten, Befund, Lösungen). Schlüssel und Codes bleiben unverändert. */
+export function sprachAnweisung(b: Pick<Bestandsaufnahme, "sprache">) {
+  return b.sprache === "en"
+    ? "\nLANGUAGE: Write every text that people will read in plain, natural English (short sentences, everyday words, no metaphors). Keep JSON keys, ids and enum values unchanged. Team names exactly as given."
+    : "";
+}
+
 function betriebKontext(b: Bestandsaufnahme) {
-  return `Betrieb: ${b.betrieb.name}, ${branchenName[b.betrieb.branche]}, ${b.betrieb.mitarbeitende} Beschäftigte.
+  return `${sprachAnweisung(b)}
+Betrieb: ${b.betrieb.name}, ${branchenName[b.betrieb.branche]}, ${b.betrieb.mitarbeitende} Beschäftigte.
 Leistungen: ${b.betrieb.leistungen}
 ${b.profil ? `Kurzbeschreibung: ${b.profil.kurz}\n` : ""}Bereiche: ${b.bereiche.map((x) => x.name).join(", ")}.
 ${b.profil?.extern.length ? `Externe Beteiligte: ${b.profil.extern.join(", ")}.\n` : ""}Ziel der Leitung: „${b.ziel}“`;

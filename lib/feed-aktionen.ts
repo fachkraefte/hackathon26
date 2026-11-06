@@ -181,19 +181,20 @@ export async function setzeTest(code: string, fadenId: string, testet: boolean) 
 export async function oeffne(
   code: string,
   gemerkt?: string | null,
-): Promise<{ pfad: string; team?: string; sitzung?: string } | { fehler: "unbekannt" }> {
+): Promise<{ pfad: string; sprache: "de" | "en"; team?: string; sitzung?: string } | { fehler: "unbekannt" }> {
   const c = Code.parse(code);
-  if (await betriebZuLeitungsCode(c)) return { pfad: `/leitung/${c}` };
+  const leitung = await betriebZuLeitungsCode(c);
+  if (leitung) return { pfad: `/leitung/${c}`, sprache: (await holeBestandsaufnahme(leitung))?.sprache ?? "de" };
   const z = await holeZugang(c);
-  if (z) return { pfad: `/ich/${z.code}` };
+  if (z) return { pfad: `/ich/${z.code}`, sprache: (await holeBestandsaufnahme(z.betriebId))?.sprache ?? "de" };
   const b = await holeBestandsaufnahme(c);
   if (!b) return { fehler: "unbekannt" };
   if (gemerkt) {
     const alt = await holeZugang(gemerkt).catch(() => null);
-    if (alt && alt.betriebId === b.id) return { pfad: `/ich/${alt.code}`, team: b.id, sitzung: alt.code };
+    if (alt && alt.betriebId === b.id) return { pfad: `/ich/${alt.code}`, sprache: b.sprache, team: b.id, sitzung: alt.code };
   }
   const [neu] = await erzeugeZugaenge(b.id, 1);
-  return { pfad: `/ich/${neu}`, team: b.id, sitzung: neu };
+  return { pfad: `/ich/${neu}`, sprache: b.sprache, team: b.id, sitzung: neu };
 }
 
 export async function waehleBereich(code: string, bereich: string) {

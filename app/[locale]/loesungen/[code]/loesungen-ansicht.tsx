@@ -2,12 +2,12 @@
 
 // Lösungen (KONZEPT_V3 §6). Erster Blick: Übergabe-Karte mit Umschalter heute / mit Lösungen, Kacheln.
 // Zweiter Blick je Lösung: So läuft es · Was es braucht · KI-Kniff · Zeit frei · Reife/Herkunft/Testlauf · Bauplan-Prompt.
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import type { AnalyseDaten } from "@/lib/analyse";
 import { setzeTest } from "@/lib/feed-aktionen";
-import { formatEuro, formatStunden } from "@/lib/rechnen";
+import { zahlenFormat } from "@/lib/rechnen";
 import type { Loesung } from "@/lib/typen";
 import { UebergabeKarte } from "../../_komponenten/uebergabe-karte";
 import styles from "./loesungen.module.css";
@@ -15,6 +15,7 @@ import styles from "./loesungen.module.css";
 const ANNAHMEN = [20, 30, 40, 50, 60, 70] as const;
 
 export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: AnalyseDaten; loesungen: Record<string, Loesung>; testetAnfang: string[] }) {
+  const { formatStunden, formatEuro } = zahlenFormat(useLocale());
   const t = useTranslations("Loesungen");
   const tb = useTranslations("Begriffe");
   const [modus, setModus] = useState<"heute" | "loesungen">("heute");

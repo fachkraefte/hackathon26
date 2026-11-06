@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { analyseDaten } from "@/lib/analyse";
 import { ergaenzeLoesungen } from "@/lib/loesungen";
-import { formatEuro, formatStunden } from "@/lib/rechnen";
+import { zahlenFormat } from "@/lib/rechnen";
 import { Drucken } from "../../_komponenten/drucken";
 import styles from "./plan.module.css";
 
@@ -20,6 +20,7 @@ export default async function PlanSeite(props: PageProps<"/[locale]/plan/[code]"
   await ergaenzeLoesungen(code.toUpperCase());
   const d = await analyseDaten(code);
   if (!d) notFound();
+  const { formatStunden, formatEuro } = zahlenFormat(await getLocale());
   const t = await getTranslations("Plan");
   const tb = await getTranslations("Begriffe");
   const probleme = [...d.faeden].filter((f) => f.personen > 0).sort((a, b) => b.stunden - a.stunden || b.personen - a.personen);

@@ -24,7 +24,8 @@ export function CodeFeld({ ziel }: { ziel: "befragung" | "analyse" | "feed" }) {
           if (ziel === "feed") {
             // Ein Feld für alles: Team-Code → anonyme App (dieses Gerät merkt sich seine Sitzung), Leitungs-Code → Dashboard.
             const r = await oeffneMitGedaechtnis(code);
-            if (r) router.push(r);
+            // Das Projekt bestimmt die Sprache: ein englisches Projekt öffnet sich in /en, auch vom deutschen QR-Code aus.
+            if (r) router.push(r.pfad, { locale: r.sprache });
             else setFalsch(true);
             return;
           }

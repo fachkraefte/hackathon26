@@ -448,7 +448,8 @@
     "nichtsMehrText": "Thanks for taking part. New cards arrive when others report something – just check back.",
     "doch": "Report something after all",
     "ueberblickFehler": "The overview is not reachable right now.",
-    "nochmal": "Try again"
+    "nochmal": "Try again",
+    "minuten": "{m, plural, =60 {1 hr} other {# min}}"
   },
   "Live": {
     "titel": "Live",

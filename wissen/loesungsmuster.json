@@ -2,6 +2,7 @@
   {
     "id": "aenderungs-agent",
     "name": "Änderungs-Agent",
+    "nameEn": "Change Agent",
     "passtZu": [
       "Zeichnungsstand",
       "Änderungen",
@@ -24,6 +25,7 @@
   {
     "id": "lager-gedaechtnis",
     "name": "Lager mit Gedächtnis",
+    "nameEn": "Stock Records",
     "passtZu": [
       "Material",
       "Lager",
@@ -47,6 +49,7 @@
   {
     "id": "auftrags-assistent",
     "name": "Auftrags-Assistent",
+    "nameEn": "Job Assistant",
     "passtZu": [
       "Auftragsstatus",
       "Kundenanrufe",
@@ -69,6 +72,7 @@
   {
     "id": "wissens-assistent",
     "name": "Wissens-Assistent",
+    "nameEn": "Knowledge Assistant",
     "passtZu": [
       "Wissensweitergabe",
       "Einarbeitung",
@@ -90,6 +94,7 @@
   {
     "id": "schweiss-cobot",
     "name": "Schweiß-Cobot ohne Programmierung",
+    "nameEn": "Welding Cobot Without Programming",
     "passtZu": [
       "Serienteile",
       "Schweißen",
@@ -111,6 +116,7 @@
   {
     "id": "exoskelett",
     "name": "Exoskelette für schwere Handgriffe",
+    "nameEn": "Exoskeletons for Heavy Tasks",
     "passtZu": [
       "Tragen",
       "Heben",
@@ -134,6 +140,7 @@
   {
     "id": "uebergabe-assistent",
     "name": "Übergabe-Assistent, mehrsprachig",
+    "nameEn": "Multilingual Handover Assistant",
     "passtZu": [
       "Schichtübergabe",
       "Übergabe",
@@ -156,6 +163,7 @@
   {
     "id": "sprechen-statt-schreiben",
     "name": "Sprechen statt Schreiben",
+    "nameEn": "Speak Instead of Write",
     "passtZu": [
       "Dokumentation",
       "Doppelt erfassen",
@@ -178,6 +186,7 @@
   {
     "id": "transport-mit-bedarfsmeldung",
     "name": "Transportroboter mit Bedarfsmeldung",
+    "nameEn": "Transport Robot on Request",
     "passtZu": [
       "Wege",
       "Wäsche",
@@ -200,6 +209,7 @@
   {
     "id": "einspring-assistent",
     "name": "Einspring-Assistent",
+    "nameEn": "Shift Cover Assistant",
     "passtZu": [
       "Dienstplan",
       "Ausfall",
@@ -221,6 +231,7 @@
   {
     "id": "angehoerigen-bruecke",
     "name": "Angehörigen- und Kunden-Brücke",
+    "nameEn": "Family and Customer Bridge",
     "passtZu": [
       "Angehörige",
       "Kundenfragen",
@@ -241,6 +252,7 @@
   {
     "id": "mengen-prognose",
     "name": "Mengen-Prognose mit Nachkoch-Signal",
+    "nameEn": "Quantity Forecast with Refill Signal",
     "passtZu": [
       "Mengenplanung",
       "Abfall",
@@ -263,6 +275,7 @@
   {
     "id": "rezeptur-waechter",
     "name": "Rezeptur-Wächter",
+    "nameEn": "Recipe Guard",
     "passtZu": [
       "Allergene",
       "Zutaten",
@@ -284,6 +297,7 @@
   {
     "id": "schicht-briefing",
     "name": "Schicht-Briefing in jeder Sprache",
+    "nameEn": "Shift Briefing in Any Language",
     "passtZu": [
       "Einarbeitung",
       "Aushilfen",
@@ -305,6 +319,7 @@
   {
     "id": "reinigungsroboter",
     "name": "Reinigungsroboter",
+    "nameEn": "Cleaning Robot",
     "passtZu": [
       "Reinigung",
       "große Flächen",
@@ -325,6 +340,7 @@
   {
     "id": "serviceroboter",
     "name": "Serviceroboter im Speisesaal",
+    "nameEn": "Service Robot in the Dining Room",
     "passtZu": [
       "Tablettwagen",
       "Abräumen",

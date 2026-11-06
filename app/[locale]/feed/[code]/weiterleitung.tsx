@@ -12,7 +12,7 @@ export function Weiterleitung({ code }: { code: string }) {
   const router = useRouter();
   const [fehler, setFehler] = useState(false);
   useEffect(() => {
-    oeffneMitGedaechtnis(code).then((pfad) => (pfad ? router.replace(pfad) : setFehler(true)));
+    oeffneMitGedaechtnis(code).then((r) => (r ? router.replace(r.pfad, { locale: r.sprache }) : setFehler(true)));
   }, [code, router]);
   return (
     <div className={styles.buehne} data-phase="start">

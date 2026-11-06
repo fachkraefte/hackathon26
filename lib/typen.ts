@@ -71,6 +71,7 @@ export const Bestandsaufnahme = z.object({
   anrede: z.enum(["du", "sie"]),
   ziel: z.string().min(5), // ein Satz der Leitung: was besser werden soll
   deadline: z.string(), // „wann und wo“ der Ergebnisbesprechung
+  sprache: z.enum(["de", "en"]).default("de"), // Sprache des Projekts: KI-Texte und Oberfläche beim Öffnen per Code
   bereiche: z.array(Bereich).min(1),
   arbeitswochen: z.number().int().positive(), // für die Umrechnung auf ein Jahr
   mindestanzahl: z.number().int().positive(),
@@ -174,6 +175,7 @@ export type LoesungEintrag = z.infer<typeof LoesungEintrag>;
 export const LoesungsMuster = z.object({
   id: z.string(),
   name: z.string(),
+  nameEn: z.string(), // Name für englische Projekte
   passtZu: z.array(z.string()),
   art: Loesungsart,
   reife: Reifegrad,

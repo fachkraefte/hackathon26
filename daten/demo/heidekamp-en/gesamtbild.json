@@ -1,0 +1,138 @@
+{
+  "faeden": [
+    {
+      "id": "f1",
+      "kurzname": "Drawing version",
+      "aufgabe": "Everyone works from the same approved drawing.",
+      "problem": "Changes reach the company by word of mouth. Engineering revises drawings several times, Workshop sometimes builds from an old version, and Installation has to make changes on site.",
+      "punktIds": [
+        "hden-sandra-1",
+        "hden-technik-1",
+        "hden-werkstatt-1-1",
+        "hden-montage-3-1",
+        "hden-montage-4-1"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Management",
+          "aussage": "Customers make changes over the phone. I pass them on by voice message in the evening."
+        },
+        {
+          "bereich": "Engineering",
+          "aussage": "I revise the drawing three times and don't know which version is up in Workshop."
+        },
+        {
+          "bereich": "Workshop",
+          "aussage": "We built a railing from the old drawing."
+        },
+        {
+          "bereich": "Installation",
+          "aussage": "A measurement is wrong on site, so we have to cut parts down and weld them again."
+        }
+      ],
+      "unterschied": "Management sees a problem with site measurements. Workshop says it is not clear which drawing to use."
+    },
+    {
+      "id": "f2",
+      "kurzname": "Materials",
+      "aufgabe": "Everyone knows what is in stock and what needs to go to site.",
+      "problem": "Stock levels are only kept in people's heads. Packing is done without a list. People search for materials, place urgent orders, and find parts missing on site.",
+      "punktIds": [
+        "hden-werkstatt-2-1",
+        "hden-buero-3",
+        "hden-montage-1-1",
+        "hden-montage-2-1"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Installation",
+          "aussage": "If a part is missing, we drive back. Half the morning is gone."
+        },
+        {
+          "bereich": "Workshop",
+          "aussage": "I search for materials. No one records what they take."
+        },
+        {
+          "bereich": "Office",
+          "aussage": "I place urgent orders because no one tells me when something is running out."
+        }
+      ],
+      "unterschied": null
+    },
+    {
+      "id": "f3",
+      "kurzname": "Job status",
+      "aufgabe": "No one has to call to find out how a job is progressing.",
+      "problem": "Work schedules and hours worked are not available digitally. Office calls the site, timesheets only arrive on Fridays, and invoices go out late.",
+      "punktIds": [
+        "hden-buero-1",
+        "hden-buero-2",
+        "hden-montage-1-2"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Office",
+          "aussage": "Customers ask when we are coming. I don't know, so I have to call."
+        },
+        {
+          "bereich": "Installation",
+          "aussage": "I keep getting calls on site and lose track of what I am doing."
+        }
+      ],
+      "unterschied": null
+    },
+    {
+      "id": "f4",
+      "kurzname": "Sharing knowledge",
+      "aufgabe": "Practical knowledge stays in the company, and apprentices get quick answers.",
+      "problem": "Experienced staff are constantly asked questions and barely get time to work. New staff would rather wait than keep asking. Nothing is written down.",
+      "punktIds": [
+        "hden-werkstatt-3-1",
+        "hden-werkstatt-4-1"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Workshop",
+          "aussage": "The younger staff ask me everything. None of it is written down."
+        }
+      ],
+      "unterschied": "Experienced staff feel interrupted. New staff do not feel comfortable asking."
+    },
+    {
+      "id": "f5",
+      "kurzname": "Batch work",
+      "aufgabe": "Making identical parts no longer takes up whole days of a skilled worker's time.",
+      "problem": "Posts and railing bars are welded by hand as if each were a one-off. This is tiring and leaves less time for custom work.",
+      "punktIds": [
+        "hden-werkstatt-2-2"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Workshop",
+          "aussage": "Welding posts means repeating the same movement, often for a whole day."
+        }
+      ],
+      "unterschied": null
+    },
+    {
+      "id": "f6",
+      "kurzname": "Heavy lifting",
+      "aufgabe": "Heavy components are moved into place without causing back pain.",
+      "problem": "Stair stringers and railing sections are carried across the site and up stairwells without lifting equipment.",
+      "punktIds": [
+        "hden-montage-2-2"
+      ],
+      "sichtweisen": [
+        {
+          "bereich": "Installation",
+          "aussage": "We often carry stair stringers and railing sections up to the third floor."
+        }
+      ],
+      "unterschied": null
+    }
+  ],
+  "staerken": [
+    "Everyone in Workshop helps each other.",
+    "The Installation crews work well together."
+  ]
+}

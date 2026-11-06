@@ -5,6 +5,10 @@ import beitraegeJson from "@/daten/demo/heidekamp/beitraege.json";
 import bestandsaufnahmeJson from "@/daten/demo/heidekamp/bestandsaufnahme.json";
 import gesamtbildJson from "@/daten/demo/heidekamp/gesamtbild.json";
 import loesungenJson from "@/daten/demo/heidekamp/loesungen.json";
+import beitraegeEnJson from "@/daten/demo/heidekamp-en/beitraege.json";
+import bestandsaufnahmeEnJson from "@/daten/demo/heidekamp-en/bestandsaufnahme.json";
+import gesamtbildEnJson from "@/daten/demo/heidekamp-en/gesamtbild.json";
+import loesungenEnJson from "@/daten/demo/heidekamp-en/loesungen.json";
 import musterJson from "@/wissen/loesungsmuster.json";
 import wissenJson from "@/wissen/roki-wissensauszug.json";
 import { Beitrag, Bestandsaufnahme, Gesamtbild, LoesungEintrag, LoesungsMuster, WissensEintrag } from "./typen";
@@ -48,6 +52,24 @@ export const demoLoesungen = pruefe(
 );
 
 export const DEMO_ID = demoBestandsaufnahme.id;
+
+/** Englische Demo (gleicher fiktiver Betrieb, übersetzt) – für den englischen Pitch und /en. */
+const demoEn = {
+  bestandsaufnahme: pruefe(Bestandsaufnahme, bestandsaufnahmeEnJson, "daten/demo/heidekamp-en/bestandsaufnahme.json"),
+  beitraege: pruefe(z.array(Beitrag), beitraegeEnJson, "daten/demo/heidekamp-en/beitraege.json"),
+  gesamtbild: pruefe(Gesamtbild, gesamtbildEnJson, "daten/demo/heidekamp-en/gesamtbild.json"),
+  loesungen: pruefe(z.record(z.string(), LoesungEintrag), loesungenEnJson, "daten/demo/heidekamp-en/loesungen.json"),
+};
+export const DEMO_ID_EN = demoEn.bestandsaufnahme.id;
+
+export type Demo = typeof demoEn & { sprache: "de" | "en" };
+export const DEMOS: Demo[] = [
+  { bestandsaufnahme: demoBestandsaufnahme, beitraege: demoBeitraege, gesamtbild: demoGesamtbild, loesungen: demoLoesungen, sprache: "de" },
+  { ...demoEn, sprache: "en" },
+];
+export const demoFuer = (id: string) => DEMOS.find((d) => d.bestandsaufnahme.id === id);
+/** Demo-Projekt passend zur Oberflächensprache. */
+export const demoIdFuer = (locale: string) => (locale === "en" ? DEMO_ID_EN : DEMO_ID);
 
 export function wissenZu(id: string | null | undefined): WissensEintrag | undefined {
   return id ? wissensauszug.find((eintrag) => eintrag.id === id) : undefined;

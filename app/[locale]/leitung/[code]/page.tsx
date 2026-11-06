@@ -1,10 +1,10 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import qrcode from "qrcode-generator";
 import { Link } from "@/i18n/navigation";
 import { analyseDaten } from "@/lib/analyse";
-import { formatStunden } from "@/lib/rechnen";
+import { zahlenFormat } from "@/lib/rechnen";
 import { holeBestandsaufnahme } from "@/lib/speicher";
 import { betriebZuLeitungsCode } from "@/lib/zugang";
 import { Drucken } from "../../_komponenten/drucken";
@@ -27,6 +27,7 @@ export default async function LeitungSeite(props: PageProps<"/[locale]/leitung/[
   if (!betriebId) notFound();
   const b = await holeBestandsaufnahme(betriebId);
   if (!b) notFound();
+  const { formatStunden } = zahlenFormat(await getLocale());
   const t = await getTranslations("Leitung");
   const d = await analyseDaten(b.id, { schnell: true }).catch(() => null);
 

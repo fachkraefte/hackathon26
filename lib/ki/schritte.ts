@@ -13,6 +13,7 @@ import {
   zuordnenPrompt,
   zusammenfuehrenPrompt,
   type PunktFuerKi,
+  mitSprache,
 } from "./prompts";
 
 export type MitQuelle<T> = { daten: T; ausDemo: boolean; fehler?: string };
@@ -36,7 +37,7 @@ function profilErsatz(b: Bestandsaufnahme): Profil {
 export async function bereiteVor(b: Bestandsaufnahme, websiteText: string | null): Promise<MitQuelle<Profil>> {
   if (!kiVerfuegbar()) return { daten: profilErsatz(b), ausDemo: true };
   try {
-    const profil = await fragJson(Profil, vorbereitenPrompt(b, websiteText), { reasoningEffort: "low", timeoutMs: 30_000 });
+    const profil = await fragJson(Profil, mitSprache(b, vorbereitenPrompt(b, websiteText)), { reasoningEffort: "low", timeoutMs: 30_000 });
     // Jeder Bereich braucht Chips und Rückfragen, auch wenn die KI einen ausgelassen hat.
     const ersatz = profilErsatz(b);
     for (const { name } of b.bereiche) {
@@ -69,7 +70,7 @@ export async function versteheGeschichte(
   };
   if (!kiVerfuegbar()) return { daten: ersatz, ausDemo: true };
   try {
-    const daten = await fragJson(Verstaendnis, verstehePrompt(b, eingabe), { reasoningEffort: "low" });
+    const daten = await fragJson(Verstaendnis, mitSprache(b, verstehePrompt(b, eingabe)), { reasoningEffort: "low" });
     // Übergabe nur mit bekannten Zielen; sonst leer lassen, die Person wählt selbst.
     const ziele = new Set([...b.bereiche.map((x) => x.name), ...(b.profil?.extern ?? [])]);
     const pruefe = (x: string | null) => (x && ziele.has(x) && x !== eingabe.bereich ? x : null);
@@ -148,7 +149,7 @@ export async function fuehreZusammen(
   const gutLaeuft = beitraege.flatMap((x) => (x.gutLaeuft ? [x.gutLaeuft] : []));
 
   try {
-    const bild = await fragJson(Gesamtbild, zusammenfuehrenPrompt(b, punkte, gutLaeuft), {
+    const bild = await fragJson(Gesamtbild, mitSprache(b, zusammenfuehrenPrompt(b, punkte, gutLaeuft)), {
       reasoningEffort: "medium",
       timeoutMs: 90_000,
     });
@@ -246,7 +247,7 @@ export async function ergaenzeBild(
 
 async function neueFaeden(b: Bestandsaufnahme, punkte: PunktFuerKi[], bestehende: Faden[]) {
   try {
-    const { faeden } = await fragJson(NeueFaeden, neuerFadenPrompt(b, punkte, bestehende), {
+    const { faeden } = await fragJson(NeueFaeden, mitSprache(b, neuerFadenPrompt(b, punkte, bestehende)), {
       reasoningEffort: "low",
       timeoutMs: 30_000,
     });
@@ -282,7 +283,7 @@ export async function erzeugeLoesung(b: Bestandsaufnahme, faden: Faden, beitraeg
   const stimmen = beitraege.flatMap((x) => x.punkte.filter((p) => ids.has(p.id)).map((p) => ({ titel: p.titel, aussage: p.aussage })));
   const katalog = loesungsmuster.map(({ id, name, passtZu, art, kern, kniff, braucht }) => ({ id, name, passtZu, art, kern, kniff, braucht }));
   try {
-    const ki = await fragJson(LoesungKi, loesungPrompt(b, faden, stimmen.slice(0, 12), katalog), {
+    const ki = await fragJson(LoesungKi, mitSprache(b, loesungPrompt(b, faden, stimmen.slice(0, 12), katalog)), {
       reasoningEffort: "medium",
       timeoutMs: 75_000,
     });
@@ -291,7 +292,7 @@ export async function erzeugeLoesung(b: Bestandsaufnahme, faden: Faden, beitraeg
     void _muster;
     return {
       ...rest,
-      name: muster?.name ?? ki.name, // wiedererkennbar: Muster behalten ihren Namen
+      name: (b.sprache === "en" ? muster?.nameEn : muster?.name) ?? ki.name, // wiedererkennbar: Muster behalten ihren Namen
       art: muster?.art ?? (ki.art === "prozess" || ki.art === "keineTechnik" ? "kiAssistenz" : ki.art),
       reife: muster?.reife ?? (ki.reife === "imEinsatz" ? "pilot" : ki.reife),
       herkunft: muster?.wissenId ? "rokiGeprueft" : "nichtGeprueft",
