@@ -7,6 +7,7 @@ const branchenName: Record<Bestandsaufnahme["betrieb"]["branche"], string> = {
   gesundheitPflege: "Gesundheit und Pflege",
   logistik: "Logistik",
   facilityManagement: "Facility Management",
+  bildungVeranstaltung: "Bildung und Veranstaltungen",
 };
 
 const GRUNDREGELN = `Grundregeln:
