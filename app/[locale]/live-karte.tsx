@@ -11,7 +11,7 @@ type Texte = { heute: string; mitLoesungen: string; stimmen: string; hinweis: st
 export function LiveKarte({ karte, loesungen, texte }: { karte: Karte; loesungen: Record<string, string>; texte: Texte }) {
   const [modus, setModus] = useState<"heute" | "loesungen">("heute");
   useEffect(() => {
-    const takt = window.setInterval(() => setModus((m) => (m === "heute" ? "loesungen" : "heute")), 3200);
+    const takt = window.setInterval(() => setModus((m) => (m === "heute" ? "loesungen" : "heute")), 5200);
     return () => window.clearInterval(takt);
   }, []);
   return (
@@ -26,6 +26,7 @@ export function LiveKarte({ karte, loesungen, texte }: { karte: Karte; loesungen
           legende: { laeuft: "", reibung: "", bruch: "", loesung: "", hinweis: texte.hinweis },
         }}
         ohneLegende
+        zeichnen
       />
     </div>
   );

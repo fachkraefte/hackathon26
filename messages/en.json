@@ -328,7 +328,8 @@
     "zurAnalyse": "To the analysis",
     "testenWir": "Let's test it",
     "testetSchon": "Being tested",
-    "testenHinweis": "The team sees it in the feed as “What came of it”."
+    "testenHinweis": "The team sees it in the feed as “What came of it”.",
+    "planKnopf": "Roadmap as PDF"
   },
   "Feed": {
     "seitentitel": "Feed – ROKIO",
@@ -376,8 +377,8 @@
     "wieLange": "How long each time?",
     "freigeben": "Share",
     "verwerfen": "Discard",
-    "gehtAn": "Your card now goes to {bereiche}.",
-    "gehtAnAlle": "Your card now goes to the others.",
+    "gehtAn": "{anrede, select, sie {Your card now goes to {bereiche}.} other {Your card now goes to {bereiche}.}}",
+    "gehtAnAlle": "{anrede, select, sie {Your card now goes to the others.} other {Your card now goes to the others.}}",
     "endeTitel": "That's it for today.",
     "endeText": "{anrede, select, sie {{n} cards in {sek} seconds. Thank you – new ones tomorrow.} other {{n} cards in {sek} seconds. Thanks – new ones tomorrow.}}",
     "endeLeitung": "Management only sees the shared picture, never individuals.",
@@ -412,7 +413,25 @@
     "bildZahl": "{h} hrs per week",
     "bildText": "are lost at these points – never individuals, always processes.",
     "befundZahl": "{n} voices · {h} hrs/week",
-    "bildGanz": "See the full analysis"
+    "bildGanz": "See the full analysis",
+    "memeQuelle": "ROKIO, based on your reports",
+    "genauSo": "Exactly",
+    "weilWahr": "Not funny, because true",
+    "navUeberblick": "Overview",
+    "modusLabel": "What do you want to report?",
+    "modusHakt": "What's stuck",
+    "modusGut": "What works well",
+    "gutTitel": "What works well?",
+    "gutText": "{anrede, select, sie {Hold the button and tell – what works well, what should stay?} other {Hold the button and tell – what works well, what should stay?}}",
+    "gutVorschau": "This is how it appears under “What works well”",
+    "gutDenkt": "Saving …",
+    "gutDanke": "Thank you!",
+    "gutLandet": "This goes into the shared picture under “What works well”.",
+    "ueberblickUeber": "Overview · {n} voices",
+    "ueberblickTitel": "{n} problems reported",
+    "ueberblickText": "What employees have reported so far – sorted by voices. Solutions are discussed together.",
+    "ueberblickStimmen": "{n, plural, one {# voice} other {# voices}}",
+    "ueberblickGut": "What works well"
   },
   "Live": {
     "titel": "Live",
@@ -434,7 +453,7 @@
   "Befund": {
     "ueber": "Findings · {betrieb}",
     "satz": "<z>{h} hours per week</z> are lost at {n} points.",
-    "unter": "≈ {euro} per year · from {stimmen} of {von} voices · everyone counts only their own time",
+    "unter": "≈ {euro} per year · {stimmen} of {von} employees took part · everyone counts only their own time",
     "problemeTitel": "The problems, by time lost",
     "innerhalb": "within {bereich}",
     "stimmen": "{n, plural, one {# voice} other {# voices}}",
@@ -456,6 +475,35 @@
     "staerkenTitel": "What works well",
     "weiterText": "These are the findings. What can change – with AI and robotics, for exactly these problems – is on the next page.",
     "weiterKnopf": "See solutions",
-    "ohneZeit": "no time given"
+    "ohneZeit": "strain, no time given"
+  },
+  "Plan": {
+    "seitentitel": "Roadmap – ROKIO",
+    "pdf": "Save as PDF",
+    "pdfHinweis": "Choose “Save as PDF” in the print dialog.",
+    "fahrplan": "Roadmap",
+    "stand": "As of today · {stimmen} of {von} employees took part · Meeting: {deadline}",
+    "befundTitel": "Findings in brief",
+    "kern": "{h} hours per week are lost at {n} points – ≈ {euro} per year.",
+    "problem": "Problem",
+    "stimmen": "Voices",
+    "stdWoche": "hrs/week",
+    "gutTitel": "What works well – keep it",
+    "vorgehenTitel": "Next steps",
+    "s1Titel": "Week 1 – discuss the results with everyone.",
+    "s1Text": "Date: {deadline}. Show the findings, agree on the order of problems together. The works council takes part.",
+    "s2Titel": "Week 2 – assign responsibility.",
+    "s2Text": "One small team per problem from the teams of the affected handover. Agree on goal and measure for the trial.",
+    "testTitel": "Week {woche} – trial {name}.",
+    "s4Titel": "Afterwards – check the effect.",
+    "s4Text": "The ROKIO feed keeps running: the monthly picture shows whether voices on this problem decrease. Only then take the next step.",
+    "loesungenTitel": "Solutions in detail",
+    "soLaeuftEs": "How it works:",
+    "braucht": "What it needs:",
+    "zeitFrei": "What the time is freed for:",
+    "hinweiseTitel": "Notes",
+    "h1": "Hours and euros are employees' estimates (each person only their own time), converted with hourly-rate ranges – no promise.",
+    "h2": "Maturity and origin are stated for every solution. In real use the AI runs locally.",
+    "h3": "Technical systems that can record behaviour or performance require co-determination (§ 87 (1) no. 6 BetrVG). Contact for funding, integrators and training: ROKI."
   }
 }

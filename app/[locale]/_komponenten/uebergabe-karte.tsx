@@ -16,9 +16,11 @@ type Props = {
   waehle?: (index: number | null) => void;
   beschriftung: { stimmen: (n: number) => string; legende: { laeuft: string; reibung: string; bruch: string; loesung: string; hinweis: string } };
   ohneLegende?: boolean;
+  /** Linien zeichnen sich nacheinander (bei jedem Moduswechsel neu). */
+  zeichnen?: boolean;
 };
 
-export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehlt = null, waehle, beschriftung, ohneLegende = false }: Props) {
+export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehlt = null, waehle, beschriftung, ohneLegende = false, zeichnen = false }: Props) {
   const pos = new Map(karte.knoten.map((k) => [k.name, k]));
   const farbe = (k: KartenKante) => {
     if (modus === "loesungen") return k.fadenIds.some((id) => loesungen[id]) ? FARBE.tuerkis : FARBE.grau;
@@ -60,8 +62,9 @@ export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehl
           const zeigeText = modus === "loesungen" ? Boolean(loesung) : aktiv || k.stimmen >= 2;
           return (
             <g
-              key={`${k.von}-${k.an}`}
-              className={styles.kante}
+              key={`${k.von}-${k.an}-${zeichnen ? modus : ""}`}
+              className={zeichnen ? `${styles.kante} ${styles.zeichnen}` : styles.kante}
+              style={zeichnen ? ({ ["--i" as string]: i } as React.CSSProperties) : undefined}
               role="button"
               tabIndex={0}
               aria-pressed={aktiv}
@@ -78,6 +81,7 @@ export function UebergabeKarte({ karte, modus = "heute", loesungen = {}, gewaehl
                 strokeLinecap="round"
                 markerEnd={k.von === k.an ? undefined : marker}
                 className={styles.linie}
+                pathLength={zeichnen ? 1 : undefined}
               />
               {zeigeText && (
                 <text x={lx} y={ly} textAnchor="middle" className={styles.kantenText}>

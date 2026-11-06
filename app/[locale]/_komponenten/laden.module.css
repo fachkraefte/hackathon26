@@ -1,0 +1,13 @@
+.laden {
+  --tinte: #141824;
+  --papier: #f3efe6;
+  --gruen: #2e9e57;
+  --gelb: #f1e64b;
+  display: flex;
+  min-height: 60vh;
+  margin: 1.5rem 0;
+  border-radius: 28px;
+  background: var(--tinte);
+  color: var(--papier);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}

@@ -287,6 +287,18 @@
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: 2.5rem;
+  padding: 2.5rem;
+  border-radius: 28px;
+  background: var(--gelb);
+}
+
+.vertrauen .h2 {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+}
+
+.vertrauen .text {
+  font-size: 1.375rem;
+  font-weight: 600;
 }
 
 .regeln {
@@ -296,14 +308,15 @@
   padding: 0;
   border: 3px solid var(--tinte);
   border-radius: 18px;
-  background: #faf8f3;
+  background: var(--tinte);
+  color: var(--papier);
   counter-reset: regel;
   list-style: none;
 }
 
 .regeln li {
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(20, 24, 36, 0.15);
+  border-bottom: 1px solid rgba(243, 239, 230, 0.18);
   font-size: 1.125rem;
   font-weight: 600;
   counter-increment: regel;
@@ -315,6 +328,7 @@
 
 .regeln li::before {
   content: counter(regel) ". ";
+  color: var(--gelb);
   font-weight: 800;
 }
 
@@ -365,6 +379,10 @@
 }
 
 @media (max-width: 56rem) {
+  .vertrauen {
+    padding: 1.75rem 1.25rem;
+  }
+
   .held,
   .schleife,
   .bild,

@@ -53,8 +53,8 @@ export default async function LocaleLayout(props: LayoutProps<"/[locale]">) {
               <img
                 src="/logo.png"
                 alt={t("logoAlt")}
-                width={3200}
-                height={801}
+                width={2172}
+                height={724}
                 className={styles.logo}
               />
             </Link>

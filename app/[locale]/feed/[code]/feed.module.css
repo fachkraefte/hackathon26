@@ -909,3 +909,150 @@ button.vorschau[data-aus="true"] {
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ---------- Meme-Karte ---------- */
+.meme {
+  justify-content: space-between;
+  background-color: #232a3b;
+  background-position: center;
+  background-size: cover;
+  cursor: default;
+}
+
+.memeText {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.75rem, 8vw, 2.375rem);
+  font-stretch: 70%;
+  font-weight: 900;
+  line-height: 1.02;
+  text-transform: uppercase;
+  text-shadow:
+    0 2px 0 #000,
+    0 -2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.memeQuelle {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  background: rgba(20, 24, 36, 0.75);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* ---------- Melden: Was hakt / Was gut läuft ---------- */
+.modusWahl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.25rem;
+  border: 2px solid rgba(243, 239, 230, 0.25);
+  border-radius: 999px;
+}
+
+.modusWahl button {
+  min-height: 2.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--leise);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.modusWahl button[aria-pressed="true"] {
+  background: var(--rot);
+  color: #fff;
+}
+
+.modusWahl button[data-gut][aria-pressed="true"] {
+  background: var(--gruen);
+}
+
+.vorschauGut {
+  display: block;
+  padding: 1.25rem;
+  border: 2px solid var(--gruen);
+  border-radius: 18px;
+}
+
+/* ---------- Überblick ---------- */
+.gemeldet {
+  display: grid;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  border-top: 2px solid var(--papier);
+  list-style: none;
+}
+
+.gemeldet li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(243, 239, 230, 0.15);
+}
+
+.gemeldetNr {
+  font-size: 2rem;
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.gemeldetText {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.gemeldetSatz {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.gemeldetMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--leise);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.gemeldetChip {
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(243, 239, 230, 0.14);
+  color: var(--papier);
+}
+
+.gemeldetPunkte {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.gemeldetPunkte span {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--rot);
+}
+
+.gutBlock {
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  background: rgba(46, 158, 87, 0.18);
+}
+
+.gutBlock ul {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}

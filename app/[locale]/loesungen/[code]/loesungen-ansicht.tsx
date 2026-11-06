@@ -49,6 +49,7 @@ export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: An
           <button type="button" aria-pressed={modus === "loesungen"} onClick={() => setModus("loesungen")}>{t("mitLoesungen")}</button>
         </div>
         <UebergabeKarte
+          zeichnen
           karte={daten.karte}
           modus={modus}
           loesungen={namen}
@@ -180,6 +181,9 @@ export function LoesungenAnsicht({ daten, loesungen, testetAnfang }: { daten: An
           ))}
         </ul>
         <p className="leise">{t("roki", { deadline: daten.deadline })}</p>
+        <p>
+          <Link className={styles.planKnopf} href={`/plan/${daten.code}`}>{t("planKnopf")} ↓</Link>
+        </p>
         <Link className={styles.zurueck} href={`/analyse/${daten.code}`}>← {t("zurAnalyse")}</Link>
       </section>
     </div>

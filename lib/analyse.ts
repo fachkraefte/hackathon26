@@ -1,5 +1,6 @@
 // Alles, was Analyse- und Lösungsseite zeigen, aus dem gespeicherten Bild berechnet – im Code, ohne KI.
 // Der Browser bekommt nur Zusammengeführtes, keine Einzelbeiträge (PROJEKT.md §5 „Wer sieht was“).
+import { holeLob } from "./feed";
 import { holeGesamtbild } from "./gesamtbild";
 import { baueKarte } from "./karte";
 import { fadenZahlen } from "./rechnen";
@@ -46,6 +47,8 @@ export async function analyseDaten(code: string) {
     mitsprache: mitsprache.length ? mitsprache.reduce((s, x) => s + x, 0) / mitsprache.length : null,
     faeden,
     staerken: bild.staerken,
+    // Positive Meldungen aus „Was gut läuft“ (Melden-Knopf), anonym und ohne Zuordnung.
+    lob: await holeLob(b.id).catch(() => [] as string[]),
     karte: baueKarte(b, beitraege, bild),
     loesungen: ergebnis.loesungen,
     ausDemo: ergebnis.ausDemo,
