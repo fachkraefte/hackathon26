@@ -190,6 +190,7 @@ Laut `AGENTS.md` nur, wenn der vorhandene Stack es nicht kann – mit Begründun
 | Supabase-Client (`@supabase/supabase-js`) | Speicherung (entschieden) |
 | — | KI-Aufrufe laufen per `fetch` an OpenAI (`lib/ki/model.ts`). Kein Anbieter-SDK, damit später ein lokales Modell dieselbe Schnittstelle nutzen kann. |
 | `zod` | Prüfung der KI-Ausgaben und Eingaben gegen die Datenformate (eingebaut) |
+| `qrcode-generator` | QR-Code für Team-Code und Aushang im Dashboard, serverseitig als SVG. Ohne Abhängigkeiten, MIT. Alternative wäre ein fremder Webdienst gewesen, der den Link erhält (06.11.2026) |
 
 ---
 
