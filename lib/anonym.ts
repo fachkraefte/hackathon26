@@ -5,8 +5,10 @@ import type { Beitrag, Bestandsaufnahme } from "./typen";
 
 export const ANDERER_BEREICH = "ein anderer Bereich";
 
-export function bereichsLabel(beitrag: Beitrag, alle: Beitrag[], b: Pick<Bestandsaufnahme, "mindestanzahl">) {
+export const ANDERER_BEREICH_EN = "another team";
+
+export function bereichsLabel(beitrag: Beitrag, alle: Beitrag[], b: Pick<Bestandsaufnahme, "mindestanzahl"> & { sprache?: string }) {
   if (beitrag.istLeitung || beitrag.rolleZeigen) return beitrag.bereich;
   const anzahl = alle.filter((x) => x.bereich === beitrag.bereich).length;
-  return anzahl >= b.mindestanzahl ? beitrag.bereich : ANDERER_BEREICH;
+  return anzahl >= b.mindestanzahl ? beitrag.bereich : b.sprache === "en" ? ANDERER_BEREICH_EN : ANDERER_BEREICH;
 }
