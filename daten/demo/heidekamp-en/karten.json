@@ -1,0 +1,85 @@
+{
+  "_hinweis": "Demo feed cards, one for each perspective in the overview (same order). Reworded from the comments in fallstudien/01_metallbau_heidekamp.md: one specific problem, clear to all teams, plus one line of context. Nothing added. Images and memes: original AI-generated images (public/karten), no well-known meme templates; the joke is about situations, never people or teams.",
+  "f1": [
+    {
+      "text": "Customer changes reach Engineering only as voice messages.",
+      "kontext": "Customers request changes over the phone, and these are passed on in the evening."
+    },
+    {
+      "text": "No one knows for sure which drawing version is on display in Workshop.",
+      "kontext": "Drawings are often changed several times."
+    },
+    {
+      "text": "Updated drawings do not reach Workshop in time.",
+      "kontext": "Result: a railing was built using the old version.",
+      "bild": "/karten/zeichnung.webp"
+    },
+    {
+      "text": "On site, the dimensions do not match the fabricated parts.",
+      "kontext": "Result: parts have to be shortened and welded again on site."
+    }
+  ],
+  "f2": [
+    {
+      "text": "Parts that were planned for the job are missing on site.",
+      "kontext": "Result: a trip back, and half the morning is gone.",
+      "bild": "/karten/baustelle.webp"
+    },
+    {
+      "text": "Materials taken from stock are not recorded anywhere.",
+      "kontext": "Result: people have to search for materials.",
+      "bild": "/karten/material.webp"
+    },
+    {
+      "text": "Office finds out too late that materials are running out.",
+      "kontext": "Result: rush orders."
+    }
+  ],
+  "f3": [
+    {
+      "text": "Office does not know when Installation is at the customer's site.",
+      "kontext": "Customers ask for updates, and Office has to call around."
+    },
+    {
+      "text": "Calls asking about job progress keep coming in on site.",
+      "kontext": "Result: work is interrupted again and again."
+    }
+  ],
+  "f4": [
+    {
+      "text": "The practical knowledge in Workshop is not written down anywhere.",
+      "kontext": "New staff ask experienced staff at every step."
+    }
+  ],
+  "f5": [
+    {
+      "text": "Posts are welded by hand, one at a time, often for a whole day.",
+      "kontext": "The same movement over and over.",
+      "bild": "/karten/schweissen.webp"
+    }
+  ],
+  "f6": [
+    {
+      "text": "Stair stringers and railing sections are carried by hand to upper floors.",
+      "kontext": "Often up to the third floor.",
+      "bild": "/karten/tragen.webp"
+    }
+  ],
+  "memes": [
+    {
+      "fadenId": "f2",
+      "text": "Me when the system says: “12 still in stock.”",
+      "bild": "/karten/meme-hund.webp"
+    },
+    {
+      "fadenId": "f1",
+      "text": "Which version is current? – Yes.",
+      "bild": "/karten/meme-katze.webp"
+    },
+    {
+      "fadenId": "f3",
+      "text": "The phone on the scaffolding, for the fourth time: “Are you there yet?”",
+      "bild": "/karten/meme-telefon.webp"
+    }
+  ]
+}

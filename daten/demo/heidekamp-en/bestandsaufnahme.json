@@ -1,0 +1,110 @@
+{
+  "id": "HEIDEEN",
+  "betrieb": {
+    "name": "Metallbau Heidekamp",
+    "branche": "produktionHandwerk",
+    "mitarbeitende": 22,
+    "leistungen": "Stairs, railings and balconies, steel structures, canopies. Galvanising and powder coating outsourced.",
+    "website": null,
+    "fiktiv": true
+  },
+  "anrede": "du",
+  "ziel": "I want to know where we are making life harder for ourselves before I advertise the next job.",
+  "deadline": "Thu., 3 December, 7:30 a.m. in the Workshop",
+  "bereiche": [
+    {
+      "name": "Management",
+      "satzVon": 60,
+      "satzBis": 70
+    },
+    {
+      "name": "Engineering",
+      "satzVon": 45,
+      "satzBis": 55
+    },
+    {
+      "name": "Office",
+      "satzVon": 35,
+      "satzBis": 45
+    },
+    {
+      "name": "Workshop",
+      "satzVon": 38,
+      "satzBis": 46
+    },
+    {
+      "name": "Installation",
+      "satzVon": 38,
+      "satzBis": 46
+    }
+  ],
+  "arbeitswochen": 46,
+  "mindestanzahl": 1,
+  "profil": {
+    "kurz": "Metal fabrication company with 22 employees: custom stairs, railings and steel structures. Site measurements, design, fabrication and Installation handled in-house. Galvanising outsourced.",
+    "extern": [
+      "Customer",
+      "Galvanising company"
+    ],
+    "chips": {
+      "Management": [
+        "Quotes",
+        "Customer changes",
+        "Work scheduling",
+        "Staffing"
+      ],
+      "Engineering": [
+        "Site measurements",
+        "Creating drawings",
+        "Updating drawings",
+        "Parts list",
+        "Questions from the Workshop"
+      ],
+      "Office": [
+        "Customer calls",
+        "Ordering materials",
+        "Recording hours",
+        "Invoices",
+        "Scheduling with the galvanising company"
+      ],
+      "Workshop": [
+        "Cutting",
+        "Welding repeat parts",
+        "Building stairs and stringers",
+        "Looking for materials",
+        "Clarifying drawings",
+        "Guiding apprentices"
+      ],
+      "Installation": [
+        "Loading and packing",
+        "Carrying materials on site",
+        "Installation",
+        "Rework on site",
+        "Timesheets"
+      ]
+    },
+    "rueckfragen": {
+      "Management": [
+        "How do customer changes reach Engineering?",
+        "Where do you first hear that a job has hit a problem?"
+      ],
+      "Engineering": [
+        "When a customer changes something, how does the Workshop find out?",
+        "How do you know if an outdated drawing is on display in the Workshop?"
+      ],
+      "Office": [
+        "Which customer question are you often unable to answer?",
+        "Who do you most often need information from?"
+      ],
+      "Workshop": [
+        "How do you tell whether a drawing is the current version?",
+        "Who do you ask when you are stuck, and how long do you wait?"
+      ],
+      "Installation": [
+        "What did you last have to do differently from the plan on site?",
+        "What is most often missing when you arrive?"
+      ]
+    }
+  },
+  "sprache": "en"
+}

@@ -1,16 +1,17 @@
 "use client";
 
 // Beamer-Ansicht (Jury-Modus): Graph und Zahlen wachsen mit jedem Swipe mit. Lädt alle 2 Sekunden neu.
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { liveDaten, ordneZu } from "@/lib/feed-aktionen";
-import { formatEuro, formatStunden } from "@/lib/rechnen";
+import { zahlenFormat } from "@/lib/rechnen";
 import { UebergabeKarte } from "../../_komponenten/uebergabe-karte";
 import styles from "./live.module.css";
 
 type Daten = NonNullable<Awaited<ReturnType<typeof liveDaten>>>;
 
 export function Live({ code, start, adresse }: { code: string; start: Daten; adresse: string }) {
+  const { formatStunden, formatEuro } = zahlenFormat(useLocale());
   const t = useTranslations("Live");
   const ta = useTranslations("Analyse");
   const [d, setD] = useState(start);

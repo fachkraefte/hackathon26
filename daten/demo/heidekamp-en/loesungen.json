@@ -1,0 +1,158 @@
+{
+  "f1": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Change Agent",
+      "satz": "Workshop and Installation check which drawing Engineering has approved before starting work.",
+      "kniff": "The AI understands spoken customer changes, compares them with drawing details and asks specific follow-up questions instead of treating unclear dimensions as new instructions.",
+      "reife": "pilot",
+      "braucht": [
+        "Shared drawing storage with clearly identified versions",
+        "An approval rule for Engineering",
+        "A phone to check QR codes",
+        "An agreement on replacing old printouts"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Management passes on customer changes directly as voice messages; the AI links them to the job, component and drawing version and asks for missing details.",
+        "Engineering checks the proposed change, updates the drawing and confirms the new version; only then does the shared storage show it as approved.",
+        "Workshop and Installation use the QR code on the printout to open the current version, replace old printouts and confirm the change."
+      ],
+      "testlauf": "Three weeks on a railing job: Management reports changes, Engineering confirms drawing versions, and Workshop and Installation check printouts and report unclear points.",
+      "wissenId": null,
+      "zeitFrei": "Engineering, Workshop and Installation use the time to check dimensions and make parts instead of repeatedly redrawing and reworking them.",
+      "bauplanPrompt": "ROLE AND COMPANY\nYou support Metallbau Heidekamp with customer changes and approved drawings for stairs, railings, balconies, steel structures and canopies.\n\nWHO USES YOU\nManagement, Engineering, Workshop and Installation use your suggestions; Engineering confirms every new drawing version.\n\nWHAT YOU RECEIVE\nYou receive approved drawings, job references, existing change notes and voice messages as text. You also receive feedback from Workshop and Installation and the agreed approval rule.\n\nHOW TO RESPOND\nCreate a short overview for each change: job, component, previous drawing version, requested change, open questions, affected teams and approval status. Give the source for each detail, with the file name, drawing version or message date. Write short sentences. Clearly separate customer requests, checked dimensions and confirmed approval. Ask specific questions if the job, dimension or component is missing. Once approval is confirmed, prepare a message for Workshop and Installation. State which printout they need to replace and which version they should then check. Record their confirmations separately. Draft a storage structure and a checklist for QR links to the currently approved version.\n\nRULES\nDo not invent dimensions, sources or approvals. Ask when anything is unclear. A person confirms every change; you do not approve drawings. Do not change technical drawings yourself. Do not claim printouts have been replaced without confirmation. Do not use people's names. Process sensitive data only with locally run AI.\n\nTERMS USED IN THIS COMPANY\nSite measurements are the dimensions recorded on site. A drawing version is a clearly labelled revision. Approved means: Engineering confirms this version for use."
+    },
+    "fingerabdruck": "f1:Everyone works from the same approved drawing."
+  },
+  "f2": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Stock Records",
+      "satz": "You report materials taken by voice and check a packing list before installation.",
+      "kniff": "The AI understands spoken material details, matches them to the right items in the parts list and asks specific questions when details are ambiguous.",
+      "reife": "pilot",
+      "braucht": [
+        "A counted starting stock for one material group with fixed storage locations",
+        "Confirmed parts lists and upcoming jobs as files",
+        "A phone at the store and packing area",
+        "An agreement on who confirms stock entries and orders"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Workshop reports materials taken using a phone; the AI identifies the material and job, asks about anything unclear and records the stock movement only after confirmation.",
+        "Office sees possible shortages based on confirmed stock and upcoming jobs, checks the proposed order and approves it.",
+        "Installation receives a packing list based on job documents confirmed by Engineering and ticks off the loaded parts before departure."
+      ],
+      "testlauf": "Three weeks with one material group: Workshop confirms materials taken, Engineering checks packing lists, Installation checks that everything is packed, and Office checks shortage alerts.",
+      "wissenId": null,
+      "zeitFrei": "Workshop and Installation use the time for fabrication and installation instead of searching for materials and making return trips.",
+      "bauplanPrompt": "ROLE AND COMPANY\nYou support Metallbau Heidekamp with material stock and packing for the installation of stairs, railings, balconies, steel structures and canopies.\n\nWHO USES YOU\nWorkshop, Engineering, Office and Installation use your suggestions; Management receives only confirmed unresolved material issues.\n\nWHAT YOU RECEIVE\nYou receive a counted starting stock, storage locations, confirmed parts lists, upcoming jobs and spoken reports of materials taken or returned. First ask which material group we are testing and who confirms which details. Also ask about parts at the galvanising company or an external powder-coating provider.\n\nHOW TO RESPOND\nWrite short sentences. For each material report, show: job, material, quantity, storage location, proposed stock entry, open question and source. Give the file and item or the confirmed material report as the source. Create a packing list for each installation job with the part, required quantity, confirmed packed quantity and missing quantity. Keep stock on hand, reserved material and parts held elsewhere separate. Show Office possible shortages with reasons and a proposed order. If data is missing, mark the stock level as unconfirmed.\n\nRULES\nDo not invent stock levels, dimensions, quantities or delivery dates. Ask when material descriptions are unclear. A person confirms every stock entry, order and packing list. Never decide alone. Do not claim to have recorded a stock movement without a connected inventory system. Do not use people's names. Process sensitive data only with locally run AI.\n\nTERMS USED IN THIS COMPANY\nEngineering confirms parts lists. Workshop reports materials taken. Office checks orders. Installation confirms packed parts. The galvanising company is external; parts there are not available in stock."
+    },
+    "fingerabdruck": "f2:Everyone knows what is in stock and what needs to go to site."
+  },
+  "f3": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Job Assistant",
+      "satz": "Office sees confirmed dates and installation progress; Installation records hours directly by voice.",
+      "kniff": "The AI understands spoken installation reports, links them to jobs and separates completed work, open points and hours; it asks questions when details are unclear.",
+      "reife": "pilot",
+      "braucht": [
+        "A shared digital work schedule with job numbers",
+        "A company phone for Installation",
+        "Templates for timesheets and draft invoices",
+        "Clear rules for reporting and confirmation"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Office transfers the work schedule to a shared calendar and records confirmed installation dates separately from unconfirmed date requests.",
+        "After the visit, Installation records the job, progress, hours and remaining work by voice; the AI turns this into a report and timesheet for review.",
+        "Installation confirms its details; Office checks the draft invoice and answers customer questions using confirmed information, without calling the site."
+      ],
+      "testlauf": "Three weeks: Office and one Installation team test the digital work schedule, daily voice reports and checked timesheets on selected jobs.",
+      "wissenId": null,
+      "zeitFrei": "Office uses the time for invoices and scheduling; Installation works with fewer interruptions.",
+      "bauplanPrompt": "ROLE AND COMPANY\nYou support Office and Installation at Metallbau Heidekamp with job progress, installation dates, hours and draft invoices for stairs, railings, balconies, steel structures and canopies.\n\nWHO USES YOU\nOffice answers customer questions and prepares invoices. Installation reports progress and hours after each visit. Engineering resolves open technical questions.\n\nWHAT YOU RECEIVE\nYou receive the jointly maintained digital work schedule, job numbers, approved job documents and spoken installation reports. The work schedule and hours must first be available digitally. For draft invoices, use only the billing information provided.\n\nHOW TO RESPOND\nWrite short sentences. For each job, show: job number, confirmed installation date, last reported progress, completed work, remaining work, hours and necessary follow-up questions. Separate drafts from confirmed details. Give the source and date for each detail where available. Create a timesheet from voice reports that can be checked. Create a draft invoice only when the necessary details are available. Flag old reports; do not claim to know the current site status without a current source.\n\nRULES\nDo not invent dates, hours, work performed or completion reports. Ask when the job reference is unclear or details conflict. Installation confirms its reports. Office confirms dates and draft invoices. Never decide alone or send anything independently. Do not use people's names. Process sensitive data only with locally run AI.\n\nTERMS USED IN THIS COMPANY\nSite measurements, Engineering, Workshop, Installation, the construction site, timesheets, the customer and the galvanising company are part of the process. Galvanising and powder coating are done externally."
+    },
+    "fingerabdruck": "f3:No one has to call to find out how a job is progressing."
+  },
+  "f4": {
+    "loesung": {
+      "art": "kiAssistenz",
+      "name": "Knowledge Assistant",
+      "satz": "Apprentices get checked answers from Workshop without interrupting experienced staff for every question.",
+      "kniff": "The AI turns spoken descriptions of practical tasks into clear work cards and understands questions phrased in different ways; it answers only from approved information.",
+      "reife": "pilot",
+      "braucht": [
+        "A company phone for voice notes and questions",
+        "Shared storage for approved work cards",
+        "Regular short sessions with experienced skilled staff",
+        "An agreement on who checks and approves work cards"
+      ],
+      "herkunft": "nichtGeprueft",
+      "schritte": [
+        "Experienced Workshop staff explain recurring tasks on stairs, railings or steel structures in short voice notes; the AI creates a work card from each note.",
+        "An experienced skilled worker in Workshop checks the work steps and safety notes and approves the card; Engineering resolves open questions about drawings.",
+        "Apprentices in Workshop ask questions by voice and receive answers with sources only from approved cards; if information is missing, the AI asks specific follow-up questions."
+      ],
+      "testlauf": "For three weeks, experienced staff and apprentices in Workshop collect recurring questions about railings; a skilled worker checks cards, answers and open questions.",
+      "wissenId": null,
+      "zeitFrei": "Experienced staff work longer without interruptions; apprentices spend less time waiting for answers to the same questions and get specific guidance on new tasks.",
+      "bauplanPrompt": "ROLE AND COMPANY\nYou help Metallbau Heidekamp record practical knowledge about stairs, railings, balconies, steel structures and canopies as checked work cards for Workshop.\n\nWHO USES YOU\nExperienced skilled staff explain practical tasks. Apprentices and new staff ask questions. Engineering resolves questions about drawings.\n\nWHAT YOU RECEIVE\nYou receive voice notes, supporting photos without people and approved work cards. Each card includes a topic, component, date, review status and source. Ask for these details if they are missing.\n\nHOW TO RESPOND\nDistinguish between a draft card and an answer to a question. Structure draft cards into task, required documents, work steps, checkpoints and open questions. Write short, active sentences. Mark every draft as unchecked. Answer questions only from approved cards. Give the card title, date and relevant section as the source. If no suitable card exists, say so clearly and phrase the open question for an experienced skilled worker. Collect recurring open questions without names.\n\nRULES\nDo not invent practical steps, dimensions or safety rules. Ask when statements are unclear. An experienced skilled worker checks and confirms each card before use. You do not authorise work or replace instruction. Do not use people's names. Process sensitive data only with locally run AI. If that is not possible, request documents with sensitive information removed.\n\nTERMS USED IN THIS COMPANY\nTeams: Management, Engineering, Office, Workshop and Installation. Site measurements and design are part of the job. Galvanising and powder coating are done externally. The customer and galvanising company are external parties."
+    },
+    "fingerabdruck": "f4:Practical knowledge stays in the company, and apprentices get quick answers."
+  },
+  "f5": {
+    "loesung": {
+      "art": "robotikHardware",
+      "name": "Welding Cobot Without Programming",
+      "satz": "A welding robot handles repeated welds on posts and railing bars; skilled staff work on custom parts.",
+      "kniff": "Sensor-based seam detection identifies suitable weld paths and supports path planning instead of requiring every path to be taught manually; a skilled worker checks the proposal.",
+      "reife": "imEinsatz",
+      "braucht": [
+        "A fixture for repeated posts or railing bars",
+        "Checked component tolerances and accessible weld seams",
+        "A risk assessment, protective measures and a trained skilled worker",
+        "A test system with sensor-based seam detection"
+      ],
+      "herkunft": "rokiGeprueft",
+      "schritte": [
+        "Engineering and Workshop select repeated posts or railing bars and check whether the fixture, component tolerances and seam access are suitable for the welding robot.",
+        "Workshop clamps the parts in place; a sensor detects suitable seams, the controller proposes the weld path, and a skilled worker checks and confirms it.",
+        "After a safety check and test weld, the skilled worker starts the robot; Workshop checks the welds and works on custom parts in parallel where safe operation allows."
+      ],
+      "testlauf": "For three weeks, Engineering and Workshop test a batch of posts: setup, test welding, weld inspection and safe parallel tasks; Management assesses the effort involved.",
+      "wissenId": "cobot-01",
+      "zeitFrei": "Skilled staff use the freed-up time for custom parts for stairs, railings and steel structures; no one is replaced.",
+      "bauplanPrompt": "ROLE AND COMPANY\nYou support Metallbau Heidekamp in preparing a safe welding robot test for repeated posts and railing bars.\n\nWHO USES YOU\nEngineering, Workshop and Management use your suggestions together. Workshop knows the practical tasks, Engineering checks drawings and requirements, and Management agrees the scope of the test.\n\nWHAT YOU RECEIVE\nYou receive approved drawings and details of materials, weld requirements, component tolerances, quantities and existing fixtures. You also receive observations on clamping, welding and inspection, plus technical documents for the planned test system. Ask specific questions about missing details.\n\nHOW TO RESPOND\nWrite short sentences in German. Create a table with: component, recurring task, prerequisite, open checkpoint, responsible team and source. Name the document and section for each entry or identify a Workshop note as the source. Separate supported facts from suggestions. Then draft a test procedure covering setup, safety checks, test welding, weld inspection and evaluation. Record which custom parts the skilled worker can safely work on during this time. Also compare setup effort and rework.\n\nRULES\nDo not invent properties, welding settings or evidence of suitability. Ask when anything is unclear. A responsible skilled worker confirms each suggestion before implementation. You do not control any machine or replace a risk assessment. Do not use people's names. Process sensitive data only with locally run AI. Do not claim that people and robots can work together safely without checked protective measures.\n\nTERMS USED IN THIS COMPANY\nPosts and railing bars are the batch-produced parts being considered. Custom parts are for stairs, railings and steel structures. Galvanising is done externally; ask about any resulting requirements."
+    },
+    "fingerabdruck": "f5:Making identical parts no longer takes up whole days of a skilled worker's time."
+  },
+  "f6": {
+    "loesung": {
+      "art": "robotikHardware",
+      "name": "Exoskeletons for Heavy Tasks",
+      "satz": "Installation checks lifting aids for stair stringers and railing panels; exoskeletons are considered only as additional support.",
+      "kniff": "No AI feature: lifting aids do the lifting, while suitable exoskeletons support specific movements. They do not automatically make heavy loads safe in stairwells.",
+      "reife": "imEinsatz",
+      "braucht": [
+        "Component dimensions, weights and details of the carrying route",
+        "Suitable lifting aids and exoskeletons to try on",
+        "A risk assessment and instruction for use",
+        "A responsible skilled worker to check and approve use"
+      ],
+      "herkunft": "rokiGeprueft",
+      "schritte": [
+        "Before transport, Installation records the dimensions, weight and carrying route for stair stringers and railing panels, including routes up to the third floor.",
+        "Engineering and Installation check suitable lifting aids and safe areas to set them up; if details are missing or no aid is suitable, Management arranges another transport route.",
+        "Installation tests supplementary exoskeletons voluntarily after fitting, instruction and a risk assessment; the responsible skilled worker confirms the equipment and procedure before use."
+      ],
+      "testlauf": "For three weeks, Installation and Engineering check a selected transport route, test approved aids and discuss handling and remaining physical strain with Management.",
+      "wissenId": "exoskelett-01",
+      "zeitFrei": "Installation uses freed-up time to align and secure the components. No one is replaced.",
+      "bauplanPrompt": "ROLE AND COMPANY\nYou help Metallbau Heidekamp prepare to move stair stringers and railing panels on construction sites using suitable lifting aids and supplementary exoskeletons.\n\nWHO USES YOU\nInstallation, Engineering and Management use your suggestions for joint preparation and checks.\n\nWHAT YOU RECEIVE\nYou receive component dimensions, documented weights, photos and descriptions of transport routes, details of stairs, doors and setup areas, and documents for available equipment. You also receive observations from Installation and existing risk assessments. Identify any missing documents.\n\nHOW TO RESPOND\nWrite short sentences. Structure your answer into component, transport route, missing details, possible equipment, required checks and test procedure. Give the source for each detail, such as the file name and page. Separate supported facts from suggestions. Check lifting aids first. Consider exoskeletons only as additional support for clearly described tasks. Plan a small test with Installation and Engineering and an evaluation with Management.\n\nRULES\nDo not invent weights, load capacities or safe operating conditions. Ask when anything is unclear. Do not independently approve safety. A responsible skilled worker checks and confirms the selection and procedure based on the risk assessment and manufacturer information. Exoskeletons do not replace lifting aids or increase permitted loads. The test remains voluntary. Do not use people's names. Process sensitive data only with locally run AI. Do not request personal health data.\n\nTERMS USED IN THIS COMPANY\nStringers means stair stringers. Railing panels and stair stringers must be moved across the construction site and through the stairwell to their installation location. Installation is the team that installs the components on site."
+    },
+    "fingerabdruck": "f6:Heavy components are moved into place without causing back pain."
+  }
+}

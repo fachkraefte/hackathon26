@@ -75,10 +75,19 @@ export function rundeEuro(euro: number) {
   return Math.round(euro / 10) * 10;
 }
 
-export function formatEuro(euro: number) {
-  return `${rundeEuro(euro).toLocaleString("de-DE")} €`;
+export function formatEuro(euro: number, locale = "de") {
+  const zahl = rundeEuro(euro).toLocaleString(locale === "en" ? "en-GB" : "de-DE");
+  return locale === "en" ? `€${zahl}` : `${zahl} €`;
 }
 
-export function formatStunden(stunden: number) {
-  return (Math.round(stunden * 10) / 10).toLocaleString("de-DE");
+export function formatStunden(stunden: number, locale = "de") {
+  return (Math.round(stunden * 10) / 10).toLocaleString(locale === "en" ? "en-GB" : "de-DE");
+}
+
+/** Zahlen im Format der Oberflächensprache (23,6 h / 46.500 € bzw. 23.6 h / €46,500). */
+export function zahlenFormat(locale: string) {
+  return {
+    formatStunden: (h: number) => formatStunden(h, locale),
+    formatEuro: (e: number) => formatEuro(e, locale),
+  };
 }

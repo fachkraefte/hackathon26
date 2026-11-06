@@ -3,9 +3,11 @@
 // mit Übergabe (von → an) und der typischen Schätzung im Handlungsfeld (ständig = eine Häufigkeitsstufe höher) und Minuten = Median der echten Schätzungen im Handlungsfeld.
 import { z } from "zod";
 import demoKartenJson from "@/daten/demo/heidekamp/karten.json";
-import { demoBeitraege, demoGesamtbild, DEMO_ID } from "./daten";
+import demoKartenEnJson from "@/daten/demo/heidekamp-en/karten.json";
+import { DEMOS, type Demo } from "./daten";
 import { holeGesamtbildSchnell } from "./gesamtbild";
 import { fragJson, kiVerfuegbar } from "./ki/json";
+import { mitSprache, sprachAnweisung } from "./ki/prompts";
 import { fadenZahlen, stundenProWoche } from "./rechnen";
 import { holeBeitraege, istFeedBeitrag, loescheBeitrag, personVon, speichereBeitrag } from "./speicher";
 import { createSupabaseServerClient, supabaseKonfiguriert } from "./supabase/server";
@@ -40,7 +42,7 @@ const MAX_KARTEN = 5; // nicht überfordern: 5 Karten, dann ein klares Ende
 // ---------- Speicher ----------
 const g = globalThis as typeof globalThis & { __rokioFeed?: { karten: Karte[]; reaktionen: ReaktionZeile[] } };
 type ReaktionZeile = { sitzung: string; karteId: string; code: string; bereich: string; richtung: Richtung };
-const imServer = () => (g.__rokioFeed ??= { karten: demoKarten(), reaktionen: [] });
+const imServer = () => (g.__rokioFeed ??= { karten: DEMOS.flatMap((d) => demoKarten(d)), reaktionen: [] });
 const db = () => createSupabaseServerClient();
 
 const holeAlleKarten = (code: string) => holeKarten(code);
@@ -111,18 +113,22 @@ async function speichereReaktion(r: ReaktionZeile) {
   if (error) throw new Error(`Reaktion speichern: ${error.message}`);
 }
 
-/** Startkarten der Demo: die Sichtweisen aus dem Gesamtbild – schon anonym und in der Sprache des Betriebs. */
-export function demoKarten(): Karte[] {
-  return demoGesamtbild.faeden.flatMap((f): Karte[] =>
+/** Startkarten einer Demo: die Sichtweisen aus dem Gesamtbild – schon anonym und in der Sprache des Betriebs. */
+export function demoKarten(demo: Demo = DEMOS[0]): Karte[] {
+  const id = demo.bestandsaufnahme.id;
+  const json = (demo.sprache === "en" ? demoKartenEnJson : demoKartenJson) as unknown as Record<string, { text: string; kontext: string; bild?: string }[]> & {
+    memes: { fadenId: string; text: string; bild: string }[];
+  };
+  const karten = demo.gesamtbild.faeden.flatMap((f): Karte[] =>
     f.sichtweisen.map((s, i) => {
       // Übergabe der Karte: die des passenden Demo-Punkts aus diesem Bereich.
-      const punkt = demoBeitraege
+      const punkt = demo.beitraege
         .filter((b) => b.bereich === s.bereich)
         .flatMap((b) => b.punkte)
         .find((p) => f.punktIds.includes(p.id));
-      const neu = (demoKartenJson as unknown as Record<string, { text: string; kontext: string; bild?: string }[]>)[f.id]?.[i];
+      const neu = json[f.id]?.[i];
       return {
-        id: `${DEMO_ID}-${f.id}-${i + 1}`,
+        id: `${id}-${f.id}-${i + 1}`,
         fadenId: f.id,
         text: neu?.text ?? s.aussage,
         kontext: neu?.kontext ?? null,
@@ -133,23 +139,20 @@ export function demoKarten(): Karte[] {
         bild: neu?.bild ?? null,
       };
     }),
-  ).concat(demoMemes());
-}
-
-/** Memes der Demo: eigene Bilder, Witz über Zustände – nie über Personen oder Bereiche. */
-function demoMemes(): Karte[] {
-  const memes = (demoKartenJson as unknown as { memes: { fadenId: string; text: string; bild: string }[] }).memes;
-  return memes.map((m, i) => ({
-    id: `${DEMO_ID}-meme-${i + 1}`,
+  );
+  // Memes: eigene Bilder, Witz über Zustände – nie über Personen oder Bereiche.
+  const memes = json.memes.map((m, i): Karte => ({
+    id: `${id}-meme-${i + 1}`,
     fadenId: m.fadenId,
     text: m.text,
     kontext: null,
-    bereich: demoGesamtbild.faeden.find((f) => f.id === m.fadenId)?.sichtweisen[0]?.bereich ?? "Werkstatt",
+    bereich: demo.gesamtbild.faeden.find((f) => f.id === m.fadenId)?.sichtweisen[0]?.bereich ?? demo.bestandsaufnahme.bereiche[0].name,
     von: null,
     an: null,
-    typ: "meme" as const,
+    typ: "meme",
     bild: m.bild,
   }));
+  return [...karten, ...memes];
 }
 
 export async function ladeDemoKarten() {
@@ -157,10 +160,12 @@ export async function ladeDemoKarten() {
     g.__rokioFeed = undefined;
     return;
   }
-  const { error } = await db()
-    .from("karten")
-    .insert(demoKarten().map((k) => ({ id: k.id, bestandsaufnahme_id: DEMO_ID, faden_id: k.fadenId, text: k.text, kontext: k.kontext, bereich: k.bereich, von: k.von, an: k.an, typ: k.typ, bild: k.bild })));
-  if (error) throw new Error(`Demo-Karten: ${error.message}`);
+  for (const demo of DEMOS) {
+    const { error } = await db()
+      .from("karten")
+      .insert(demoKarten(demo).map((k) => ({ id: k.id, bestandsaufnahme_id: demo.bestandsaufnahme.id, faden_id: k.fadenId, text: k.text, kontext: k.kontext, bereich: k.bereich, von: k.von, an: k.an, typ: k.typ, bild: k.bild })));
+    if (error) throw new Error(`Demo-Karten: ${error.message}`);
+  }
 }
 
 /** Noch keine Beiträge (neuer Betrieb) oder KI gerade nicht erreichbar: Feed läuft trotzdem. */
@@ -388,7 +393,7 @@ export async function zerlegeMeldung(b: Bestandsaufnahme, bereich: string, gesch
   try {
     const d = await fragJson(
       Probleme,
-      [
+      mitSprache(b, [
         {
           role: "system",
           content:
@@ -402,10 +407,13 @@ export async function zerlegeMeldung(b: Bestandsaufnahme, bereich: string, gesch
             "- haeufigkeit: genau einer dieser Werte oder null: monatlich, mehrmalsImMonat, woechentlich, mehrmalsProWoche, taeglich, mehrmalsTaeglich. „oft“ oder „ständig“ ohne klare Angabe = null.\n" +
             "- minuten (eigene Zeit pro Vorfall, ganze Zahl) nur, wenn die Person sie nennt oder sie eindeutig ist, sonst null.\n" +
             "- spiegelung: ein Satz an die Person, der zeigt, dass du sie verstanden hast (du-Form, sachlich).\n" +
-            "Antworte auf Deutsch, auch wenn die Meldung in einer anderen Sprache ist. Antwort als JSON nach dem Schema.",
+            (b.sprache === "en"
+              ? "Answer in English, even if the report is in another language. Answer as JSON following the schema."
+              : "Antworte auf Deutsch, auch wenn die Meldung in einer anderen Sprache ist. Antwort als JSON nach dem Schema.") +
+            sprachAnweisung(b),
         },
         { role: "user", content: geschichte },
-      ],
+      ]),
       { reasoningEffort: "low" },
     );
     const gueltig = (x: string | null) => (x && ziele.includes(x) && x !== bereich ? x : null);
@@ -436,7 +444,7 @@ export async function erzeugeStartKarten(b: Bestandsaufnahme, websiteText: strin
     .join("\n");
   const { karten } = await fragJson(
     StartKarten,
-    [
+    mitSprache(b, [
       {
         role: "system",
         content:
@@ -446,7 +454,8 @@ export async function erzeugeStartKarten(b: Bestandsaufnahme, websiteText: strin
           `Bereiche (nur diese Namen verwenden): ${namen.join(", ")}. Externe: ${(b.profil?.extern ?? []).join(", ") || "keine"}.\n` +
           "von/an: woher kommt das, was fehlt, und wohin geht es weiter – Bereich oder Externer aus der Liste; null = innerhalb des eigenen Bereichs.\n" +
           "Schreibe 2 Karten je Bereich, höchstens 12, verteilt auf verschiedene Übergaben.\n" +
-          'Antwort als JSON: {"karten": [{"text": "…", "kontext": "…", "bereich": "…", "von": "…"|null, "an": "…"|null}]}',
+          'Antwort als JSON: {"karten": [{"text": "…", "kontext": "…", "bereich": "…", "von": "…"|null, "an": "…"|null}]}' +
+          sprachAnweisung(b),
       },
       {
         role: "user",
@@ -455,7 +464,7 @@ export async function erzeugeStartKarten(b: Bestandsaufnahme, websiteText: strin
           `Ziel der Leitung: ${b.ziel}\nAufgaben je Bereich:\n${aufgaben}` +
           (websiteText ? `\nAuszug Website:\n${websiteText.slice(0, 1500)}` : ""),
       },
-    ],
+    ]),
     { reasoningEffort: "low", timeoutMs: 60_000 },
   );
   const ziele = new Set([...namen, ...(b.profil?.extern ?? [])]);
@@ -485,17 +494,20 @@ export async function lobAusMeldung(b: Bestandsaufnahme, bereich: string, geschi
   try {
     const { text } = await fragJson(
       LobText,
-      [
+      mitSprache(b, [
         {
           role: "system",
           content:
             `Eine beschäftigte Person aus dem Bereich ${bereich} von ${b.betrieb.name} nennt etwas, das gut läuft.\n` +
             "Mach daraus EINEN sachlichen Satz, höchstens 14 Wörter, der für alle Bereiche verständlich ist: was läuft gut, wo. " +
-            "Keine Namen, keine Details, an denen man Personen erkennt, keine Metaphern. Auf Deutsch.\n" +
+            "Keine Namen, keine Details, an denen man Personen erkennt, keine Metaphern. " +
+            (b.sprache === "en" ? "In English." : "Auf Deutsch.") +
+            sprachAnweisung(b) +
+            "\n" +
             'Antwort als JSON: {"text": "…"}',
         },
         { role: "user", content: geschichte },
-      ],
+      ]),
       { reasoningEffort: "low" },
     );
     return text.replace(/^[„"]|[“"]$/g, "");

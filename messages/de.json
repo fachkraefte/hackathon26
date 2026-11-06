@@ -15,7 +15,7 @@
   "Home": {
     "titel": "Ihre Leute wissen, wo es hakt.",
     "einleitung": "ROKIO macht daraus einen Feed: Karten wischen statt Formulare ausfüllen. Sichtbar wird, an welchen Übergaben Zeit verloren geht – und welche KI- und Robotik-Lösung genau dort hilft.",
-    "codeFrage": "Code von der Leitung?",
+    "codeFrage": "Code von der Leitung? · Got a code?",
     "anlegen": "Projekt anlegen",
     "fuerLeitung": "Für die Leitung:",
     "demoProbieren": "Demo-Feed ausprobieren",
@@ -82,7 +82,7 @@
     "simEcht": "Echt ausprobieren",
     "simNochmal": "Nochmal",
     "simHinweis": "Simulation – wisch die Karte. Nichts wird gespeichert.",
-    "simCode": "Code eingeben",
+    "simCode": "Code eingeben · Enter code",
     "simAnlegen": "Projekt anlegen"
   },
   "Eingabe": {
@@ -448,7 +448,8 @@
     "nichtsMehrText": "Danke fürs Mitmachen. Neue Karten kommen, sobald andere etwas melden – schau einfach wieder rein.",
     "doch": "Doch etwas melden",
     "ueberblickFehler": "Der Überblick ist gerade nicht erreichbar.",
-    "nochmal": "Nochmal versuchen"
+    "nochmal": "Nochmal versuchen",
+    "minuten": "{m, plural, =60 {1 Std.} other {# Min.}}"
   },
   "Live": {
     "titel": "Live",

@@ -2,10 +2,10 @@
 
 // Befund: Was im Betrieb hakt – klar, visuell, ohne Lösungen (die kommen auf der nächsten Seite).
 // Alle Zahlen und Erkenntnisse rechnet der Code aus den Stimmen; die KI erfindet hier nichts.
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { AnalyseDaten } from "@/lib/analyse";
-import { formatEuro, formatStunden } from "@/lib/rechnen";
+import { zahlenFormat } from "@/lib/rechnen";
 import { UebergabeKarte } from "../../_komponenten/uebergabe-karte";
 import styles from "./befund.module.css";
 
@@ -18,6 +18,7 @@ function uebergabeFuer(d: Daten, fadenId: string) {
 }
 
 export function AnalyseAnsicht({ daten: d }: { daten: Daten }) {
+  const { formatStunden, formatEuro } = zahlenFormat(useLocale());
   const t = useTranslations("Befund");
   const ta = useTranslations("Analyse");
   const faeden = d.faeden.filter((f) => f.personen > 0).sort((a, b) => b.stunden - a.stunden || b.personen - a.personen);

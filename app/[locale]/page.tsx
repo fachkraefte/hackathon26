@@ -1,9 +1,9 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { analyseDaten } from "@/lib/analyse";
-import { DEMO_ID } from "@/lib/daten";
+import { demoFuer, demoIdFuer } from "@/lib/daten";
 import { demoKarten } from "@/lib/feed";
-import { formatEuro, formatStunden } from "@/lib/rechnen";
+import { zahlenFormat } from "@/lib/rechnen";
 import { CodeFeld } from "./zugang/code-feld";
 import { DemoZuruecksetzen } from "./demo-zuruecksetzen";
 import { HandySimulation } from "./handy-simulation";
@@ -21,6 +21,10 @@ const GESTEN = [
 ] as const;
 
 export default async function Startseite() {
+  const locale = await getLocale();
+  const { formatStunden, formatEuro } = zahlenFormat(locale);
+  // Demo in der Sprache der Oberfläche (deutsch: HEIDE1, englisch: HEIDEEN).
+  const DEMO_ID = demoIdFuer(locale);
   const t = await getTranslations("Home");
   // Das echte Produktbild: Übergabe-Karte des Demo-Betriebs (fiktiv).
   const demo = await analyseDaten(DEMO_ID, { schnell: true }).catch(() => null);
@@ -29,7 +33,8 @@ export default async function Startseite() {
   // Simulation: drei Demo-Karten aus verschiedenen Handlungsfeldern; Resonanz aus den Demo-Stimmen (+ die eigene).
   const sim = demo
     ? ["f1", "f2", "f3"].flatMap((fid) => {
-        const k = demoKarten().find((x) => x.fadenId === fid && x.bereich !== "Werkstatt") ?? demoKarten().find((x) => x.fadenId === fid);
+        const alle = demoKarten(demoFuer(DEMO_ID));
+        const k = alle.find((x) => x.fadenId === fid && x.bereich !== alle.find((y) => y.fadenId === "f5")?.bereich) ?? alle.find((x) => x.fadenId === fid);
         const f = demo.faeden.find((x) => x.id === fid);
         if (!k || !f) return [];
         const bereiche = [...new Set(f.sichtweisen.map((s) => s.bereich))];

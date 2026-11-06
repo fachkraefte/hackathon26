@@ -6,9 +6,9 @@ import { z } from "zod";
 import { bereichsLabel } from "./anonym";
 import { nimmBeitragAuf } from "./gesamtbild";
 import { bereiteVor, versteheGeschichte } from "./ki/schritte";
-import { DEMO_ID } from "./daten";
+import { DEMO_ID, DEMO_ID_EN } from "./daten";
 import { erzeugeStartKarten, ladeDemoKarten } from "./feed";
-import { DEMO_LEITUNGS_CODE, neuerLeitungsCode, setzeLeitungsCode } from "./zugang";
+import { DEMO_LEITUNGS_CODE, DEMO_LEITUNGS_CODE_EN, neuerLeitungsCode, setzeLeitungsCode } from "./zugang";
 import { ergaenzeLoesungen } from "./loesungen";
 import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
 import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, personenAnzahl, speichereBeitrag } from "./speicher";
@@ -49,6 +49,7 @@ const AnlegenEingabe = z.object({
   anrede: z.enum(["du", "sie"]),
   deadline: z.string().trim().max(120).default(""), // optional: Ergebnisbesprechung, wenn es einen Termin gibt
   bereiche: z.array(Bereich).min(1).max(10),
+  sprache: z.enum(["de", "en"]).default("de"), // Sprache der Oberfläche beim Anlegen
 });
 
 export async function legeAn(eingabe: z.input<typeof AnlegenEingabe>) {
@@ -66,6 +67,7 @@ export async function legeAn(eingabe: z.input<typeof AnlegenEingabe>) {
     anrede: d.anrede,
     ziel: d.ziel,
     deadline: d.deadline,
+    sprache: d.sprache,
     bereiche: d.bereiche.map((x) => ({ ...x, satzBis: Math.max(x.satzVon, x.satzBis) })),
     arbeitswochen: 46,
     mindestanzahl: 3,
@@ -173,4 +175,5 @@ export async function setzeDemoZurueck() {
   await demoZuruecksetzen();
   await ladeDemoKarten();
   await setzeLeitungsCode(DEMO_ID, DEMO_LEITUNGS_CODE);
+  await setzeLeitungsCode(DEMO_ID_EN, DEMO_LEITUNGS_CODE_EN);
 }

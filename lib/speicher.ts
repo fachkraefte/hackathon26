@@ -3,7 +3,7 @@
 // Ohne: Speicher im Server (nur lokal/Demo; auf Vercel nicht zwischen Instanzen geteilt).
 // Gelesene Zeilen werden mit zod geprüft, bevor die App sie nutzt.
 import { z } from "zod";
-import { demoBeitraege, demoBestandsaufnahme, demoGesamtbild, demoLoesungen, DEMO_ID } from "./daten";
+import { demoFuer, DEMOS, type Demo } from "./daten";
 import { personVon } from "./feed-regeln";
 import { createSupabaseServerClient, supabaseKonfiguriert, type Json } from "./supabase/server";
 import { Beitrag, Bereich, Bestandsaufnahme, Gesamtbild, LoesungEintrag, Profil, Punkt } from "./typen";
@@ -54,18 +54,18 @@ type SpeicherImServer = {
 
 function startdaten(): SpeicherImServer {
   return {
-    bestandsaufnahmen: new Map([[DEMO_ID, structuredClone(demoBestandsaufnahme)]]),
-    beitraege: new Map([[DEMO_ID, structuredClone(demoBeitraege)]]),
-    gesamtbilder: new Map([[DEMO_ID, demoEintrag()]]),
+    bestandsaufnahmen: new Map(DEMOS.map((d) => [d.bestandsaufnahme.id, structuredClone(d.bestandsaufnahme)])),
+    beitraege: new Map(DEMOS.map((d) => [d.bestandsaufnahme.id, structuredClone(d.beitraege)])),
+    gesamtbilder: new Map(DEMOS.map((d) => [d.bestandsaufnahme.id, demoEintrag(d)])),
   };
 }
 
-function demoEintrag(): GesamtbildEintrag {
+function demoEintrag(d: Demo): GesamtbildEintrag {
   return {
-    schluessel: schluesselFuer(demoBeitraege),
-    bild: structuredClone(demoGesamtbild),
+    schluessel: schluesselFuer(d.beitraege),
+    bild: structuredClone(d.gesamtbild),
     ausDemo: false,
-    loesungen: structuredClone(demoLoesungen),
+    loesungen: structuredClone(d.loesungen),
   };
 }
 
@@ -94,6 +94,7 @@ const BestandsaufnahmeZeile = z.object({
   mindestanzahl: z.number(),
   besprechung_am: z.string().nullable(),
   deadline: z.string().nullable(),
+  sprache: z.string().nullable().optional(),
   profil: Profil.nullable(),
 });
 
@@ -112,6 +113,7 @@ function ausZeile(zeile: unknown): Bestandsaufnahme {
     anrede: r.anrede,
     ziel: r.frage,
     deadline: r.deadline ?? r.besprechung_am ?? "",
+    sprache: r.sprache === "en" ? "en" : "de",
     // Zeilen aus v2 haben nur einen Stundensatz für alle Bereiche.
     bereiche: r.bereich_saetze ?? r.bereiche.map((name) => ({ name, satzVon: r.stundensatz, satzBis: r.stundensatz })),
     arbeitswochen: r.arbeitswochen,
@@ -142,6 +144,7 @@ function inZeile(b: Bestandsaufnahme) {
     mindestanzahl: b.mindestanzahl,
     zeitfresser: Object.values(b.profil?.chips ?? {}).flat(),
     deadline: b.deadline,
+    sprache: b.sprache,
     profil: (b.profil ?? null) as Json,
   };
 }
@@ -192,15 +195,20 @@ function beitragInZeile(b: Beitrag) {
 
 /** Demo-Daten in Supabase (neu) anlegen: Bestandsaufnahme, Startbeiträge, geprüftes Gesamtbild. */
 async function ladeDemoInSupabase() {
+  for (const d of DEMOS) await ladeEineDemo(d);
+}
+
+async function ladeEineDemo(d: Demo) {
   const c = db();
-  fehler("Demo löschen", (await c.from("bestandsaufnahmen").delete().eq("id", DEMO_ID)).error);
-  fehler("Demo-Bestandsaufnahme", (await c.from("bestandsaufnahmen").insert(inZeile(demoBestandsaufnahme))).error);
-  fehler("Demo-Beiträge", (await c.from("beitraege").insert(demoBeitraege.map(beitragInZeile))).error);
-  const e = demoEintrag();
+  const id = d.bestandsaufnahme.id;
+  fehler("Demo löschen", (await c.from("bestandsaufnahmen").delete().eq("id", id)).error);
+  fehler("Demo-Bestandsaufnahme", (await c.from("bestandsaufnahmen").insert(inZeile(d.bestandsaufnahme))).error);
+  fehler("Demo-Beiträge", (await c.from("beitraege").insert(d.beitraege.map(beitragInZeile))).error);
+  const e = demoEintrag(d);
   fehler(
     "Demo-Gesamtbild",
     (await c.from("gesamtbilder").insert({
-      bestandsaufnahme_id: DEMO_ID,
+      bestandsaufnahme_id: id,
       schluessel: e.schluessel,
       bild: e.bild as Json,
       aus_demo: false,
@@ -219,7 +227,7 @@ export async function holeBestandsaufnahme(id: string): Promise<Bestandsaufnahme
   const { data, error } = await db().from("bestandsaufnahmen").select("*").eq("id", id).maybeSingle();
   fehler("Bestandsaufnahme lesen", error);
   if (data) return ausZeile(data);
-  if (id !== DEMO_ID) return null;
+  if (!demoFuer(id)) return null;
   // Demo beim ersten Aufruf anlegen; parallele Aufrufe warten auf denselben Vorgang.
   g.__rowaiDemoGeladen ??= ladeDemoInSupabase().finally(() => {
     g.__rowaiDemoGeladen = undefined;

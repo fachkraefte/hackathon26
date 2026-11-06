@@ -13,8 +13,8 @@ function lies(k: string) {
   }
 }
 
-/** Liefert den Zielpfad oder null, wenn es den Code nicht gibt. */
-export async function oeffneMitGedaechtnis(code: string): Promise<string | null> {
+/** Liefert Zielpfad und Sprache des Projekts, oder null, wenn es den Code nicht gibt. */
+export async function oeffneMitGedaechtnis(code: string): Promise<{ pfad: string; sprache: "de" | "en" } | null> {
   const r = await oeffne(code, lies(schluessel(code))).catch(() => null);
   if (!r || !("pfad" in r)) return null;
   if (r.team && r.sitzung) {
@@ -22,5 +22,5 @@ export async function oeffneMitGedaechtnis(code: string): Promise<string | null>
       localStorage.setItem(schluessel(r.team), r.sitzung);
     } catch {}
   }
-  return r.pfad;
+  return { pfad: r.pfad, sprache: r.sprache };
 }

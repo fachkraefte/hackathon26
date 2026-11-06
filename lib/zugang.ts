@@ -79,3 +79,4 @@ export async function betriebZuLeitungsCode(code: string): Promise<string | null
 
 /** Demo: fester Leitungs-Code, damit die Präsentation ihn kennt. */
 export const DEMO_LEITUNGS_CODE = "LTG-HEIDE1";
+export const DEMO_LEITUNGS_CODE_EN = "LTG-HEIDEEN";

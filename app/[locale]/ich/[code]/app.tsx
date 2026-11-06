@@ -434,7 +434,8 @@ export function ResonanzSchirm({
 
 function liste(xs: string[]) {
   if (xs.length <= 1) return xs.join("");
-  return `${xs.slice(0, -1).join(", ")} und ${xs[xs.length - 1]}`;
+  const und = typeof document !== "undefined" && document.documentElement.lang === "en" ? "and" : "und";
+  return `${xs.slice(0, -1).join(", ")} ${und} ${xs[xs.length - 1]}`;
 }
 
 // ---------- Warten: Stimmen sammeln sich zu einer Karte ----------
@@ -656,7 +657,7 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
           <Chips frage={t("wieOft")} werte={["woechentlich", "mehrmalsProWoche", "taeglich", "mehrmalsTaeglich"] as const} wahl={oft} name={(w) => t(`oft.${w as "woechentlich"}`)} onWahl={setOft} />
         )}
         {brauchtMinuten && (
-          <Chips frage={t("wieLange")} werte={[5, 15, 30, 60]} wahl={minuten} name={(m) => (m === 60 ? "1 Std." : `${m} Min.`)} onWahl={setMinuten} />
+          <Chips frage={t("wieLange")} werte={[5, 15, 30, 60]} wahl={minuten} name={(m) => t("minuten", { m })} onWahl={setMinuten} />
         )}
         {fehler && <p className={styles.fehler}>{t("fehler")}</p>}
         <div className={styles.knoepfe}>
