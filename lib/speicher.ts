@@ -4,6 +4,7 @@
 // Gelesene Zeilen werden mit zod geprüft, bevor die App sie nutzt.
 import { z } from "zod";
 import { demoBeitraege, demoBestandsaufnahme, demoGesamtbild, demoLoesungen, DEMO_ID } from "./daten";
+import { personVon } from "./feed-regeln";
 import { createSupabaseServerClient, supabaseKonfiguriert, type Json } from "./supabase/server";
 import { Beitrag, Bereich, Bestandsaufnahme, Gesamtbild, LoesungEintrag, Profil, Punkt } from "./typen";
 
@@ -18,6 +19,8 @@ export type GesamtbildEintrag = {
 /** Fingerabdruck der Beiträge: ändert er sich, muss das Gesamtbild neu entstehen. */
 /** Beiträge aus dem Feed: ID „feed-<sitzung>“, Punkt-ID „feed-<sitzung>~<fadenId>“. */
 export const istFeedBeitrag = (id: string) => id.startsWith("feed-");
+export { personVon };
+export const personenAnzahl = (beitraege: { id: string }[]) => new Set(beitraege.map((b) => personVon(b.id))).size;
 export const fadenAusFeedPunkt = (punktId: string) => (punktId.startsWith("feed-") ? punktId.split("~")[1] || null : null);
 
 export function schluesselFuer(beitraege: Beitrag[]) {

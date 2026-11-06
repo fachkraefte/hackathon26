@@ -82,7 +82,9 @@ const Freigabe = z.object({
 export async function gibFrei(eingabe: z.input<typeof Freigabe>) {
   const d = Freigabe.parse(eingabe);
   const b = await betrieb(d.code);
+  const person = d.sitzung && /^[A-Z0-9]{6,12}$/.test(d.sitzung) ? d.sitzung : null;
   const antwort = await sendeBeitrag({
+    id: person ? `feed-${person}-m${crypto.randomUUID().replace(/-/g, "").slice(0, 8)}` : undefined,
     code: b.id,
     bereich: d.bereich,
     punkte: d.probleme.map((p) => ({

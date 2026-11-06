@@ -7,7 +7,7 @@ import { demoBeitraege, demoGesamtbild, DEMO_ID } from "./daten";
 import { holeGesamtbild } from "./gesamtbild";
 import { fragJson, kiVerfuegbar } from "./ki/json";
 import { fadenZahlen } from "./rechnen";
-import { holeBeitraege, istFeedBeitrag, loescheBeitrag, speichereBeitrag } from "./speicher";
+import { holeBeitraege, istFeedBeitrag, loescheBeitrag, personVon, speichereBeitrag } from "./speicher";
 import { createSupabaseServerClient, supabaseKonfiguriert } from "./supabase/server";
 import { Beitrag, type Bestandsaufnahme, type Haeufigkeit } from "./typen";
 
@@ -292,9 +292,9 @@ export async function resonanzFuer(code: string, karte: Karte, reaktionen?: Reak
   const nein = new Set(alle.filter((r) => r.richtung === "nicht" && fadenKarten.has(r.karteId)).map((r) => r.sitzung));
   const ids = new Set(f.punktIds);
   const dabei = ergebnis.beitraege.filter((x) => x.punkte.some((p) => ids.has(p.id)));
-  // Wer „nicht bei uns“ gesagt und an anderer Stelle bestätigt hat, zählt nur als Bestätigung.
-  for (const x of dabei) nein.delete(x.id.replace(/^feed-/, ""));
-  const kennen = dabei.length;
+  // Wer „kenn ich nicht“ gesagt und an anderer Stelle bestätigt hat, zählt nur als Bestätigung.
+  for (const x of dabei) nein.delete(personVon(x.id).replace(/^feed-/, ""));
+  const kennen = new Set(dabei.map((x) => personVon(x.id))).size;
   return {
     kennen,
     gesamt: kennen + nein.size,
