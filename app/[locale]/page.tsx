@@ -2,9 +2,11 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { analyseDaten } from "@/lib/analyse";
 import { DEMO_ID } from "@/lib/daten";
+import { demoKarten } from "@/lib/feed";
 import { formatEuro, formatStunden } from "@/lib/rechnen";
 import { CodeFeld } from "./zugang/code-feld";
 import { DemoZuruecksetzen } from "./demo-zuruecksetzen";
+import { HandySimulation } from "./handy-simulation";
 import { LiveKarte } from "./live-karte";
 import styles from "./page.module.css";
 
@@ -24,6 +26,19 @@ export default async function Startseite() {
   const demo = await analyseDaten(DEMO_ID).catch(() => null);
   const loesungen = demo ? Object.fromEntries(Object.entries(demo.loesungen).map(([id, e]) => [id, e.loesung.name])) : {};
   const regeln = t.raw("regeln") as string[];
+  // Simulation: drei Demo-Karten aus verschiedenen Handlungsfeldern; Resonanz aus den Demo-Stimmen (+ die eigene).
+  const sim = demo
+    ? ["f1", "f2", "f3"].flatMap((fid) => {
+        const k = demoKarten().find((x) => x.fadenId === fid && x.bereich !== "Werkstatt") ?? demoKarten().find((x) => x.fadenId === fid);
+        const f = demo.faeden.find((x) => x.id === fid);
+        if (!k || !f) return [];
+        const bereiche = [...new Set(f.sichtweisen.map((s) => s.bereich))];
+        return [{
+          karte: { ...k, art: "aussage" as const, kurzname: f.kurzname },
+          resonanz: { kennen: f.personen + 1, gesamt: f.personen + 1, bereiche, sichtbar: true },
+        }];
+      })
+    : [];
 
   return (
     <main className={styles.start}>
@@ -45,24 +60,7 @@ export default async function Startseite() {
             <Link href="/zugang?ziel=analyse">{t("analyseAnsehen")}</Link>
           </p>
         </div>
-        <Link href={`/feed/${DEMO_ID}`} className={styles.handy} aria-label={t("demoProbieren")}>
-          <span className={styles.handyBalken} aria-hidden>
-            <span /><span /><span /><span /><span /><span /><span /><span />
-          </span>
-          <span className={styles.handyOben}>
-            <span>{t("handyBereich")}</span>
-            <span>{t("handyZaehler")}</span>
-          </span>
-          <span className={styles.handyKarte}>
-            <span className={styles.handyStempel}>{t("kennIch")}</span>
-            <span className={styles.handyZitat}>„{t("handyKarte")}“</span>
-            <span className={styles.handyQuelle}>{t("handyQuelle")}</span>
-          </span>
-          <span className={styles.handyKnoepfe}>
-            <span className={styles.handyNein}>✕ {t("nichtBeiUns")}</span>
-            <span className={styles.handyJa}>{t("kennIch")} ♥</span>
-          </span>
-        </Link>
+        <HandySimulation karten={sim} demoPfad={`/feed/${DEMO_ID}`} />
       </section>
 
       {/* ---------- Einer erzählt, alle swipen ---------- */}

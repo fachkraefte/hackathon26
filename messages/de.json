@@ -21,10 +21,6 @@
     "demoProbieren": "Demo-Feed ausprobieren",
     "liveAnsehen": "Live-Bild für den Beamer",
     "analyseAnsehen": "Aktuelle Analyse",
-    "handyKarte": "Wir haben ein Geländer nach der alten Zeichnung gebaut.",
-    "handyQuelle": "aus einer Meldung · Technik → Werkstatt",
-    "handyBereich": "Werkstatt",
-    "handyZaehler": "3 von 8",
     "kennIch": "Kenn ich",
     "nichtBeiUns": "Kenn ich nicht",
     "schleifeTitel": "Einer erzählt, alle swipen.",
@@ -78,7 +74,14 @@
     "ehrlich": "Die Demo nutzt fiktive Betriebe. Reife und Herkunft stehen an jeder Lösung.",
     "zuruecksetzen": "Demo zurücksetzen",
     "zurueckgesetzt": "Demo ist zurückgesetzt",
-    "zuruecksetzenFehler": "Zurücksetzen fehlgeschlagen: {grund}"
+    "zuruecksetzenFehler": "Zurücksetzen fehlgeschlagen: {grund}",
+    "simBereich": "Werkstatt",
+    "simZaehler": "{n} von {gesamt}",
+    "simEnde": "So fühlt sich ROKIO an.",
+    "simEndeText": "Drei Karten, ein paar Sekunden. Im echten Feed zählt jede Geste als Stimme.",
+    "simEcht": "Echt ausprobieren",
+    "simNochmal": "Nochmal",
+    "simHinweis": "Simulation – wisch die Karte. Nichts wird gespeichert."
   },
   "Eingabe": {
     "sprechen": "Einsprechen",
