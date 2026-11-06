@@ -1,6 +1,6 @@
 # Technik
 
-**Stand:** 06.11.2026 · Version 4 (Feed, Klo-Test)
+**Stand:** 06.11.2026 · Version 5 (persönliche App, Befund)
 Gehört zu [`PROJEKT.md`](PROJEKT.md). Bei Widersprüchen gilt `PROJEKT.md`. Für Stack, Stil und Arbeitsweise im Code gilt zusätzlich [`AGENTS.md`](AGENTS.md). Alles hier ist ein **Vorschlag für den Hackathon** und darf vom Team angepasst werden – Änderungen bitte hier eintragen.
 
 ---
@@ -28,6 +28,9 @@ Handy/Browser ──► Next.js auf Vercel (Seiten + API-Routen) ──► Model
 |---|---|---|
 | `/de` | alle | Startseite im Feed-Stil: Code eingeben (führt in den Feed), Projekt anlegen, Handy mit Beispielkarte, Gesten, Live-Übergabe-Karte, Beispiele, Hausordnung, Demo zurücksetzen |
 | `/de/feed/[code]` | jede Person | **Feed (Klo-Test):** Bereich antippen → bis zu 10 Vollbild-Karten. → kenn ich · ← nicht bei uns · ↑ ständig · gedrückt halten = dazu erzählen (Sprache oder ein Satz). Nach jeder Geste Resonanz („7 von 11 kennen das“, erst ab 3 Stimmen). Erzählen → KI macht eine anonyme Karte → Person gibt frei → Karte geht an die betroffenen Bereiche. Karte „Was daraus wurde“, sobald die Leitung eine Lösung testet |
+| `/de/ich/[code]` | jede Person | **Persönliche App** mit eigenem Code (Tabelle `zugaenge`, nie mit Namen). Bereich einmal wählen, dann Navbar: **Karten** (5 Karten, je ein konkretes Problem + Kontextzeile) · **● Melden** (halten und erzählen; die KI zerlegt die Meldung in einzelne Probleme, jedes wird nach Freigabe eine Karte) · **Bild** (Kurzfassung des Befunds). Feed-Stimmen und Meldungen derselben Person zählen als eine Person (`personVon` in `lib/feed-regeln.ts`) |
+| `/de/feed/[code]` (neu) | QR/Jury | Betriebscode eines Demo-Betriebs → neuer persönlicher Demo-Code → `/ich/…`. Echte Betriebe nutzen nur persönliche Codes |
+| `/de/codes/[code]` | Leitung | Code-Dokument: ein Zettel pro Person zum Ausschneiden („in eine Box, jede Person zieht einen“). Entsteht beim Anlegen |
 | `/de/live/[code]` | Beamer | Jury-Modus: Übergabe-Karte, Stunden, Euro und Stimmen, alle 2 s neu geladen |
 | `/de/anlegen` | Leitung | Eckdaten, Bereiche mit Stundensatz-Spanne, Deadline, Website, Anrede → KI bereitet Chips und Rückfragen vor → Code und Einladung |
 | `/de/zugang` | Beschäftigte | Code eingeben (`?ziel=analyse` führt zur Analyse) |
