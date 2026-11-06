@@ -2,6 +2,7 @@
 // Jede Geste schreibt in die vorhandenen Felder: eine Feed-Sitzung ist ein Beitrag, jede bestätigte Karte ein Punkt
 // mit Übergabe (von → an), Häufigkeit aus der Geste (kenn ich = mehrmals im Monat, ständig = mehrmals pro Woche) und Minuten = Median der echten Schätzungen im Handlungsfeld.
 import { z } from "zod";
+import demoKartenJson from "@/daten/demo/heidekamp/karten.json";
 import { demoBeitraege, demoGesamtbild, DEMO_ID } from "./daten";
 import { holeGesamtbild } from "./gesamtbild";
 import { fragJson, kiVerfuegbar } from "./ki/json";
@@ -16,7 +17,8 @@ export type Richtung = z.infer<typeof Richtung>;
 export type Karte = {
   id: string;
   fadenId: string | null;
-  text: string;
+  text: string; // ein konkretes Problem, für alle Bereiche verständlich
+  kontext: string | null; // eine Zeile: Situation oder Folge
   bereich: string;
   von: string | null;
   an: string | null;
@@ -31,7 +33,7 @@ export type Resonanz = { kennen: number; gesamt: number; bereiche: string[]; sic
 
 /** Ab so vielen Stimmen zeigt ROKIO Zahlen (Hausordnung Punkt 1). */
 export const SCHWELLE = 3;
-const MAX_KARTEN = 10;
+const MAX_KARTEN = 5; // nicht überfordern: 5 Karten, dann ein klares Ende
 
 // ---------- Speicher ----------
 const g = globalThis as typeof globalThis & { __rokioFeed?: { karten: Karte[]; reaktionen: ReaktionZeile[] } };
@@ -47,6 +49,7 @@ export async function holeKarten(code: string): Promise<Karte[]> {
     id: k.id,
     fadenId: k.faden_id,
     text: k.text,
+    kontext: k.kontext,
     bereich: k.bereich,
     von: k.von,
     an: k.an,
@@ -64,6 +67,7 @@ export async function speichereKarte(code: string, k: Karte) {
     bestandsaufnahme_id: code,
     faden_id: k.fadenId,
     text: k.text,
+    kontext: k.kontext,
     bereich: k.bereich,
     von: k.von,
     an: k.an,
@@ -110,10 +114,12 @@ export function demoKarten(): Karte[] {
         .filter((b) => b.bereich === s.bereich)
         .flatMap((b) => b.punkte)
         .find((p) => f.punktIds.includes(p.id));
+      const neu = (demoKartenJson as unknown as Record<string, { text: string; kontext: string }[]>)[f.id]?.[i];
       return {
         id: `${DEMO_ID}-${f.id}-${i + 1}`,
         fadenId: f.id,
-        text: s.aussage,
+        text: neu?.text ?? s.aussage,
+        kontext: neu?.kontext ?? null,
         bereich: s.bereich,
         von: punkt?.von ?? null,
         an: punkt?.an ?? null,
@@ -130,7 +136,7 @@ export async function ladeDemoKarten() {
   }
   const { error } = await db()
     .from("karten")
-    .insert(demoKarten().map((k) => ({ id: k.id, bestandsaufnahme_id: DEMO_ID, faden_id: k.fadenId, text: k.text, bereich: k.bereich, von: k.von, an: k.an, typ: k.typ })));
+    .insert(demoKarten().map((k) => ({ id: k.id, bestandsaufnahme_id: DEMO_ID, faden_id: k.fadenId, text: k.text, kontext: k.kontext, bereich: k.bereich, von: k.von, an: k.an, typ: k.typ })));
   if (error) throw new Error(`Demo-Karten: ${error.message}`);
 }
 
@@ -297,30 +303,67 @@ export async function resonanzFuer(code: string, karte: Karte, reaktionen?: Reak
   };
 }
 
-// ---------- Einer erzählt: Meldung → anonyme Karte ----------
-const KarteText = z.object({ text: z.string().min(3).max(140) });
+// ---------- Einer erzählt: Meldung → einzelne Probleme → anonyme Karten ----------
+/** Gilt für alle Karten: konkret, für andere Bereiche verständlich, ein Problem pro Karte. */
+export const KARTEN_REGELN =
+  "Regeln für jede Karte:\n" +
+  "- text: EIN konkretes Problem als sachlicher Satz, höchstens 14 Wörter. So formuliert, dass auch Beschäftigte aus anderen Bereichen verstehen, was passiert – nicht nur die Person, die es erlebt hat. " +
+  "Also: was fehlt oder schiefgeht, an welcher Stelle im Ablauf. Nicht: ein Gefühl oder eine Beschwerde ohne Sache.\n" +
+  "- kontext: eine kurze Zeile mit Situation oder Folge (z. B. „Folge: zurückfahren, der halbe Vormittag ist weg.“), höchstens 12 Wörter.\n" +
+  "- Abstrahiere nur so weit, dass es für alle zugänglich wird – das eigentliche Problem muss erhalten bleiben.\n" +
+  "- Keine Namen, keine Uhrzeiten, keine Details, an denen man eine Person erkennt, keine Schuld an Personen, keine Metaphern.\n";
 
-export async function karteAusGeschichte(b: Bestandsaufnahme, bereich: string, geschichte: string): Promise<string | null> {
+const Probleme = z.object({
+  probleme: z
+    .array(
+      z.object({
+        text: z.string().min(3).max(160),
+        kontext: z.string().max(140),
+        titel: z.string().max(80),
+        von: z.string().nullable(),
+        an: z.string().nullable(),
+        haeufigkeit: z.enum(["monatlich", "mehrmalsImMonat", "woechentlich", "mehrmalsProWoche", "taeglich", "mehrmalsTaeglich"]).nullable(),
+        minuten: z.number().int().min(1).max(480).nullable(),
+      }),
+    )
+    .min(1)
+    .max(3),
+  spiegelung: z.string().max(240),
+});
+export type Problem = z.infer<typeof Probleme>["probleme"][number];
+
+/** Zerlegt eine Meldung in einzelne Probleme (z. B. „Lager leer“ und „Laufwege“ getrennt) – je Problem eine Karte. */
+export async function zerlegeMeldung(b: Bestandsaufnahme, bereich: string, geschichte: string) {
   if (!kiVerfuegbar()) return null;
+  const ziele = [...b.bereiche.map((x) => x.name), ...(b.profil?.extern ?? [])];
   try {
-    const { text } = await fragJson(
-      KarteText,
+    const d = await fragJson(
+      Probleme,
       [
         {
           role: "system",
           content:
-            `Du machst aus einer Meldung eine Karte, die andere Beschäftigte von ${b.betrieb.name} (${b.betrieb.branche}) bestätigen können.\n` +
-            "Regeln: ein Satz in Ich- oder Wir-Form, höchstens 14 Wörter, Alltagssprache des Betriebs, keine Metaphern.\n" +
-            "Keine Namen, keine Uhrzeiten, keine Daten, keine Details, an denen man eine Person erkennt. Keine Schuldzuweisung an Personen.\n" +
-            "Beschreibe den Zustand, den andere wiedererkennen. Antworte auf Deutsch, auch wenn die Meldung in einer anderen Sprache ist.\n" +
-            'Antwort als JSON: {"text": "…"}',
+            `Du hörst einer beschäftigten Person aus dem Bereich ${bereich} von ${b.betrieb.name} (${b.betrieb.branche}) zu.\n` +
+            "Zerlege die Meldung in ihre EINZELNEN Probleme (1 bis 3). Zwei verschiedene Ursachen sind zwei Probleme – fasse sie nicht zu einem allgemeinen Zeitfresser zusammen. " +
+            "Beispiel Wäscherei: „Im Lager ist keine Wäsche, sie muss erst nachgeholt werden, und beim Wechsel laufe ich unnötig hin und her“ sind ZWEI Probleme: Lagerbestand und Laufwege.\n" +
+            KARTEN_REGELN +
+            `- von/an: woher kommt das, was fehlt, und wohin geht es weiter. Nur diese Namen: ${ziele.join(", ")}. null = im eigenen Bereich.\n` +
+            "- titel: 2–4 Wörter.\n" +
+            "- haeufigkeit und minuten (eigene Zeit pro Vorfall) nur, wenn die Person sie nennt oder sie eindeutig sind, sonst null.\n" +
+            "- spiegelung: ein Satz an die Person, der zeigt, dass du sie verstanden hast (du-Form, sachlich).\n" +
+            "Antworte auf Deutsch, auch wenn die Meldung in einer anderen Sprache ist. Antwort als JSON nach dem Schema.",
         },
-        { role: "user", content: `Bereich: ${bereich}\nMeldung: ${geschichte}` },
+        { role: "user", content: geschichte },
       ],
       { reasoningEffort: "low" },
     );
-    return text.replace(/^[„"]|[“"]$/g, "");
-  } catch {
+    const gueltig = (x: string | null) => (x && ziele.includes(x) && x !== bereich ? x : null);
+    return {
+      spiegelung: d.spiegelung,
+      probleme: d.probleme.map((p) => ({ ...p, text: p.text.replace(/^[„"]|[“"]$/g, ""), von: gueltig(p.von), an: gueltig(p.an) })),
+    };
+  } catch (e) {
+    console.error("Meldung zerlegen:", e);
     return null;
   }
 }
@@ -328,7 +371,7 @@ export async function karteAusGeschichte(b: Bestandsaufnahme, bereich: string, g
 // ---------- Startkarten für einen neuen Betrieb ----------
 const StartKarten = z.object({
   karten: z
-    .array(z.object({ text: z.string().min(3).max(140), bereich: z.string(), von: z.string().nullable(), an: z.string().nullable() }))
+    .array(z.object({ text: z.string().min(3).max(140), kontext: z.string().max(120), bereich: z.string(), von: z.string().nullable(), an: z.string().nullable() }))
     .min(3)
     .max(12),
 });
@@ -348,11 +391,11 @@ export async function erzeugeStartKarten(b: Bestandsaufnahme, websiteText: strin
         content:
           "Du schreibst Startkarten für einen Feed, in dem Beschäftigte Aussagen über ihren Arbeitsalltag bestätigen (kenn ich) oder verwerfen (nicht bei uns).\n" +
           "Jede Karte beschreibt einen typischen Zeitverlust an einer Übergabe zwischen zwei Bereichen oder innerhalb eines Bereichs – als Zustand, nie als Vorwurf an Personen.\n" +
-          "Regeln: ein Satz in Ich- oder Wir-Form aus Sicht des Bereichs, höchstens 14 Wörter, Alltagssprache der Branche, keine Metaphern, keine Namen, keine Zahlen, die du nicht kennst.\n" +
+          KARTEN_REGELN +
           `Bereiche (nur diese Namen verwenden): ${namen.join(", ")}. Externe: ${(b.profil?.extern ?? []).join(", ") || "keine"}.\n` +
           "von/an: woher kommt das, was fehlt, und wohin geht es weiter – Bereich oder Externer aus der Liste; null = innerhalb des eigenen Bereichs.\n" +
           "Schreibe 2 Karten je Bereich, höchstens 12, verteilt auf verschiedene Übergaben.\n" +
-          'Antwort als JSON: {"karten": [{"text": "…", "bereich": "…", "von": "…"|null, "an": "…"|null}]}',
+          'Antwort als JSON: {"karten": [{"text": "…", "kontext": "…", "bereich": "…", "von": "…"|null, "an": "…"|null}]}',
       },
       {
         role: "user",
@@ -372,6 +415,7 @@ export async function erzeugeStartKarten(b: Bestandsaufnahme, websiteText: strin
       id: `${b.id}-s${i + 1}`,
       fadenId: null,
       text: k.text.replace(/^[„"]|[“"]$/g, ""),
+      kontext: k.kontext || null,
       bereich: k.bereich,
       von: gueltig(k.von),
       an: gueltig(k.an),

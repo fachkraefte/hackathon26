@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { pruefeCode } from "@/lib/aktionen";
+import { oeffne } from "@/lib/feed-aktionen";
 
 /** Code-Eingabe, auch auf der Startseite verwendet. */
 export function CodeFeld({ ziel }: { ziel: "befragung" | "analyse" | "feed" }) {
@@ -20,6 +21,13 @@ export function CodeFeld({ ziel }: { ziel: "befragung" | "analyse" | "feed" }) {
         e.preventDefault();
         setFalsch(false);
         starte(async () => {
+          if (ziel === "feed") {
+            // Persönlicher Code → eigener Bereich (Demo-Betriebscode erzeugt einen Demo-Code).
+            const r = await oeffne(code).catch(() => null);
+            if (r && "pfad" in r) router.push(r.pfad);
+            else setFalsch(true);
+            return;
+          }
           const gueltig = await pruefeCode(code);
           if (gueltig) router.push(`/${ziel}/${gueltig}`);
           else setFalsch(true);

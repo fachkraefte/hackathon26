@@ -145,6 +145,8 @@ export async function sendeBeitrag(eingabe: z.input<typeof BeitragEingabe>) {
     });
 
   return {
+    beitragId: id,
+    punktIds: beitrag.punkte.map((p) => p.id),
     faeden,
     meineStundenWoche: meineStunden,
     meineEuroJahr: euroProJahr(meineStunden, satzFuer(b, beitrag.bereich), b),
