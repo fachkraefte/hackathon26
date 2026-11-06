@@ -622,7 +622,7 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
           <span className={styles.resonanzZahl}>{t("notiert")}</span>
         )}
         <span className={styles.resonanzZeile}>
-          {ergebnis.empfaenger.length ? t("gehtAn", { bereiche: liste(ergebnis.empfaenger) }) : t("gehtAnAlle")}
+          {ergebnis.empfaenger.length ? t("gehtAn", { anrede, bereiche: liste(ergebnis.empfaenger) }) : t("gehtAnAlle", { anrede })}
         </span>
         <span className={styles.resonanzFuss}>{t("weiter")} →</span>
       </button>
@@ -680,7 +680,7 @@ function Melden({ code, betriebId, anrede, bereich, fertig }: Props & { bereich:
         <button type="button" aria-pressed={modus === "gut"} data-gut onClick={() => setModus("gut")}>{t("modusGut")}</button>
       </div>
       <h1 className={styles.gross}>{modus === "gut" ? t("gutTitel") : t("erzaehlenTitel", { anrede })}</h1>
-      <p className={styles.leise}>{modus === "gut" ? t("gutText") : t("erzaehlenText", { anrede })}</p>
+      <p className={styles.leise}>{modus === "gut" ? t("gutText", { anrede }) : t("erzaehlenText", { anrede })}</p>
       <textarea className={styles.textfeld} value={text} onChange={(e) => setText(e.target.value)} placeholder={t("tippen")} rows={3} maxLength={2000} />
       {fehler && <p className={styles.fehler}>{t("fehler")}</p>}
       <div className={styles.daumen}>

@@ -279,8 +279,17 @@ export async function verarbeiteGeste(
   const hoeher = (h: Haeufigkeit): Haeufigkeit => haeufigkeiten[Math.min(haeufigkeiten.indexOf(h) + 1, haeufigkeiten.length - 1)];
   const beitragId = `feed-${eingabe.sitzung}`;
   const kurz = new Map((vorher?.bild.faeden ?? []).map((f) => [f.id, f.kurzname]));
-  const punkte = reaktionen
-    .filter((r) => r.sitzung === eingabe.sitzung && r.richtung !== "nicht")
+  // Pro Person und Handlungsfeld genau eine Stimme (Karte und Meme zum selben Problem zählen nicht doppelt);
+  // es gilt die stärkere Geste. Startkarten ohne Handlungsfeld zählen einzeln.
+  const eigene = reaktionen.filter((r) => r.sitzung === eingabe.sitzung && r.richtung !== "nicht");
+  const jeFeld = new Map<string, ReaktionZeile>();
+  for (const r of eigene) {
+    const k = karten.find((x) => x.id === r.karteId);
+    const schluessel = k?.fadenId ?? r.karteId;
+    const bisher = jeFeld.get(schluessel);
+    if (!bisher || (bisher.richtung === "kenn" && r.richtung === "staendig")) jeFeld.set(schluessel, r);
+  }
+  const punkte = [...jeFeld.values()]
     .flatMap((r) => {
       const k = karten.find((x) => x.id === r.karteId);
       if (!k || r.richtung === "nicht") return [];
@@ -355,18 +364,19 @@ const Probleme = z.object({
   probleme: z
     .array(
       z.object({
-        text: z.string().min(3).max(160),
-        kontext: z.string().max(140),
-        titel: z.string().max(80),
-        von: z.string().nullable(),
-        an: z.string().nullable(),
-        haeufigkeit: z.enum(["monatlich", "mehrmalsImMonat", "woechentlich", "mehrmalsProWoche", "taeglich", "mehrmalsTaeglich"]).nullable(),
-        minuten: z.number().int().min(1).max(480).nullable(),
+        text: z.string().min(3).max(200),
+        kontext: z.string().max(200).catch(""),
+        titel: z.string().max(80).catch("Meldung"),
+        // Tolerant: Unklare Angaben werden null, dann fragt die App mit Chips nach – die Meldung geht nie verloren.
+        haeufigkeit: z.enum(["monatlich", "mehrmalsImMonat", "woechentlich", "mehrmalsProWoche", "taeglich", "mehrmalsTaeglich"]).nullable().catch(null),
+        minuten: z.number().int().min(1).max(480).nullable().catch(null),
+        von: z.string().nullable().catch(null),
+        an: z.string().nullable().catch(null),
       }),
     )
     .min(1)
     .max(3),
-  spiegelung: z.string().max(240),
+  spiegelung: z.string().max(400).catch(""),
 });
 export type Problem = z.infer<typeof Probleme>["probleme"][number];
 
@@ -382,12 +392,14 @@ export async function zerlegeMeldung(b: Bestandsaufnahme, bereich: string, gesch
           role: "system",
           content:
             `Du hörst einer beschäftigten Person aus dem Bereich ${bereich} von ${b.betrieb.name} (${b.betrieb.branche}) zu.\n` +
-            "Zerlege die Meldung in ihre EINZELNEN Probleme (1 bis 3). Zwei verschiedene Ursachen sind zwei Probleme – fasse sie nicht zu einem allgemeinen Zeitfresser zusammen. " +
+            "Zerlege die Meldung in ihre EINZELNEN Probleme (1 bis 3). Zwei verschiedene Ursachen sind zwei Probleme – fasse sie NIE zu einem allgemeinen Zeitfresser zusammen. " +
+            "Signalwörter wie „außerdem“, „und dann noch“, „dazu kommt“ trennen fast immer zwei Probleme. " +
             "Beispiel Wäscherei: „Im Lager ist keine Wäsche, sie muss erst nachgeholt werden, und beim Wechsel laufe ich unnötig hin und her“ sind ZWEI Probleme: Lagerbestand und Laufwege.\n" +
             KARTEN_REGELN +
             `- von/an: woher kommt das, was fehlt, und wohin geht es weiter. Nur diese Namen: ${ziele.join(", ")}. null = im eigenen Bereich.\n` +
             "- titel: 2–4 Wörter.\n" +
-            "- haeufigkeit und minuten (eigene Zeit pro Vorfall) nur, wenn die Person sie nennt oder sie eindeutig sind, sonst null.\n" +
+            "- haeufigkeit: genau einer dieser Werte oder null: monatlich, mehrmalsImMonat, woechentlich, mehrmalsProWoche, taeglich, mehrmalsTaeglich. „oft“ oder „ständig“ ohne klare Angabe = null.\n" +
+            "- minuten (eigene Zeit pro Vorfall, ganze Zahl) nur, wenn die Person sie nennt oder sie eindeutig ist, sonst null.\n" +
             "- spiegelung: ein Satz an die Person, der zeigt, dass du sie verstanden hast (du-Form, sachlich).\n" +
             "Antworte auf Deutsch, auch wenn die Meldung in einer anderen Sprache ist. Antwort als JSON nach dem Schema.",
         },

@@ -67,8 +67,8 @@ const Freigabe = z.object({
   probleme: z
     .array(
       z.object({
-        text: z.string().trim().min(3).max(160),
-        kontext: z.string().max(140),
+        text: z.string().trim().min(3).max(200),
+        kontext: z.string().max(200),
         titel: z.string().max(80),
         haeufigkeit: Haeufigkeit,
         minuten: z.number().int().min(1).max(480),
