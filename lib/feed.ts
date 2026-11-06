@@ -4,7 +4,7 @@
 import { z } from "zod";
 import demoKartenJson from "@/daten/demo/heidekamp/karten.json";
 import { demoBeitraege, demoGesamtbild, DEMO_ID } from "./daten";
-import { holeGesamtbild } from "./gesamtbild";
+import { holeGesamtbildSchnell } from "./gesamtbild";
 import { fragJson, kiVerfuegbar } from "./ki/json";
 import { fadenZahlen, stundenProWoche } from "./rechnen";
 import { holeBeitraege, istFeedBeitrag, loescheBeitrag, personVon, speichereBeitrag } from "./speicher";
@@ -166,9 +166,10 @@ export async function ladeDemoKarten() {
 /** Noch keine Beiträge (neuer Betrieb) oder KI gerade nicht erreichbar: Feed läuft trotzdem. */
 async function holeGesamtbildSicher(code: string) {
   try {
-    const bestandsaufnahme = await holeBeitraegeAnzahl(code);
-    if (bestandsaufnahme === 0) return null;
-    return await holeGesamtbild(code);
+    const anzahl = await holeBeitraegeAnzahl(code);
+    if (anzahl === 0) return null;
+    // Schnell: gespeichertes Bild + Feed-Stimmen. Die KI-Zuordnung neuer Meldungen läuft beim Melden und im Befund.
+    return await holeGesamtbildSchnell(code);
   } catch (e) {
     console.error("Gesamtbild für den Feed:", e);
     return null;

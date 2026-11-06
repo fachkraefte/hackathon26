@@ -6,8 +6,9 @@ import { z } from "zod";
 import { bereichsLabel } from "./anonym";
 import { nimmBeitragAuf } from "./gesamtbild";
 import { bereiteVor, versteheGeschichte } from "./ki/schritte";
+import { DEMO_ID } from "./daten";
 import { erzeugeStartKarten, ladeDemoKarten } from "./feed";
-import { erzeugeZugaenge } from "./zugang";
+import { DEMO_LEITUNGS_CODE, neuerLeitungsCode, setzeLeitungsCode } from "./zugang";
 import { ergaenzeLoesungen } from "./loesungen";
 import { euroProJahr, fadenZahlen, satzFuer, stundenProWoche } from "./rechnen";
 import { aktualisiereBestandsaufnahme, demoZuruecksetzen, holeBeitraege, holeBestandsaufnahme, personenAnzahl, speichereBeitrag } from "./speicher";
@@ -46,7 +47,7 @@ const AnlegenEingabe = z.object({
   leistungen: z.string().trim().min(5).max(400),
   ziel: z.string().trim().min(5).max(300),
   anrede: z.enum(["du", "sie"]),
-  deadline: z.string().trim().min(3).max(120),
+  deadline: z.string().trim().max(120).default(""), // optional: Ergebnisbesprechung, wenn es einen Termin gibt
   bereiche: z.array(Bereich).min(1).max(10),
 });
 
@@ -74,9 +75,10 @@ export async function legeAn(eingabe: z.input<typeof AnlegenEingabe>) {
   const vorbereitung = await bereiteVor(b, websiteText);
   await aktualisiereBestandsaufnahme({ ...b, profil: vorbereitung.daten });
   // Startkarten für den Feed im Hintergrund – bis die ersten Beschäftigten den Code eingeben, liegen sie bereit.
-  await erzeugeZugaenge(b.id, b.betrieb.mitarbeitende);
+  const leitungCode = neuerLeitungsCode();
+  await setzeLeitungsCode(b.id, leitungCode);
   after(() => erzeugeStartKarten({ ...b, profil: vorbereitung.daten }, websiteText).catch((e: unknown) => console.error("Startkarten:", e)));
-  return { code: b.id, profil: vorbereitung.daten, websiteGelesen: websiteText !== null, ausDemo: vorbereitung.ausDemo };
+  return { code: b.id, leitungCode, profil: vorbereitung.daten, websiteGelesen: websiteText !== null, ausDemo: vorbereitung.ausDemo };
 }
 
 /** Die Leitung korrigiert die vorbereiteten Chips. */
@@ -170,4 +172,5 @@ export async function teilnahme(code: string) {
 export async function setzeDemoZurueck() {
   await demoZuruecksetzen();
   await ladeDemoKarten();
+  await setzeLeitungsCode(DEMO_ID, DEMO_LEITUNGS_CODE);
 }

@@ -286,3 +286,33 @@
   background: var(--tinte);
   color: var(--papier);
 }
+
+/* Leitungs-Code: privat, gut sichtbar – in den Farben des Logos. */
+.leitungBox {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border-radius: 22px;
+  background: #c66e2c;
+  color: #fff;
+}
+
+.leitungBox p {
+  margin: 0;
+}
+
+.leitungTitel {
+  font-weight: 800;
+}
+
+.leitungWert {
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.leitungBox :global(.button) {
+  background: #141824;
+  color: #f3efe6;
+}

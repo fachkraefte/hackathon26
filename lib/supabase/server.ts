@@ -31,6 +31,7 @@ type BestandsaufnahmeRow = {
   profil: Json | null;
   bereich_saetze: Json | null;
   deadline: string | null;
+  leitung_code: string | null;
   erstellt_am: string;
   geaendert_am: string;
 };

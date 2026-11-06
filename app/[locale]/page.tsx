@@ -23,7 +23,7 @@ const GESTEN = [
 export default async function Startseite() {
   const t = await getTranslations("Home");
   // Das echte Produktbild: Übergabe-Karte des Demo-Betriebs (fiktiv).
-  const demo = await analyseDaten(DEMO_ID).catch(() => null);
+  const demo = await analyseDaten(DEMO_ID, { schnell: true }).catch(() => null);
   const loesungen = demo ? Object.fromEntries(Object.entries(demo.loesungen).map(([id, e]) => [id, e.loesung.name])) : {};
   const regeln = t.raw("regeln") as string[];
   // Simulation: drei Demo-Karten aus verschiedenen Handlungsfeldern; Resonanz aus den Demo-Stimmen (+ die eigene).

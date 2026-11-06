@@ -4,6 +4,8 @@ import { analyseDaten } from "@/lib/analyse";
 import { AnalyseAnsicht } from "./analyse-ansicht";
 
 export const dynamic = "force-dynamic";
+// KI-Zuordnung neuer Meldungen kann dauern – nicht an der Standard-Zeitgrenze scheitern.
+export const maxDuration = 90;
 
 export async function generateMetadata() {
   const t = await getTranslations("Analyse");

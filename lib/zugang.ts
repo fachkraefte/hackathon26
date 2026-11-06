@@ -49,3 +49,33 @@ export async function setzeBereichFuer(code: string, bereich: string) {
   const { error } = await db().from("zugaenge").update({ bereich }).eq("code", code);
   if (error) throw new Error(`Bereich speichern: ${error.message}`);
 }
+
+// ---------- Leitungs-Code: privater Zugang der Leitung zum Dashboard ----------
+const LEITUNG = (g as unknown as { __rokioLeitung?: Map<string, string> });
+const leitungImServer = () => (LEITUNG.__rokioLeitung ??= new Map());
+
+export function neuerLeitungsCode() {
+  const z = crypto.getRandomValues(new Uint32Array(10));
+  return Array.from(z, (n) => ZEICHEN[n % ZEICHEN.length]).join("");
+}
+
+export async function setzeLeitungsCode(betriebId: string, code: string) {
+  if (!supabaseKonfiguriert()) {
+    leitungImServer().set(code, betriebId);
+    return;
+  }
+  const { error } = await db().from("bestandsaufnahmen").update({ leitung_code: code }).eq("id", betriebId);
+  if (error) throw new Error(`Leitungs-Code speichern: ${error.message}`);
+}
+
+/** Leitungs-Code → Betriebs-ID (oder null). */
+export async function betriebZuLeitungsCode(code: string): Promise<string | null> {
+  const c = code.trim().toUpperCase();
+  if (!supabaseKonfiguriert()) return leitungImServer().get(c) ?? null;
+  const { data, error } = await db().from("bestandsaufnahmen").select("id").eq("leitung_code", c).maybeSingle();
+  if (error) throw new Error(`Leitungs-Code lesen: ${error.message}`);
+  return data?.id ?? null;
+}
+
+/** Demo: fester Leitungs-Code, damit die Präsentation ihn kennt. */
+export const DEMO_LEITUNGS_CODE = "LTG-HEIDE1";

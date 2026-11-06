@@ -15,7 +15,7 @@
   "Home": {
     "titel": "Ihre Leute wissen, wo es hakt.",
     "einleitung": "ROKIO macht daraus einen Feed: Karten wischen statt Formulare ausfüllen. Sichtbar wird, an welchen Übergaben Zeit verloren geht – und welche KI- und Robotik-Lösung genau dort hilft.",
-    "codeFrage": "Code vom Aushang?",
+    "codeFrage": "Code von der Leitung?",
     "anlegen": "Projekt anlegen",
     "fuerLeitung": "Für die Leitung:",
     "demoProbieren": "Demo-Feed ausprobieren",
@@ -78,10 +78,12 @@
     "simBereich": "Werkstatt",
     "simZaehler": "{n} von {gesamt}",
     "simEnde": "So fühlt sich ROKIO an.",
-    "simEndeText": "Drei Karten, ein paar Sekunden. Im echten Feed zählt jede Geste als Stimme.",
+    "simEndeText": "Jetzt echt mitmachen: Code von der Leitung eingeben – oder ein eigenes Projekt anlegen.",
     "simEcht": "Echt ausprobieren",
     "simNochmal": "Nochmal",
-    "simHinweis": "Simulation – wisch die Karte. Nichts wird gespeichert."
+    "simHinweis": "Simulation – wisch die Karte. Nichts wird gespeichert.",
+    "simCode": "Code eingeben",
+    "simAnlegen": "Projekt anlegen"
   },
   "Eingabe": {
     "sprechen": "Einsprechen",
@@ -164,15 +166,15 @@
     "bereichNeu": "Weiterer Bereich",
     "hinzufuegen": "Hinzufügen",
     "blockDeadline": "3 · Ergebnisbesprechung",
-    "deadline": "Wann und wo besprechen Sie die Ergebnisse mit allen?",
+    "deadline": "Ergebnisbesprechung (optional)",
     "deadlinePlatzhalter": "z. B. Do., 3. Dezember, 7:30 Uhr in der Werkstatt",
-    "deadlineHinweis": "Das sieht jede Person in der Befragung. Es ist Ihre Zusage, dass etwas mit den Antworten passiert.",
+    "deadlineHinweis": "Wenn es einen Termin gibt, sehen ihn alle. ROKIO ist ein offener Kanal – ein Termin ist keine Pflicht.",
     "anlegen": "Projekt anlegen",
     "bereitetVor": "Einen Moment …",
     "lernt": "ROKIO lernt Ihren Betrieb kennen und bereitet die Fragen vor …",
     "fertigUeberzeile": "Fertig",
-    "fertigTitel": "Ihr Team kann loslegen",
-    "code": "Leitungs-Code (für Analyse und Lösungen):",
+    "fertigTitel": "Ihr Projekt ist angelegt",
+    "code": "Team-Code:",
     "chipsTitel": "Aufgaben, die Ihr Team antippen kann",
     "chipsMitWebsite": "Aus Ihren Angaben und Ihrer Website vorbereitet. Tippen zum Entfernen, eigene ergänzen.",
     "chipsOhneWebsite": "Aus Ihren Angaben vorbereitet. Tippen zum Entfernen, eigene ergänzen.",
@@ -180,13 +182,17 @@
     "chipNeu": "Eigene Aufgabe",
     "chipsSpeichern": "Änderungen speichern",
     "teilenTitel": "Einladung an Ihr Team",
-    "einladung_du": "Hallo zusammen, wir wollen wissen, wo es bei {betrieb} im Alltag hakt – von euch, nicht von oben. Jede Person bekommt einen eigenen Code auf einem Zettel (aus der Box ziehen – niemand weiß, wer welchen hat).\n\n{link}\n\nErgebnisse besprechen wir gemeinsam: {deadline}.",
-    "einladung_sie": "Guten Tag, wir möchten wissen, wo es bei {betrieb} im Alltag hakt – von Ihnen, nicht von oben. Jede Person bekommt einen eigenen Code auf einem Zettel (aus der Box ziehen – niemand weiß, wer welchen hat).\n\n{link}\n\nDie Ergebnisse besprechen wir gemeinsam: {deadline}.",
+    "einladung_du": "Hallo zusammen, wir wollen wissen, wo es bei {betrieb} im Alltag hakt – von euch, nicht von oben. Anonym, am Handy, jederzeit:\n\n{link}\nCode: {code}",
+    "einladung_sie": "Guten Tag, wir möchten wissen, wo es bei {betrieb} im Alltag hakt – von Ihnen, nicht von oben. Anonym, am Handy, jederzeit:\n\n{link}\nCode: {code}",
     "whatsapp": "Per WhatsApp teilen",
     "kopieren": "Text kopieren",
     "kopiert": "Kopiert ✓",
-    "selbst": "Code-Dokument öffnen",
-    "zurAnalyse": "Zur Analyse"
+    "selbst": "Selbst ausprobieren",
+    "zurAnalyse": "Zur Analyse",
+    "leitungCode": "Ihr Leitungs-Code",
+    "leitungCodeText": "Bitte notieren – privat, nicht weitergeben. Damit kommen Sie jederzeit in Ihr Dashboard: Team-Code teilen, QR-Aushang drucken, Befund, Lösungen und Fahrplan.",
+    "zumDashboard": "Zum Dashboard",
+    "einladungTermin": "Ergebnisse besprechen wir gemeinsam: {deadline}."
   },
   "Befragung": {
     "seitentitel": "Befragung – ROKIO",
@@ -251,7 +257,7 @@
   "Zugang": {
     "seitentitel": "Zur Befragung – ROKIO",
     "titel": "Zur Befragung",
-    "text": "Den Code bekommen Sie von Ihrer Leitung, zum Beispiel per WhatsApp oder Aushang.",
+    "text": "Den Code bekommen Sie von Ihrer Leitung – per Link, QR-Code oder Aushang. Als Leitung geben Sie hier Ihren Leitungs-Code ein.",
     "titelAnalyse": "Zur Analyse",
     "textAnalyse": "Den Code hat Ihre Leitung beim Anlegen bekommen. Die Analyse zeigt das gemeinsame Bild, nie Einzelantworten.",
     "code": "Code",
@@ -329,7 +335,8 @@
     "testenWir": "Testen wir",
     "testetSchon": "Wird getestet",
     "testenHinweis": "Das Team sieht es im Feed als „Was daraus wurde“.",
-    "planKnopf": "Fahrplan als PDF"
+    "planKnopf": "Fahrplan als PDF",
+    "rokiOhne": "Gesprächsgrundlage für die Ergebnisbesprechung und für ROKI – für Förderung, Integratoren und Bildungsangebote."
   },
   "Feed": {
     "seitentitel": "Feed – ROKIO",
@@ -431,7 +438,16 @@
     "ueberblickTitel": "{n} Probleme gemeldet",
     "ueberblickText": "Was die Beschäftigten bisher gemeldet haben – sortiert nach Stimmen. Lösungen werden gemeinsam besprochen.",
     "ueberblickStimmen": "{n, plural, one {# Stimme} other {# Stimmen}}",
-    "ueberblickGut": "Was gut läuft"
+    "ueberblickGut": "Was gut läuft",
+    "codeUnbekannt": "Diesen Code gibt es nicht.",
+    "codeNochmal": "Code noch einmal eingeben",
+    "oeffnet": "Dein Bereich wird geöffnet …",
+    "fertigHeute": "Für heute fertig",
+    "nichtsMehr": "Heute ist nichts mehr zu tun.",
+    "nichtsMehrText": "Danke fürs Mitmachen. Neue Karten kommen, sobald andere etwas melden – schau einfach wieder rein.",
+    "doch": "Doch etwas melden",
+    "ueberblickFehler": "Der Überblick ist gerade nicht erreichbar.",
+    "nochmal": "Nochmal versuchen"
   },
   "Live": {
     "titel": "Live",
@@ -440,15 +456,6 @@
     "imJahr": "im Jahr",
     "mitswipen": "Mitswipen: Code {code}",
     "felder": "Wo es hakt"
-  },
-  "Codes": {
-    "seitentitel": "Codes – ROKIO",
-    "titel": "Persönliche Codes · {betrieb}",
-    "anleitung": "Ausschneiden, in eine Box legen, jede Person zieht einen Zettel. Niemand notiert, wer welchen Code hat – so bleibt es anonym.",
-    "drucken": "Drucken",
-    "dein": "Dein persönlicher Code",
-    "so": "Öffnen: {adresse} → Code eingeben",
-    "anzahl": "{n} Codes – einer pro Person"
   },
   "Befund": {
     "ueber": "Befund · {betrieb}",
@@ -504,6 +511,34 @@
     "hinweiseTitel": "Hinweise",
     "h1": "Stunden und Euro sind Schätzungen der Beschäftigten (jede Person nur ihre eigene Zeit), umgerechnet mit Stundensatz-Spannen – keine Zusage.",
     "h2": "Reife und Herkunft stehen an jeder Lösung. Im echten Einsatz läuft die KI lokal.",
-    "h3": "Technische Einrichtungen, die Verhalten oder Leistung erfassen können, sind mitbestimmungspflichtig (§ 87 Abs. 1 Nr. 6 BetrVG). Ansprechpartner für Förderung, Integratoren und Bildung: ROKI."
+    "h3": "Technische Einrichtungen, die Verhalten oder Leistung erfassen können, sind mitbestimmungspflichtig (§ 87 Abs. 1 Nr. 6 BetrVG). Ansprechpartner für Förderung, Integratoren und Bildung: ROKI.",
+    "standOhne": "Stand heute · {stimmen} von {von} Beschäftigten haben mitgemacht",
+    "s1TextOhne": "Einen Termin mit allen festlegen. Befund zeigen, Reihenfolge der Probleme gemeinsam bestätigen. Der Betriebsrat ist dabei."
+  },
+  "Leitung": {
+    "seitentitel": "Dashboard – ROKIO",
+    "ueber": "Dashboard der Leitung",
+    "privat": "Ihr Leitungs-Code: {code} – privat, nicht weitergeben. Damit kommen Sie jederzeit hierher zurück.",
+    "aushangTitel": "Wo hakt es bei uns? Sag es anonym.",
+    "aushangText": "QR-Code scannen oder {adresse} öffnen. Anonym, jederzeit.",
+    "teilenTitel": "Team-Code teilen",
+    "teilenText": "Ein Code für alle im Betrieb. Niemand braucht ein Konto, niemand wird namentlich erfasst.",
+    "einladungDu": "Hallo zusammen, wir wollen wissen, wo es bei {betrieb} im Alltag hakt – von euch, nicht von oben. Anonym, am Handy, jederzeit:\n\n{link}\nCode: {code}",
+    "einladungSie": "Guten Tag, wir möchten wissen, wo es bei {betrieb} im Alltag hakt – von Ihnen, nicht von oben. Anonym, am Handy, jederzeit:\n\n{link}\nCode: {code}",
+    "einladungTermin": "Ergebnisse besprechen wir gemeinsam: {deadline}.",
+    "whatsapp": "Per WhatsApp teilen",
+    "textKopieren": "Text kopieren",
+    "linkKopieren": "Link kopieren",
+    "kopiert": "Kopiert ✓",
+    "drucken": "Aushang mit QR-Code drucken",
+    "standTitel": "Stand",
+    "mitgemacht": "von {von} haben mitgemacht",
+    "stunden": "Std. pro Woche verloren",
+    "probleme": "Probleme gemeldet",
+    "stimmen": "{n, plural, one {# Stimme} other {# Stimmen}}",
+    "befund": "Befund ansehen",
+    "loesungen": "Lösungen",
+    "fahrplan": "Fahrplan als PDF",
+    "live": "Live-Bild für den Beamer"
   }
 }

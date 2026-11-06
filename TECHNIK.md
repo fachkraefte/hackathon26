@@ -28,9 +28,9 @@ Handy/Browser ──► Next.js auf Vercel (Seiten + API-Routen) ──► Model
 |---|---|---|
 | `/de` | alle | Startseite im Feed-Stil: Code eingeben (führt in den Feed), Projekt anlegen, Handy mit Beispielkarte, Gesten, Live-Übergabe-Karte, Beispiele, Hausordnung, Demo zurücksetzen |
 | `/de/feed/[code]` | jede Person | **Feed (Klo-Test):** Bereich antippen → bis zu 10 Vollbild-Karten. → kenn ich · ← nicht bei uns · ↑ ständig · gedrückt halten = dazu erzählen (Sprache oder ein Satz). Nach jeder Geste Resonanz („7 von 11 kennen das“, erst ab 3 Stimmen). Erzählen → KI macht eine anonyme Karte → Person gibt frei → Karte geht an die betroffenen Bereiche. Karte „Was daraus wurde“, sobald die Leitung eine Lösung testet |
-| `/de/ich/[code]` | jede Person | **Persönliche App** mit eigenem Code (Tabelle `zugaenge`, nie mit Namen). Bereich einmal wählen, dann Navbar: **Karten** (5 Karten, je ein konkretes Problem + Kontextzeile) · **● Melden** (halten und erzählen; die KI zerlegt die Meldung in einzelne Probleme, jedes wird nach Freigabe eine Karte) · **Bild** (Kurzfassung des Befunds). Feed-Stimmen und Meldungen derselben Person zählen als eine Person (`personVon` in `lib/feed-regeln.ts`) |
-| `/de/feed/[code]` (neu) | QR/Jury | Betriebscode eines Demo-Betriebs → neuer persönlicher Demo-Code → `/ich/…`. Echte Betriebe nutzen nur persönliche Codes |
-| `/de/codes/[code]` | Leitung | Code-Dokument: ein Zettel pro Person zum Ausschneiden („in eine Box, jede Person zieht einen“). Entsteht beim Anlegen |
+| `/de/ich/[code]` | jede Person | **Persönliche App** (anonyme Sitzung je Gerät, Tabelle `zugaenge`, nie mit Namen). Bereich einmal wählen, dann Navbar: **Karten** (5 Karten mit Kontext, Fotos, 1–2 Memes; danach „Etwas melden“ oder „Für heute fertig“) · **● Melden** (Was hakt / Was gut läuft; die KI zerlegt Meldungen in einzelne Probleme) · **Überblick** (gemeldete Probleme, schnell gelesen ohne auf die KI zu warten) |
+| `/de/feed/[code]` | Link/QR | **Ein Team-Code für alle.** Öffnet die anonyme App; das Gerät merkt sich seine Sitzung (localStorage), damit eine Person ein Beitrag bleibt |
+| `/de/leitung/[code]` | Leitung | **Dashboard** mit privatem Leitungs-Code (`bestandsaufnahmen.leitung_code`, Demo: `LTG-HEIDE1`): Team-Code teilen (Link, WhatsApp, QR-Code, Aushang drucken), Stand, Befund, Lösungen, Fahrplan, Live-Bild |
 | `/de/plan/[code]` | Leitung | **Fahrplan als PDF** (Drucken → als PDF sichern): Befund in Kürze, Was gut läuft, Vorgehen in Wochen, Lösungen im Detail, Hinweise. Alles aus den Daten berechnet |
 | `/de/live/[code]` | Beamer | Jury-Modus: Übergabe-Karte, Stunden, Euro und Stimmen, alle 2 s neu geladen |
 | `/de/anlegen` | Leitung | Eckdaten, Bereiche mit Stundensatz-Spanne, Deadline, Website, Anrede → KI bereitet Chips und Rückfragen vor → Code und Einladung |
@@ -190,6 +190,7 @@ Laut `AGENTS.md` nur, wenn der vorhandene Stack es nicht kann – mit Begründun
 | Supabase-Client (`@supabase/supabase-js`) | Speicherung (entschieden) |
 | — | KI-Aufrufe laufen per `fetch` an OpenAI (`lib/ki/model.ts`). Kein Anbieter-SDK, damit später ein lokales Modell dieselbe Schnittstelle nutzen kann. |
 | `zod` | Prüfung der KI-Ausgaben und Eingaben gegen die Datenformate (eingebaut) |
+| `qrcode-generator` | QR-Code für Team-Code und Aushang im Dashboard, serverseitig als SVG. Ohne Abhängigkeiten, MIT. Alternative wäre ein fremder Webdienst gewesen, der den Link erhält (06.11.2026) |
 
 ---
 

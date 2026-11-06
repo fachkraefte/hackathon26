@@ -1,0 +1,232 @@
+.dashboard {
+  --tinte: #141824;
+  --papier: #f3efe6;
+  --orange: #c66e2c;
+  --leise: #5a5f6b;
+  display: grid;
+  gap: 2.5rem;
+  width: min(100% - 2rem, 64rem);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+  color: var(--tinte);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+.kopf h1 {
+  margin: 0.25rem 0;
+  font-size: clamp(2.75rem, 8vw, 4.5rem);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.ueber {
+  margin: 0;
+  color: var(--leise);
+  font-weight: 700;
+}
+
+.privat {
+  display: inline-block;
+  margin: 0.5rem 0 0;
+  padding: 0.375rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(198, 110, 44, 0.14);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.teilen {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22rem) 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.aushang {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border: 3px solid var(--tinte);
+  border-radius: 22px;
+  background: #fff;
+  text-align: center;
+}
+
+.aushangUeber {
+  margin: 0;
+  color: var(--orange);
+  font-weight: 800;
+}
+
+.aushangTitel {
+  margin: 0;
+  font-size: 2rem;
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.qr {
+  width: 100%;
+  max-width: 15rem;
+}
+
+.qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.teamCode {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.aushangText {
+  margin: 0;
+  color: var(--leise);
+  font-size: 0.875rem;
+}
+
+.teilenText {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.teilenText h2,
+.stand h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-stretch: 62%;
+  font-weight: 800;
+}
+
+.teilenText p {
+  margin: 0;
+}
+
+.einladung {
+  width: 100%;
+  padding: 1rem;
+  border: 2px dashed rgba(20, 24, 36, 0.3);
+  border-radius: 14px;
+  font-size: 0.9375rem;
+  white-space: pre-line;
+}
+
+.knoepfe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.knopf,
+.knopfLeise {
+  padding: 0.75rem 1.25rem;
+  border: 2px solid var(--tinte);
+  border-radius: 999px;
+  background: none;
+  color: var(--tinte);
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.knopf {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #fff;
+}
+
+.stand {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--tinte);
+}
+
+.zahlen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.zahlen p {
+  display: grid;
+  margin: 0;
+}
+
+.zahlen strong {
+  font-size: 3rem;
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.zahlen span {
+  color: var(--leise);
+}
+
+.top {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 1.125rem;
+}
+
+.wege {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  border-top: 2px solid var(--tinte);
+}
+
+.wege a {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(20, 24, 36, 0.18);
+  color: var(--tinte);
+  font-size: 1.5rem;
+  font-stretch: 70%;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 44rem) {
+  .teilen {
+    grid-template-columns: 1fr;
+  }
+
+  .aushang {
+    justify-self: stretch;
+  }
+}
+
+/* Aushang drucken: nur der QR-Block, groß. */
+@media print {
+  .kopf,
+  .teilenText,
+  .stand,
+  .wege {
+    display: none;
+  }
+
+  .teilen {
+    display: block;
+  }
+
+  .aushang {
+    border: 0;
+  }
+
+  .qr {
+    max-width: 12cm;
+  }
+
+  .aushangTitel {
+    font-size: 3rem;
+  }
+}

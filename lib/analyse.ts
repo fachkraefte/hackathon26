@@ -1,13 +1,13 @@
 // Alles, was Analyse- und Lösungsseite zeigen, aus dem gespeicherten Bild berechnet – im Code, ohne KI.
 // Der Browser bekommt nur Zusammengeführtes, keine Einzelbeiträge (PROJEKT.md §5 „Wer sieht was“).
 import { holeLob } from "./feed";
-import { holeGesamtbild } from "./gesamtbild";
+import { holeGesamtbild, holeGesamtbildSchnell } from "./gesamtbild";
 import { baueKarte } from "./karte";
 import { fadenZahlen } from "./rechnen";
 import { personenAnzahl } from "./speicher";
 
-export async function analyseDaten(code: string) {
-  const ergebnis = await holeGesamtbild(code.toUpperCase());
+export async function analyseDaten(code: string, { schnell = false }: { schnell?: boolean } = {}) {
+  const ergebnis = schnell ? await holeGesamtbildSchnell(code.toUpperCase()) : await holeGesamtbild(code.toUpperCase());
   if (!ergebnis) return null;
   const { bestandsaufnahme: b, beitraege, bild } = ergebnis;
 

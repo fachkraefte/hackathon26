@@ -17,7 +17,7 @@ import {
 } from "./feed";
 import { holeGesamtbild } from "./gesamtbild";
 import { holeBestandsaufnahme, holeGesamtbildEintrag, speichereLoesungen } from "./speicher";
-import { erzeugeZugaenge, holeZugang, setzeBereichFuer } from "./zugang";
+import { betriebZuLeitungsCode, erzeugeZugaenge, holeZugang, setzeBereichFuer } from "./zugang";
 import { Haeufigkeit } from "./typen";
 
 const Code = z.string().trim().toUpperCase().min(3).max(12);
@@ -127,7 +127,7 @@ export async function gibFrei(eingabe: z.input<typeof Freigabe>) {
 
 /** Beamer-Ansicht: Graph und Zahlen, die live mitwachsen. Nur Zusammengeführtes. */
 export async function liveDaten(code: string) {
-  const d = await analyseDaten(Code.parse(code));
+  const d = await analyseDaten(Code.parse(code), { schnell: true });
   if (!d) return null;
   return {
     betrieb: d.betrieb,
@@ -165,18 +165,26 @@ export async function setzeTest(code: string, fadenId: string, testet: boolean) 
 
 // ---------- Persönlicher Zugang ----------
 /**
- * Code eingeben: persönlicher Code → eigener Bereich. Betriebscode → nur bei Demo-Betrieben
- * wird ein persönlicher Demo-Code erzeugt (Jury per QR); echte Betriebe verteilen persönliche Codes.
+ * Code eingeben – ein Feld für alle:
+ * Leitungs-Code → Dashboard der Leitung. Team-Code (Betriebscode) → anonyme App; das Gerät bekommt eine eigene
+ * Sitzung (nie mit Namen), die es sich merkt, damit eine Person ein Beitrag bleibt. Sitzungs-Code → direkt in die App.
  */
-export async function oeffne(code: string): Promise<{ pfad: string } | { fehler: "unbekannt" | "persoenlich" }> {
+export async function oeffne(
+  code: string,
+  gemerkt?: string | null,
+): Promise<{ pfad: string; team?: string; sitzung?: string } | { fehler: "unbekannt" }> {
   const c = Code.parse(code);
+  if (await betriebZuLeitungsCode(c)) return { pfad: `/leitung/${c}` };
   const z = await holeZugang(c);
   if (z) return { pfad: `/ich/${z.code}` };
   const b = await holeBestandsaufnahme(c);
   if (!b) return { fehler: "unbekannt" };
-  if (!b.betrieb.fiktiv) return { fehler: "persoenlich" };
+  if (gemerkt) {
+    const alt = await holeZugang(gemerkt).catch(() => null);
+    if (alt && alt.betriebId === b.id) return { pfad: `/ich/${alt.code}`, team: b.id, sitzung: alt.code };
+  }
   const [neu] = await erzeugeZugaenge(b.id, 1);
-  return { pfad: `/ich/${neu}` };
+  return { pfad: `/ich/${neu}`, team: b.id, sitzung: neu };
 }
 
 export async function waehleBereich(code: string, bereich: string) {
