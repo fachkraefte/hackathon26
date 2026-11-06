@@ -1,0 +1,133 @@
+ROKIO – PITCH VIDEO · FINAL PROMPT (v3, English)
+
+BRIEF
+Produce a motion-design video of exactly 150 seconds (16:9, 1920×1080, 30 fps) for ROKIO's live pitch at
+the Leuphana AI Hackathon. It plays on a lecture-hall projector, embedded between the presenter's slides and a
+live interaction with the audience. It must move the jury emotionally AND show the whole product clearly:
+set up a project → report an issue → everyone recognises it → findings → solution & roadmap → culture change.
+Language of voice-over, pop-ups and subtitles: ENGLISH. The app UI itself is German (it is the real product) –
+show it as is and add a short English caption where a UI text carries the story.
+
+WHAT ROKIO IS (context)
+A web app for small and medium-sized businesses. Employees say anonymously on their phone where work gets stuck:
+they swipe cards ("I know this" / "not familiar") or hold a red button and talk. AI turns each story into
+separate problems everyone can understand. Many voices become a shared picture of where time is lost between
+teams – and from that, AI and robotics solutions and a roadmap. The people are the heroes; ROKIO is the turning
+point, not the hero.
+
+DUMMY PROJECT (fictional – label it)
+Metallbau Heidekamp, a metal fabrication business, 22 employees. Teams: management · engineering · office ·
+workshop · installation. Characters: Marco (workshop) – has known for years where work gets stuck, never says it.
+Sandra (owner) – asks, but only hears silence.
+
+EMOTIONAL ARC
+Frustration & silence (cool, desaturated) → relief "I'm not alone" → clarity → hope (warm).
+Before and after scenes reuse the same compositions, only the mood changes.
+
+BRAND & DESIGN
+- Colours: paper #F3EFE6 · ink #141824 · logo orange #C66E2C. Signal colours ONLY as signals:
+  green #2E9E57 = "I know this" · red #D6402F = breaking point · blue #2F6FDB = "all the time" ·
+  yellow #F1E64B = "something is happening".
+- Typeface: condensed heavy display font for headlines (Anton or Archivo at ~62 % width), Archivo Regular for text.
+- Projector-proof: text at least 48 px, visible at least 3 s, high contrast, 5 % safe margin on all sides.
+  Crop UI to 150–200 %, never show whole pages small.
+- Phone UI always in a plain dark phone frame (rounded, no manufacturer logo).
+- Motion only with meaning: cards swipe, lines draw themselves, numbers build up. Soft ease-out curves,
+  no frantic zooms, no glow/particle effects, no 3D logos, no generic AI imagery (no brains, robot hands, matrix code).
+- People as calm hand-drawn sepia illustrations matching the deck (ink line drawing, warm paper tones, yellow
+  accents) – no photorealistic AI faces. If real footage is supplied, it replaces the illustrations marked [REAL].
+- Pop-ups: label bottom left, ink on paper, max. 6 words, 2.5–3 s, soft fade.
+- Subtitles for the full voice-over: bottom centre, paper bar with ink text, 44 px.
+
+SOURCES FOR UI RECORDINGS (real, live app – record at phone 390×844 and laptop 1440×900)
+- Set up a project: https://hackathon26-nu.vercel.app/de/anlegen ("Beispiel einsetzen" → "Projekt anlegen")
+- Dashboard with QR: https://hackathon26-nu.vercel.app/de/leitung/LTG-HEIDE1
+- Cards, report, overview: https://hackathon26-nu.vercel.app/de/feed/HEIDE1 (team "Werkstatt")
+- Findings: https://hackathon26-nu.vercel.app/de/analyse/HEIDE1
+- Solutions + "Testen wir" + roadmap: https://hackathon26-nu.vercel.app/de/loesungen/HEIDE1
+Where recordings are missing, rebuild the UI faithfully in the brand style (texts exactly as below).
+
+VOICE-OVER (English, voice: Sarah – calm, warm, clear; ~200 words; music under voice −12 dB)
+[0:02] Marco has known about this problem for years. He has never said it out loud.
+[0:09] Monday, team meeting. "Any problems?" – (1 s silence) – Silence. Ten minutes later, at the coffee
+       machine: the same complaints as last week.
+[0:23] Sandra sets up a project. One code for everyone – and it goes up exactly where people talk anyway.
+[0:41] Marco holds the button and talks. Thirty seconds. ROKIO turns it into two clear problems –
+       no names, understandable for every team.
+[1:01] And then something happens that no questionnaire can do: the others recognise it. One thumb.
+       Six out of six. Marco is not alone.
+[1:21] For the first time, Sandra sees in black and white what everyone already knew: more than twenty hours
+       a week – not because of lazy people, but at handovers.
+[1:41] ROKIO shows where AI can help – step by step, down to the blueprint. And when Sandra taps
+       "Let's test it", Marco is the first to see it: something is happening.
+[1:59] One year later. The team meeting starts with what everyone has said. Mistakes come up on Monday –
+       not on Friday at the coffee machine. And people also say what works well.
+[2:23] Your people know where work gets stuck. … Your turn.
+
+SCENES
+1 · 0:00–0:08 · MATCH CUT (hook)
+  First frame: full-screen phone display (paper UI, dark card) with label "Technik → Werkstatt",
+  text "Geänderte Zeichnungen kommen nicht rechtzeitig in der Werkstatt an." and context line
+  "Folge: Ein Geländer wurde nach der alten Version gebaut." – English caption: "Changed drawings don't reach
+  the workshop in time." Identical to the phone the presenter is holding up in the room.
+  Slow zoom out: hand at the workbench [REAL optional].
+2 · 0:08–0:22 · BEFORE (cool, desaturated)
+  Illustration/[REAL]: a railing is cut apart; team meeting at a table – everyone looks away (hold 3 s);
+  coffee machine with murmuring speech bubbles (no text). Pop-up: "Metallbau Heidekamp · fictional company".
+  Music stops completely for 1 s on "Silence".
+3 · 0:22–0:40 · SET UP
+  Laptop UI "Projekt anlegen" → waiting animation (dots gather into a card) → dashboard with QR poster
+  "Wo hakt es bei uns? Sag es anonym." (caption: "Where do we get stuck? Say it anonymously.") →
+  the poster is stuck on the coffee machine.
+  Pop-ups: "Set up in ~10 seconds" · "One code for everyone · anonymous".
+4 · 0:40–1:00 · REPORT
+  Phone: thumb holds the red button, timer runs (0:07), transcript bubble fills.
+  UI: "2 einzelne Probleme erkannt" (caption: "2 separate problems found") with two cards (problem + context line),
+  thumb on "Freigeben" (caption: "Share").
+  Pop-ups: "Audio is not stored" · "AI separates single problems".
+5 · 1:00–1:20 · ONE TELLS, EVERYONE SWIPES (tempo peak)
+  Three phones side by side (labels: Installation · Engineering · Apprentice). Cards fly right on the beat,
+  green stamp "KENN ICH" (caption: "I know this"). 2 s meme (dog in a yellow hard hat, text:
+  "Ich, wenn im System steht: ‚Noch 12 da.‘" – caption: "Me, when the system says: '12 left in stock.'").
+  Then full-screen green: "6 von 6" + caption "6 out of 6 – management, engineering, workshop and installation
+  know this."
+  Pop-ups: "One tells – everyone swipes" · "Numbers only from 3 voices".
+6 · 1:20–1:40 · FINDINGS (deliberately slow)
+  Paper background. Sentence builds word by word: "23.6 hours a week are lost at 4 points."
+  (number highlighted yellow). Below, the handover map draws itself line by line: circles management,
+  engineering, office, workshop, installation; the line engineering → workshop becomes thick and red last.
+  Pop-ups: "Processes, never people" · "≈ €46,500 a year – estimate".
+7 · 1:40–1:58 · SOLUTION & EFFECT
+  Toggle "Today → With solutions": lines redraw, at the red line appears "Änderungs-Agent"
+  (caption: "Change agent"). Briefly: "How it works · What it needs · AI trick". Button "Roadmap as PDF".
+  Cursor taps "Testen wir" (caption: "Let's test it") → cut to Marco's phone: vibration, card
+  "Was daraus wurde – Die Leitung testet: Änderungs-Agent." (caption: "What came of it: management is testing the
+  change agent.") Marco's illustration looks up / smiles [REAL optional].
+  Pop-ups: "Solution from a vetted pattern library" · "Roadmap for the team meeting".
+8 · 1:58–2:22 · VISION (warm) – pop-up "Scenario: how it could look"
+  Time stamp counts up: "+3 months … +1 year". Same compositions as scene 2, now warm: team meeting with the
+  overview on screen, the apprentice speaks, everyone nods; card "Was gut läuft: In der Werkstatt hilft jeder jedem."
+  (caption: "What works: in the workshop, everyone helps each other."); the red line of the handover map turns grey;
+  coffee machine with laughter.
+9 · 2:22–2:30 · HAND-OVER TO THE ROOM
+  Paper background, left: large "Your turn." in ink, small ROKIO logo at the bottom. Right half stays empty –
+  that is where the real QR code of the next slide appears in the room. NO QR code in the video.
+  Freeze the last frame for 2 s (seamless switch to the live slide).
+
+MUSIC & SOUND
+- Minimal and warm (piano + soft synth pulse). Scenes 1–2 almost no music, build from 3, 5 on the beat of the
+  swipes, 6 pulled back, 7 rising, 8 full and hopeful, 9 one held tone until the freeze.
+- Sparse sound design: haptic click, swipe whoosh, stamp thump, phone vibration, quiet workshop ambience.
+- Royalty-free music; loudness −14 LUFS; voice always intelligible (lecture-hall acoustics).
+
+HARD RULES
+- Only the numbers above (23.6 · 4 · €46,500 · 6 out of 6 · ~10 seconds). No other numbers, no impact promises
+  (no "+X % productivity").
+- "fictional company" (scene 2) and "Scenario" (scene 8) must be visible.
+- No brand logos other than ROKIO, no recognisable real people, no names in the UI other than Marco/Sandra in the story.
+- Total length exactly 150 s, including the 2 s freeze at the end.
+
+DELIVERABLES
+- Master: MP4, H.264, 1920×1080, 30 fps, stereo, −14 LUFS, burned-in English subtitles.
+- Also: version without subtitles · version without voice-over (music + sound) · voice-over only (WAV).
+- First and last frame as PNG each (for the transitions in the presentation).
