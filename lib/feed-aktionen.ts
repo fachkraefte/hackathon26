@@ -2,6 +2,7 @@
 
 // Server Actions des Feeds. Öffentliche Endpunkte – jede Eingabe wird mit zod geprüft.
 // Gespeichert werden keine Uhrzeiten, keine Geräteinfos, kein Audio (Hausordnung).
+import { after } from "next/server";
 import { z } from "zod";
 import { sendeBeitrag } from "./aktionen";
 import { analyseDaten } from "./analyse";
@@ -38,6 +39,8 @@ export async function ladeFeed(code: string, bereich: string, beantwortet: strin
 
 export async function geste(eingabe: { code: string; sitzung: string; bereich: string; karteId: string; richtung: Richtung }) {
   const b = await betrieb(eingabe.code);
+  // Startkarten haben noch kein Handlungsfeld: die KI-Zuordnung im Hintergrund anstoßen, damit Überblick und Befund live mitwachsen.
+  after(() => holeGesamtbild(b.id).then(() => undefined, (e: unknown) => console.error("Zuordnung im Hintergrund:", e)));
   return verarbeiteGeste(b, {
     sitzung: Sitzung.parse(eingabe.sitzung),
     bereich: BereichName.parse(eingabe.bereich),
