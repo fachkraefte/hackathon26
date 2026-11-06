@@ -427,5 +427,32 @@
     "dein": "Dein persönlicher Code",
     "so": "Öffnen: {adresse} → Code eingeben",
     "anzahl": "{n} Codes – einer pro Person"
+  },
+  "Befund": {
+    "ueber": "Befund · {betrieb}",
+    "satz": "<z>{h} Stunden pro Woche</z> gehen an {n} Stellen verloren.",
+    "unter": "≈ {euro} im Jahr · aus {stimmen} von {von} Stimmen · jede Person zählt nur ihre eigene Zeit",
+    "problemeTitel": "Die Probleme, nach verlorener Zeit",
+    "innerhalb": "innerhalb {bereich}",
+    "stimmen": "{n, plural, one {# Stimme} other {# Stimmen}}",
+    "stdWoche": "Std./Woche",
+    "sichtweisen": "So sehen es die Bereiche",
+    "detailZahlen": "≈ {euro} im Jahr · genannt aus {bereiche, plural, one {einem Bereich} other {# Bereichen}}",
+    "folgtTitel": "Was daraus folgt",
+    "fuerTeam": "Für das Team",
+    "fuerLeitung": "Für die Leitung",
+    "teamNichtAllein": "{n} von {gesamt} Problemen nennen mehrere Bereiche – niemand steht damit allein.",
+    "teamUebergaben": "{n} von {gesamt} Problemen entstehen zwischen Bereichen. Es geht um Abläufe, nicht um Personen.",
+    "teamWeiter": "Jede weitere Stimme macht das Bild genauer – Melden geht jederzeit.",
+    "leitungHebel": "Größter Hebel: {name} – {h} Std. pro Woche, {p} % der verlorenen Zeit.",
+    "leitungTop2": "Die zwei größten Probleme machen {p} % der verlorenen Zeit aus. Dort anfangen.",
+    "leitungKante": "Die meisten Stimmen betreffen die Übergabe {von} → {an} ({n}).",
+    "karteTitel": "Wo es zwischen Bereichen hakt",
+    "karteText": "Jede Linie ist eine Übergabe. Je dicker und röter, desto mehr Stimmen.",
+    "karteHinweis": "Gezeigt werden Bereiche, nie Personen.",
+    "staerkenTitel": "Was gut läuft",
+    "weiterText": "Das ist der Befund. Was sich ändern lässt – mit KI und Robotik, für genau diese Probleme –, steht auf der nächsten Seite.",
+    "weiterKnopf": "Lösungen ansehen",
+    "ohneZeit": "ohne Zeitangabe"
   }
 }
